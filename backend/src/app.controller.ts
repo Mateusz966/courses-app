@@ -10,14 +10,4 @@ export class AppController {
     private readonly authService: AuthService
     ) {}
  
-  @HttpCode(200)
-  @UseGuards(LocalStrategy)
-  @Post('log-in')
-  async logIn(@Req() request, @Res() response) {
-    const { user } = request;
-    const cookie = this.authService.getCookieWithJwtToken(user.id);
-    response.setHeader('Set-Cookie', cookie);
-    const { password, ...userRes } = user; 
-    return response.send(userRes);
-  }
 }

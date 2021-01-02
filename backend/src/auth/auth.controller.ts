@@ -1,8 +1,10 @@
-import { Controller, Post, Body, HttpException, HttpStatus, Get, UseGuards, Req } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, HttpStatus, Get, UseGuards, Req, HttpCode, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { UserService } from '../user/user.service';
 import { UserDto } from '../user/user.dto';
+import { LocalStrategy } from './local-strategy';
+import { LocalGuard } from './local-strategy.guard';
 
 
 
@@ -13,6 +15,18 @@ export class AuthController {
     private readonly userService: UserService,
     private readonly authService: AuthService,
   ) { }
+
+  @HttpCode(200)
+  @UseGuards(LocalGuard)
+  @Post('sign-in')
+  async logIn(@Req() request, @Res() response) {
+    const { user } = request;
+    console.log(user);
+    const cookie = this.authService.getCookieWithJwtToken(user.id);
+    response.setHeader('Set-Cookie', cookie);
+    const { password, ...userRes } = user; 
+    return response.send(userRes);
+  }
 
   @Post('sign-up')
   async registerUser(@Body() user: UserDto) {
