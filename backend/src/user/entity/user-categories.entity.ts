@@ -8,10 +8,9 @@ export class UserCategories extends BaseEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @ManyToOne(() => User, user => user)
-    user: User;
+    @ManyToOne(() => User, user => user.userCategories)
+    user: User; 
 
-    @ManyToOne(() => Category, category => category)
+    @ManyToOne(() => Category, category => category.userCategories)
     category: Category;
-
-}
+} 

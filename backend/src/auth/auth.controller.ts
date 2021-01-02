@@ -23,7 +23,7 @@ export class AuthController {
     const cookie = this.authService.getCookieWithJwtToken(user.id);
     response.setHeader('Set-Cookie', cookie);
     const { password, ...userRes } = user; 
-    return response.send(userRes); 
+    return response.send(userRes);
   }
 
   @Post('sign-up')

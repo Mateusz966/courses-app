@@ -9,7 +9,7 @@ interface UserDefault {
 }
 
 export interface UserReq extends UserDefault {
-  category: BaseSelectOption[];
+  category: any
 }
 
 export interface UserRes {
