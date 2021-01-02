@@ -4,11 +4,11 @@ import { AuthController } from './auth.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt-strategy';
-import { LocalStrategy } from './local-strategy';
 import { PassportModule } from '@nestjs/passport';
 import { UserModule } from '../user/user.module';
 import { User } from '../user/entity/user.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { LocalStrategy } from './local-strategy';
 
 
 @Module({
@@ -30,7 +30,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy],
   controllers: [AuthController],
-  exports: [AuthService],
+  exports: [AuthService], 
 })
 export class AuthModule {}
  

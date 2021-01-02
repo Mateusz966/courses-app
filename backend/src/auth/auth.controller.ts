@@ -3,7 +3,6 @@ import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { UserService } from '../user/user.service';
 import { UserDto } from '../user/user.dto';
-import { LocalStrategy } from './local-strategy';
 import { LocalGuard } from './local-strategy.guard';
 
 
@@ -21,11 +20,10 @@ export class AuthController {
   @Post('sign-in')
   async logIn(@Req() request, @Res() response) {
     const { user } = request;
-    console.log(user);
     const cookie = this.authService.getCookieWithJwtToken(user.id);
     response.setHeader('Set-Cookie', cookie);
     const { password, ...userRes } = user; 
-    return response.send(userRes);
+    return response.send(userRes); 
   }
 
   @Post('sign-up')
