@@ -8,6 +8,6 @@ export class UserCategories extends BaseEntity {
     @ManyToOne(() => User, user => user.userCategories, { primary: true })
     user: User; 
 
-    @ManyToOne(() => Category, category => category.userCategories, { primary: true })
+    @ManyToOne(() => Category, category => category.userCategories, { primary: true, })
     category: Category;
 } 
