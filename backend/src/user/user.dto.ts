@@ -16,5 +16,5 @@ export class UserDto implements UserReq {
     password: string;
   
     @IsNotEmpty()
-    category: any[];
+    userCategories: any[];
   }

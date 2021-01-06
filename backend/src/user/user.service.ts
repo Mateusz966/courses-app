@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Category } from 'src/category/entities/category.entity';
 import { UserCategories } from './entity/user-categories.entity';
 import { User } from './entity/user.entity';
 import { UserDto } from './user.dto';
@@ -33,35 +34,25 @@ export class UserService {
 
     try {
       const user = new User();
-      const userCategories = new UserCategories();
 
       user.email = newUser.email;
       user.lastName = newUser.lastName;
       user.firstName = newUser.firstName;
-      user.password = newUser.password;
+      user.password = newUser.password; 
  
-      const savedUser = await User.save(user); 
+      const savedUser = await User.save(user);
 
-    
+      const userCategories: UserCategories[] = [];
+      const categoriesToSave: UserCategories[] = [];
+      newUser.userCategories.forEach((category, index) => {
+        userCategories[index] = new UserCategories();
+        userCategories[index].user = savedUser;
+        userCategories[index].category = category;
+        categoriesToSave.push(userCategories[index]);
+      });
 
-      userCategories.user = savedUser;
-      //@ts-ignore
-      userCategories.category = newUser.category
+      await UserCategories.insert(categoriesToSave);
 
-      UserCategories.save(userCategories);
-
-      console.log(userCategories);
-      console.log(savedUser); 
-
-      // const savedCategory = newUser.category.map(async (categoryId, index) => {
-      //   //@ts-ignore
-      //   userCategories.category = newUser.category[index];
-      //   userCategories.user = savedUser;
-      //   return await UserCategories.save(userCategories)
-      // })
-
-      // const res = await Promise.all(savedCategory);
-      //@ts-ignore
  
     } catch (error) {
       console.error(error);

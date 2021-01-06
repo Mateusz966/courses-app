@@ -9,7 +9,7 @@ interface UserDefault {
 }
 
 export interface UserReq extends UserDefault {
-  category: any
+  userCategories: any
 }
 
 export interface UserRes {

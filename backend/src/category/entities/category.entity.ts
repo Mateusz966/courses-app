@@ -9,8 +9,8 @@ export class Category extends BaseEntity implements CategoryDto {
     id: string;
 
     @Column()
-    name: string;
-
+    name: string;;
+    
     @OneToMany(() => UserCategories, userCategories => userCategories.category)
     userCategories: UserCategories[];
 }
