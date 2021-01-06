@@ -1,27 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, CSSReset} from '@chakra-ui/react';
+import { lazy, Suspense } from 'react';
+import { Route, Router, Switch } from 'react-router-dom';
+import { history } from './config/history';
+
+
+
+const Home = lazy(() => import('./views/Home'));
+const Register = lazy(() => import('./views/Register'));
 
 
 const App = () => {
   return (
     <ChakraProvider>
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Test <code>src/App.tsx</code> and save to reload.
-        </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-        </a>
-        </header>
-      </div>
+      <CSSReset />
+      <Router history={history}>
+        <Switch>
+          <Suspense fallback={<div>...loading</div>}>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/sign-up" component={Register} />
+          </Suspense>
+        </Switch>
+      </Router>
     </ChakraProvider>
   );
 }
