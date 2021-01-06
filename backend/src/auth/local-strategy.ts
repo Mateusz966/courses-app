@@ -26,7 +26,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
       if (userInDb) {
         return userInDb;
       }
-      throw new HttpException('Bad email or password', 401)
+      throw new HttpException('Bad email or password', 400)
     } catch (error) {
       throw error;
     }
