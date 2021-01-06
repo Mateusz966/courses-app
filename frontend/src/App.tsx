@@ -11,7 +11,7 @@ const App = () => {
           <img src={logo} className="App-logo" alt="logo" />
           <p>
             Test <code>src/App.tsx</code> and save to reload.
-        </p>
+          </p>
           <a
             className="App-link"
             href="https://reactjs.org"
