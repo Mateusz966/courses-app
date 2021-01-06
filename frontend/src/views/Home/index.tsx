@@ -5,10 +5,10 @@ import { mainSpacing } from "../../config/globalStyles";
 const Home: FC = () => {
   return (
     <SimpleGrid columns={2} spacing={mainSpacing}>
-      <Box bg="black">
+      <Box>
         <Center bg="black" height="100vh">
           <p>
-            text
+            Rejestracja
           </p>
         </Center>
       </Box>

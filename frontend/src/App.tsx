@@ -1,4 +1,4 @@
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, CSSReset} from '@chakra-ui/react';
 import { lazy, Suspense } from 'react';
 import { Route, Router, Switch } from 'react-router-dom';
 import { history } from './config/history';
@@ -12,6 +12,7 @@ const Register = lazy(() => import('./views/Register'));
 const App = () => {
   return (
     <ChakraProvider>
+      <CSSReset />
       <Router history={history}>
         <Switch>
           <Suspense fallback={<div>...loading</div>}>
