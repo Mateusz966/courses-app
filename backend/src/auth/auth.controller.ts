@@ -20,7 +20,8 @@ export class AuthController {
   @Post('sign-in')
   async logIn(@Req() request, @Res() response) {
     const { user } = request;
-    const cookie = this.authService.getCookieWithJwtToken(user.id);
+    console.log(user);
+    const cookie = await this.authService.getCookieWithJwtToken(user.id);
     response.setHeader('Set-Cookie', cookie);
     const { password, ...userRes } = user; 
     return response.send(userRes);
@@ -47,6 +48,8 @@ export class AuthController {
   @Get('user')
   async getUserDetails(@Req() request: any) {
     const { email } = request.user;
-    return await this.userService.getByEmail(email);
+    const user = await this.userService.getByEmail(email);
+    const { password, ...userRes } = user;
+    return userRes;
   }
 }
