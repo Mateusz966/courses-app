@@ -1,5 +1,5 @@
 import { IsEmail, IsString, IsNotEmpty } from "class-validator";
-import { BaseSelectOption } from "../../../types/default";
+import { BaseSelectOption } from "../../../types/global";
 import { UserReq } from "../../../types/user";
 
 export class UserDto implements UserReq {
