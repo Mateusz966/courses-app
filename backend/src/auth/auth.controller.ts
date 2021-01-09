@@ -20,7 +20,6 @@ export class AuthController {
   @Post('sign-in')
   async logIn(@Req() request, @Res() response) {
     const { user } = request;
-    console.log(user);
     const cookie = await this.authService.getCookieWithJwtToken(user.id);
     response.setHeader('Set-Cookie', cookie);
     const { password, ...userRes } = user; 
