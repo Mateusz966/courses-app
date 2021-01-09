@@ -1,0 +1,24 @@
+import { FC } from "react";
+import { BaseInputProps } from "../../../../../../types/form";
+import { Input as ChakraInput } from "@chakra-ui/react"
+import { useFormContext } from "react-hook-form";
+
+
+interface Props extends BaseInputProps {
+  type: 'text' | 'number' | 'password',
+}
+
+export const Input: FC<Props> = ({ onChange, onClick, name, type, id, isRequired, isDisabled }) => {
+  const { register } = useFormContext();
+  return (
+    <ChakraInput
+      onChange={onChange}
+      onClick={onClick}
+      type={type}
+      name={name}
+      id={id || name}
+      ref={register({ required: isRequired && 'To pole jest wymagane' })}
+      disabled={isDisabled}
+    />
+  )
+}
