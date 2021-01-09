@@ -1,4 +1,3 @@
-import { BaseSelectOption } from './default'
 
 // Internal type
 interface UserDefault {
