@@ -8,6 +8,7 @@ import { FormControl, FormErrorMessage, FormHelperText, FormLabel } from '@chakr
 interface Props {
   labelText?: string;
   helperText?: string;
+  inputName: string;
 }
 
 
@@ -15,19 +16,20 @@ interface Props {
 export const FormField: FC<Props> = ({
   children,
   labelText,
-  helperText
+  helperText,
+  inputName
 }) => {
 
   const { errors } = useFormContext();
 
 
   return (
-    <FormControl isInvalid={errors.name} id="email">
-      <FormLabel>{labelText && labelText}</FormLabel>
-      {children}
+    <FormControl isInvalid={errors[inputName]}>
+      <FormLabel htmlFor="firstName">{labelText && labelText}</FormLabel>
+        {children}
       <FormHelperText>{helperText && helperText}</FormHelperText>
       <FormErrorMessage>
-        {errors.name && errors.name.message}
+        {errors?.[inputName] && errors[inputName]?.message}
       </FormErrorMessage>
     </FormControl>
   );

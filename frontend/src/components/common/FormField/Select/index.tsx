@@ -8,19 +8,28 @@ import { BaseInputProps } from '../../../../../../types/form';
 interface Props extends BaseInputProps {
   options?: BaseSelectOption[],
   handleChange?: (selected?: BaseSelectOption | BaseSelectOption[] | null) => void
+  isMulti?: boolean;
 }
 
-export const FormFieldSelect: FC<Props> = ({handleChange, options, isRequired, isDisabled, name}) => {
-  const {  control  } = useFormContext();
+export const FormSelect: FC<Props> = ({
+  handleChange,
+  options,
+  isRequired,
+  isDisabled,
+  name,
+  isMulti
+}) => {
+  const { control } = useFormContext();
   return (
     <Controller
       name={name}
       control={control}
       placeholder="Wybierz"
       defaultValue={null}
-      required
+      required={isRequired}
       render={({ value, name, onChange }) => (
         <Select
+          isMulti={isMulti}
           options={options}
           isDisabled={isDisabled}
           onChange={(e: any) => {

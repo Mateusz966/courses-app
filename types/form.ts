@@ -1,4 +1,5 @@
 export interface BaseInputProps {
+    placeholder?: string;
     id?: string;
     isDisabled?: boolean;
     isRequired?: boolean;

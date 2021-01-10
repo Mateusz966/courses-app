@@ -1,22 +1,29 @@
-import { Box, SimpleGrid, Center } from "@chakra-ui/react";
+import { Box, SimpleGrid, Center, Heading } from "@chakra-ui/react";
 import { FC } from "react";
-import { mainSpacing } from "../../config/globalStyles";
+import { LoginForm } from "../../components/forms/Login";
+import { RegisterForm } from "../../components/forms/Register";
 
 const Home: FC = () => {
   return (
-    <SimpleGrid columns={2} spacing={mainSpacing}>
+    <SimpleGrid columns={2} gap={1}>
       <Box>
-        <Center bg="black" height="100vh">
-          <p>
-            Rejestracja
-          </p>
+        <Center flexWrap="wrap" bg="white" height="100vh">
+          <Box>
+            <Heading mb={10} w="100%" textAlign="center">
+              Rejestracja
+            </Heading>
+            <RegisterForm />
+          </Box>
         </Center>
       </Box>
       <Box bg="white">
-        <Center height="100vh">
-          <p>
-            text
-          </p>
+        <Center flexWrap="wrap" height="100vh">
+          <Box>
+            <Heading mb={10} w="100%" textAlign="center">
+              Logowanie
+            </Heading>
+            <LoginForm />
+          </Box>
         </Center>
       </Box>
     </SimpleGrid>
