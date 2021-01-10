@@ -1,26 +1,29 @@
-import { defer, Observable, of, EMPTY } from 'rxjs';
+import { defer, Observable, EMPTY } from 'rxjs';
 import initializeAxios from '../config/axiosSetup';
 import { axiosRequestConfiguration } from '../config/axios';
 import { catchError, map } from 'rxjs/operators';
 
 const axiosInstance = initializeAxios(axiosRequestConfiguration);
-const test = (e: any) => e; 
 
 const get = <T>(url: string, queryParams?: object): Observable<T> => {
   return defer(() => axiosInstance.get<T>(url, { params: queryParams }))
     .pipe(
       map(result => result.data),
       catchError(err => {
-        console.log('err');
+        console.log(err);
         return EMPTY
       })
     );
 };
 
-const post = <T>(url: string, body: object, queryParams?: object): Observable<T | void> => {
+const post = <T>(url: string, body: T, queryParams?: object): Observable<T | void> => {
   return defer(() => axiosInstance.post<T>(url, body, { params: queryParams }))
     .pipe(
-      map(result => result.data)
+      map(result => result.data),
+      catchError(err => {
+        console.log(err);
+        return EMPTY
+      })
     );
 };
 

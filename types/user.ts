@@ -21,3 +21,8 @@ export interface UserRes {
 export interface UserEntity extends UserDefault {
   id: string;
 }
+
+export interface UserLogin {
+  email: string;
+  password: string;
+}

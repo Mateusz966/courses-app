@@ -5,7 +5,7 @@ import { useFormContext } from "react-hook-form";
 
 
 interface Props extends BaseInputProps {
-  type: 'text' | 'number' | 'password',
+  type: 'text' | 'number' | 'password' | 'email',
 }
 
 export const Input: FC<Props> = ({ onChange, onClick, name, type, id, isRequired, isDisabled }) => {
