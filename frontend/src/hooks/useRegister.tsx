@@ -15,7 +15,7 @@ export const useRegister = (): UseRegister => {
     data.userCategories = data.userCategories.map((category: any) => ( {id: category.value} ));
 
       api
-        .post<UserReq, any>(`${apiUrl}/auth/sign-up`, data)
+        .post<UserReq>(`${apiUrl}/auth/sign-up`, data)
         .subscribe((res) => {
           console.log(res);
         });

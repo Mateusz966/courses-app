@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import  { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
 import { RootState } from '../../config/store';
@@ -8,7 +8,7 @@ interface Props {
   component?: any;
   exact?: boolean;
   path?: string;
-  render?: any;
+  render?: () => JSX.Element;
 }
 
 export const RouteAuthorized: FC<Props> = ({ exact, path, component, render }) => {
