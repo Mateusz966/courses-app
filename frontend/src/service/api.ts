@@ -16,8 +16,8 @@ const get = <T>(url: string, queryParams?: object): Observable<T> => {
     );
 };
 
-const post = <T>(url: string, body: T, queryParams?: object): Observable<T | void> => {
-  return defer(() => axiosInstance.post<T>(url, body, { params: queryParams }))
+const post = <T, K>(url: string, body: T, queryParams?: object): Observable<K | void> => {
+  return defer(() => axiosInstance.post<K>(url, body, { params: queryParams }))
     .pipe(
       map(result => result.data),
       catchError(err => {

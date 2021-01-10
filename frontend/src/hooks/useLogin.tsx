@@ -1,8 +1,10 @@
 import { useCallback } from "react"
 import { apiUrl } from "../config/apiUrl";
 import api from "../service/api";
-import { UserLogin } from '../../../types/user'
+import { UserLogin, UserReq } from '../../../types/user'
 import { history } from "../config/history";
+import { useDispatch } from "react-redux";
+import { setUser } from "../slices/user";
 
 interface UseLogin {
   submit: (data: UserLogin) => void
@@ -10,11 +12,16 @@ interface UseLogin {
 
 export const useLogin = (): UseLogin => {
 
+  const dispatch = useDispatch();
+
   const submit = useCallback((data: UserLogin) => {
       api
-        .post<UserLogin>(`${apiUrl}/auth/sign-in`, data)
+        .post<UserLogin, UserReq>(`${apiUrl}/auth/sign-in`, data)
         .subscribe((res) => {
-          history.push('/dashboard')
+          if (res) {
+            dispatch(setUser(res))
+            history.push('/dashboard')
+          }
         });
   }, [])
 
