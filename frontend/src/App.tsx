@@ -1,7 +1,9 @@
-import { ChakraProvider, CSSReset} from '@chakra-ui/react';
+import { ChakraProvider, CSSReset } from '@chakra-ui/react';
 import { lazy, Suspense } from 'react';
 import { Route, Router, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import { history } from './config/history';
+import { store } from './config/store';
 
 
 
@@ -11,17 +13,19 @@ const Register = lazy(() => import('./views/Register'));
 
 const App = () => {
   return (
-    <ChakraProvider>
-      <CSSReset />
-      <Router history={history}>
-        <Switch>
-          <Suspense fallback={<div>...loading</div>}>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/sign-up" component={Register} />
-          </Suspense>
-        </Switch>
-      </Router>
-    </ChakraProvider>
+    <Provider store={store}>
+      <ChakraProvider>
+        <CSSReset />
+        <Router history={history}>
+          <Switch>
+            <Suspense fallback={<div>...loading</div>}>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/sign-up" component={Register} />
+            </Suspense>
+          </Switch>
+        </Router>
+      </ChakraProvider>
+    </Provider>
   );
 }
 
