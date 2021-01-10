@@ -4,6 +4,8 @@ import { Route, Router, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { history } from './config/history';
 import { store } from './config/store';
+import { RouteAuthorized } from './components/routes/RouteAuthorized';
+import Dashboard from './views/Dashboard';
 
 
 
@@ -21,6 +23,7 @@ const App = () => {
             <Suspense fallback={<div>...loading</div>}>
               <Route exact path="/" component={Home} />
               <Route exact path="/sign-up" component={Register} />
+              <RouteAuthorized exact path="/dashboard" component={Dashboard} />
             </Suspense>
           </Switch>
         </Router>
