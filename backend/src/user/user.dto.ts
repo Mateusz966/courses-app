@@ -5,7 +5,7 @@ import { UserReq } from "../../../types/user";
 export class UserDto implements UserReq {
     @IsEmail()
     email: string;
-  
+   
     @IsString()
     firstName: string;
   

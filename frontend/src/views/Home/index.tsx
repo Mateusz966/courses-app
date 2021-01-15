@@ -2,6 +2,7 @@ import { Box, SimpleGrid, Center, Heading } from "@chakra-ui/react";
 import { FC } from "react";
 import { LoginForm } from "../../components/forms/Login";
 import { RegisterForm } from "../../components/forms/Register";
+import { history } from "../../config/history";
 
 const Home: FC = () => {
   return (
