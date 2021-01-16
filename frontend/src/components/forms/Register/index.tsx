@@ -6,12 +6,16 @@ import { useRegister } from "../../../hooks/useRegister";
 import { FormField } from "../../common/FormField"
 import { Input } from "../../common/FormField/Input"
 import { FormSelect } from "../../common/FormField/Select";
+import { yupResolver } from '@hookform/resolvers/yup';
+import { registerSchema } from "../../../formSchemas/register";
+
 
 
 
 export const RegisterForm = () => {
   const methods = useForm({
     mode: 'onBlur',
+    resolver: yupResolver(registerSchema)
   });
 
   const { categories } = useCategories();
