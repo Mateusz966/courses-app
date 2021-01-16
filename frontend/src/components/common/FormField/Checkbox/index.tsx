@@ -9,7 +9,7 @@ interface Props extends BaseInputProps {
 }
 
 export const Checkbox: FC<Props> = ({
-  name, 
+  name,
   isDisabled, 
   isRequired, 
   content, 

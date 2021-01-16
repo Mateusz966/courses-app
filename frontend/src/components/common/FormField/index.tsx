@@ -3,6 +3,7 @@
 import { FC } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { FormControl, FormErrorMessage, FormHelperText, FormLabel } from '@chakra-ui/react';
+import React from 'react';
 
 
 interface Props {
@@ -26,7 +27,9 @@ export const FormField: FC<Props> = ({
   return (
     <FormControl isInvalid={errors[inputName]}>
       <FormLabel htmlFor="firstName">{labelText && labelText}</FormLabel>
-        {children}
+        {(React.isValidElement(children)) && React.cloneElement(children, {
+          name: inputName,
+        })}
       <FormHelperText>{helperText && helperText}</FormHelperText>
       <FormErrorMessage>
         {errors?.[inputName] && errors[inputName]?.message}
