@@ -9,7 +9,7 @@ const Register: FC = () => {
         <Center flexWrap="wrap">  
           <Heading mb={10} w="100%" textAlign="center">
             Rejestracja
-        </Heading>
+          </Heading>
           <RegisterForm />
         </Center>
       </Box>

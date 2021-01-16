@@ -17,7 +17,7 @@ export const Input: FC<Props> = ({ onChange, onClick, name, type, id, isRequired
       type={type}
       name={name}
       id={id || name}
-      ref={register({ required: isRequired && 'To pole jest wymagane' })}
+      ref={register}
       disabled={isDisabled}
     />
   )
