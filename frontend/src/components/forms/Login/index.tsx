@@ -31,7 +31,7 @@ export const LoginForm = () => {
           <Input
             type="email"
             isRequired
-            placeholder="*****"
+            placeholder="example@example.com"
           />
         </FormField>
         <FormField
