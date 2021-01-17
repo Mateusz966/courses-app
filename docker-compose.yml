@@ -8,7 +8,7 @@ services:
     volumes:
     - /data/postgres:/data/postgres
     env_file:
-    - docker.env
+    - backend/docker.env
     networks:
     - postgres
  
@@ -22,7 +22,31 @@ services:
     volumes:
     - /data/pgadmin:/root/.pgadmin
     env_file:
-    - docker.env
+    - backend/docker.env
+    networks:
+    - postgres
+
+  frontend:
+    container_name: frontend
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
+    ports: 
+    - "3000:3000"
+    networks:
+    - postgres
+
+  backend:
+    container_name: backend
+    links:
+    - postgres:postgres
+    depends_on: 
+    - postgres
+    build:
+      context: ./
+      dockerfile: ./backend/Dockerfile
+    ports: 
+    - "3001:3001"
     networks:
     - postgres
  
