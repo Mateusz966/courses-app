@@ -1,5 +1,4 @@
-FROM node:14.15.4-buster
-WORKDIR /app
+FROM node:14.15.4-alpine
 RUN mkdir -p /backend
 RUN mkdir -p /types
 COPY /types /types
