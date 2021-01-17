@@ -33,7 +33,6 @@ export const RegisterForm = () => {
         >
           <Input
             type="text"
-            name="firstName"
             isRequired
             placeholder="Mati"
           />
@@ -44,7 +43,6 @@ export const RegisterForm = () => {
         >
           <Input
             type="text"
-            name="lastName"
             isRequired
             placeholder="Itam"
           />
@@ -55,7 +53,6 @@ export const RegisterForm = () => {
         >
           <Input
             type="email"
-            name="email"
             isRequired
             placeholder="example@example.com"
           />
@@ -66,7 +63,6 @@ export const RegisterForm = () => {
         >
           <Input
             type="password"
-            name="password"
             isRequired
             placeholder="*****"
           />
@@ -77,7 +73,6 @@ export const RegisterForm = () => {
           helperText="Wybierz swoje zainteresowania"
         >
           <FormSelect
-            name="userCategories"
             isRequired
             isMulti
             options={categories ?? []}

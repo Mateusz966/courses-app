@@ -9,10 +9,11 @@ import { Input } from "../../common/FormField/Input"
 
 
 
+
 export const LoginForm = () => {
   const methods = useForm({
     mode: 'onBlur',
-    resolver: yupResolver(loginSchema)
+    resolver: yupResolver(loginSchema),
   });
 
   const { submit } = useLogin();
@@ -29,7 +30,6 @@ export const LoginForm = () => {
         >
           <Input
             type="email"
-            name="email"
             isRequired
             placeholder="example@example.com"
           />
@@ -39,8 +39,8 @@ export const LoginForm = () => {
           inputName="password"
         >
           <Input
-            type="password"
             name="password"
+            type="password"
             isRequired
             placeholder="*****"
           />
