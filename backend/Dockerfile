@@ -1,8 +1,9 @@
-FROM node:14.15.4-alpine
-RUN mkdir -p /backend
-RUN mkdir -p /types
-COPY /types /types
-COPY backend/package.json /backend
-RUN cd /backend && npm install
-COPY /backend /backend
-CMD [ "npm", "--prefix", "/backend", "run" , "start:dev" ]
+FROM node:14.15.4-buster
+WORKDIR /app
+RUN mkdir -p /app/backend
+RUN mkdir -p /app/types
+COPY /types /app/types
+COPY backend/package.json /app/backend
+RUN cd /app/backend && npm install
+COPY /backend /app/backend
+CMD [ "npm", "--prefix", "/app/backend", "run" , "start:dev" ]
