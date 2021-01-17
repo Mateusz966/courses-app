@@ -1,18 +1,19 @@
 import { Button } from "@chakra-ui/react";
+import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
 import { useForm, FormProvider } from "react-hook-form";
-import { useCategories } from "../../../hooks/useCategories";
+import { loginSchema } from "../../../formSchemas/login";
 import { useLogin } from "../../../hooks/useLogin";
-import { useRegister } from "../../../hooks/useRegister";
 import { FormField } from "../../common/FormField"
 import { Input } from "../../common/FormField/Input"
-import { FormSelect } from "../../common/FormField/Select";
+
 
 
 
 export const LoginForm = () => {
   const methods = useForm({
     mode: 'onBlur',
+    resolver: yupResolver(loginSchema),
   });
 
   const { submit } = useLogin();
@@ -30,7 +31,7 @@ export const LoginForm = () => {
           <Input
             type="email"
             isRequired
-            placeholder="example@example.com"
+            placeholder="*****"
           />
         </FormField>
         <FormField
@@ -38,6 +39,7 @@ export const LoginForm = () => {
           inputName="password"
         >
           <Input
+            name="password"
             type="password"
             isRequired
             placeholder="*****"

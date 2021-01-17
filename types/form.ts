@@ -6,4 +6,5 @@ export interface BaseInputProps {
     isInvalid?: boolean;
     onChange?: <T>(e: T) => void;
     onClick?: <T>(e: T) => void;
+    name?: string;
 }

@@ -9,7 +9,7 @@ interface Props extends BaseInputProps {
   options?: BaseSelectOption[],
   handleChange?: (selected?: BaseSelectOption | BaseSelectOption[] | null) => void
   isMulti?: boolean;
-  name: string;
+  name?: any
 }
 
 export const FormSelect: FC<Props> = ({

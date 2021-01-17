@@ -11,7 +11,7 @@ interface Props extends BaseInputProps {
 export const Input: FC<Props> = ({ onChange, onClick, name, type, id, isRequired, isDisabled }) => {
   const { register } = useFormContext();
   return (
-    <ChakraInput
+    <ChakraInput 
       onChange={onChange}
       onClick={onClick}
       type={type}
@@ -19,6 +19,7 @@ export const Input: FC<Props> = ({ onChange, onClick, name, type, id, isRequired
       id={id || name}
       ref={register}
       disabled={isDisabled}
+      required={isRequired}
     />
   )
 }
