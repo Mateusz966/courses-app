@@ -20,7 +20,7 @@ export class UserService {
       console.error(error);
     }
   }
-
+ 
   async getById(id: string) {
     const user = User.findOne({ id });
     if (user) {
@@ -32,7 +32,7 @@ export class UserService {
   async saveUser(newUser: UserDto): Promise<any> {
 
     try {
-      const user = new User();
+      const user = new User();   
 
       user.email = newUser.email;
       user.lastName = newUser.lastName;

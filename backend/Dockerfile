@@ -1,4 +1,4 @@
-FROM node:14.15.4-buster
+FROM node:14.15.4-alpine
 WORKDIR /app
 RUN mkdir -p /app/backend
 RUN mkdir -p /app/types

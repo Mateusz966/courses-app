@@ -44,10 +44,11 @@ services:
     - postgres:postgres
     depends_on: 
     - postgres
-
     build:
       context: ./
       dockerfile: ./backend/Dockerfile
+    volumes: 
+     - ./backend/src:/app/backend/src
     ports: 
     - "3001:3001"
     networks:
