@@ -29,8 +29,10 @@ services:
   frontend:
     container_name: frontend
     build:
-      context: .
+      context: ./
       dockerfile: ./frontend/Dockerfile
+    volumes: 
+     - ./frontend/src:/app/frontend/src
     ports: 
     - "3000:3000"
     networks:
@@ -42,6 +44,7 @@ services:
     - postgres:postgres
     depends_on: 
     - postgres
+
     build:
       context: ./
       dockerfile: ./backend/Dockerfile
