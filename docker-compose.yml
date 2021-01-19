@@ -1,4 +1,4 @@
-version: "3"
+version: "3.9"
 services:
   postgres:
     container_name: postgres
@@ -33,6 +33,7 @@ services:
       dockerfile: ./frontend/Dockerfile
     volumes: 
      - ./frontend/src:/app/frontend/src
+     - ./types:/app/types
     ports: 
     - "3000:3000"
     networks:
@@ -49,6 +50,7 @@ services:
       dockerfile: ./backend/Dockerfile
     volumes: 
      - ./backend/src:/app/backend/src
+     - ./types:/app/types
     ports: 
     - "3001:3001"
     networks:
