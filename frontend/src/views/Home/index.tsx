@@ -2,7 +2,7 @@ import { Box, SimpleGrid, Center, Heading } from "@chakra-ui/react";
 import { FC } from "react";
 import { LoginForm } from "../../components/forms/Login";
 import { RegisterForm } from "../../components/forms/Register";
-import { history } from "../../config/history";
+
 
 const Home: FC = () => {
   return (
@@ -11,7 +11,7 @@ const Home: FC = () => {
         <Center flexWrap="wrap" bg="white" height="100vh">
           <Box>
             <Heading mb={10} w="100%" textAlign="center">
-              Rejestracjaa
+              Rejestracja
             </Heading>
             <RegisterForm />
           </Box>

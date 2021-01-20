@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: [epicMiddleware],
+  middleware: [],
 });
 
 epicMiddleware.run(rootEpic);

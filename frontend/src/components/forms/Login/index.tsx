@@ -12,7 +12,7 @@ import { Input } from "../../common/FormField/Input"
 
 export const LoginForm = () => {
   const methods = useForm({
-    mode: 'onBlur',
+    mode: 'onChange',
     resolver: yupResolver(loginSchema),
   });
 
