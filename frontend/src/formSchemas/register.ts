@@ -6,5 +6,5 @@ export const registerSchema = yup.object().shape({
     lastName: yup.string().required(),
     email: yup.string().email().required(),
     password: yup.string().required().min(6, 'Too short password'),
-    userCategories: yup.array().required()
+    userCategories: yup.array().optional()
 });

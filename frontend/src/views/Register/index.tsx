@@ -8,7 +8,7 @@ const Register: FC = () => {
       <Box marginTop="150">
         <Center flexWrap="wrap">  
           <Heading mb={10} w="100%" textAlign="center">
-            Rejestracjaaa asdasd
+            Rejestracja
           </Heading>
           <RegisterForm />
         </Center>

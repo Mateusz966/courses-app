@@ -14,7 +14,7 @@ export const useLogin = (): UseLogin => {
 
   const dispatch = useDispatch();
 
-  const submit = useCallback((data: UserLogin) => {
+  const submit = (data: UserLogin) => {
       api
         .post<UserLogin, UserReq>(`${apiUrl}/auth/sign-in`, data)
         .subscribe((res) => {
@@ -23,7 +23,7 @@ export const useLogin = (): UseLogin => {
             history.push('/dashboard')
           }
         });
-  }, [])
+  }
 
 
   return {

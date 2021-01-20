@@ -9,8 +9,7 @@ interface UseRegister {
 
 export const useRegister = (): UseRegister => {
 
-  const submit = useCallback((data: UserReq) => {
-
+  const submit = (data: UserReq) => {
     //Mapped react-select to backend req.
     data.userCategories = data.userCategories.map((category: any) => ( {id: category.value} ));
 
@@ -19,7 +18,7 @@ export const useRegister = (): UseRegister => {
         .subscribe((res) => {
           console.log(res);
         });
-  }, [])
+  }
 
 
   return {

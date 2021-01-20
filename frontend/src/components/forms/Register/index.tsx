@@ -14,7 +14,7 @@ import { registerSchema } from "../../../formSchemas/register";
 
 export const RegisterForm = () => {
   const methods = useForm({
-    mode: 'onBlur',
+    mode: 'onChange',
     resolver: yupResolver(registerSchema)
   });
 
@@ -63,7 +63,6 @@ export const RegisterForm = () => {
         >
           <Input
             type="password"
-            isRequired
             placeholder="*****"
           />
         </FormField>
@@ -73,7 +72,6 @@ export const RegisterForm = () => {
           helperText="Wybierz swoje zainteresowania"
         >
           <FormSelect
-            isRequired
             isMulti
             options={categories ?? []}
           />
