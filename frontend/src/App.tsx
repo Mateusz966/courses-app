@@ -1,4 +1,4 @@
-import { ChakraProvider, CSSReset } from '@chakra-ui/react';
+import { ChakraProvider, CSSReset, Spinner } from '@chakra-ui/react';
 import { lazy, Suspense } from 'react';
 import { Route, Router, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -20,7 +20,7 @@ const App = () => {
         <CSSReset />
         <Router history={history}>
           <Switch>
-            <Suspense fallback={<div>...loading</div>}>
+            <Suspense fallback={<Spinner size="xl" />}>
               <Route exact path="/" component={Home} />
               <Route exact path="/sign-up" component={Register} />
               <RouteAuthorized exact path="/dashboard" component={Dashboard} />

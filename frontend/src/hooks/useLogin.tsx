@@ -1,4 +1,3 @@
-import { useCallback } from "react"
 import { apiUrl } from "../config/apiUrl";
 import api from "../service/api";
 import { UserLogin, UserReq } from '../../../types/user'
