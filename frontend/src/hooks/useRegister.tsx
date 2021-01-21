@@ -1,5 +1,5 @@
 import { useCallback } from "react"
-import { UserReq } from "../../../types/user";
+import { UserReq } from "../../../app-types/user";
 import { apiUrl } from "../config/apiUrl";
 import api from "../service/api";
 

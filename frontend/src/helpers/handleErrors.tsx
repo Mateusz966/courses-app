@@ -1,4 +1,4 @@
-import { ApiErrorCode } from '../../../types/global';
+import { ApiErrorCode } from '../../../app-types/global';
 //TODO error notification
 // import { errorNotification } from '../actions/notifications';
 // import { store } from '../config/store';

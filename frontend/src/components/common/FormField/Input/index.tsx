@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { BaseInputProps } from "../../../../../../types/form";
+import { BaseInputProps } from "../../../../../../app-types/form";
 import { Input as ChakraInput } from "@chakra-ui/react"
 import { useFormContext } from "react-hook-form";
 

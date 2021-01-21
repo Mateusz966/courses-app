@@ -1,22 +1,19 @@
 /* eslint-disable no-return-await */
 /* eslint-disable no-useless-catch */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { v4 as uuid } from 'uuid';
-import { ApiErrorCode } from  '../../../types/global'
+import { ApiErrorCode } from  'app-types/global';
 
 
 export type NotificationType = 'success' | 'error';
 
 export type NotificationState = {
-  id: string;
   text: string;
-  type: NotificationType
+  type: NotificationType  
 }
 
 const getNotification = (text: string, type: NotificationType) => ({
   type,
   text,
-  id: uuid(),
 });
 
 const getError = (error: ApiErrorCode) => {
