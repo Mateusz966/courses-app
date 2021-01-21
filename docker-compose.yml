@@ -29,7 +29,7 @@ services:
   frontend:
     container_name: frontend
     build:
-      context: ./
+      context: .
       dockerfile: ./frontend/Dockerfile
     volumes: 
      - ./frontend/src:/app/frontend/src
@@ -46,7 +46,7 @@ services:
     depends_on: 
     - postgres
     build:
-      context: ./
+      context: .
       dockerfile: ./backend/Dockerfile
     volumes: 
      - ./backend/src:/app/backend/src

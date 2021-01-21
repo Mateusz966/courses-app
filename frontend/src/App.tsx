@@ -7,7 +7,7 @@ import { store } from './config/store';
 import { RouteAuthorized } from './components/routes/RouteAuthorized';
 import Dashboard from './views/Dashboard';
 
-
+ 
 
 const Home = lazy(() => import('./views/Home'));
 const Register = lazy(() => import('./views/Register'));

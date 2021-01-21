@@ -19,6 +19,7 @@ export const useLogin = (): UseLogin => {
         .subscribe((res) => {
           if (res) {
             dispatch(setUser(res))
+
             history.push('/dashboard')
           }
         });
