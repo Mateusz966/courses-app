@@ -1,10 +1,8 @@
-/* eslint-disable no-return-await */
-/* eslint-disable no-useless-catch */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { UserReq } from '../app-types/user';
 import { history } from '../config/history';
 
-const redirectToLogin = () => history.push('/');
+export const redirectToLogin = () => history.push('/');
 
 
 
@@ -19,12 +17,15 @@ const user = createSlice({
     setUser: (state, action: PayloadAction<UserReq>) => {
       state.details = action.payload;
     },
+    clearUser: (state) => {
+      state.details = null;
+    }
   },
   extraReducers: {
 
   },
 });
 
-export const { setUser } = user.actions;
+export const { setUser, clearUser } = user.actions;
 
 export default user.reducer;
