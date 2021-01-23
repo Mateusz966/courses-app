@@ -51,7 +51,7 @@ services:
       context: .
       dockerfile: ./backend/Dockerfile
     volumes: 
-     - ./backend/src:/app/backend/src
+     - ./backend:/app/backend
      - ./app-types:/app/app-types
     ports: 
     - "3001:3001"

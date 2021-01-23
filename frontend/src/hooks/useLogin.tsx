@@ -1,9 +1,9 @@
 import { apiUrl } from "../config/apiUrl";
 import api from "../service/api";
-import { UserLogin, UserReq } from '../../../app-types/user'
 import { history } from "../config/history";
 import { useDispatch } from "react-redux";
 import { setUser } from "../slices/user";
+import { UserLogin, UserReq } from "../app-types/user";
 
 interface UseLogin {
   submit: (data: UserLogin) => void
