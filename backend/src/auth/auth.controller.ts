@@ -29,7 +29,7 @@ export class AuthController {
   @Post('sign-up')
   async registerUser(@Body() user: UserDto) {
     const { password } = user;
-    try {
+    try { 
       const hashedPassword =  await this.authService.hashPassword(password);
       const userToSave = { ...user, password: hashedPassword };
       const registeredUser = await this.userService.getByEmail(user.email);

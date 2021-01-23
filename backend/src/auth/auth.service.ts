@@ -1,11 +1,12 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { hash, compare } from 'bcrypt';;
 import { JwtService } from '@nestjs/jwt';
-import { UserRes } from '../../../types/user';
+
 import { User } from '../user/entity/user.entity';
 import { UserDto } from '../user/user.dto';
-import { UserService } from 'src/user/user.service';
+import { UserService } from '../user/user.service';
 import { ConfigService } from '@nestjs/config';
+import { UserRes } from '../app-types/user';
 
 interface TokenPayload {
   userId: string;
