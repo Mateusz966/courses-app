@@ -31,9 +31,11 @@ services:
     build:
       context: .
       dockerfile: ./frontend/Dockerfile
+    environment:
+    - CHOKIDAR_USEPOLLING=true
     volumes: 
-     - ./frontend/src:/app/frontend/src
-     - ./app-types:/app/app-types
+    - ./frontend/src:/app/frontend/src
+    - ./app-types:/app/app-types
     ports: 
     - "3000:3000"
     networks:

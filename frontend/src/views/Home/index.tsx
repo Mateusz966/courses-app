@@ -11,7 +11,7 @@ const Home: FC = () => {
         <Center flexWrap="wrap" bg="white" height="100vh">
           <Box>
             <Heading mb={10} w="100%" textAlign="center">
-              Rejestracja
+              Rejestracjsdd
             </Heading>
             <RegisterForm />
           </Box>
