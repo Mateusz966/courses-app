@@ -7,5 +7,6 @@ export type BaseSelectOption = {
 export enum ApiErrorCode {
     ErrorDuringLogin,
     OtherError,
-    InvalidCredentials
+    InvalidCredentials,
+    EmailIsTaken
 }
