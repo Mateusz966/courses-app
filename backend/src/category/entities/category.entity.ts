@@ -1,4 +1,4 @@
-import { CategoryDto } from "../../app-types/category";
+import { CategoryDto } from "../../../app-types/category";
 import { UserCategories } from "../../user/entity/user-categories.entity";
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany } from "typeorm";
 

@@ -1,5 +1,5 @@
 import { IsEmail, IsString, IsNotEmpty } from "class-validator";
-import { UserReq } from '../app-types/user';
+import { UserReq } from '../../../app-types/user';
 
 export class UserDto implements UserReq {
     @IsEmail()

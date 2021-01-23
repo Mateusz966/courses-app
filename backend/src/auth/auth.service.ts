@@ -6,7 +6,7 @@ import { User } from '../user/entity/user.entity';
 import { UserDto } from '../user/user.dto';
 import { UserService } from '../user/user.service';
 import { ConfigService } from '@nestjs/config';
-import { UserRes } from '../app-types/user';
+import { UserRes } from '../../app-types/user';
 
 interface TokenPayload {
   userId: string;
