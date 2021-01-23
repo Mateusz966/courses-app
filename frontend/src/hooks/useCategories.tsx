@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { map } from "rxjs/operators";
-import { BaseSelectOption } from "../../../app-types/global";
 import { CategoryDto } from "../../../app-types/category";
+import { BaseSelectOption } from "../app-types/global";
 import { apiUrl } from "../config/apiUrl";
 import api from "../service/api";
 

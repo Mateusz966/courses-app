@@ -1,7 +1,7 @@
 /* eslint-disable no-return-await */
 /* eslint-disable no-useless-catch */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { UserReq } from '../../../app-types/user';
+import { UserReq } from '../app-types/user';
 import { history } from '../config/history';
 
 const redirectToLogin = () => history.push('/');

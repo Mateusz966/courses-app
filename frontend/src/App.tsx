@@ -6,7 +6,7 @@ import { history } from './config/history';
 import { store } from './config/store';
 import { RouteAuthorized } from './components/routes/RouteAuthorized';
 import Dashboard from './views/Dashboard';
-
+import { ApiErrorCode } from './app-types/global';
  
 
 const Home = lazy(() => import('./views/Home'));
@@ -19,6 +19,7 @@ const App = () => {
       <ChakraProvider>
         <CSSReset />
         <Router history={history}>
+        {ApiErrorCode.ErrorDuringLogin}
           <Switch>
             <Suspense fallback={<Spinner size="xl" />}>
               <Route exact path="/" component={Home} />
