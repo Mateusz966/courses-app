@@ -11,15 +11,13 @@ export const useRegister = (): UseRegister => {
 
   const submit = (data: UserReq) => {
     //Mapped react-select to backend req.
-    data.userCategories = data.userCategories.map((category: any) => ( {id: category.value} ));
-
-      api
-        .post<UserReq>(`${apiUrl}/auth/sign-up`, data)
-        .subscribe((res) => {
-          console.log(res);
-        });
+    data.userCategories = data.userCategories.map((category: any) => ({ id: category.value }));
+    api
+      .post<UserReq>(`${apiUrl}/auth/sign-up`, data)
+      .subscribe((res) => {
+        console.log(res);
+      });
   }
-
 
   return {
     submit

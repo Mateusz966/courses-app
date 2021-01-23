@@ -23,6 +23,7 @@ export const RegisterForm = () => {
 
 
   const { isValid } = methods.formState;
+  console.log(isValid)
 
   return (
     <FormProvider {...methods}>
@@ -33,7 +34,6 @@ export const RegisterForm = () => {
         >
           <Input
             type="text"
-            isRequired
             placeholder="Mati"
           />
         </FormField>
@@ -43,7 +43,6 @@ export const RegisterForm = () => {
         >
           <Input
             type="text"
-            isRequired
             placeholder="Itam"
           />
         </FormField>
@@ -53,7 +52,6 @@ export const RegisterForm = () => {
         >
           <Input
             type="email"
-            isRequired
             placeholder="example@example.com"
           />
         </FormField>

@@ -8,4 +8,5 @@ COPY backend/app-types /app/backend/app-types
 COPY backend/package.json /app/backend
 RUN cd /app/backend && npm install
 COPY /backend /app/backend
+RUN cd /app/backend && npm remove bcrypt && npm install bcrypt
 CMD [ "npm", "--prefix", "/app/backend", "run", "start:dev" ]

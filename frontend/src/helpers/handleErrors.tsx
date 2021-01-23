@@ -2,7 +2,8 @@ import { toast } from '../components/common/Toast';
 import { getError } from './getError';
 
 
-export const handlingError = (response: any, setError: any) => {
+export const handlingError = (response: any, setError?: any) => {
+  console.dir(response);
   if (!response) {
     return toast('Wystąpił błąd', 'error')
   };
