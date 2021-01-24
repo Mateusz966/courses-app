@@ -20,11 +20,10 @@ export const RegisterForm = () => {
   });
 
   const { categories } = useCategories();
-  const { submit } = useRegister();
-
+  const { submit, inProgress } = useRegister();
 
   const { isValid } = methods.formState;
-  console.log(isValid)
+
 
   return (
     <FormProvider {...methods}>
@@ -77,7 +76,7 @@ export const RegisterForm = () => {
         </FormField>
         <Button
           type="submit"
-          disabled={!isValid}
+          disabled={!isValid || inProgress}
           mt={20}
         >
           Sign Up

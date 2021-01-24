@@ -4,8 +4,6 @@ import { history } from '../config/history';
 
 export const redirectToLogin = () => history.push('/');
 
-
-
 export interface UserState {
   details: UserReq | null;
 }
