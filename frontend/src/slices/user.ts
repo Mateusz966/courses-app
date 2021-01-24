@@ -4,8 +4,6 @@ import { history } from '../config/history';
 
 export const redirectToLogin = () => history.push('/');
 
-
-
 export interface UserState {
   details: UserReq | null;
 }
@@ -19,11 +17,9 @@ const user = createSlice({
     },
     clearUser: (state) => {
       state.details = null;
-    }
+    },
   },
-  extraReducers: {
-
-  },
+  extraReducers: {},
 });
 
 export const { setUser, clearUser } = user.actions;

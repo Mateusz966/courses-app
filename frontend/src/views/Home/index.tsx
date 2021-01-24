@@ -1,8 +1,6 @@
-import { Box, SimpleGrid, Center, Heading } from "@chakra-ui/react";
-import { FC, useState } from "react";
-import { LoginForm } from "../../components/forms/Login";
-import { RegisterForm } from "../../components/forms/Register";
-
+import { Box, SimpleGrid, Center, Heading } from '@chakra-ui/react';
+import { FC } from 'react';
+import { LoginForm } from '../../components/forms/Login';
 
 const Home: FC = () => {
   return (
@@ -18,7 +16,7 @@ const Home: FC = () => {
         </Center>
       </Box>
     </SimpleGrid>
-  )
-}
+  );
+};
 
 export default Home;
