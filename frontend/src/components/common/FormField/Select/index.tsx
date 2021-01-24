@@ -1,24 +1,25 @@
-import { FC } from 'react';
-import { useFormContext, Controller } from 'react-hook-form';
-import Select from 'react-select';
-import { BaseInputProps } from '../../../../app-types/form';
-import { BaseSelectOption } from '../../../../app-types/global';
-
+import { FC } from "react";
+import { useFormContext, Controller } from "react-hook-form";
+import Select from "react-select";
+import { BaseInputProps } from "../../../../app-types/form";
+import { BaseSelectOption } from "../../../../app-types/global";
 
 interface Props extends BaseInputProps {
-  options?: BaseSelectOption[],
-  handleChange?: (selected?: BaseSelectOption | BaseSelectOption[] | null) => void
+  options?: BaseSelectOption[];
+  handleChange?: (
+    selected?: BaseSelectOption | BaseSelectOption[] | null
+  ) => void;
   isMulti?: boolean;
-  name?: any
+  name?: any;
 }
 
 export const FormSelect: FC<Props> = ({
   handleChange,
   options,
-  isRequired, 
+  isRequired,
   isDisabled,
   name,
-  isMulti
+  isMulti,
 }) => {
   const { control } = useFormContext();
   return (
@@ -34,8 +35,8 @@ export const FormSelect: FC<Props> = ({
           options={options}
           isDisabled={isDisabled}
           onChange={(e: any) => {
-            onChange(e)
-            handleChange && handleChange(e)
+            onChange(e);
+            handleChange && handleChange(e);
           }}
           name={name}
           placeholder="Wybierz"
@@ -43,5 +44,5 @@ export const FormSelect: FC<Props> = ({
         />
       )}
     />
-  )
-}
+  );
+};

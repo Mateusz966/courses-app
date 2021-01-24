@@ -1,8 +1,7 @@
-import  { FC } from 'react';
-import { useSelector } from 'react-redux';
-import { Redirect, Route } from 'react-router-dom';
-import { RootState } from '../../config/store';
-
+import { FC } from "react";
+import { useSelector } from "react-redux";
+import { Redirect, Route } from "react-router-dom";
+import { RootState } from "../../config/store";
 
 interface Props {
   component?: any;
@@ -11,14 +10,19 @@ interface Props {
   render?: () => JSX.Element;
 }
 
-export const RouteAuthorized: FC<Props> = ({ exact, path, component, render }) => {
+export const RouteAuthorized: FC<Props> = ({
+  exact,
+  path,
+  component,
+  render,
+}) => {
   const user = useSelector((state: RootState) => state.user.details);
 
-
   if (user) {
-    return <Route exact={exact} path={path} component={component} render={render} />;
+    return (
+      <Route exact={exact} path={path} component={component} render={render} />
+    );
   } else {
     return <Route render={() => <Redirect to="/" />} />;
   }
 };
- 

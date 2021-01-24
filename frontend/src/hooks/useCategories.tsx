@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import { map } from "rxjs/operators";
 import { CategoryDto } from "../app-types/category";
 import { BaseSelectOption } from "../app-types/global";
@@ -17,22 +17,25 @@ export const useCategories = (): UseCategories => {
       .get<CategoryDto[]>(`${apiUrl}/category/all`)
       .pipe(
         map((category) => {
-          return category.map<any>((cat) => ({
-            value: cat.id,
-            label: cat.name
-          }) as BaseSelectOption)
+          return category.map<any>(
+            (cat) =>
+              ({
+                value: cat.id,
+                label: cat.name,
+              } as BaseSelectOption)
+          );
         })
-      ).subscribe((res: BaseSelectOption[]) => {
+      )
+      .subscribe((res: BaseSelectOption[]) => {
         setCategories(res);
       });
-  }
-
+  };
 
   useEffect(() => {
-    getCategories()
-  }, [])
+    getCategories();
+  }, []);
 
-return {
-  categories
+  return {
+    categories,
+  };
 };
-}

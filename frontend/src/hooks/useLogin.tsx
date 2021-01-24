@@ -12,7 +12,6 @@ interface UseLogin {
 }
 
 export const useLogin = (): UseLogin => {
-
   const dispatch = useDispatch();
   const [inProgress, setInProgress] = useState(false);
 
@@ -20,16 +19,16 @@ export const useLogin = (): UseLogin => {
     api
       .post<UserLogin, UserReq>(`${apiUrl}/auth/sign-in`, data, setInProgress)
       .subscribe((res) => {
-        setInProgress(false)
+        setInProgress(false);
         if (res) {
-          dispatch(setUser(res))
-          history.push('/dashboard')
+          dispatch(setUser(res));
+          history.push("/dashboard");
         }
       });
-  }
+  };
 
   return {
     submit,
-    inProgress
+    inProgress,
   };
-}
+};

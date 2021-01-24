@@ -6,7 +6,7 @@ const Login: FC = () => {
   return (
     <SimpleGrid columns={1} gap={1}>
       <Box marginTop="150">
-        <Center flexWrap="wrap">  
+        <Center flexWrap="wrap">
           <Heading mb={10} w="100%" textAlign="center">
             Logowanie
           </Heading>
@@ -14,7 +14,7 @@ const Login: FC = () => {
         </Center>
       </Box>
     </SimpleGrid>
-  )
-}
+  );
+};
 
 export default Login;
