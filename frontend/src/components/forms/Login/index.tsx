@@ -1,16 +1,16 @@
-import { Button } from "@chakra-ui/react";
-import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
-import { useForm, FormProvider } from "react-hook-form";
-import { loginSchema } from "../../../formSchemas/login";
-import { useLogin } from "../../../hooks/useLogin";
-import { FormField } from "../../common/FormField";
-import { Input } from "../../common/FormField/Input";
-import { history } from "../../../config/history";
+import { Button } from '@chakra-ui/react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import React from 'react';
+import { useForm, FormProvider } from 'react-hook-form';
+import { loginSchema } from '../../../formSchemas/login';
+import { useLogin } from '../../../hooks/useLogin';
+import { FormField } from '../../common/FormField';
+import { Input } from '../../common/FormField/Input';
+import { history } from '../../../config/history';
 
 export const LoginForm = () => {
   const methods = useForm({
-    mode: "onChange",
+    mode: 'onChange',
     resolver: yupResolver(loginSchema),
   });
 
@@ -29,7 +29,7 @@ export const LoginForm = () => {
         <Button type="submit" disabled={!isValid} mt={20}>
           Sign In
         </Button>
-        <Button onClick={() => history.push("sign-up")}>
+        <Button onClick={() => history.push('sign-up')}>
           Dont have account?
         </Button>
       </form>

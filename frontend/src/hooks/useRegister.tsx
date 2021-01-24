@@ -1,10 +1,10 @@
-import { useState } from "react";
-import { UserReq } from "../app-types/user";
-import { successNotification } from "../components/common/Toast";
-import { apiUrl } from "../config/apiUrl";
-import { history } from "../config/history";
-import { UserSignUp } from "../interal-types/user";
-import api from "../service/api";
+import { useState } from 'react';
+import { UserReq } from '../app-types/user';
+import { successNotification } from '../components/common/Toast';
+import { apiUrl } from '../config/apiUrl';
+import { history } from '../config/history';
+import { UserSignUp } from '../interal-types/user';
+import api from '../service/api';
 
 interface UseRegister {
   submit: (data: UserSignUp, setError: any) => void;
@@ -32,8 +32,8 @@ export const useRegister = (): UseRegister => {
       )
       .subscribe((res) => {
         setInProgress(false);
-        successNotification("Correctly registered");
-        history.push("/sign-in");
+        successNotification('Correctly registered');
+        history.push('/sign-in');
       });
   };
 

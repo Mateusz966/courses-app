@@ -1,7 +1,7 @@
-import { FC } from "react";
-import { BaseInputProps } from "../../../../app-types/form";
-import { Checkbox as ChakraChekbox } from "@chakra-ui/react";
-import { useFormContext } from "react-hook-form";
+import { FC } from 'react';
+import { BaseInputProps } from '../../../../app-types/form';
+import { Checkbox as ChakraChekbox } from '@chakra-ui/react';
+import { useFormContext } from 'react-hook-form';
 
 interface Props extends BaseInputProps {
   content: string;
@@ -28,7 +28,7 @@ export const Checkbox: FC<Props> = ({
       name={name}
       isDisabled={isDisabled}
       id={`${id || name}`}
-      ref={register({ required: isRequired && "Field is required" })}
+      ref={register({ required: isRequired && 'Field is required' })}
     >
       {content}
     </ChakraChekbox>

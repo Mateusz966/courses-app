@@ -1,8 +1,8 @@
-import { AxiosRequestConfig } from "axios";
-import { apiUrl } from "./apiUrl";
-import axios from "axios";
-import { store } from "./store";
-import { clearUser, redirectToLogin } from "../slices/user";
+import { AxiosRequestConfig } from 'axios';
+import { apiUrl } from './apiUrl';
+import axios from 'axios';
+import { store } from './store';
+import { clearUser, redirectToLogin } from '../slices/user';
 
 export const axiosRequestConfiguration: AxiosRequestConfig = {
   baseURL: apiUrl,

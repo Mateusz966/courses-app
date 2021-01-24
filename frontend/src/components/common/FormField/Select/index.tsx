@@ -1,8 +1,8 @@
-import { FC } from "react";
-import { useFormContext, Controller } from "react-hook-form";
-import Select from "react-select";
-import { BaseInputProps } from "../../../../app-types/form";
-import { BaseSelectOption } from "../../../../app-types/global";
+import { FC } from 'react';
+import { useFormContext, Controller } from 'react-hook-form';
+import Select from 'react-select';
+import { BaseInputProps } from '../../../../app-types/form';
+import { BaseSelectOption } from '../../../../app-types/global';
 
 interface Props extends BaseInputProps {
   options?: BaseSelectOption[];

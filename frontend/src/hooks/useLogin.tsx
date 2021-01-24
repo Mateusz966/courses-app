@@ -1,10 +1,10 @@
-import { apiUrl } from "../config/apiUrl";
-import api from "../service/api";
-import { history } from "../config/history";
-import { useDispatch } from "react-redux";
-import { setUser } from "../slices/user";
-import { UserLogin, UserReq } from "../app-types/user";
-import { useState } from "react";
+import { apiUrl } from '../config/apiUrl';
+import api from '../service/api';
+import { history } from '../config/history';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../slices/user';
+import { UserLogin, UserReq } from '../app-types/user';
+import { useState } from 'react';
 
 interface UseLogin {
   submit: (data: UserLogin) => void;
@@ -22,7 +22,7 @@ export const useLogin = (): UseLogin => {
         setInProgress(false);
         if (res) {
           dispatch(setUser(res));
-          history.push("/dashboard");
+          history.push('/dashboard');
         }
       });
   };

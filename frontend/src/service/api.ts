@@ -1,8 +1,8 @@
-import { defer, Observable, EMPTY } from "rxjs";
-import initializeAxios from "../config/axiosSetup";
-import { axiosRequestConfiguration } from "../config/axios";
-import { catchError, map } from "rxjs/operators";
-import { handlingError } from "../helpers/handleErrors";
+import { defer, Observable, EMPTY } from 'rxjs';
+import initializeAxios from '../config/axiosSetup';
+import { axiosRequestConfiguration } from '../config/axios';
+import { catchError, map } from 'rxjs/operators';
+import { handlingError } from '../helpers/handleErrors';
 
 const axiosInstance = initializeAxios(axiosRequestConfiguration);
 
@@ -27,7 +27,7 @@ const post = <T, K = void>(
   ).pipe(
     map((result) => result.data),
     catchError((err) => {
-      console.log("dd");
+      console.log('dd');
       setInProgress(false);
       handlingError(err.response, setError);
       return EMPTY;

@@ -1,18 +1,18 @@
-import { Button } from "@chakra-ui/react";
-import React from "react";
-import { useForm, FormProvider } from "react-hook-form";
-import { useCategories } from "../../../hooks/useCategories";
-import { useRegister } from "../../../hooks/useRegister";
-import { FormField } from "../../common/FormField";
-import { Input } from "../../common/FormField/Input";
-import { FormSelect } from "../../common/FormField/Select";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { registerSchema } from "../../../formSchemas/register";
-import { UserSignUp } from "../../../interal-types/user";
+import { Button } from '@chakra-ui/react';
+import React from 'react';
+import { useForm, FormProvider } from 'react-hook-form';
+import { useCategories } from '../../../hooks/useCategories';
+import { useRegister } from '../../../hooks/useRegister';
+import { FormField } from '../../common/FormField';
+import { Input } from '../../common/FormField/Input';
+import { FormSelect } from '../../common/FormField/Select';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { registerSchema } from '../../../formSchemas/register';
+import { UserSignUp } from '../../../interal-types/user';
 
 export const RegisterForm = () => {
   const methods = useForm({
-    mode: "onChange",
+    mode: 'onChange',
     resolver: yupResolver(registerSchema),
   });
 

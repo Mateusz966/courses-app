@@ -1,6 +1,6 @@
-import { Box, SimpleGrid, Center, Heading } from "@chakra-ui/react";
-import { FC } from "react";
-import { LoginForm } from "../../components/forms/Login";
+import { Box, SimpleGrid, Center, Heading } from '@chakra-ui/react';
+import { FC } from 'react';
+import { LoginForm } from '../../components/forms/Login';
 
 const Home: FC = () => {
   return (
