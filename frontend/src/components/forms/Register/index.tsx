@@ -8,6 +8,7 @@ import { Input } from "../../common/FormField/Input"
 import { FormSelect } from "../../common/FormField/Select";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { registerSchema } from "../../../formSchemas/register";
+import { UserReq } from "../../../app-types/user";
 
 
 
@@ -23,17 +24,17 @@ export const RegisterForm = () => {
 
 
   const { isValid } = methods.formState;
+  console.log(isValid)
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(submit)}>
+      <form onSubmit={methods.handleSubmit((payload: UserReq) => submit(payload, methods.setError))}>
         <FormField
           labelText="Imię"
           inputName="firstName"
         >
           <Input
             type="text"
-            isRequired
             placeholder="Mati"
           />
         </FormField>
@@ -43,7 +44,6 @@ export const RegisterForm = () => {
         >
           <Input
             type="text"
-            isRequired
             placeholder="Itam"
           />
         </FormField>
@@ -53,7 +53,6 @@ export const RegisterForm = () => {
         >
           <Input
             type="email"
-            isRequired
             placeholder="example@example.com"
           />
         </FormField>

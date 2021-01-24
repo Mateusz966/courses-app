@@ -3,10 +3,11 @@ import { combineEpics, createEpicMiddleware } from 'redux-observable';
 import userReducer from '../slices/user';
 
 
+
 const rootEpic = combineEpics();
 const epicMiddleware = createEpicMiddleware();
 const rootReducer = combineReducers({
-  user: userReducer
+  user: userReducer,
 });
 
 

@@ -2,6 +2,7 @@ import { defer, Observable, EMPTY } from 'rxjs';
 import initializeAxios from '../config/axiosSetup';
 import { axiosRequestConfiguration } from '../config/axios';
 import { catchError, map } from 'rxjs/operators';
+import { handlingError } from '../helpers/handleErrors';
 
 const axiosInstance = initializeAxios(axiosRequestConfiguration);
 
@@ -16,12 +17,12 @@ const get = <T>(url: string, queryParams?: object): Observable<T> => {
     );
 };
 
-const post = <T, K = void>(url: string, body: T, queryParams?: object): Observable<K | void> => {
+const post = <T, K = void>(url: string, body: T, queryParams?: object, setError?: any): Observable<K | void> => {
   return defer(() => axiosInstance.post<K>(url, body, { params: queryParams }))
     .pipe(
       map(result => result.data),
       catchError(err => {
-        console.log(err);
+        handlingError(err.response, setError);
         return EMPTY
       })
     );

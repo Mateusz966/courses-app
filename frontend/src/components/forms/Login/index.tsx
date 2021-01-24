@@ -6,6 +6,7 @@ import { loginSchema } from "../../../formSchemas/login";
 import { useLogin } from "../../../hooks/useLogin";
 import { FormField } from "../../common/FormField"
 import { Input } from "../../common/FormField/Input"
+import { history } from '../../../config/history';
 
 
 
@@ -17,8 +18,6 @@ export const LoginForm = () => {
   });
 
   const { submit } = useLogin();
-
-
   const { isValid } = methods.formState;
 
   return (
@@ -30,7 +29,6 @@ export const LoginForm = () => {
         >
           <Input
             type="email"
-            isRequired
             placeholder="example@example.com"
           />
         </FormField>
@@ -41,7 +39,6 @@ export const LoginForm = () => {
           <Input
             name="password"
             type="password"
-            isRequired
             placeholder="*****"
           />
         </FormField>
@@ -51,6 +48,9 @@ export const LoginForm = () => {
           mt={20}
         >
           Sign In
+        </Button>
+        <Button onClick={()=> history.push('sign-up')}>
+          Dont have account?
         </Button>
       </form>
     </FormProvider>

@@ -29,11 +29,13 @@ services:
   frontend:
     container_name: frontend
     build:
-      context: ./
+      context: .
       dockerfile: ./frontend/Dockerfile
+    environment:
+    - CHOKIDAR_USEPOLLING=true
     volumes: 
-     - ./frontend/src:/app/frontend/src
-     - ./types:/app/types
+    - ./frontend/src:/app/frontend/src
+    - ./app-types:/app/app-types
     ports: 
     - "3000:3000"
     networks:
@@ -46,11 +48,11 @@ services:
     depends_on: 
     - postgres
     build:
-      context: ./
+      context: .
       dockerfile: ./backend/Dockerfile
     volumes: 
-     - ./backend/src:/app/backend/src
-     - ./types:/app/types
+     - ./backend:/app/backend
+     - ./app-types:/app/app-types
     ports: 
     - "3001:3001"
     networks:
