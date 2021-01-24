@@ -6,7 +6,7 @@ import { getError } from './getError';
 export const handlingError = (response: any, setError?: any) => {
   console.dir(response);
   if (!response) {
-    return errorNotification('Wystąpił błąd')
+    return errorNotification('An error occured')
   };
   const { status, data } = response;
   const { message } = data;

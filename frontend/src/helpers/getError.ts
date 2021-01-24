@@ -9,10 +9,10 @@ export const getError = (error: ApiErrorCode) => {
   case ApiErrorCode.InvalidCredentials:
     return 'Invalid credentails';
   case ApiErrorCode.OtherError:
-    return 'Wystąpił błąd';
+    return 'An error occured';
   case ApiErrorCode.EmailIsTaken:
     return 'Given email is taken'
     default:
-      return 'Wystąpił błąd';
+      return 'An error occured';
   }
 };
