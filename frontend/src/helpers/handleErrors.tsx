@@ -1,11 +1,12 @@
-import { toast } from '../components/common/Toast';
+
+import { errorNotification } from '../components/common/Toast';
 import { getError } from './getError';
 
 
 export const handlingError = (response: any, setError?: any) => {
   console.dir(response);
   if (!response) {
-    return toast('Wystąpił błąd', 'error')
+    return errorNotification('Wystąpił błąd')
   };
   const { status, data } = response;
   const { message } = data;
@@ -15,9 +16,9 @@ export const handlingError = (response: any, setError?: any) => {
     case 400:
       typeof message === 'object'
         ? message.map(({ path, message }: any) => setError(path, { message, }))
-        : toast(getError(data.errorCode), 'error');
+        : errorNotification(getError(data.errorCode));
       break;
     default:
-      toast(getError(data.errorCode), 'error');
+      errorNotification(getError(data.errorCode));
   }
 };

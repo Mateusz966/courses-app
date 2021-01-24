@@ -6,6 +6,7 @@ import { loginSchema } from "../../../formSchemas/login";
 import { useLogin } from "../../../hooks/useLogin";
 import { FormField } from "../../common/FormField"
 import { Input } from "../../common/FormField/Input"
+import { history } from '../../../config/history';
 
 
 
@@ -49,6 +50,9 @@ export const LoginForm = () => {
           mt={20}
         >
           Sign In
+        </Button>
+        <Button onClick={()=> history.push('sign-up')}>
+          Dont have account?
         </Button>
       </form>
     </FormProvider>

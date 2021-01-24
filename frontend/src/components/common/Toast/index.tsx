@@ -3,7 +3,7 @@ import { ToastType } from "../../../types/toast"
 
 
 
-export const toast = (text: string, type: ToastType) => {
+const toast = (text: string, type: ToastType) => {
   const toast = createStandaloneToast()
   toast({
     title: text,
@@ -12,5 +12,13 @@ export const toast = (text: string, type: ToastType) => {
     isClosable: true,
     position: "top-right"
   })
+}
 
+
+export const successNotification = (text: string) => {
+  toast(text, 'success');
+}
+
+export const errorNotification = (text: string) => {
+  toast(text, 'success');
 }

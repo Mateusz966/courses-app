@@ -6,17 +6,7 @@ import { RegisterForm } from "../../components/forms/Register";
 
 const Home: FC = () => {
   return (
-    <SimpleGrid columns={2} gap={1}>
-      <Box>
-        <Center flexWrap="wrap" bg="white" height="100vh">
-          <Box>
-            <Heading mb={10} w="100%" textAlign="center">
-              Rejestracja
-            </Heading>
-            <RegisterForm />
-          </Box>
-        </Center>
-      </Box>
+    <SimpleGrid columns={1} gap={1}>
       <Box bg="white">
         <Center flexWrap="wrap" height="100vh">
           <Box>

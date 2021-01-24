@@ -1,4 +1,4 @@
-import { IsEmail, IsString, IsNotEmpty } from "class-validator";
+import { IsEmail, IsString, IsArray, IsOptional } from "class-validator";
 import { UserReq } from '../../../app-types/user';
 
 export class UserDto implements UserReq {
@@ -14,6 +14,7 @@ export class UserDto implements UserReq {
     @IsString()
     password: string;
   
-    @IsNotEmpty()
-    userCategories: any[];
+    @IsArray()
+    @IsOptional()
+    userCategories?: any[];
   }

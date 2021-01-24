@@ -8,7 +8,7 @@ interface UserDefault {
 }
 
 export interface UserReq extends UserDefault {
-  userCategories: any
+  userCategories?: any
 }
 
 export interface UserRes {
