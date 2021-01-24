@@ -1,19 +1,16 @@
-import { SimpleGrid, Box, Heading, Center } from '@chakra-ui/react';
+import { Container, GridItem } from '@chakra-ui/react';
 import React, { FC } from 'react';
 import { LoginForm } from '../../components/forms/Login';
+import useHeader from '../../hooks/useHeader';
 
 const Login: FC = () => {
+  useHeader('Welcome back!', '', undefined, true);
   return (
-    <SimpleGrid columns={1} gap={1}>
-      <Box marginTop="150">
-        <Center flexWrap="wrap">
-          <Heading mb={10} w="100%" textAlign="center">
-            Logowanie
-          </Heading>
-          <LoginForm />
-        </Center>
-      </Box>
-    </SimpleGrid>
+    <Container>
+     <GridItem>
+       <LoginForm />
+     </GridItem>
+    </Container>
   );
 };
 

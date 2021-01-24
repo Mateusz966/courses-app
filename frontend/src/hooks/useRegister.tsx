@@ -18,7 +18,7 @@ export const useRegister = (): UseRegister => {
     setInProgress(true);
     const submitData: UserReq = {
       ...data,
-      userCategories: data?.userCategories.map((category) => ({
+      userCategories: data?.userCategories?.map((category) => ({
         id: category.value,
       })),
     };
