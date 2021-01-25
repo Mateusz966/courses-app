@@ -1,4 +1,3 @@
-import { Button, Text } from '@chakra-ui/react';
 import { FC } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useCategories } from '../../../hooks/useCategories';
@@ -9,7 +8,9 @@ import { FormSelect } from '../../common/FormField/Select';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { registerSchema } from '../../../formSchemas/register';
 import { UserSignUp } from '../../../interal-types/user';
-import { history } from '../../../config/history';
+import { FormBottomText } from '../../common/FormBottomText';
+import { Button } from '../../common/Button';
+import { Box } from '@chakra-ui/react';
 
 export const RegisterForm: FC = () => {
   const methods = useForm({
@@ -24,7 +25,10 @@ export const RegisterForm: FC = () => {
 
   return (
     <FormProvider {...methods}>
-      <form
+      <Box
+        maxW="425px"
+        margin="auto"
+        as="form"
         onSubmit={methods.handleSubmit((payload: UserSignUp) =>
           submit(payload, methods.setError)
         )}
@@ -48,23 +52,15 @@ export const RegisterForm: FC = () => {
         >
           <FormSelect isMulti options={categories ?? []} />
         </FormField>
-        <Button
-          type="submit"
-          disabled={!isValid || inProgress}
-          mt={6}
-          w="100%"
-          borderRadius="25px"
-          isLoading={inProgress}
-          loadingText="Submitting"
-          colorScheme="teal"
-        >
+        <Button type="submit" isValid={isValid} inProgress={inProgress}>
           Sign Up
         </Button>
-        <Text display="flex" justifyContent="center" w="100%" mt="5" textAlign="center" fontSize="sm">
-          Already have a account? 
-          <Button onClick={() => history.push('/sign-in')} ml="1" fontSize="sm" variant="link"> Sign In</Button>
-        </Text>
-      </form>
+        <FormBottomText
+          text="Already have a account?"
+          buttonText="Sign In"
+          path="/sign-in"
+        />
+      </Box>
     </FormProvider>
   );
 };

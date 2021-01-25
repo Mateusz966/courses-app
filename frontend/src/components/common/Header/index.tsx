@@ -11,11 +11,11 @@ export const Header: FC = () => {
   const user = useSelector((state: RootState) => state.user.details);
   if (hide) return null;
   return (
-    <Container mt={4} mb={10}>
+    <Container display={{lg: 'none'}} mt={4} mb={10}>
       <Flex align="center">
         {!noLeft && (
           <Box mr={4}>
-            <Icon color="#4FD1C5" size="5xl" w="5" h="5" as={MdArrowBack} />
+            <Icon color="#4FD1C5" w="5" h="5" as={MdArrowBack} />
           </Box>
         )}
         <Box>
