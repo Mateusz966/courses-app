@@ -1,4 +1,4 @@
-import { Button, Box, Text } from '@chakra-ui/react';
+import { Button, Text } from '@chakra-ui/react';
 import { FC } from 'react';
 import { history } from '../../../config/history';
 

@@ -5,10 +5,9 @@ import { RootState } from '../../../config/store';
 import { MdArrowBack } from 'react-icons/md';
 
 export const Header: FC = () => {
-  const { title, back, noLeft, hideOnMobile, hide, subtitle } = useSelector(
+  const { title, noLeft, hide, subtitle } = useSelector(
     (state: RootState) => state.header
   );
-  const user = useSelector((state: RootState) => state.user.details);
   if (hide) return null;
   return (
     <Container display={{lg: 'none'}} mt={4} mb={10}>

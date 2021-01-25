@@ -1,4 +1,4 @@
-import { GridItem, Container, Image } from '@chakra-ui/react';
+import { GridItem, Image } from '@chakra-ui/react';
 import React, { FC } from 'react';
 import ContainerPhotoContent from '../../components/common/Layout/ContainerPhotoContent';
 import { RegisterForm } from '../../components/forms/Register';

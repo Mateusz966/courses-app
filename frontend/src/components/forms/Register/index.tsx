@@ -1,16 +1,16 @@
 import { FC } from 'react';
+import { Box } from '@chakra-ui/react';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useCategories } from '../../../hooks/useCategories';
 import { useRegister } from '../../../hooks/useRegister';
 import { FormField } from '../../common/FormField';
 import { Input } from '../../common/FormField/Input';
 import { FormSelect } from '../../common/FormField/Select';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { registerSchema } from '../../../formSchemas/register';
-import { UserSignUp } from '../../../interal-types/user';
 import { FormBottomText } from '../../common/FormBottomText';
 import { Button } from '../../common/Button';
-import { Box } from '@chakra-ui/react';
+import { SignUpUserPayload } from '../../../interal-types/user';
 
 export const RegisterForm: FC = () => {
   const methods = useForm({
@@ -29,7 +29,7 @@ export const RegisterForm: FC = () => {
         maxW="425px"
         margin="auto"
         as="form"
-        onSubmit={methods.handleSubmit((payload: UserSignUp) =>
+        onSubmit={methods.handleSubmit((payload: SignUpUserPayload) =>
           submit(payload, methods.setError)
         )}
       >

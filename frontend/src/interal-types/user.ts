@@ -1,6 +1,6 @@
 import { BaseSelectOption } from '../app-types/global';
-import { UserDefault } from '../app-types/user';
+import { UserReq } from '../app-types/user';
 
-export interface UserSignUp extends UserDefault {
+export type SignUpUserPayload = Omit<UserReq, 'userCategories'> & {
   userCategories: BaseSelectOption[];
-}
+};

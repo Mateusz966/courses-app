@@ -7,6 +7,6 @@ const useHeader = (title: string, subtitle?: string, back?: string, noLeft?: boo
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setHeader({title, subtitle, back, noLeft, hideOnMobile, hide}));
-  }, []);
+  }, [title, subtitle, back, noLeft, hideOnMobile, hide]);
 };
 export default useHeader;

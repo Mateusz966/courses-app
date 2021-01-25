@@ -1,11 +1,11 @@
-import { Container, Grid, GridItem, Image } from '@chakra-ui/react';
+import { GridItem, Image } from '@chakra-ui/react';
 import React, { FC } from 'react';
 import { LoginForm } from '../../components/forms/Login';
 import useHeader from '../../hooks/useHeader';
 import LoginImg from '../../assets/login-enter.png';
 import LoginDesktop from '../../assets/login-desktop.jpg';
 import ContainerPhotoContent from '../../components/common/Layout/ContainerPhotoContent';
-
+//TODO ADD BRAND IMAGE INSTEAD OF LOGIN DESKTOP
 const Login: FC = () => {
   useHeader('Welcome back!', '', undefined, true);
   return (
