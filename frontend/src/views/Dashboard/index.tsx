@@ -1,11 +1,9 @@
-import { Box, SimpleGrid } from '@chakra-ui/react';
 import { FC } from 'react';
+import { TopNavBar } from '../../components/common/TopNavbar';
 
 const Dashboard: FC = () => {
   return (
-    <SimpleGrid columns={2} gap={1}>
-      <Box>Witamy na dashboard po zalogowaniu</Box>
-    </SimpleGrid>
+    <TopNavBar />
   );
 };
 

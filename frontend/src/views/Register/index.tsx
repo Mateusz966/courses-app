@@ -1,6 +1,6 @@
 import { GridItem, Image } from '@chakra-ui/react';
 import React, { FC } from 'react';
-import ContainerPhotoContent from '../../components/common/Layout/ContainerPhotoContent';
+import ContainerPhotoContent from '../../components/layout/ContainerPhotoContent';
 import { RegisterForm } from '../../components/forms/Register';
 import useHeader from '../../hooks/useHeader';
 import LoginDesktop from '../../assets/login-desktop.jpg';
