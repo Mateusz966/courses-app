@@ -22,7 +22,7 @@ export const useLogin = (): UseLogin => {
         setInProgress(false);
         if (res) {
           dispatch(setUser(res));
-          history.push('/dashboard');
+          history.push('/');
         }
       });
   };

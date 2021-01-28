@@ -37,7 +37,7 @@ export const MainDrawer = () => {
         <DrawerOverlay>
           <DrawerContent>
             <DrawerCloseButton />
-            <DrawerHeader>Create your account</DrawerHeader>
+            <DrawerHeader>Next things incomming!</DrawerHeader>
 
             <DrawerBody>
               {/* <Input placeholder="Type here..." /> */}
