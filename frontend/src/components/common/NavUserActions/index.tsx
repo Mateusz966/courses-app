@@ -3,6 +3,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../config/store';
 import { LoggedActions } from './LoggedActions'
+import { NotLoggedActions } from './NotLoggedActions';
 
 
 export const NavUserActions = () => {
@@ -10,7 +11,7 @@ export const NavUserActions = () => {
   
   return (
     <Box>
-      {user ? <LoggedActions /> : null}
+      {user ? <LoggedActions /> : <NotLoggedActions />}
     </Box>
   );
 };
