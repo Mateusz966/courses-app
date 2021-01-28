@@ -4,6 +4,13 @@ import Select from 'react-select';
 import { BaseInputProps } from '../../../../app-types/form';
 import { BaseSelectOption } from '../../../../app-types/global';
 
+const customStyles = {
+  control: (provided: any) => {
+    const borderRadius = '25px';
+    return { ...provided, borderRadius };
+  },
+};
+
 interface Props extends BaseInputProps {
   options?: BaseSelectOption[];
   handleChange?: (
@@ -31,6 +38,7 @@ export const FormSelect: FC<Props> = ({
       required={isRequired}
       render={({ value, name, onChange }) => (
         <Select
+          styles={customStyles}
           isMulti={isMulti}
           options={options}
           isDisabled={isDisabled}

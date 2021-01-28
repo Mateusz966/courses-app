@@ -7,7 +7,7 @@ import { UserLogin, UserReq } from '../app-types/user';
 import { useState } from 'react';
 
 interface UseLogin {
-  submit: (data: UserLogin) => void;
+  submit: (payload: UserLogin) => void;
   inProgress: boolean;
 }
 
@@ -15,14 +15,18 @@ export const useLogin = (): UseLogin => {
   const dispatch = useDispatch();
   const [inProgress, setInProgress] = useState(false);
 
-  const submit = (data: UserLogin) => {
+  const submit = (payload: UserLogin) => {
     api
-      .post<UserLogin, UserReq>(`${apiUrl}/auth/sign-in`, data, setInProgress)
+      .post<UserLogin, UserReq>(
+        `${apiUrl}/auth/sign-in`,
+        payload,
+        setInProgress
+      )
       .subscribe((res) => {
         setInProgress(false);
         if (res) {
           dispatch(setUser(res));
-          history.push('/dashboard');
+          history.push('/');
         }
       });
   };

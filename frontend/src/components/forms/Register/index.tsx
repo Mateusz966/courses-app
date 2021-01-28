@@ -1,16 +1,18 @@
-import { Button } from '@chakra-ui/react';
-import React from 'react';
+import { FC } from 'react';
+import { Box } from '@chakra-ui/react';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useCategories } from '../../../hooks/useCategories';
 import { useRegister } from '../../../hooks/useRegister';
 import { FormField } from '../../common/FormField';
 import { Input } from '../../common/FormField/Input';
 import { FormSelect } from '../../common/FormField/Select';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { registerSchema } from '../../../formSchemas/register';
-import { UserSignUp } from '../../../interal-types/user';
+import { FormBottomText } from '../../common/FormBottomText';
+import { Button } from '../../common/Button';
+import { SignUpUserPayload } from '../../../interal-types/user';
 
-export const RegisterForm = () => {
+export const RegisterForm: FC = () => {
   const methods = useForm({
     mode: 'onChange',
     resolver: yupResolver(registerSchema),
@@ -23,34 +25,42 @@ export const RegisterForm = () => {
 
   return (
     <FormProvider {...methods}>
-      <form
-        onSubmit={methods.handleSubmit((payload: UserSignUp) =>
+      <Box
+        maxW="425px"
+        margin="auto"
+        as="form"
+        onSubmit={methods.handleSubmit((payload: SignUpUserPayload) =>
           submit(payload, methods.setError)
         )}
       >
-        <FormField labelText="Imię" inputName="firstName">
+        <FormField labelText="First name" inputName="firstName">
           <Input type="text" placeholder="Mati" />
         </FormField>
-        <FormField labelText="Nazwisko" inputName="lastName">
+        <FormField labelText="Last name" inputName="lastName">
           <Input type="text" placeholder="Itam" />
         </FormField>
         <FormField labelText="Email" inputName="email">
           <Input type="email" placeholder="example@example.com" />
         </FormField>
-        <FormField labelText="Hasło" inputName="password">
+        <FormField labelText="Password" inputName="password">
           <Input type="password" placeholder="*****" />
         </FormField>
         <FormField
-          labelText="Kategorie"
+          labelText="Categories"
           inputName="userCategories"
-          helperText="Wybierz swoje zainteresowania"
+          helperText="Select your interests"
         >
           <FormSelect isMulti options={categories ?? []} />
         </FormField>
-        <Button type="submit" disabled={!isValid || inProgress} mt={20}>
+        <Button type="submit" isValid={isValid} inProgress={inProgress}>
           Sign Up
         </Button>
-      </form>
+        <FormBottomText
+          text="Already have a account?"
+          buttonText="Sign In"
+          path="/sign-in"
+        />
+      </Box>
     </FormProvider>
   );
 };

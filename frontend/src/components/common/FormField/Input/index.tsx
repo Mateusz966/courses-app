@@ -19,6 +19,7 @@ export const Input: FC<Props> = ({
   const { register } = useFormContext();
   return (
     <ChakraInput
+      borderRadius="25px"
       onChange={onChange}
       onClick={onClick}
       type={type}

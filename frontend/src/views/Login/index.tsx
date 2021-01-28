@@ -1,19 +1,27 @@
-import { SimpleGrid, Box, Heading, Center } from '@chakra-ui/react';
+import { GridItem, Image } from '@chakra-ui/react';
 import React, { FC } from 'react';
 import { LoginForm } from '../../components/forms/Login';
-
+import useHeader from '../../hooks/useHeader';
+import LoginImg from '../../assets/login-enter.png';
+import LoginDesktop from '../../assets/login-desktop.jpg';
+import ContainerPhotoContent from '../../components/layout/ContainerPhotoContent';
+//TODO ADD BRAND IMAGE INSTEAD OF LOGIN DESKTOP
 const Login: FC = () => {
+  useHeader('Welcome back!', '', undefined, true);
   return (
-    <SimpleGrid columns={1} gap={1}>
-      <Box marginTop="150">
-        <Center flexWrap="wrap">
-          <Heading mb={10} w="100%" textAlign="center">
-            Logowanie
-          </Heading>
-          <LoginForm />
-        </Center>
-      </Box>
-    </SimpleGrid>
+    <ContainerPhotoContent
+      image={<Image boxSize="100%" src={LoginDesktop} objectFit="cover" />}
+      content={
+        <>
+          <GridItem>
+            <Image src={LoginImg} margin="auto" objectFit="cover" />
+          </GridItem>
+          <GridItem>
+            <LoginForm />
+          </GridItem>
+        </>
+      }
+    />
   );
 };
 
