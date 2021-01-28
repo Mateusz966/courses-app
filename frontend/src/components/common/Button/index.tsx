@@ -1,18 +1,25 @@
-import { FC } from "react";
-import { Button as ChakraButton } from '@chakra-ui/react'
+import { FC } from 'react';
+import { Button as ChakraButton } from '@chakra-ui/react';
 
 interface Props {
   primary?: boolean;
   secondary?: boolean;
-  variant?: "outline"
+  variant?: 'outline';
   loadingText?: string;
   isValid?: boolean;
   inProgress?: boolean;
-  type: 'submit' | 'button'
-  
+  type: 'submit' | 'button';
 }
 
-export const Button: FC<Props> = ({children, primary, secondary, variant, isValid, inProgress, type}) => {
+export const Button: FC<Props> = ({
+  children,
+  primary,
+  secondary,
+  variant,
+  isValid,
+  inProgress,
+  type,
+}) => {
   return (
     <ChakraButton
       type={type}

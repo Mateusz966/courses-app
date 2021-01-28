@@ -6,11 +6,10 @@ import { BaseSelectOption } from '../../../../app-types/global';
 
 const customStyles = {
   control: (provided: any) => {
-    const borderRadius = '25px'
-    return {...provided, borderRadius}
+    const borderRadius = '25px';
+    return { ...provided, borderRadius };
   },
-}
-
+};
 
 interface Props extends BaseInputProps {
   options?: BaseSelectOption[];

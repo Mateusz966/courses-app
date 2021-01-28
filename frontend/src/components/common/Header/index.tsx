@@ -10,7 +10,7 @@ export const Header: FC = () => {
   );
   if (hide) return null;
   return (
-    <Container display={{lg: 'none'}} mt={4} mb={10}>
+    <Container display={{ lg: 'none' }} mt={4} mb={10}>
       <Flex align="center">
         {!noLeft && (
           <Box mr={4}>

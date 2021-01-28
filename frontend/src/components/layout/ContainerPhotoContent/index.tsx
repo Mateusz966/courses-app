@@ -1,4 +1,4 @@
-import { Container, Grid} from '@chakra-ui/react';
+import { Container, Grid } from '@chakra-ui/react';
 import React, { FC, ReactNode } from 'react';
 
 interface Props {
@@ -15,11 +15,11 @@ const ContainerPhotoContent: FC<Props> = ({ image, content }) => {
         lg: '"photo photo content content"',
       }}
       maxW="100%"
-      height={{lg: "100vh"}}
+      height={{ lg: '100vh' }}
       display="grid"
-      padding={{lg: 0}}
+      padding={{ lg: 0 }}
     >
-      <Grid display={{lg: 'grid', base: "none"}} gridArea="photo">
+      <Grid display={{ lg: 'grid', base: 'none' }} gridArea="photo">
         {image}
       </Grid>
       <Grid alignContent="center" gridArea="content">

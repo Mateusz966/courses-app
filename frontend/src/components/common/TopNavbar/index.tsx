@@ -1,8 +1,5 @@
-import { Box, Grid, GridItem } from '@chakra-ui/react';
+import { Grid, GridItem } from '@chakra-ui/react';
 import { FC } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../config/store';
-import { MdArrowBack, MdMenu } from 'react-icons/md';
 import { MainDrawer } from '../Drawer';
 import { SearchLoop } from '../SearchLoop';
 import { NavUserActions } from '../NavUserActions';
@@ -22,7 +19,7 @@ export const TopNavBar: FC = () => {
       <GridItem gridArea="brand" display={{ md: 'block', base: 'none' }}>
         <SearchLoop />
       </GridItem>
-      <GridItem  display={{ md: 'none', base: 'block' }}>Brand</GridItem>
+      <GridItem display={{ md: 'none', base: 'block' }}>Brand</GridItem>
       <GridItem gridArea="userAcc">
         <NavUserActions />
       </GridItem>

@@ -16,7 +16,7 @@ const App = () => {
       <ChakraProvider>
         <CSSReset />
         <Router history={history}>
-        <Header />
+          <Header />
           <Switch>
             <Suspense fallback={<Spinner size="xl" />}>
               <Route exact path="/" component={Dashboard} />

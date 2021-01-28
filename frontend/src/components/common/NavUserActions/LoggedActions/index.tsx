@@ -20,7 +20,12 @@ export const LoggedActions = () => {
         icon={<Icon w="6" h="6" as={MdShoppingCart} />}
       />
       <Menu>
-        <MenuButton bgColor="#4FD1C5" color="#fff" as={Button} rightIcon={<MdKeyboardArrowDown />}>
+        <MenuButton
+          bgColor="#4FD1C5"
+          color="#fff"
+          as={Button}
+          rightIcon={<MdKeyboardArrowDown />}
+        >
           Moje konto
         </MenuButton>
         <MenuList>

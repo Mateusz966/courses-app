@@ -18,13 +18,12 @@ const initialState: HeaderState = {
   hide: false,
 };
 
-
 const header = createSlice({
   name: 'header',
   initialState,
   reducers: {
     setHeader: (state, action: PayloadAction<HeaderState>) => {
-      console.log(action)
+      console.log(action);
       return { ...state, ...action.payload };
     },
   },

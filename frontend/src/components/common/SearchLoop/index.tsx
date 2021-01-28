@@ -1,9 +1,4 @@
-import {
-  Input,
-  Box
-} from '@chakra-ui/react';
-
-
+import { Input, Box } from '@chakra-ui/react';
 
 export const SearchLoop = () => {
   return (

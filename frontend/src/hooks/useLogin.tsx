@@ -17,7 +17,11 @@ export const useLogin = (): UseLogin => {
 
   const submit = (payload: UserLogin) => {
     api
-      .post<UserLogin, UserReq>(`${apiUrl}/auth/sign-in`, payload, setInProgress)
+      .post<UserLogin, UserReq>(
+        `${apiUrl}/auth/sign-in`,
+        payload,
+        setInProgress
+      )
       .subscribe((res) => {
         setInProgress(false);
         if (res) {

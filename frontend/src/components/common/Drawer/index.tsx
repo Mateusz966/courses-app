@@ -9,7 +9,7 @@ import {
   DrawerHeader,
   DrawerCloseButton,
   IconButton,
-  Icon
+  Icon,
 } from '@chakra-ui/react';
 import { useRef } from 'react';
 import { MdMenu } from 'react-icons/md';
@@ -26,8 +26,8 @@ export const MainDrawer = () => {
         color="#fff"
         bgColor="#fff"
         onClick={onOpen}
-        icon={<Icon  w={6} h={6} as={MdMenu} color="#4FD1C5" />}
-      / >
+        icon={<Icon w={6} h={6} as={MdMenu} color="#4FD1C5" />}
+      />
       <Drawer
         isOpen={isOpen}
         placement="left"
