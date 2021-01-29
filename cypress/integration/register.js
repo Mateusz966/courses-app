@@ -9,7 +9,6 @@ describe('Register tests', () => {
       cy.get('input[name=password]').type('123123');;
   
       cy.get('.chakra-form__error-message ').should('exist');
-  
       cy.get('button').first().should('be.disabled');
   
       cy.get('input[name=email]').clear();
@@ -28,7 +27,6 @@ describe('Register tests', () => {
       cy.get('input[name=lastName]').type(lastName);
   
       cy.get('button').first().click();
-  
       cy.url().should('include', '/sign-in');
   
       cy.get('input[name=email]').clear();
@@ -51,7 +49,6 @@ describe('Register tests', () => {
       cy.get('input[name=lastName]').type(lastName);
   
       cy.get('button').first().click();
-  
       cy.get('.chakra-form__error-message ').should('exist')
   
       cy.get('input[name=email]').clear();
