@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-/* eslint-disable no-undef */
 import { FC, ReactNode } from 'react';
 import { useFormContext } from 'react-hook-form';
 import {

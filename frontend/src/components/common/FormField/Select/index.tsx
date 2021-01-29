@@ -44,7 +44,7 @@ export const FormSelect: FC<Props> = ({
           isDisabled={isDisabled}
           onChange={(e: any) => {
             onChange(e);
-            handleChange && handleChange(e);
+            handleChange?.(e);
           }}
           name={name}
           placeholder="Wybierz"
