@@ -1,3 +1,4 @@
+
 // Internal type
 export interface UserDefault {
   email: string;
@@ -7,12 +8,14 @@ export interface UserDefault {
 }
 
 export interface UserCategoriesReq {
-  userCategories?: { id: string }[];
+  userCategories?: { id: string }[]
 }
-export interface UserReq extends UserDefault, UserCategoriesReq {}
+export interface UserReq extends UserDefault, UserCategoriesReq {
+  
+}
 
 export interface UserRes {
-  id: string;
+  id: string
   email: string;
   firstName: string;
   lastName: string;
