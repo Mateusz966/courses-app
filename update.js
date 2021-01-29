@@ -1,9 +1,8 @@
 const fs = require("fs")
-const srcDir =  __dirname + "\\app-types\\";
-const destPaths = [
-__dirname + "\\backend\\app-types\\",
-__dirname + "\\frontend\\src\\app-types\\"
-]
+const srcDir =  `${__dirname}\\app-types\\`;
+const fePath = `${__dirname}\\backend\\app-types\\`;
+const bePath = `${__dirname}\\backend\\app-types\\`;
+const destPaths = [fePath, bePath];
                               
 // To copy a files
 fs.readdir(srcDir, 'utf8', function(err, data){
