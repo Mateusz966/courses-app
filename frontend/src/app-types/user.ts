@@ -8,7 +8,7 @@ export interface UserDefault {
 }
 
 export interface UserCategoriesReq {
-  userCategories?: { id: string }
+  userCategories?: { id: string }[]
 }
 export interface UserReq extends UserDefault, UserCategoriesReq {
   
