@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { User } from 'src/user/entity/user.entity';
-import { Course } from './course.entity';
+import { User } from '../user/entity/user.entity';
+import { Course } from './entities/course.entity';
 
 @Injectable()
 export class CourseService {
