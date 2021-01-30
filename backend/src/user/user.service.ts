@@ -41,13 +41,14 @@ export class UserService {
 
       const savedUser = await User.save(user);
 
-      const userCategories: UserCategories[] = [];
+      const userCategories: UserCategories[] = []
       const categoriesToSave: UserCategories[] = [];
 
       if (newUser?.userCategories) {
         newUser.userCategories.forEach((category, index) => {
           userCategories[index] = new UserCategories();
           userCategories[index].user = savedUser;
+          //@ts-ignore
           userCategories[index].category = category;
           categoriesToSave.push(userCategories[index]);
         });

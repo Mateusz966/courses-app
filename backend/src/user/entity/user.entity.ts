@@ -1,3 +1,4 @@
+import { Course } from "src/course/course.entity";
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany } from "typeorm";
 import { UserEntity } from "../../../app-types/user";
 import { UserCategories } from "./user-categories.entity";
@@ -24,5 +25,8 @@ export class User extends BaseEntity implements UserEntity {
     email: string;
 
     @OneToMany(() => UserCategories, userCategories => userCategories.user)
-    userCategories: UserCategories[];
+    userCategories: UserCategories;
+
+    @OneToMany(() => Course, course => course.user)
+    course: Course;
 }

@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { CategoryModule } from './category/category.module';
 import * as Joi from '@hapi/joi';
 import { AuthModule } from './auth/auth.module';
+import { CourseModule } from './course/course.module';
   
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { AuthModule } from './auth/auth.module';
   AuthModule,
   UserModule,
   CategoryModule,
+  CourseModule,
 ],
   controllers: [AppController],
   providers: [AppService],

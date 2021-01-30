@@ -1,5 +1,5 @@
 import { IsEmail, IsString, IsArray, IsOptional } from "class-validator";
-import { UserReq } from '../../../app-types/user';
+import { UserReq, UserCategoriesReq } from '../../../app-types/user';
 
 export class UserDto implements UserReq {
     @IsEmail()
@@ -16,5 +16,5 @@ export class UserDto implements UserReq {
   
     @IsArray()
     @IsOptional()
-    userCategories?: any[];
+    userCategories?: { id: string }[]
   }

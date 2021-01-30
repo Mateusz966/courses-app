@@ -13,7 +13,7 @@ export class Category extends BaseEntity implements CategoryDto {
     name: string;;
     
     @OneToMany(() => UserCategories, userCategories => userCategories.category)
-    userCategories: UserCategories[];
+    userCategories: UserCategories;
 
     @ManyToOne(() => Topic, topic => topic.category)
     topic: Topic; 
