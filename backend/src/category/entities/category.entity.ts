@@ -29,6 +29,6 @@ export class Category extends BaseEntity implements CategoryDto {
   @ManyToOne(() => Topic, (topic) => topic.category)
   topic: Topic;
 
-  @ManyToOne(() => Subcategory, (subcategory) => subcategory.category)
+  @OneToMany(() => Subcategory, (subcategory) => subcategory.category)
   subcategory: Subcategory;
 }
