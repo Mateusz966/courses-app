@@ -19,7 +19,7 @@ const App = () => {
           <Header />
           <Switch>
             <Suspense fallback={<Spinner size="xl" />}>
-              <Route exact path="/" component={Dashboard} />
+              <Route path="/" component={Dashboard} />
               <Route exact path="/sign-up" component={Register} />
               <Route exact path="/sign-in" component={Login} />
             </Suspense>
