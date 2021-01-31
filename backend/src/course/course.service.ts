@@ -16,7 +16,10 @@ export class CourseService {
     try {
       const course = new Course();
       course.user = user;
-      return await course.save();
+      course.title = 'No title';
+      course.description = '';
+      const addedCourse =  await course.save();
+      return addedCourse.id;
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -24,8 +27,9 @@ export class CourseService {
 
   async update(newCourse: any, courseId: string) {
     const course = await Course.findOne({ where: { id: courseId } });
-    course.description = newCourse?.description;
-    return await course.save();
+    course.description = newCourse.description;
+    course.title = newCourse.title;
+    course.category = newCourse.category;
   }
 
   async publish(courseId: string) {
