@@ -27,7 +27,6 @@ const post = <T, K = void>(
   ).pipe(
     map((result) => result.data),
     catchError((err) => {
-      console.log('dd');
       setInProgress(false);
       handlingError(err.response, setError);
       return EMPTY;
