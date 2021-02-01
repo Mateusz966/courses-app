@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
   BaseEntity,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 import { CourseTopics } from './course-topics.entity';
 import { Subcategory } from 'src/category/entities/subcategory.entity';
@@ -15,13 +16,13 @@ export class Course extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({type: 'text', default: 'No title'})
+  @Column({type: 'varchar', default: ''})
   title: string;
 
-  @Column({ type: 'text', default: '', nullable: true })
+  @Column({ type: 'varchar', default: ''})
   description: string;
 
-  @Column({ default: true, nullable: true })
+  @Column({ default: true }) 
   isDraft: boolean;
 
   @ManyToOne(() => User, (user) => user.course)
@@ -33,6 +34,6 @@ export class Course extends BaseEntity {
   @ManyToOne(() => Subcategory, (subcategory) => subcategory.course, { nullable: true })
   subcategory: Category;
 
-  @ManyToOne(() => CourseTopics, (courseTopic) => courseTopic.course, { nullable: true })
+  @OneToMany(() => CourseTopics, (courseTopic) => courseTopic.course, { nullable: true })
   courseTopics: CourseTopics[];
 }

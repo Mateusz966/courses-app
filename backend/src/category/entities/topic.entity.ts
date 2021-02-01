@@ -19,6 +19,6 @@ export class Topic {
   @OneToMany(() => Category, (category) => category.topic)
   category: Category;
 
-  @ManyToOne(() => CourseTopics, (courseTopic) => courseTopic.topic)
+  @OneToMany(() => CourseTopics, (courseTopic) => courseTopic.topic)
   courseTopics: CourseTopics[];
 }
