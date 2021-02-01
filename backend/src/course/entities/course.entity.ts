@@ -22,6 +22,9 @@ export class Course extends BaseEntity {
   @Column({ type: 'varchar', default: ''})
   description: string;
 
+  @Column({type: 'text', default: ''})
+  content: string;
+
   @Column({ default: true }) 
   isDraft: boolean;
 
