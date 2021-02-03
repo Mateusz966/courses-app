@@ -4,7 +4,7 @@ import useHeader from '../../../hooks/useHeader';
 import { Editor } from '@tinymce/tinymce-react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-const AddCourse: FC = () => {
+const EditCourse: FC = () => {
   useHeader('', undefined, '', undefined, undefined, true);
   const [content, setContent] = useState();
   const methods = useForm({
@@ -44,4 +44,4 @@ const AddCourse: FC = () => {
   );
 };
 
-export default AddCourse;
+export default EditCourse;
