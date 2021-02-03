@@ -49,7 +49,6 @@ export const MainDrawer = () => {
                 <NavUserActions justifyContentType={'flex-start'} />
               </DrawerHeader>
               <DrawerBody>           
-                {/* <Input placeholder="Type here..." /> */}
                 <UnorderedList listStyleType="none" ml="0">
                   <ListItem>Sample category</ListItem>
                   <ListItem>Sample category</ListItem>
