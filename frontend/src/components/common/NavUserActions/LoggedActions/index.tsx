@@ -9,15 +9,24 @@ import {
   Icon,
 } from '@chakra-ui/react';
 import React from 'react';
+import { FC } from 'react';
 import { MdKeyboardArrowDown, MdShoppingCart } from 'react-icons/md';
 
-export const LoggedActions = () => {
+interface Props {
+  justifyContentType?: string;
+}
+
+export const LoggedActions: FC<Props> = ({
+  justifyContentType
+}) => {
   return (
-    <HStack>
+    <HStack justifyContent={justifyContentType}>
       <IconButton
         bgColor="#fff"
+        color="#4A5568"
         aria-label="Shopping Cart"
         icon={<Icon w="6" h="6" as={MdShoppingCart} />}
+        display={{ md: 'block', base: 'none' }}
       />
       <Menu>
         <MenuButton
@@ -26,10 +35,11 @@ export const LoggedActions = () => {
           as={Button}
           rightIcon={<MdKeyboardArrowDown />}
         >
-          Moje konto
+          Moje konto 
         </MenuButton>
-        <MenuList>
+        <MenuList  fontSize="16px">
           <MenuItem>Moje kursy</MenuItem>
+          <MenuItem>Ustawienia</MenuItem>
         </MenuList>
       </Menu>
     </HStack>
