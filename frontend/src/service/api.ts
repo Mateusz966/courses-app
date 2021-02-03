@@ -15,24 +15,22 @@ const get = <T>(url: string, queryParams?: object): Observable<T> => {
   );
 };
 
-const post = <T, K = void>(
+const post = <T, K>(
   url: string,
-  body: T,
-  setInProgress: React.Dispatch<React.SetStateAction<boolean>>,
-  queryParams?: object,
-  setError?: any
-): Observable<K | void> => {
-  return defer(() =>
-    axiosInstance.post<K>(url, body, { params: queryParams })
-  ).pipe(
-    map((result) => result.data),
-    catchError((err) => {
-      console.log('dd');
-      setInProgress(false);
-      handlingError(err.response, setError);
-      return EMPTY;
+  body: K,
+  setError?: any,
+  setInProgress?: React.Dispatch<React.SetStateAction<boolean>>,
+  queryParams?: any,
+) => {
+  return axiosInstance
+    .post<T>(url, body, { params: queryParams })
+    .then((res) => res.data)
+    .catch((err) => {
+      handlingError(err.response, setError)
     })
-  );
+    .finally(() => {
+      setInProgress?.(false)
+    })
 };
 
 const put = <T>(

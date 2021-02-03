@@ -1,6 +1,4 @@
-import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { setHeader } from '../slices/header';
+
 
 const useHeader = (
   title: string,
@@ -10,9 +8,6 @@ const useHeader = (
   hideOnMobile?: boolean,
   hide?: boolean
 ) => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(setHeader({ title, subtitle, back, noLeft, hideOnMobile, hide }));
-  }, [title, subtitle, back, noLeft, hideOnMobile, hide]);
+  return null;
 };
 export default useHeader;

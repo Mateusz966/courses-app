@@ -1,38 +1,36 @@
-import { apiUrl } from '../config/apiUrl';
 import api from '../service/api';
-import { history } from '../config/history';
-import { useDispatch } from 'react-redux';
-import { setUser } from '../slices/user';
 import { UserLogin, UserReq } from '../app-types/user';
 import { useState } from 'react';
+import { history } from '../config/history';
+import { UserStore } from '../stores/user';
+import { observer } from 'mobx-react-lite';
 
 interface UseLogin {
-  submit: (payload: UserLogin) => void;
+  submit: (payload: UserLogin, setError: any) => void;
   inProgress: boolean;
 }
 
-export const useLogin = (): UseLogin => {
-  const dispatch = useDispatch();
-  const [inProgress, setInProgress] = useState(false);
+export const useLogin = observer(
+  (): UseLogin => {
+    const [inProgress, setInProgress] = useState(false);
+    const [userStore] = useState(() => new UserStore());
 
-  const submit = (payload: UserLogin) => {
-    api
-      .post<UserLogin, UserReq>(
-        `${apiUrl}/auth/sign-in`,
+    const submit = async (payload: UserLogin, setError: any) => {
+      const user = await api.post<UserReq, UserLogin>(
+        `/auth/sign-in`,
         payload,
+        setError,
         setInProgress
-      )
-      .subscribe((res) => {
-        setInProgress(false);
-        if (res) {
-          dispatch(setUser(res));
-          history.push('/');
-        }
-      });
-  };
+      );
+      if (user) {
+        userStore.setUser(user);
+        history.push('/');
+      }
+    };
 
-  return {
-    submit,
-    inProgress,
-  };
-};
+    return {
+      submit,
+      inProgress,
+    };
+  }
+);
