@@ -15,7 +15,7 @@ import {
   Image
 } from '@chakra-ui/react';
 import { useRef } from 'react';
-import { MdMenu, MdShoppingCart } from 'react-icons/md';
+import { MdMenu } from 'react-icons/md';
 import { NavUserActions } from '../NavUserActions';
 import BrandLogo from '../../../assets/brand-logo.png';
 

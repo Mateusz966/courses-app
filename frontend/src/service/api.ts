@@ -1,7 +1,5 @@
-import { defer, Observable, EMPTY } from 'rxjs';
 import initializeAxios from '../config/axiosSetup';
 import { axiosRequestConfiguration } from '../config/axios';
-import { catchError, map } from 'rxjs/operators';
 import { handlingError } from '../helpers/handleErrors';
 
 const axiosInstance = initializeAxios(axiosRequestConfiguration);

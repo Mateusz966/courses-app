@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import { Button as ChakraButton } from '@chakra-ui/react';
-import { history } from '../../../config/history';
 
 interface Props {
   primary?: boolean;
