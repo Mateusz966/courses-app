@@ -1,13 +1,16 @@
-
+import { useEffect } from 'react';
+import { useRootStore } from '../stores/storeContext';
 
 const useHeader = (
   title: string,
   subtitle?: string,
-  back?: string,
   noLeft?: boolean,
-  hideOnMobile?: boolean,
   hide?: boolean
 ) => {
-  return null;
+  const { headerStore } = useRootStore();
+
+  useEffect(() => {
+    headerStore.setHeader({ title, subtitle, noLeft, hide });
+  }, []);
 };
 export default useHeader;

@@ -21,7 +21,6 @@ export class UserStore {
   }
 
   setUser(user: UserDefault) {
-    console.log(user);
     this.user.details = user;
   }
 
