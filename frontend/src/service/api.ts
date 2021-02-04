@@ -20,43 +20,57 @@ const post = <T, K>(
   body: K,
   setError?: any,
   setInProgress?: React.Dispatch<React.SetStateAction<boolean>>,
-  queryParams?: any,
+  queryParams?: any
 ) => {
   return axiosInstance
     .post<T>(url, body, { params: queryParams })
     .then((res) => res.data)
     .catch((err) => {
-      handlingError(err.response, setError)
+      handlingError(err.response, setError);
     })
     .finally(() => {
-      setInProgress?.(false)
+      setInProgress?.(false);
+    });
+};
+
+const put = <T, K>(
+  url: string,
+  body: K,
+  setError?: any,
+  setInProgress?: React.Dispatch<React.SetStateAction<boolean>>,
+  queryParams?: any
+) => {
+  return axiosInstance
+    .put<T>(url, body, { params: queryParams })
+    .then((res) => res.data)
+    .catch((err) => {
+      handlingError(err.response, setError);
     })
+    .finally(() => {
+      setInProgress?.(false);
+    });
 };
 
-const put = <T>(
+const patch = <T, K>(
   url: string,
-  body: object,
-  queryParams?: object
-): Observable<T | void> => {
-  return defer(() =>
-    axiosInstance.put<T>(url, body, { params: queryParams })
-  ).pipe(map((result) => result.data));
+  body: K,
+  setError?: any,
+  setInProgress?: React.Dispatch<React.SetStateAction<boolean>>,
+  queryParams?: any
+) => {
+  return axiosInstance
+    .patch<T>(url, body, { params: queryParams })
+    .then((res) => res.data)
+    .catch((err) => {
+      handlingError(err.response, setError);
+    })
+    .finally(() => {
+      setInProgress?.(false);
+    });
 };
 
-const patch = <T>(
-  url: string,
-  body: object,
-  queryParams?: object
-): Observable<T | void> => {
-  return defer(() =>
-    axiosInstance.patch<T>(url, body, { params: queryParams })
-  ).pipe(map((result) => result.data));
-};
-
-const deleteR = <T>(url: string, id: number): Observable<T | void> => {
-  return defer(() => axiosInstance.delete(`${url}/${id}`)).pipe(
-    map((result) => result.data)
-  );
+const deleteR = (url: string, id: number) => {
+  return axiosInstance.delete(`${url}/${id}`);
 };
 
 export default { get, post, put, patch, delete: deleteR };
