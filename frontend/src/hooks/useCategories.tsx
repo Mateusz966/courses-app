@@ -10,25 +10,17 @@ interface UseCategories {
 }
 
 export const useCategories = (): UseCategories => {
-  const [categories, setCategories] = useState<BaseSelectOption[]>();
+  const [categories, setCategories] = useState<BaseSelectOption[] | null>(null);
 
-  const getCategories = () => {
-    api
-      .get<CategoryDto[]>(`${apiUrl}/category/all`)
-      .pipe(
-        map((category) => {
-          return category.map<any>(
-            (cat) =>
-              ({
-                value: cat.id,
-                label: cat.name,
-              } as BaseSelectOption)
-          );
-        })
-      )
-      .subscribe((res: BaseSelectOption[]) => {
-        setCategories(res);
-      });
+  const getCategories = async () => {
+    const categories = await api.get<CategoryDto[]>(`${apiUrl}/category/all`);
+
+    setCategories(
+      categories.map((cat: any) => ({
+        value: cat.id,
+        label: cat.name,
+      }))
+    );
   };
 
   useEffect(() => {

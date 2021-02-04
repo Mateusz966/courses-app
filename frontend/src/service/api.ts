@@ -4,13 +4,21 @@ import { handlingError } from '../helpers/handleErrors';
 
 const axiosInstance = initializeAxios(axiosRequestConfiguration);
 
-const get = <T>(url: string, queryParams?: object): Observable<T> => {
-  return defer(() => axiosInstance.get<T>(url, { params: queryParams })).pipe(
-    map((result) => result.data),
-    catchError((err) => {
-      return EMPTY;
+const get = <T>(
+  url: string,
+  queryParams?: object,
+  setError?: any,
+  setInProgress?: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+  return axiosInstance
+    .get<T>(url, { params: queryParams })
+    .then((res) => res.data)
+    .catch((err) => {
+      handlingError(err.response, setError);
     })
-  );
+    .finally(() => {
+      setInProgress?.(false);
+    });
 };
 
 const post = <T, K>(
