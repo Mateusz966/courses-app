@@ -4,15 +4,15 @@ import { FC } from 'react';
 import { LoggedActions } from './LoggedActions';
 import { NotLoggedActions } from './NotLoggedActions';
 import { MdShoppingCart } from 'react-icons/md';
+import { useRootStore } from '../../../stores/storeContext';
+import { observer } from 'mobx-react-lite';
 
 interface Props {
   justifyContentType?: string;
 }
 
-export const NavUserActions: FC<Props> = ({
-  justifyContentType
-}) => {
-  //TODO SETUP MOBX
+export const NavUserActions: FC<Props> = observer(({ justifyContentType }) => {
+  const { userStore } = useRootStore();
 
   return (
     <Box>
@@ -24,8 +24,12 @@ export const NavUserActions: FC<Props> = ({
           icon={<Icon w="6" h="6" as={MdShoppingCart} />}
           display={{ md: 'block', base: 'none' }}
         />
-        {true ? <LoggedActions justifyContentType={justifyContentType} /> : <NotLoggedActions justifyContentType={justifyContentType} />}
+        {userStore.user?.details ? (
+          <LoggedActions justifyContentType={justifyContentType} />
+        ) : (
+          <NotLoggedActions justifyContentType={justifyContentType} />
+        )}
       </HStack>
     </Box>
   );
-};
+});

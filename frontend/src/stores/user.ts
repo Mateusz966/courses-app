@@ -1,5 +1,5 @@
 import { action, makeObservable, observable } from 'mobx';
-import { UserRes } from '../../../app-types/user';
+import { RootStore } from '.';
 import { UserDefault, UserEntity } from '../app-types/user';
 
 interface User {
@@ -7,11 +7,13 @@ interface User {
 }
 
 export class UserStore {
+  root: RootStore;
   user: User = {
     details: null,
   };
 
-  constructor() {
+  constructor(root: RootStore) {
+    this.root = root;
     makeObservable(this, {
       user: observable,
       setUser: action,
@@ -19,6 +21,9 @@ export class UserStore {
   }
 
   setUser(user: UserDefault) {
+    console.log(user);
     this.user.details = user;
   }
+
+  getUserDetails() {}
 }
