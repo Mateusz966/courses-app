@@ -1,10 +1,15 @@
-import { FC } from 'react';
-import { TopNavBar } from '../../components/common/TopNavbar';
-import useHeader from '../../hooks/useHeader';
+import { Box, SimpleGrid } from "@chakra-ui/react";
+import { FC } from "react";
+
 
 const Dashboard: FC = () => {
-  useHeader('', undefined, undefined, undefined);
-  return <TopNavBar />;
-};
+  return (
+    <SimpleGrid columns={2} gap={1}>
+      <Box>
+        Witamy na dashboard po zalogowaniu
+      </Box>
+    </SimpleGrid>
+  )
+}
 
 export default Dashboard;

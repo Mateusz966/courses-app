@@ -6,10 +6,10 @@ export class Topic {
 
     @PrimaryGeneratedColumn("uuid")
     id: string;
- 
+
     @Column()
     name: string;
 
-    @OneToMany(() => Category, category => category.topic)
-    category: Category;
+    @OneToMany(() => Category, category => category)
+    category: Category
 }

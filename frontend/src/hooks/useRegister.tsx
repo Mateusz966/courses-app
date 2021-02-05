@@ -1,44 +1,28 @@
-import { useState } from 'react';
-import { UserReq } from '../app-types/user';
-import { successNotification } from '../components/common/Toast';
-import { apiUrl } from '../config/apiUrl';
-import { history } from '../config/history';
-import { SignUpUserPayload } from '../interal-types/user';
-import api from '../service/api';
+import { useCallback } from "react"
+import { UserReq } from "../../../types/user";
+import { apiUrl } from "../config/apiUrl";
+import api from "../service/api";
 
 interface UseRegister {
-  submit: (payload: SignUpUserPayload, setError: any) => void;
-  inProgress: boolean;
+  submit: (data: UserReq) => void
 }
 
 export const useRegister = (): UseRegister => {
-  const [inProgress, setInProgress] = useState(false);
 
-  const submit = async (payload: SignUpUserPayload, setError?: any) => {
-    setInProgress(true);
+  const submit = useCallback((data: UserReq) => {
 
-    const data: UserReq = {
-      ...payload,
-      userCategories: payload?.userCategories?.map((category) => ({
-        id: category.value,
-      })),
-    };
+    //Mapped react-select to backend req.
+    data.userCategories = data.userCategories.map((category: any) => ( {id: category.value} ));
 
-    const res = await api.post<UserReq, UserReq>(
-      `${apiUrl}/auth/sign-up`,
-      data,
-      setError,
-      setInProgress
-    );
+      api
+        .post<UserReq>(`${apiUrl}/auth/sign-up`, data)
+        .subscribe((res) => {
+          console.log(res);
+        });
+  }, [])
 
-    if (res) {
-      successNotification('Correctly registered');
-      history.push('/sign-in');
-    }
-  };
 
   return {
-    submit,
-    inProgress,
+    submit
   };
-};
+}
