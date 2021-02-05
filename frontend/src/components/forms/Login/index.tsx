@@ -25,7 +25,9 @@ export const LoginForm: FC = () => {
         maxW="425px"
         margin="auto"
         as="form"
-        onSubmit={methods.handleSubmit((payload: UserLogin) => submit(payload, methods.setError))}
+        onSubmit={methods.handleSubmit((payload: UserLogin) =>
+          submit(payload, methods.setError)
+        )}
       >
         <FormField labelText="Email" inputName="email">
           <Input type="email" placeholder="example@example.com" />

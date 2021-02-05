@@ -22,7 +22,7 @@ export const Button: FC<Props> = ({
   inProgress,
   type,
   mt0,
-  onClick
+  onClick,
 }) => {
   return (
     <ChakraButton

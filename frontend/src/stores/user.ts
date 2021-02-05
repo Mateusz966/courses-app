@@ -1,6 +1,6 @@
 import { action, makeObservable, observable } from 'mobx';
 import { RootStore } from '.';
-import { UserDefault, UserEntity } from '../app-types/user';
+import { UserDefault } from '../app-types/user';
 
 interface User {
   details: UserDefault | null;

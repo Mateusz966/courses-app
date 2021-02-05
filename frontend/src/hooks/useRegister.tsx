@@ -24,15 +24,17 @@ export const useRegister = (): UseRegister => {
       })),
     };
 
-    await api.post<UserReq, UserReq>(
+    const res = await api.post<UserReq, UserReq>(
       `${apiUrl}/auth/sign-up`,
       data,
       setError,
       setInProgress
     );
 
-    successNotification('Correctly registered');
-    history.push('/sign-in');
+    if (res) {
+      successNotification('Correctly registered');
+      history.push('/sign-in');
+    }
   };
 
   return {

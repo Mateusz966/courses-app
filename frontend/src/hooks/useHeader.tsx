@@ -11,6 +11,6 @@ const useHeader = (
 
   useEffect(() => {
     headerStore.setHeader({ title, subtitle, noLeft, hide });
-  }, []);
+  }, [title, subtitle, noLeft, hide]);
 };
 export default useHeader;

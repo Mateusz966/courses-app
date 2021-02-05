@@ -2,7 +2,6 @@ import { AxiosRequestConfig } from 'axios';
 import { apiUrl } from './apiUrl';
 import axios from 'axios';
 
-
 const REQ_TIMEOUT = 10000;
 
 export const axiosRequestConfiguration: AxiosRequestConfig = {
@@ -10,12 +9,14 @@ export const axiosRequestConfiguration: AxiosRequestConfig = {
   timeout: REQ_TIMEOUT,
 };
 
-
-axios.interceptors.request.use((config) => {
-  return config;
-}, (error) => {
-  return Promise.reject(error);
-})
+axios.interceptors.request.use(
+  (config) => {
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 axios.interceptors.response.use(
   (res) => {

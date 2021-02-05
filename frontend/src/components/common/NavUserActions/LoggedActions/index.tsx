@@ -16,9 +16,7 @@ interface Props {
   justifyContentType?: string;
 }
 
-export const LoggedActions: FC<Props> = ({
-  justifyContentType
-}) => {
+export const LoggedActions: FC<Props> = ({ justifyContentType }) => {
   return (
     <HStack justifyContent={justifyContentType}>
       <IconButton
@@ -35,9 +33,9 @@ export const LoggedActions: FC<Props> = ({
           as={Button}
           rightIcon={<MdKeyboardArrowDown />}
         >
-          Moje konto 
+          Moje konto
         </MenuButton>
-        <MenuList  fontSize="16px">
+        <MenuList fontSize="16px">
           <MenuItem>Moje kursy</MenuItem>
           <MenuItem>Ustawienia</MenuItem>
         </MenuList>

@@ -36,7 +36,7 @@ export class AuthController {
       const userToSave = { ...user, password: hashedPassword };
       const registeredUser = await this.userService.getByEmail(user.email);
       if (!registeredUser) {
-        await this.userService.saveUser(userToSave);
+        return await this.userService.saveUser(userToSave);
       } else {
         throw new HttpException({
           errorCode: ApiErrorCode.EmailIsTaken,

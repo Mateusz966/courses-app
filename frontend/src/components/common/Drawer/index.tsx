@@ -12,7 +12,7 @@ import {
   UnorderedList,
   ListItem,
   Box,
-  Image
+  Image,
 } from '@chakra-ui/react';
 import { useRef } from 'react';
 import { MdMenu } from 'react-icons/md';
@@ -35,7 +35,7 @@ export const MainDrawer = () => {
           icon={<Icon w={6} h={6} as={MdMenu} color="#4FD1C5" />}
           display={{ md: 'none', base: 'block' }}
         />
-        
+
         <Drawer
           isOpen={isOpen}
           placement="left"
@@ -45,10 +45,13 @@ export const MainDrawer = () => {
           <DrawerOverlay>
             <DrawerContent>
               <DrawerCloseButton />
-              <DrawerHeader justifyContent="start" borderBottom="1px solid #eee">
+              <DrawerHeader
+                justifyContent="start"
+                borderBottom="1px solid #eee"
+              >
                 <NavUserActions justifyContentType={'flex-start'} />
               </DrawerHeader>
-              <DrawerBody>           
+              <DrawerBody>
                 <UnorderedList listStyleType="none" ml="0">
                   <ListItem>Sample category</ListItem>
                   <ListItem>Sample category</ListItem>
@@ -62,7 +65,7 @@ export const MainDrawer = () => {
         <Box mr="3">
           <Image src={BrandLogo} margin="auto" objectFit="cover" />
         </Box>
-      </HStack>    
+      </HStack>
     </>
   );
 };
