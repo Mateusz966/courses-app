@@ -1,8 +1,7 @@
-import  { FC } from 'react';
-import { useSelector } from 'react-redux';
+import { observer } from 'mobx-react-lite';
+import { FC } from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { RootState } from '../../config/store';
-
+import { useRootStore } from '../../stores/storeContext';
 
 interface Props {
   component?: any;
@@ -11,14 +10,21 @@ interface Props {
   render?: () => JSX.Element;
 }
 
-export const RouteAuthorized: FC<Props> = ({ exact, path, component, render }) => {
-  const user = useSelector((state: RootState) => state.user.details);
+export const RouteAuthorized: FC<Props> = observer(
+  ({ exact, path, component, render }) => {
+    const { userStore } = useRootStore();
 
-
-  if (user) {
-    return <Route exact={exact} path={path} component={component} render={render} />;
-  } else {
-    return <Route render={() => <Redirect to="/" />} />;
+    if (userStore?.user?.details) {
+      return (
+        <Route
+          exact={exact}
+          path={path}
+          component={component}
+          render={render}
+        />
+      );
+    } else {
+      return <Route render={() => <Redirect to="/" />} />;
+    }
   }
-};
- 
+);

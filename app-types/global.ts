@@ -3,8 +3,9 @@ export type BaseSelectOption = {
     label: string;
 }
 
-
 export enum ApiErrorCode {
     ErrorDuringLogin,
     OtherError,
+    InvalidCredentials,
+    EmailIsTaken,
 }

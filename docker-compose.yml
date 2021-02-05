@@ -1,4 +1,4 @@
-version: "3"
+version: "3.9"
 services:
   postgres:
     container_name: postgres
@@ -31,6 +31,12 @@ services:
     build:
       context: .
       dockerfile: ./frontend/Dockerfile
+    environment:
+    - CHOKIDAR_USEPOLLING=true
+    volumes: 
+    - ./frontend/src:/app/frontend/src
+    - ./frontend/public:/app/frontend/public
+    - ./app-types:/app/app-types
     ports: 
     - "3000:3000"
     networks:
@@ -43,8 +49,11 @@ services:
     depends_on: 
     - postgres
     build:
-      context: ./
+      context: .
       dockerfile: ./backend/Dockerfile
+    volumes: 
+     - ./backend:/app/backend
+     - ./app-types:/app/app-types
     ports: 
     - "3001:3001"
     networks:

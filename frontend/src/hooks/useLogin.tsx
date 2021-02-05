@@ -1,32 +1,32 @@
-import { useCallback } from "react"
-import { apiUrl } from "../config/apiUrl";
-import api from "../service/api";
-import { UserLogin, UserReq } from '../../../types/user'
-import { history } from "../config/history";
-import { useDispatch } from "react-redux";
-import { setUser } from "../slices/user";
-
+import api from '../service/api';
+import { UserLogin, UserReq } from '../app-types/user';
+import { useState } from 'react';
+import { history } from '../config/history';
+import { useRootStore } from '../stores/storeContext';
 interface UseLogin {
-  submit: (data: UserLogin) => void
+  submit: (payload: UserLogin, setError: any) => void;
+  inProgress: boolean;
 }
 
 export const useLogin = (): UseLogin => {
+  const [inProgress, setInProgress] = useState(false);
+  const { userStore } = useRootStore();
 
-  const dispatch = useDispatch();
-
-  const submit = useCallback((data: UserLogin) => {
-      api
-        .post<UserLogin, UserReq>(`${apiUrl}/auth/sign-in`, data)
-        .subscribe((res) => {
-          if (res) {
-            dispatch(setUser(res))
-            history.push('/dashboard')
-          }
-        });
-  }, [])
-
+  const submit = async (payload: UserLogin, setError: any) => {
+    const user = await api.post<UserReq, UserLogin>(
+      `/auth/sign-in`,
+      payload,
+      setError,
+      setInProgress
+    );
+    if (user) {
+      userStore.setUser(user);
+      history.push('/');
+    }
+  };
 
   return {
-    submit
+    submit,
+    inProgress,
   };
-}
+};
