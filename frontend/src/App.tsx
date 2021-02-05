@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 import { history } from './config/history';
 import { store } from './config/store';
 import { Header } from './components/common/Header';
-import Profile from './views/Profile';
 
 const Register = lazy(() => import('./views/Register'));
 const Login = lazy(() => import('./views/Login'));

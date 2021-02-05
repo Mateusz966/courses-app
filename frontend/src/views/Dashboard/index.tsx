@@ -1,9 +1,7 @@
-import { Spinner, Switch } from '@chakra-ui/react';
-import { FC, Suspense } from 'react';
+import { FC } from 'react';
 import { Route } from 'react-router-dom';
 import { TopNavBar } from '../../components/common/TopNavbar';
 import useHeader from '../../hooks/useHeader';
-import Login from '../Login';
 import Profile from '../Profile';
 
 const Dashboard: FC = () => {
