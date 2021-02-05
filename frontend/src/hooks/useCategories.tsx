@@ -15,12 +15,14 @@ export const useCategories = (): UseCategories => {
   const getCategories = async () => {
     const categories = await api.get<CategoryDto[]>(`${apiUrl}/category/all`);
 
-    setCategories(
-      categories.map((cat: any) => ({
-        value: cat.id,
-        label: cat.name,
-      }))
-    );
+    if (categories) {
+      setCategories(
+        categories.map((cat: any) => ({
+          value: cat.id,
+          label: cat.name,
+        }))
+      );
+    }
   };
 
   useEffect(() => {
