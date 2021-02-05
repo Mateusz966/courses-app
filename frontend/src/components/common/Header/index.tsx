@@ -1,29 +1,29 @@
 import { Box, Container, Flex, Icon, Text, Heading } from '@chakra-ui/react';
+import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../config/store';
 import { MdArrowBack } from 'react-icons/md';
+import { useRootStore } from '../../../stores/storeContext';
 
-export const Header: FC = () => {
-  const { title, noLeft, hide, subtitle } = useSelector(
-    (state: RootState) => state.header
-  );
-  if (hide) return null;
+export const Header: FC = observer(() => {
+  const { headerStore } = useRootStore();
+  if (headerStore.header.hide) return null;
   return (
     <Container display={{ lg: 'none' }} mt={4} mb={10}>
       <Flex align="center">
-        {!noLeft && (
+        {!headerStore.header.noLeft && (
           <Box mr={4}>
             <Icon color="#4FD1C5" w="5" h="5" as={MdArrowBack} />
           </Box>
         )}
         <Box>
           <Heading color="#4FD1C5" size="lg" mb={1}>
-            {title}
+            {headerStore.header.title}
           </Heading>
-          {subtitle && <Text fontSize="xs">{subtitle}</Text>}
+          {headerStore.header.subtitle && (
+            <Text fontSize="xs">{headerStore.header.subtitle}</Text>
+          )}
         </Box>
       </Flex>
     </Container>
   );
-};
+});

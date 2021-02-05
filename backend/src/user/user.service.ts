@@ -54,7 +54,7 @@ export class UserService {
         });
       }
 
-      await UserCategories.insert(categoriesToSave);
+      return await UserCategories.insert(categoriesToSave);
     } catch (error) {
       console.error(error);
     }

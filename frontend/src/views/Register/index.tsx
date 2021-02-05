@@ -9,7 +9,7 @@ import LoginImg from '../../assets/login-enter.png';
 //TODO ADD BRAND IMAGE INSTEAD OF LOGIN DESKTOP
 
 const Register: FC = () => {
-  useHeader('Sign up', 'Create your account', undefined, true);
+  useHeader('Sign up', 'Create your account', true);
   return (
     <ContainerPhotoContent
       image={<Image boxSize="100%" src={LoginDesktop} objectFit="cover" />}

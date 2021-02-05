@@ -8,7 +8,7 @@ const Course = lazy(() => import('../Course'));
 const Start = lazy(() => import('../Start'));
 
 const Dashboard: FC = () => {
-  useHeader('', undefined, '', undefined, undefined, true);
+  useHeader('', undefined, undefined, undefined);
   return (
     <>
       <TopNavBar />

@@ -1,12 +1,22 @@
 import { AxiosRequestConfig } from 'axios';
 import { apiUrl } from './apiUrl';
 import axios from 'axios';
-import { store } from './store';
-import { clearUser, redirectToLogin } from '../slices/user';
+
+const REQ_TIMEOUT = 10000;
 
 export const axiosRequestConfiguration: AxiosRequestConfig = {
   baseURL: apiUrl,
+  timeout: REQ_TIMEOUT,
 };
+
+axios.interceptors.request.use(
+  (config) => {
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 axios.interceptors.response.use(
   (res) => {
@@ -14,8 +24,8 @@ axios.interceptors.response.use(
   },
   (error) => {
     if (error.response.status === 401) {
-      store.dispatch(clearUser());
-      redirectToLogin();
+      //TODO REDIRECT TO LOGIN
     }
+    return error;
   }
 );

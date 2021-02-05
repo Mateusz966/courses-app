@@ -8,6 +8,7 @@ import { FormField } from '../../common/FormField';
 import { Input } from '../../common/FormField/Input';
 import { FormBottomText } from '../../common/FormBottomText';
 import { Button } from '../../common/Button';
+import { UserLogin } from '../../../app-types/user';
 
 export const LoginForm: FC = () => {
   const methods = useForm({
@@ -24,7 +25,9 @@ export const LoginForm: FC = () => {
         maxW="425px"
         margin="auto"
         as="form"
-        onSubmit={methods.handleSubmit(submit)}
+        onSubmit={methods.handleSubmit((payload: UserLogin) =>
+          submit(payload, methods.setError)
+        )}
       >
         <FormField labelText="Email" inputName="email">
           <Input type="email" placeholder="example@example.com" />

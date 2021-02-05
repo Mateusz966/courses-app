@@ -14,7 +14,7 @@ interface UseRegister {
 export const useRegister = (): UseRegister => {
   const [inProgress, setInProgress] = useState(false);
 
-  const submit = (payload: SignUpUserPayload, setError?: any) => {
+  const submit = async (payload: SignUpUserPayload, setError?: any) => {
     setInProgress(true);
 
     const data: UserReq = {
@@ -24,19 +24,17 @@ export const useRegister = (): UseRegister => {
       })),
     };
 
-    api
-      .post<UserReq>(
-        `${apiUrl}/auth/sign-up`,
-        data,
-        setInProgress,
-        undefined,
-        setError
-      )
-      .subscribe((res) => {
-        setInProgress(false);
-        successNotification('Correctly registered');
-        history.push('/sign-in');
-      });
+    const res = await api.post<UserReq, UserReq>(
+      `${apiUrl}/auth/sign-up`,
+      data,
+      setError,
+      setInProgress
+    );
+
+    if (res) {
+      successNotification('Correctly registered');
+      history.push('/sign-in');
+    }
   };
 
   return {
