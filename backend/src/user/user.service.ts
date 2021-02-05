@@ -37,23 +37,23 @@ export class UserService {
       user.email = newUser.email;
       user.lastName = newUser.lastName;
       user.firstName = newUser.firstName;
-      user.password = newUser.password;
-
+      user.password = newUser.password; 
+ 
       const savedUser = await User.save(user);
 
       const userCategories: UserCategories[] = [];
       const categoriesToSave: UserCategories[] = [];
+      
+      newUser.userCategories.forEach((category, index) => {
+        userCategories[index] = new UserCategories();
+        userCategories[index].user = savedUser;
+        userCategories[index].category = category;
+        categoriesToSave.push(userCategories[index]);
+      });
 
-      if (newUser?.userCategories) {
-        newUser.userCategories.forEach((category, index) => {
-          userCategories[index] = new UserCategories();
-          userCategories[index].user = savedUser;
-          userCategories[index].category = category;
-          categoriesToSave.push(userCategories[index]);
-        });
-      }
+      await UserCategories.insert(categoriesToSave);
 
-      return await UserCategories.insert(categoriesToSave);
+ 
     } catch (error) {
       console.error(error);
     }

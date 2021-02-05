@@ -1,7 +1,6 @@
-import { CategoryDto } from "../../../app-types/category";
-import { UserCategories } from "../../user/entity/user-categories.entity";
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany, ManyToOne } from "typeorm";
-import { Topic } from "./topic.entity";
+import { UserCategories } from "src/user/entity/user-categories.entity";
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany } from "typeorm";
+import {  CategoryDto } from '../../../../types/category'
 
 @Entity()
 export class Category extends BaseEntity implements CategoryDto {
@@ -14,7 +13,4 @@ export class Category extends BaseEntity implements CategoryDto {
     
     @OneToMany(() => UserCategories, userCategories => userCategories.category)
     userCategories: UserCategories[];
-
-    @ManyToOne(() => Topic, topic => topic.category)
-    topic: Topic; 
 }

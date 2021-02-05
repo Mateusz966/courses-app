@@ -1,66 +1,96 @@
-import { FC } from 'react';
-import { Box } from '@chakra-ui/react';
+import { Button } from "@chakra-ui/react";
+import React from "react";
+import { useForm, FormProvider } from "react-hook-form";
+import { useCategories } from "../../../hooks/useCategories";
+import { useRegister } from "../../../hooks/useRegister";
+import { FormField } from "../../common/FormField"
+import { Input } from "../../common/FormField/Input"
+import { FormSelect } from "../../common/FormField/Select";
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm, FormProvider } from 'react-hook-form';
-import { useCategories } from '../../../hooks/useCategories';
-import { useRegister } from '../../../hooks/useRegister';
-import { FormField } from '../../common/FormField';
-import { Input } from '../../common/FormField/Input';
-import { FormSelect } from '../../common/FormField/Select';
-import { registerSchema } from '../../../formSchemas/register';
-import { FormBottomText } from '../../common/FormBottomText';
-import { Button } from '../../common/Button';
-import { SignUpUserPayload } from '../../../interal-types/user';
+import { registerSchema } from "../../../formSchemas/register";
 
-export const RegisterForm: FC = () => {
+
+
+
+export const RegisterForm = () => {
   const methods = useForm({
-    mode: 'onChange',
-    resolver: yupResolver(registerSchema),
+    mode: 'onBlur',
+    resolver: yupResolver(registerSchema)
   });
 
   const { categories } = useCategories();
-  const { submit, inProgress } = useRegister();
+  const { submit } = useRegister();
+
 
   const { isValid } = methods.formState;
 
   return (
     <FormProvider {...methods}>
-      <Box
-        maxW="425px"
-        margin="auto"
-        as="form"
-        onSubmit={methods.handleSubmit((payload: SignUpUserPayload) =>
-          submit(payload, methods.setError)
-        )}
-      >
-        <FormField labelText="First name" inputName="firstName">
-          <Input type="text" placeholder="Mati" />
-        </FormField>
-        <FormField labelText="Last name" inputName="lastName">
-          <Input type="text" placeholder="Itam" />
-        </FormField>
-        <FormField labelText="Email" inputName="email">
-          <Input type="email" placeholder="example@example.com" />
-        </FormField>
-        <FormField labelText="Password" inputName="password">
-          <Input type="password" placeholder="*****" />
+      <form onSubmit={methods.handleSubmit(submit)}>
+        <FormField
+          labelText="Imię"
+          inputName="firstName"
+        >
+          <Input
+            type="text"
+            name="firstName"
+            isRequired
+            placeholder="Mati"
+          />
         </FormField>
         <FormField
-          labelText="Categories"
-          inputName="userCategories"
-          helperText="Select your interests"
+          labelText="Nazwisko"
+          inputName="lastName"
         >
-          <FormSelect isMulti options={categories ?? []} />
+          <Input
+            type="text"
+            name="lastName"
+            isRequired
+            placeholder="Itam"
+          />
         </FormField>
-        <Button type="submit" isValid={isValid} inProgress={inProgress}>
+        <FormField
+          labelText="Email"
+          inputName="email"
+        >
+          <Input
+            type="email"
+            name="email"
+            isRequired
+            placeholder="example@example.com"
+          />
+        </FormField>
+        <FormField
+          labelText="Hasło"
+          inputName="password"
+        >
+          <Input
+            type="password"
+            name="password"
+            isRequired
+            placeholder="*****"
+          />
+        </FormField>
+        <FormField
+          labelText="Kategorie"
+          inputName="userCategories"
+          helperText="Wybierz swoje zainteresowania"
+        >
+          <FormSelect
+            name="userCategories"
+            isRequired
+            isMulti
+            options={categories ?? []}
+          />
+        </FormField>
+        <Button
+          type="submit"
+          disabled={!isValid}
+          mt={20}
+        >
           Sign Up
         </Button>
-        <FormBottomText
-          text="Already have a account?"
-          buttonText="Sign In"
-          path="/sign-in"
-        />
-      </Box>
+      </form>
     </FormProvider>
-  );
+  )
 };

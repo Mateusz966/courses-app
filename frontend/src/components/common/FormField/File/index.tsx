@@ -1,5 +1,5 @@
-import { Input as ChakraInput } from '@chakra-ui/react';
-import { BaseInputProps } from '../../../../app-types/form';
+import { Input as ChakraInput } from "@chakra-ui/react"
+import { BaseInputProps } from "../../../../../../types/form";
 
 //TODO FILE INPUT FOR FORMS WITH GLOBAL HANDERLS
 
@@ -36,3 +36,4 @@ interface Props extends BaseInputProps {
 //     </>
 //   );
 // }
+
