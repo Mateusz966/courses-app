@@ -1,5 +1,5 @@
 import React, { FC, lazy } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { TopNavBar } from '../../components/common/TopNavbar';
 
 import AddCourse from '../Course/Add';
@@ -14,9 +14,15 @@ const Dashboard: FC = () => {
     <>
       <TopNavBar />
       <Switch>
+        <Route
+          exact
+          path="/"
+          render={() => {
+            return <Redirect to="/dashboard" />;
+          }}
+        />
         <Route exact path="/dashboard" component={Start} />
         <Route path="/dashboard/course" component={Course} />
-        <Route path="/dashboard/course/add/course/add" component={AddCourse} />
       </Switch>
     </>
   );

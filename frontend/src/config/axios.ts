@@ -9,6 +9,7 @@ export const redirectToLogin = () => history.push('/');
 
 export const axiosRequestConfiguration: AxiosRequestConfig = {
   baseURL: apiUrl,
+  withCredentials: true,
   timeout: REQ_TIMEOUT,
 };
 

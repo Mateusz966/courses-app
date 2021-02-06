@@ -29,12 +29,12 @@ const EditCourse: FC = () => {
           apiKey="f77pjcz1vwa1mi1almj8uhwj2crs196lq21stcyj2dq0w8pf"
           initialValue="<p>This is the initial content of the editor</p>"
           init={{
-            height: 500,
-            menubar: false,
+            height: 400,
+            // menubar: false,
             plugins: [
-              'advlist autolink lists link image charmap print preview anchor',
+              'advlist autolink lists link image charmap preview anchor',
               'searchreplace visualblocks code fullscreen',
-              'insertdatetime media table paste code help wordcount',
+              'insertdatetime medi paste code help',
             ],
             toolbar:
               'undo redo | formatselect | bold italic backcolor | \
