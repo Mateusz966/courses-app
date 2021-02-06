@@ -42,7 +42,7 @@ describe('Login tests', () => {
 
     cy.get('button').first().click();
 
-    cy.url().should('include', '/')
+    cy.url().should('include', '/dashboard')
   });
 
 });

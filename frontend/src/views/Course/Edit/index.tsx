@@ -1,11 +1,11 @@
-import { Box, Button } from '@chakra-ui/react';
+import { Box, Spinner } from '@chakra-ui/react';
 import React, { FC, useCallback, useState } from 'react';
-import useHeader from '../../../hooks/useHeader';
 import { Editor } from '@tinymce/tinymce-react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
 
 const EditCourse: FC = () => {
-  useHeader('', undefined, '', undefined, undefined, true);
+  const { courseId } = useParams<{courseId: string}>();
   const [content, setContent] = useState();
   const methods = useForm({
     mode: 'onChange',
@@ -17,6 +17,10 @@ const EditCourse: FC = () => {
     },
     [content]
   );
+
+    if (!courseId) {
+      return <Spinner />
+    }
 
   return (
     <FormProvider {...methods} >

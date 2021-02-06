@@ -11,6 +11,7 @@ import {
 import React from 'react';
 import { FC } from 'react';
 import { MdKeyboardArrowDown, MdShoppingCart } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 
 interface Props {
   justifyContentType?: string;
@@ -36,7 +37,7 @@ export const LoggedActions: FC<Props> = ({ justifyContentType }) => {
           Moje konto
         </MenuButton>
         <MenuList fontSize="16px">
-          <MenuItem>Moje kursy</MenuItem>
+          <MenuItem as={Link} to="/course/add" >Moje kursy</MenuItem>
           <MenuItem>Ustawienia</MenuItem>
         </MenuList>
       </Menu>
