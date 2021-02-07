@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { Category } from './category.entity';
 import { CourseTopics } from 'src/course/entities/course-topics.entity';
+import { Subcategory } from './subcategory.entity';
 
 @Entity()
 export class Topic {
@@ -16,8 +17,11 @@ export class Topic {
   @Column()
   name: string;
 
-  @OneToMany(() => Category, (category) => category.topic)
+  @ManyToOne(() => Category, (category) => category.topic)
   category: Category;
+
+  @ManyToOne(() => Subcategory, (subcategory) => subcategory.topic)
+  subcategory: Subcategory;
 
   @OneToMany(() => CourseTopics, (courseTopic) => courseTopic.topic)
   courseTopics: CourseTopics[];
