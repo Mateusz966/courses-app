@@ -15,8 +15,9 @@ export class CourseController {
 
   @UseGuards(JwtAuthGuard)
   @Post('/add')
-  async add(@UserObj() user) {
-    return await this.courseService.add(user);
+  async add(@UserObj() user, @Body() categoriesDetails: any) {
+    console.log(categoriesDetails)
+    return await this.courseService.add(user, categoriesDetails);
   }
 
   @Post('/update/:courseId')
