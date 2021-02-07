@@ -8,6 +8,7 @@ import { RootStoreProvider } from './stores/storeContext';
 const Register = lazy(() => import('./views/Register'));
 const Login = lazy(() => import('./views/Login'));
 const Dashboard = lazy(() => import('./views/Dashboard'));
+const ViewCourse = lazy(() => import('./views/ViewCourse'));
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
               <Route exact path="/" component={Dashboard} />
               <Route exact path="/sign-up" component={Register} />
               <Route exact path="/sign-in" component={Login} />
+              <Route exact path="/view-course" component={ViewCourse} />
             </Suspense>
           </Switch>
         </Router>

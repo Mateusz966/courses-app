@@ -5,8 +5,10 @@ import {
   MenuList,
   MenuItem,
   Button,
+  Link,
 } from '@chakra-ui/react';
-import { FC } from 'react';
+import { FC, lazy } from 'react';
+import { history } from '../../../config/history';
 
 export const TopNavbarLinks: FC = () => {
   return (
@@ -18,8 +20,15 @@ export const TopNavbarLinks: FC = () => {
         <MenuList fontSize="16px">
           <MenuItem>Sample category</MenuItem>
           <MenuItem>Sample category</MenuItem>
+          <MenuItem><Link to="/view-course">View Course</Link></MenuItem>
         </MenuList>
       </Menu>
+      <Button
+        variant="ghost" color="#333"
+        onClick={() => history.push('view-course')}
+      >
+        View course
+        </Button>
     </Box>
   );
 };
