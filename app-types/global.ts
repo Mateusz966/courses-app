@@ -9,3 +9,8 @@ export enum ApiErrorCode {
     InvalidCredentials,
     EmailIsTaken,
 }
+
+export type CustomSelectOption<T> = {
+    value: T,
+    label: string
+}

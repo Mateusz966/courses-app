@@ -4,13 +4,14 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   ManyToOne,
+  BaseEntity,
 } from 'typeorm';
 import { Category } from './category.entity';
 import { CourseTopics } from 'src/course/entities/course-topics.entity';
 import { Subcategory } from './subcategory.entity';
 
 @Entity()
-export class Topic {
+export class Topic extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

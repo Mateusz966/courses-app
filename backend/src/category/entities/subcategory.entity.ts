@@ -5,12 +5,13 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   OneToMany,
+  BaseEntity,
 } from 'typeorm';
 import { Category } from './category.entity';
 import { Topic } from './topic.entity';
 
 @Entity()
-export class Subcategory {
+export class Subcategory extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
