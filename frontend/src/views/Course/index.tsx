@@ -7,7 +7,7 @@ const Courses: FC = () => {
   // TODO USE HEADER TO MOBX HEADER
   return (
     <>
-      <Link to="/course/add">Stwórz kurs</Link>
+      <Link to="/dashboard/course/add">Stwórz kurs</Link>
       <Switch>
         <Route path="/dashboard/course/add" component={AddCourse} />
         <Route path="/dashboard/course/edit/:courseId" component={EditCourse} />

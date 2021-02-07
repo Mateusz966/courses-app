@@ -15,7 +15,7 @@ import { Button } from '../../../common/Button';
 import { FormField } from '../../../common/FormField';
 import { FormSelect } from '../../../common/FormField/Select';
 
-export const CourseCategoryForm: FC = observer(() => {
+export const CourseTopicForm: FC = observer(() => {
   const methods = useForm({
     mode: 'onChange',
     resolver: yupResolver(courseCategorySchema),

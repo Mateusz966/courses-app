@@ -13,9 +13,11 @@ interface UseCategories {
 
 export const useCategories = (): UseCategories => {
   const [categories, setCategories] = useState<BaseSelectOption[] | null>(null);
-  const [subcategories, setSubcategories] = useState<BaseSelectOption[] | null>(
+  const [subcategories, setSubcategories] = useState<CustomSelectOption<CategoryDto>[] | null>(
     null
   );
+  const [topics, setTopics] = useState<BaseSelectOption[] | null>(null);
+
 
   const getCategories = async () => {
     const categories = await api.get<CategoryDto[]>(`/category/all`);
@@ -31,20 +33,26 @@ export const useCategories = (): UseCategories => {
   };
 
   const getSubcategories = async (categoryId: string) => {
-    return await api.get<CustomSelectOption<CategoryDto>[]>(
+    const res = await api.get<CustomSelectOption<CategoryDto>[]>(
       `/category/subcategory/${categoryId}`
     );
+
+    if (res) {
+      setSubcategories(res);
+    }
+
   };
 
   const getTopics = async (categoryId: any, subcategoryId: any) => {
-    return await api.get<CustomSelectOption<CategoryDto>[]>(
+    const res = await api.get<CustomSelectOption<CategoryDto>[]>(
       `/category/subcategory/${categoryId}/${subcategoryId}`
     );
-  };
 
-  useEffect(() => {
-    getCategories();
-  }, []);
+      if (res) {
+        setTopics(res as any);
+      }
+
+  };
 
   return {
     categories,
