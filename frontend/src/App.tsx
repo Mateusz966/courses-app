@@ -1,6 +1,6 @@
 import { ChakraProvider, CSSReset, Spinner } from '@chakra-ui/react';
 import { lazy, Suspense } from 'react';
-import { Route, Router, Switch } from 'react-router-dom';
+import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import { history } from './config/history';
 import { Header } from './components/common/Header';
 import { RootStoreProvider } from './stores/storeContext';
@@ -18,6 +18,11 @@ const App = () => {
           <Header />
           <Switch>
             <Suspense fallback={<Spinner size="xl" />}>
+              <Route
+                exact
+                path="/"
+                render={() => <Redirect to="/dashboard" />}
+              />
               <Route exact path="/sign-up" component={Register} />
               <Route exact path="/sign-in" component={Login} />
               <Route path="/dashboard" component={Dashboard} />

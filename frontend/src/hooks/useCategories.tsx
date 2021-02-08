@@ -5,19 +5,18 @@ import { apiUrl } from '../config/apiUrl';
 import api from '../service/api';
 
 interface UseCategories {
+  getCategories: () => void;
   categories?: BaseSelectOption[] | null;
-  getSubcategories: (
-    categoryId: string
-  ) => Promise<void | CustomSelectOption<CategoryDto>[]>;
+  getSubcategories: (categoryId: string) => Promise<void>;
+  subcategories: BaseSelectOption[] | null;
 }
 
 export const useCategories = (): UseCategories => {
   const [categories, setCategories] = useState<BaseSelectOption[] | null>(null);
-  const [subcategories, setSubcategories] = useState<CustomSelectOption<CategoryDto>[] | null>(
+  const [subcategories, setSubcategories] = useState<BaseSelectOption[] | null>(
     null
   );
   const [topics, setTopics] = useState<BaseSelectOption[] | null>(null);
-
 
   const getCategories = async () => {
     const categories = await api.get<CategoryDto[]>(`/category/all`);
@@ -38,9 +37,13 @@ export const useCategories = (): UseCategories => {
     );
 
     if (res) {
-      setSubcategories(res);
+      setSubcategories(
+        res.map((cat: any) => ({
+          value: cat.id,
+          label: cat.name,
+        }))
+      );
     }
-
   };
 
   const getTopics = async (categoryId: any, subcategoryId: any) => {
@@ -48,14 +51,15 @@ export const useCategories = (): UseCategories => {
       `/category/subcategory/${categoryId}/${subcategoryId}`
     );
 
-      if (res) {
-        setTopics(res as any);
-      }
-
+    if (res) {
+      setTopics(res as any);
+    }
   };
 
   return {
     categories,
+    getCategories,
     getSubcategories,
+    subcategories,
   };
 };

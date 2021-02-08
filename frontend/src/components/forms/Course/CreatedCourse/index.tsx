@@ -1,17 +1,14 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Input } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { FC, useCallback, useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import { loginSchema } from '../../../formSchemas/login';
-import { FormField } from '../../common/FormField';
-import { Input } from '../../common/FormField/Input';
 import { Editor } from '@tinymce/tinymce-react';
 import { observer } from 'mobx-react-lite';
+import { FormField } from '../../../common/FormField';
 
 export const CourseForm: FC = observer(() => {
   const methods = useForm({
     mode: 'onChange',
-    resolver: yupResolver(loginSchema),
   });
 
   const [content, setContent] = useState();
@@ -32,7 +29,7 @@ export const CourseForm: FC = observer(() => {
           <Input type="text" placeholder="NodeJS Course" />
         </FormField>
         <FormField labelText="Description" inputName="description">
-          <Input type="text" placeholder="Course about...." />
+          <Input type="text" placeholder="Course about...." /> 
         </FormField>
         <Editor
           apiKey="f77pjcz1vwa1mi1almj8uhwj2crs196lq21stcyj2dq0w8pf"

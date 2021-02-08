@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 export const courseCategorySchema = yup.object().shape({
-  category: yup.array().required(),
+  category: yup.object().required(),
 });
 
 export const courseSubcategorySchema = yup.object().shape({

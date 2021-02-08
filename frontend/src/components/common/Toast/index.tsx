@@ -17,5 +17,5 @@ export const successNotification = (text: string) => {
 };
 
 export const errorNotification = (text: string) => {
-  toast(text, 'success');
+  toast(text, 'error');
 };

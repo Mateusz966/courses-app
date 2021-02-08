@@ -12,7 +12,6 @@ const Dashboard: FC = () => {
     <>
       <TopNavBar />
       <Switch>
-        <Route exact path="/" render={() => <Redirect to="/dashboard" />} />
         <Route exact path="/dashboard" component={Start} />
         <Route path="/dashboard/course" component={Course} />
       </Switch>

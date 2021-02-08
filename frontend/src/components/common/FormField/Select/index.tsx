@@ -18,6 +18,7 @@ interface Props extends BaseInputProps {
   ) => void;
   isMulti?: boolean;
   name?: any;
+  defaultValue?: any;
 }
 
 export const FormSelect: FC<Props> = ({
@@ -27,6 +28,7 @@ export const FormSelect: FC<Props> = ({
   isDisabled,
   name,
   isMulti,
+  defaultValue
 }) => {
   const { control } = useFormContext();
   return (
@@ -34,10 +36,10 @@ export const FormSelect: FC<Props> = ({
       name={name}
       control={control}
       placeholder="Wybierz"
-      defaultValue={null}
-      required={isRequired}
+      defaultValue={defaultValue}
       render={({ value, name, onChange }) => (
         <Select
+          defaultValue={defaultValue}
           styles={customStyles}
           isMulti={isMulti}
           options={options}
