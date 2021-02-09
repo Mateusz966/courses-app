@@ -5,9 +5,9 @@ export const courseCategorySchema = yup.object().shape({
 });
 
 export const courseSubcategorySchema = yup.object().shape({
-  subcategory: yup.array().required(),
+  subcategory: yup.object().required(),
 });
 
-export const courseTopicsScheMA = yup.object().shape({
+export const courseTopicsSchema = yup.object().shape({
   topics: yup.array().required(),
 });

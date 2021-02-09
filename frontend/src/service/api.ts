@@ -11,7 +11,7 @@ const get = <T>(
   setInProgress?: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   return axiosInstance
-    .get<T>(url, { params: queryParams })
+    .get<Promise<T>>(url, { params: queryParams })
     .then((res) => res.data)
     .catch((err) => {
       handlingError(err.response, setError);

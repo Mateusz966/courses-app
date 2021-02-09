@@ -6,7 +6,10 @@ import { useEffect } from 'react';
 import { FC } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { CategoryDto } from '../../../../app-types/category';
-import { CustomSelectOption } from '../../../../app-types/global';
+import {
+  BaseSelectOption,
+  CustomSelectOption,
+} from '../../../../app-types/global';
 import { courseCategorySchema } from '../../../../formSchemas/courseCategoryForm';
 import { useCategories } from '../../../../hooks/useCategories';
 import { useCourse } from '../../../../hooks/useCourse';
@@ -21,12 +24,15 @@ export const CourseTopicForm: FC = observer(() => {
     resolver: yupResolver(courseCategorySchema),
   });
 
-  const { categories, getSubcategories } = useCategories();
-  const { submitSubcategory } = useCourse();
+  const { topics, getTopics } = useCategories();
+  const { createCourse } = useCourse();
   const { isValid } = methods.formState;
 
   useEffect(() => {
-    getSubcategories(courseStore.createCourse.category as any);
+    getTopics(
+      courseStore.createCourse.category?.value,
+      courseStore.createCourse.subcategory?.value
+    );
   }, []);
 
   return (
@@ -36,16 +42,15 @@ export const CourseTopicForm: FC = observer(() => {
         margin="auto"
         as="form"
         onSubmit={methods.handleSubmit(
-          (payload: CustomSelectOption<CategoryDto>) =>
-            submitSubcategory(payload)
+          (payload: { topics: BaseSelectOption[] }) => createCourse(payload)
         )}
       >
         <FormField
           labelText="Course subcategory"
-          inputName="subcategory"
+          inputName="topic"
           helperText="Course category"
         >
-          <FormSelect isMulti options={categories ?? []} />
+          <FormSelect isMulti options={topics ?? []} />
         </FormField>
         <Button type="submit" isValid={isValid}>
           Next

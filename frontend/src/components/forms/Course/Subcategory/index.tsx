@@ -6,9 +6,7 @@ import { useEffect } from 'react';
 import { FC } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
-import { CategoryDto } from '../../../../app-types/category';
-import { CustomSelectOption } from '../../../../app-types/global';
-import { courseCategorySchema } from '../../../../formSchemas/courseCategoryForm';
+import { courseSubcategorySchema } from '../../../../formSchemas/courseCategoryForm';
 import { useCategories } from '../../../../hooks/useCategories';
 import { useCourse } from '../../../../hooks/useCourse';
 import { courseStore } from '../../../../stores/course';
@@ -19,7 +17,7 @@ import { FormSelect } from '../../../common/FormField/Select';
 export const CourseSubcategoryForm: FC = observer(() => {
   const methods = useForm({
     mode: 'onChange',
-    resolver: yupResolver(courseCategorySchema),
+    resolver: yupResolver(courseSubcategorySchema),
   });
 
   const { subcategories, getSubcategories } = useCategories();
@@ -27,18 +25,21 @@ export const CourseSubcategoryForm: FC = observer(() => {
   const { isValid } = methods.formState;
 
   useEffect(() => {
-    // if (courseStore.createCourse?.category?.value)
-    //@ts-ignore
     getSubcategories(courseStore.createCourse?.category?.value);
   }, []);
 
   return (
     <FormProvider {...methods}>
-      <Box maxW="425px" margin="auto" as="form">
+      <Box
+        maxW="425px"
+        margin="auto"
+        as="form"
+        onSubmit={methods.handleSubmit(submitSubcategory)}
+      >
         <FormField
           labelText="Course subcategory"
           inputName="subcategory"
-          helperText="Course category"
+          helperText="Chose subcategory"
         >
           <FormSelect options={subcategories ?? []} />
         </FormField>
@@ -46,7 +47,7 @@ export const CourseSubcategoryForm: FC = observer(() => {
           <Link as={NavLink} to="/dashboard/course/add/category">
             Back
           </Link>
-          <Button type="button" isValid={isValid}>
+          <Button type="submit" isValid={isValid}>
             Next
           </Button>
         </HStack>

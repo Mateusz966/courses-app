@@ -39,7 +39,7 @@ export const CourseCategoryForm: FC = observer(() => {
         <FormField
           labelText="Course category"
           inputName="category"
-          helperText="Course category"
+          helperText="Chose category"
         >
           <FormSelect
             defaultValue={courseStore.createCourse.category}

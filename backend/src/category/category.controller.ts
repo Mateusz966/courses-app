@@ -15,15 +15,17 @@ export class CategoryController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/subcategory/:categoryId')
-  async subcategories(@Param('categoryId') categoryId: string): Promise<Subcategory[]> {
+  async subcategories(
+    @Param('categoryId') categoryId: string
+  ): Promise<Subcategory[]> {
     return await this.categoryService.subcategories(categoryId);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('/subcategory/:categoryId/:subcategoryId')
   async topics(
-    @Param('categoryId)') categoryId,
-    @Param('subcategoryId)') subcategoryId,
+    @Param('categoryId') categoryId: string,
+    @Param('subcategoryId') subcategoryId: string,
   ): Promise<Topic[]> {
     return await this.categoryService.topics(categoryId, subcategoryId);
   }
