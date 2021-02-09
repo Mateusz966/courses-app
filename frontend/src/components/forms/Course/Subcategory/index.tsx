@@ -41,7 +41,10 @@ export const CourseSubcategoryForm: FC = observer(() => {
           inputName="subcategory"
           helperText="Chose subcategory"
         >
-          <FormSelect options={subcategories ?? []} />
+          <FormSelect
+            defaultValue={courseStore.createCourse.subcategory}
+            options={subcategories ?? []}
+          />
         </FormField>
         <HStack>
           <Link as={NavLink} to="/dashboard/course/add/category">
