@@ -24,7 +24,7 @@ export const useCourse = (): UseCourse => {
   };
 
   const createCourse = async (payload: { topics: BaseSelectOption[] }) => {
-    courseStore.setTopic(payload);
+    courseStore.setTopic(payload.topics);
     const courseId = await api.post<string, CreateCourse>(
       '/course/add',
       courseStore.createCourse

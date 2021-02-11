@@ -10,14 +10,21 @@ export class CourseController {
   @UseGuards(JwtAuthGuard)
   @Get('/my-all')
   async all(@UserObj() user) {
-    return await this.courseService.myAll(user.id);
+    try {
+      return await this.courseService.myAll(user.id);
+    } catch (error) {
+      throw error
+    }
   };
 
   @UseGuards(JwtAuthGuard)
   @Post('/add')
   async add(@UserObj() user, @Body() categoriesDetails: any) {
-    console.log(categoriesDetails)
-    return await this.courseService.add(user, categoriesDetails);
+    try {
+      return await this.courseService.add(user, categoriesDetails);
+    } catch (error) {
+      throw error;
+    }
   }
 
   @Post('/update/:courseId')

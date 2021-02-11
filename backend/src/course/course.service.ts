@@ -13,35 +13,42 @@ export class CourseService {
     }
   }
 
-  async add(user: User, categoriesDetials: any) {
+  async add(user: User, categoriesDetails: any) {
+    console.log(categoriesDetails)
     try {
       const course = new Course();
 
       course.user = user;
       course.title = 'No title';
       course.description = '';
-      course.category = categoriesDetials.category;
-      course.subcategory = categoriesDetials.subcategory;
+      course.category = categoriesDetails.category.value;
+      course.subcategory = categoriesDetails.subcategory.value;
 
       const addedCourse = await course.save();
 
       const courseTopics: CourseTopics[] = [];
       const courseTopicsToSave: CourseTopics[] = [];
 
+      console.log('add', addedCourse);
+      console.log('addid', addedCourse.id)
+
       if (addedCourse) {
-        categoriesDetials.topics.forEach((topic, index) => {
+        categoriesDetails.topics.forEach((topic, index) => {
           courseTopics[index] = new CourseTopics();
           courseTopics[index].course = addedCourse;
           //@ts-ignore
-          courseTopics[index].topic = topic;
+          courseTopics[index].topic = topic.value;
           courseTopicsToSave.push(courseTopics[index]);
         });
       }
 
-      await CourseTopics.save(courseTopicsToSave);
+      const topics = await CourseTopics.save(courseTopicsToSave);
+
+      console.log('topics' + topics)
+
       return addedCourse.id;
     } catch (error) {
-      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw error;
     }
   }
 
