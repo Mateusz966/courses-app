@@ -29,9 +29,7 @@ export class Course extends BaseEntity {
   @Column({ default: true })
   isDraft: boolean;
 
-  @OneToMany(() => CourseTopics, (courseTopic) => courseTopic.course, {
-    nullable: true,
-  })
+  @OneToMany(() => CourseTopics, (courseTopic) => courseTopic.course)
   courseTopics: CourseTopics[];
 
   @OneToMany(() => Section, (section) => section.course)
@@ -40,12 +38,9 @@ export class Course extends BaseEntity {
   @ManyToOne(() => User, (user) => user.course)
   user: User;
 
-  @ManyToOne(() => Category, (category) => category.course, { nullable: true })
+  @ManyToOne(() => Category, (category) => category.course)
   category: Category;
 
-  @ManyToOne(() => Subcategory, (subcategory) => subcategory.course, {
-    nullable: true,
-  })
+  @ManyToOne(() => Subcategory, (subcategory) => subcategory.course)
   subcategory: Category;
-  course: import("c:/moje/courses-app/backend/app-types/category").CategoryDto;
 }

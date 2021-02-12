@@ -2,9 +2,7 @@ import api from '../service/api';
 import { history } from '../config/history';
 import { courseStore } from '../stores/course';
 import { CategoryDto, CreateCourse } from '../app-types/category';
-import {
-  CustomSelectOption,
-} from '../../../app-types/global';
+import { CustomSelectOption } from '../../../app-types/global';
 
 interface UseCourse {
   submitCategory: (payload: {
@@ -33,7 +31,9 @@ export const useCourse = (): UseCourse => {
     history.push('/dashboard/course/add/topics');
   };
 
-  const createCourse = async (payload: { topics: CustomSelectOption<CategoryDto>[] }) => {
+  const createCourse = async (payload: {
+    topics: CustomSelectOption<CategoryDto>[];
+  }) => {
     courseStore.setTopic(payload.topics);
     const courseId = await api.post<string, CreateCourse>(
       '/course/add',

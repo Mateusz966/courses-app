@@ -1,17 +1,14 @@
 import { Box, Spinner } from '@chakra-ui/react';
-import React, { FC, useCallback, useState } from 'react';
-import { Editor } from '@tinymce/tinymce-react';
+import React, { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
 
-const EditCourse: FC = () => {
+const EditCourse: FC = observer(() => {
   const { courseId } = useParams<{courseId: string}>();
-  const [content, setContent] = useState();
   const methods = useForm({
     mode: 'onChange',
   });
-
-
 
     if (!courseId) {
       return <Spinner />
@@ -24,6 +21,6 @@ const EditCourse: FC = () => {
       </Box>
     </FormProvider>
   );
-};
+});
 
 export default EditCourse;
