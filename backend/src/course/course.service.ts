@@ -1,4 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { CreateCourse } from 'app-types/category';
+import { Category } from 'src/category/entities/category.entity';
+import { Topic } from 'src/category/entities/topic.entity';
 import { User } from '../user/entity/user.entity';
 import { CourseTopics } from './entities/course-topics.entity';
 import { Course } from './entities/course.entity';
@@ -13,38 +16,31 @@ export class CourseService {
     }
   }
 
-  async add(user: User, categoriesDetails: any) {
-    console.log(categoriesDetails)
+  async add(user: User, categoriesDetails: CreateCourse) {
     try {
       const course = new Course();
 
       course.user = user;
       course.title = 'No title';
       course.description = '';
-      course.category = categoriesDetails.category.value;
-      course.subcategory = categoriesDetails.subcategory.value;
+      course.category = categoriesDetails.category.value as Category;
+      course.subcategory = categoriesDetails.subcategory.value as Category;
 
       const addedCourse = await course.save();
 
       const courseTopics: CourseTopics[] = [];
       const courseTopicsToSave: CourseTopics[] = [];
 
-      console.log('add', addedCourse);
-      console.log('addid', addedCourse.id)
-
       if (addedCourse) {
         categoriesDetails.topics.forEach((topic, index) => {
           courseTopics[index] = new CourseTopics();
           courseTopics[index].course = addedCourse;
-          //@ts-ignore
-          courseTopics[index].topic = topic.value;
+          courseTopics[index].topic = topic.value as Topic;
           courseTopicsToSave.push(courseTopics[index]);
         });
       }
 
-      const topics = await CourseTopics.save(courseTopicsToSave);
-
-      console.log('topics' + topics)
+      await CourseTopics.save(courseTopicsToSave);
 
       return addedCourse.id;
     } catch (error) {

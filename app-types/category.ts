@@ -1,4 +1,4 @@
-import { BaseSelectOption } from "./global";
+import { BaseSelectOption, CustomSelectOption } from "./global";
 
 export interface CategoryDto {
   id: string;
@@ -6,8 +6,7 @@ export interface CategoryDto {
 }
 
 export type CreateCourse = {
-  category: BaseSelectOption | null;
-  subcategory: BaseSelectOption | null;
-  topics: BaseSelectOption[] | null;
+  category: CustomSelectOption<CategoryDto> | null;
+  subcategory: CustomSelectOption<CategoryDto> | null;
+  topics: CustomSelectOption<CategoryDto>[] | null;
 };
-

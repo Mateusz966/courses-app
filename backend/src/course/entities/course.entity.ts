@@ -47,4 +47,5 @@ export class Course extends BaseEntity {
     nullable: true,
   })
   subcategory: Category;
+  course: import("c:/moje/courses-app/backend/app-types/category").CategoryDto;
 }

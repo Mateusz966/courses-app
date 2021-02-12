@@ -1,24 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { CategoryDto } from '../app-types/category';
 import { BaseSelectOption, CustomSelectOption } from '../app-types/global';
 import { errorNotification } from '../components/common/Toast';
-import { apiUrl } from '../config/apiUrl';
 import api from '../service/api';
 
 interface UseCategories {
   getCategories: () => void;
-  categories?: BaseSelectOption[] | null;
+  categories?: CustomSelectOption<CategoryDto>[] | null;
   getSubcategories: (categoryId?: string) => Promise<void | null>;
-  subcategories: BaseSelectOption[] | null;
+  subcategories: CustomSelectOption<CategoryDto>[] | null;
   topics: BaseSelectOption[] | null;
   getTopics: (categoryId: any, subcategoryId: any) => Promise<void | null>;
 }
 
 export const useCategories = (): UseCategories => {
-  const [categories, setCategories] = useState<BaseSelectOption[] | null>(null);
-  const [subcategories, setSubcategories] = useState<BaseSelectOption[] | null>(
-    null
-  );
+  const [categories, setCategories] = useState<
+    CustomSelectOption<CategoryDto>[] | null
+  >(null);
+  const [subcategories, setSubcategories] = useState<
+    CustomSelectOption<CategoryDto>[] | null
+  >(null);
   const [topics, setTopics] = useState<BaseSelectOption[] | null>(null);
 
   const getCategories = async () => {
@@ -26,8 +27,8 @@ export const useCategories = (): UseCategories => {
 
     if (categories) {
       setCategories(
-        categories.map((cat: any) => ({
-          value: cat.id,
+        categories.map((cat) => ({
+          value: cat,
           label: cat.name,
         }))
       );
@@ -40,14 +41,14 @@ export const useCategories = (): UseCategories => {
       return null;
     }
 
-    const res = await api.get<CustomSelectOption<CategoryDto>[]>(
+    const res = await api.get<CategoryDto[]>(
       `/category/subcategory/${categoryId}`
     );
 
     if (res) {
       setSubcategories(
-        res.map((cat: any) => ({
-          value: cat.id,
+        res.map((cat) => ({
+          value: cat,
           label: cat.name,
         }))
       );

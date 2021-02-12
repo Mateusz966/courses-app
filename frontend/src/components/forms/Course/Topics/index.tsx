@@ -5,7 +5,11 @@ import React from 'react';
 import { useEffect } from 'react';
 import { FC } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import { BaseSelectOption } from '../../../../app-types/global';
+import { CategoryDto } from '../../../../app-types/category';
+import {
+  BaseSelectOption,
+  CustomSelectOption,
+} from '../../../../app-types/global';
 import { courseTopicsSchema } from '../../../../formSchemas/courseCategoryForm';
 import { useCategories } from '../../../../hooks/useCategories';
 import { useCourse } from '../../../../hooks/useCourse';
@@ -26,8 +30,8 @@ export const CourseTopicForm: FC = observer(() => {
 
   useEffect(() => {
     getTopics(
-      courseStore.createCourse.category?.value,
-      courseStore.createCourse.subcategory?.value
+      courseStore.createCourse.category?.value?.id,
+      courseStore.createCourse.subcategory?.value?.id
     );
   }, []);
 
@@ -38,7 +42,8 @@ export const CourseTopicForm: FC = observer(() => {
         margin="auto"
         as="form"
         onSubmit={methods.handleSubmit(
-          (payload: { topics: BaseSelectOption[] }) => createCourse(payload)
+          (payload: { topics: CustomSelectOption<CategoryDto>[] }) =>
+            createCourse(payload)
         )}
       >
         <FormField

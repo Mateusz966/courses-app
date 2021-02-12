@@ -25,7 +25,7 @@ export const CourseSubcategoryForm: FC = observer(() => {
   const { isValid } = methods.formState;
 
   useEffect(() => {
-    getSubcategories(courseStore.createCourse?.category?.value);
+    getSubcategories(courseStore.createCourse?.category?.value?.id);
   }, []);
 
   return (
