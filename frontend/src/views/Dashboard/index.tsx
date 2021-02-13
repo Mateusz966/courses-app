@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { TopNavBar } from '../../components/common/TopNavbar';
 import useHeader from '../../hooks/useHeader';
 import Profile from '../Profile/ProfileData';
@@ -9,7 +9,9 @@ const Dashboard: FC = () => {
   return (
     <>
       <TopNavBar />
-      <Route exact path="/profile" component={Profile} />
+      <Switch>
+        <Route path="/profile" component={Profile} />
+      </Switch>
     </>
   );
 };
