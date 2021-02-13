@@ -39,12 +39,12 @@ const Profile: FC = observer(() => {
           </GridItem>
           <GridItem w="100%">
             <Center>
-              Profil użytkownika {userStore.user.details?.firstName}{' '}
+              Profil użytkownika  {userStore.user.details?.firstName}{' '}
               {userStore.user.details?.lastName}
             </Center>
           </GridItem>
           <GridItem w="100%" colSpan={3}>
-          <Link as={RLink} to="/profile/set-password">
+          <Link as={RLink} to="/dashboard/profile/set-password">
             password
           </Link>
             <Center>

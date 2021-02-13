@@ -35,12 +35,13 @@ const ProfileSetPassword: FC = observer(() => {
             </Circle>
           </GridItem>
           <GridItem w="100%">
-            <Center>Profil użytkownika {userStore.user.details?.firstName} {userStore.user.details?.lastName}</Center>
+            <Center>
+              Profil użytkownika X {userStore.user.details?.firstName}
+              {userStore.user.details?.lastName}
+            </Center>
           </GridItem>
           <GridItem w="100%" colSpan={3}>
-            <Center>
-              dupa
-            </Center>
+            <Center>dupa</Center>
           </GridItem>
         </Grid>
       </Container>

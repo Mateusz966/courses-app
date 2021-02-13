@@ -5,19 +5,23 @@ import ProfileData from '../Profile/ProfileData';
 import ProfileSetPassword from './ProfileSetPassword';
 
 const Profile: FC = () => {
-  useHeader('', undefined, undefined, undefined);
+
   return (
     <>
       <Switch>
         <Route
           exact
-          path="/profile"
-          render={() => <Redirect to="/profile/details" />}
+          path="/dashboard/profile"
+          render={() => <Redirect to="/dashboard/profile/details" />}
         />
-        <Route exact path="/profile/details" component={ProfileData} />
         <Route
           exact
-          path="/profile/set-password"
+          path="/dashboard/profile/details"
+          component={ProfileData}
+        />
+        <Route
+          exact
+          path="/dashboard/profile/set-password"
           component={ProfileSetPassword}
         />
       </Switch>

@@ -39,7 +39,7 @@ export const LoggedActions: FC<Props> = ({ justifyContentType }) => {
         <MenuList fontSize="16px">
           <MenuItem>Moje kursy</MenuItem>
           <MenuItem>Ustawienia</MenuItem>
-          <MenuItem as={Link} to={"/profile"}>Mój Profil</MenuItem>
+          <MenuItem as={Link} to="/dashboard/profile">Mój Profil</MenuItem>
         </MenuList>
       </Menu>
     </HStack>

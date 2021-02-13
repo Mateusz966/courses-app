@@ -10,7 +10,7 @@ const Dashboard: FC = () => {
     <>
       <TopNavBar />
       <Switch>
-        <Route path="/profile" component={Profile} />
+        <Route path="/dashboard/profile" component={Profile} />
       </Switch>
     </>
   );

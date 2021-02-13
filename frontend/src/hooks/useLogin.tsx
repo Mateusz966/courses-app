@@ -21,7 +21,7 @@ export const useLogin = (): UseLogin => {
     );
     if (user) {
       userStore.setUser(user);
-      history.push('/');
+      history.push('/dashboard');
     }
   };
 
