@@ -7,14 +7,18 @@ import {
   Image,
   Circle,
 } from '@chakra-ui/react';
+import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
-import avatar from '../../assets/blank-profile.svg';
-import { ProfileForm } from '../../components/forms/Profile';
+import { Route } from 'react-router-dom';
+import avatar from '../../../assets/blank-profile.svg';
+import { ProfileForm } from '../../../components/forms/Profile/ProfileData';
+import { useRootStore } from '../../../stores/storeContext';
+import ProfileSetPassword from '../ProfileSetPassword';
 
-const userName = 'dupa';
-const Profile: FC = () => {
+const Profile: FC = observer(() => {
+  const { userStore } = useRootStore();
   return (
-    <Box as="section">
+    <Box as="section" marginTop="5%">
       <Container maxW="xl" centerContent>
         <Grid
           templateRows={{ lg: '0.3fr 1fr' }}
@@ -34,9 +38,18 @@ const Profile: FC = () => {
             </Circle>
           </GridItem>
           <GridItem w="100%">
-            <Center>Profil użytkownika {userName}</Center>
+            <Center>
+              Profil użytkownika {userStore.user.details?.firstName}{' '}
+              {userStore.user.details?.lastName}
+            </Center>
           </GridItem>
           <GridItem w="100%" colSpan={3}>
+            ssss
+            <Route
+              exact
+              path="/profile-set-password"
+              component={ProfileSetPassword}
+            />
             <Center>
               <ProfileForm />
             </Center>
@@ -45,5 +58,5 @@ const Profile: FC = () => {
       </Container>
     </Box>
   );
-};
+});
 export default Profile;

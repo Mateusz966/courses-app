@@ -13,7 +13,6 @@ export interface UserCategoriesReq {
 export interface UserReq extends UserDefault, UserCategoriesReq {
   
 }
-
 export interface UserRes {
   id: string
   email: string;
@@ -28,4 +27,13 @@ export interface UserEntity extends UserDefault {
 export interface UserLogin {
   email: string;
   password: string;
+}
+export interface UserMyProfile {
+  email: string;
+  firstName: string;
+  lastName: string;
+}
+export interface UserSetPassword {
+  newPassword: string;
+  oldPassword: string;
 }

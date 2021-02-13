@@ -5,10 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt-strategy';
 import { PassportModule } from '@nestjs/passport';
-import { UserModule } from '../user/user.module';
 import { User } from '../user/entity/user.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { LocalStrategy } from './local-strategy';
+import { UserModule } from 'src/user/user.module';
 
 
 @Module({
@@ -17,7 +17,7 @@ import { LocalStrategy } from './local-strategy';
     PassportModule,
     ConfigModule,
     JwtModule.registerAsync({
-      imports: [ConfigModule],
+      imports: [ConfigModule,],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         secret: configService.get('JWT_SECRET'),

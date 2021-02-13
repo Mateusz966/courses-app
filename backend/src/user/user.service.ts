@@ -6,7 +6,8 @@ import { UserDto } from './user.dto';
 
 @Injectable()
 export class UserService {
-  constructor() { }
+  constructor(
+  ) { }
 
   async getByEmail(email: string): Promise<any> {
     try {
@@ -53,7 +54,15 @@ export class UserService {
         });
       }
 
-      await UserCategories.insert(categoriesToSave);
+      return await UserCategories.insert(categoriesToSave);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  async setUserData(userId, userData: UserDto): Promise<any> {
+    try {
+      await User.update(userId, userData);
+      return await User.findOne({ id: userId });
     } catch (error) {
       console.error(error);
     }

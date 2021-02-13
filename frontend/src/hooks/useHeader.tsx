@@ -1,18 +1,16 @@
-import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { setHeader } from '../slices/header';
+import { useRootStore } from '../stores/storeContext';
 
 const useHeader = (
   title: string,
   subtitle?: string,
-  back?: string,
   noLeft?: boolean,
-  hideOnMobile?: boolean,
   hide?: boolean
 ) => {
-  const dispatch = useDispatch();
+  const { headerStore } = useRootStore();
+
   useEffect(() => {
-    dispatch(setHeader({ title, subtitle, back, noLeft, hideOnMobile, hide }));
-  }, [title, subtitle, back, noLeft, hideOnMobile, hide]);
+    headerStore.setHeader({ title, subtitle, noLeft, hide });
+  }, [title, subtitle, noLeft, hide]);
 };
 export default useHeader;
