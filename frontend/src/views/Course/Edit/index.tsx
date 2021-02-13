@@ -1,8 +1,9 @@
 import { Box, Spinner } from '@chakra-ui/react';
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
+import { CourseForm } from '../../../components/forms/Course';
 
 const EditCourse: FC = observer(() => {
   const { courseId } = useParams<{courseId: string}>();
@@ -17,7 +18,7 @@ const EditCourse: FC = observer(() => {
   return (
     <FormProvider {...methods} >
       <Box as="section">
-        
+        <CourseForm />
       </Box>
     </FormProvider>
   );

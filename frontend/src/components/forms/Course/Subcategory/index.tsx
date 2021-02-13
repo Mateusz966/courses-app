@@ -5,7 +5,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { FC } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import { NavLink } from 'react-router-dom';
+import { Link as RLink } from 'react-router-dom';
 import { courseSubcategorySchema } from '../../../../formSchemas/courseCategoryForm';
 import { useCategories } from '../../../../hooks/useCategories';
 import { useCourse } from '../../../../hooks/useCourse';
@@ -47,7 +47,7 @@ export const CourseSubcategoryForm: FC = observer(() => {
           />
         </FormField>
         <HStack>
-          <Link as={NavLink} to="/dashboard/course/add/category">
+          <Link as={RLink} to="/dashboard/course/add/category">
             Back
           </Link>
           <Button type="submit" isValid={isValid}>

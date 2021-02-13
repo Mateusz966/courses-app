@@ -7,6 +7,7 @@ import { FormField } from '../../common/FormField';
 import { Input } from '../../common/FormField/Input';
 import { Editor } from '@tinymce/tinymce-react';
 import { observer } from 'mobx-react-lite';
+import { Button } from '../../common/Button';
 
 export const CourseForm: FC = observer(() => {
   const methods = useForm({
@@ -51,6 +52,9 @@ export const CourseForm: FC = observer(() => {
           }}
           onEditorChange={handleEditorChange}
         />
+        <Button type="submit" isValid={isValid}>
+          Aktualizuj kurs
+        </Button>
       </Box>
     </FormProvider>
   );
