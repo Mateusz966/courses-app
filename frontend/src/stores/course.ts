@@ -3,8 +3,6 @@ import { CreateCourse } from '../app-types/category';
 import { handlingError } from '../helpers/handleErrors';
 import api from '../service/api';
 
-
-
 class Course {
   createCourse: CreateCourse = {
     category: null,
@@ -12,22 +10,29 @@ class Course {
     topics: null,
   };
   course: any = {};
+  courseContent: string = '';
   inProgress = false;
 
   constructor() {
     makeObservable(this, {
       course: observable,
+      courseContent: observable,
       createCourse: observable,
       inProgress: observable,
       getCourseDetails: action,
       setCategory: action,
       setSubcategory: action,
       setTopic: action,
+      setContent: action,
     });
   }
 
   setCourse(course: any) {
     this.course = course;
+  }
+
+  setContent(content: string) {
+    this.courseContent = content;
   }
 
   setCategory(category: any) {
@@ -46,10 +51,12 @@ class Course {
     this.course = {};
     this.inProgress = true;
     try {
-      const details = await api.get(`/course/details/${id}`);
+      const details = await api.get<any>(`/course/details/${id}`);
       if (details) {
         runInAction(() => {
-          this.course = details;
+          const { content, ...rest } = details;
+          this.course = rest;
+          this.courseContent = content;
           this.inProgress = false;
         });
       }

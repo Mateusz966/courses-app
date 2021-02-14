@@ -3,6 +3,7 @@ import { history } from '../config/history';
 import { courseStore } from '../stores/course';
 import { CategoryDto, CreateCourse } from '../app-types/category';
 import { CustomSelectOption } from '../../../app-types/global';
+import { useState } from 'react';
 
 interface UseCourse {
   submitCategory: (payload: {
@@ -14,9 +15,14 @@ interface UseCourse {
   createCourse: (payload: {
     topics: CustomSelectOption<CategoryDto>[];
   }) => void;
+  updateCourse: any;
+  inProgress: boolean;
 }
 
 export const useCourse = (): UseCourse => {
+
+  const [inProgress, setInProgress] = useState(false);
+
   const submitCategory = async (payload: {
     category: CustomSelectOption<CategoryDto>;
   }) => {
@@ -42,9 +48,15 @@ export const useCourse = (): UseCourse => {
     history.push(`/dashboard/course/edit/${courseId}`);
   };
 
+  const updateCourse = async (payload: any, setError: any, courseId: string) => {
+    await api.post(`/course/update/${courseId}`, payload, setError, setInProgress);
+  }
+
   return {
     createCourse,
     submitCategory,
     submitSubcategory,
+    updateCourse,
+    inProgress
   };
 };

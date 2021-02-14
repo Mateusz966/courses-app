@@ -11,6 +11,7 @@ import {
 import { CourseTopics } from './course-topics.entity';
 import { Subcategory } from 'src/category/entities/subcategory.entity';
 import { Section } from './section.entity';
+import { CourseStatus } from '../../../app-types/category';
 
 @Entity()
 export class Course extends BaseEntity {
@@ -26,8 +27,8 @@ export class Course extends BaseEntity {
   @Column({ type: 'text', default: '' })
   content: string;
 
-  @Column({ default: true })
-  isDraft: boolean;
+  @Column({ default: CourseStatus.Draft })
+  courseStatus: CourseStatus;
 
   @OneToMany(() => CourseTopics, (courseTopic) => courseTopic.course)
   courseTopics: CourseTopics[];

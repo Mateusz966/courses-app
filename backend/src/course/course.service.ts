@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateCourse } from 'app-types/category';
+import { CourseStatus, CreateCourse } from 'app-types/category';
 import { Category } from 'src/category/entities/category.entity';
 import { Topic } from 'src/category/entities/topic.entity';
 import { User } from '../user/entity/user.entity';
@@ -48,16 +48,36 @@ export class CourseService {
     }
   }
 
+  async getCourseDetails(id: string) {
+    try {
+      return await Course.findOne({ where: { id } });
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async update(newCourse: any, courseId: string) {
     const course = await Course.findOne({ where: { id: courseId } });
     course.description = newCourse.description;
     course.title = newCourse.title;
-    course.category = newCourse.category;
+    course.content = newCourse.content;
+  }
+
+  async updateCategoriesDetails() {
+    const course = new Course();
+    const courseTopics: CourseTopics[] = [];
+    const courseTopicsToSave: CourseTopics[] = [];
   }
 
   async publish(courseId: string) {
     const course = await Course.findOne({ where: { id: courseId } });
-    course.isDraft = false;
+    course.courseStatus = CourseStatus.Published;
+    return await course.save();
+  }
+
+  async delete(courseId: string) {
+    const course = await Course.findOne({ where: { id: courseId } });
+    course.courseStatus = CourseStatus.Removed;
     return await course.save();
   }
 }

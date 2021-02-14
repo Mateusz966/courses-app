@@ -1,34 +1,63 @@
 import { Box } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import React, { FC, useCallback, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import React, { FC, useCallback, useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import { loginSchema } from '../../../formSchemas/login';
 import { FormField } from '../../common/FormField';
 import { Input } from '../../common/FormField/Input';
 import { Editor } from '@tinymce/tinymce-react';
 import { observer } from 'mobx-react-lite';
 import { Button } from '../../common/Button';
+import { courseStore } from '../../../stores/course';
+import { courseSchema } from '../../../formSchemas/course';
+import { useCourse } from '../../../hooks/useCourse';
+import { useDebounce } from '../../../hooks/useDebounce';
 
 export const CourseForm: FC = observer(() => {
+  const { courseId } = useParams<{ courseId: string }>();
   const methods = useForm({
     mode: 'onChange',
-    resolver: yupResolver(loginSchema),
+    resolver: yupResolver(courseSchema),
   });
-
-  const [content, setContent] = useState();
-
   const handleEditorChange = useCallback(
     (content, editor) => {
-      setContent(content);
+      courseStore.setContent(content);
     },
-    [content]
+    [courseStore.courseContent]
   );
+  const { inProgress, updateCourse } = useCourse();
 
   const { isValid } = methods.formState;
+  const { getValues } = methods;
+
+  const contentDebounce = useDebounce(courseStore.courseContent, 2000);
+
+  useEffect(() => {
+    if (courseId) {
+      courseStore.getCourseDetails(courseId);
+    }
+  }, [courseId]);
+
+  useEffect(() => {
+    if (courseStore.course) {
+      methods.reset(courseStore.course);
+    }
+  }, [courseStore.course]);
+
+  useEffect(() => {
+    updateCourse(getValues(), methods.setError, courseId);
+  }, [contentDebounce]);
 
   return (
     <FormProvider {...methods}>
-      <Box maxW="425px" margin="auto" as="form">
+      <Box
+        maxW="425px"
+        margin="auto"
+        as="form"
+        onSubmit={methods.handleSubmit((data: any) =>
+          updateCourse(data, methods.setError, courseId)
+        )}
+      >
         <FormField labelText="Title" inputName="title">
           <Input type="text" placeholder="NodeJS Course" />
         </FormField>
@@ -37,7 +66,7 @@ export const CourseForm: FC = observer(() => {
         </FormField>
         <Editor
           apiKey="f77pjcz1vwa1mi1almj8uhwj2crs196lq21stcyj2dq0w8pf"
-          initialValue={`<p></p>`}
+          initialValue={courseStore?.courseContent}
           init={{
             height: 400,
             plugins: [
@@ -52,8 +81,8 @@ export const CourseForm: FC = observer(() => {
           }}
           onEditorChange={handleEditorChange}
         />
-        <Button type="submit" isValid={isValid}>
-          Aktualizuj kurs
+        <Button type="submit" isValid={isValid} inProgress={inProgress}>
+          Opublikuj kurs
         </Button>
       </Box>
     </FormProvider>

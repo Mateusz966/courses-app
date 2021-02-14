@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { CreateCourse } from '../../app-types/category';
 import { UserObj } from 'decorators/user-obj.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CourseService } from './course.service';
@@ -13,13 +14,13 @@ export class CourseController {
     try {
       return await this.courseService.myAll(user.id);
     } catch (error) {
-      throw error
+      throw error;
     }
-  };
+  }
 
   @UseGuards(JwtAuthGuard)
   @Post('/add')
-  async add(@UserObj() user, @Body() categoriesDetails: any) {
+  async add(@UserObj() user, @Body() categoriesDetails: CreateCourse) {
     try {
       return await this.courseService.add(user, categoriesDetails);
     } catch (error) {
@@ -27,8 +28,16 @@ export class CourseController {
     }
   }
 
-  @Post('/update/:courseId')
-  async update() {
-    
+  @UseGuards(JwtAuthGuard)
+  @Get('/details/:courseId')
+  async getCourseDetails(@Param('courseId') courseId: string) {
+    try {
+      return await this.courseService.getCourseDetails(courseId);
+    } catch (error) {
+      throw error;
+    }
   }
+
+  @Post('/update/:courseId')
+  async update() {}
 }
