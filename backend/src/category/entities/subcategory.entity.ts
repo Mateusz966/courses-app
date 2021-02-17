@@ -1,4 +1,5 @@
-import { Course } from 'src/course/entities/course.entity';
+import { ISubcategory } from 'app-types/category';
+import { Course } from '../../course/entities/course.entity';
 import {
   Entity,
   Column,
@@ -11,7 +12,7 @@ import { Category } from './category.entity';
 import { Topic } from './topic.entity';
 
 @Entity()
-export class Subcategory extends BaseEntity {
+export class Subcategory extends BaseEntity implements ISubcategory {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -20,7 +21,6 @@ export class Subcategory extends BaseEntity {
 
   @ManyToOne(() => Category, (category) => category.subcategory)
   category: Category;
-
 
   @OneToMany(() => Topic, (topic) => topic.subcategory)
   topic: Topic;

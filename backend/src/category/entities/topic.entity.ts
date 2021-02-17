@@ -9,9 +9,10 @@ import {
 import { Category } from './category.entity';
 import { CourseTopics } from 'src/course/entities/course-topics.entity';
 import { Subcategory } from './subcategory.entity';
+import { ITopic } from '../../../app-types/category';
 
 @Entity()
-export class Topic extends BaseEntity {
+export class Topic extends BaseEntity implements ITopic {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

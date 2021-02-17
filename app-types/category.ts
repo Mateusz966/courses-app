@@ -1,8 +1,44 @@
-import { BaseSelectOption, CustomSelectOption } from "./global";
+import { ICourse } from "./course";
+import { CustomSelectOption } from "./global";
+import { IUser } from "./user";
+
+export interface ISubcategory {
+  id: string;
+  name: string;
+  category: ICategory;
+  topic: ITopic;
+  course: ICourse;
+}
+export interface ITopic {
+  id: string;
+  name: string;
+  userCategories: IUserCategories;
+  course: ICourse;
+  topic: ITopic;
+  subcategory: ISubcategory;
+}
+
+export interface ICategory {
+  id: string;
+  name: string;
+  userCategories: IUserCategories;
+  course: ICourse;
+  topic: ITopic;
+  subcategory: ISubcategory;
+}
+
+export interface IUserCategories {
+  user: IUser; 
+  category: ICategory;
+}
 
 export interface CategoryDto {
   id: string;
   name: string;
+  userCategories: IUserCategories;
+  course: ICourse;
+  topic: ITopic;
+  subcategory: ISubcategory;
 }
 
 export type CreateCourse = {

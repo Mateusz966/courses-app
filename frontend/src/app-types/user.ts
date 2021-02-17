@@ -1,4 +1,7 @@
-
+export interface IUserCategories {
+  user: IUser; 
+  category: ICategory;
+}
 // Internal type
 export interface UserDefault {
   email: string;
@@ -21,7 +24,7 @@ export interface UserRes {
   lastName: string;
 }
 
-export interface UserEntity extends UserDefault {
+export interface IUser extends UserDefault {
   id: string;
 }
 

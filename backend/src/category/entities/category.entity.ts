@@ -1,4 +1,4 @@
-import { CategoryDto } from '../../../app-types/category';
+import {  ICategory } from '../../../app-types/category';
 import { UserCategories } from '../../user/entity/user-categories.entity';
 import {
   Entity,
@@ -13,7 +13,7 @@ import { Course } from 'src/course/entities/course.entity';
 import { Subcategory } from './subcategory.entity';
 
 @Entity()
-export class Category extends BaseEntity implements CategoryDto {
+export class Category extends BaseEntity implements ICategory {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

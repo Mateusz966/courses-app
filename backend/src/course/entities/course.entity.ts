@@ -12,9 +12,10 @@ import { CourseTopics } from './course-topics.entity';
 import { Subcategory } from 'src/category/entities/subcategory.entity';
 import { Section } from './section.entity';
 import { CourseStatus } from '../../../app-types/category';
+import { ICourse } from '../../../app-types/course';
 
 @Entity()
-export class Course extends BaseEntity {
+export class Course extends BaseEntity implements ICourse {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -43,5 +44,5 @@ export class Course extends BaseEntity {
   category: Category;
 
   @ManyToOne(() => Subcategory, (subcategory) => subcategory.course)
-  subcategory: Category;
+  subcategory: Subcategory;
 }

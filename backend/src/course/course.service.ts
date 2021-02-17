@@ -23,7 +23,7 @@ export class CourseService {
       course.user = user;
       course.title = 'No title';
       course.description = '';
-      course.category = categoriesDetails.category.value as Category;
+      course.category = categoriesDetails.category.value;
       course.subcategory = categoriesDetails.subcategory.value as Category;
 
       const addedCourse = await course.save();

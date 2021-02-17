@@ -6,11 +6,11 @@ import {
   BaseEntity,
   OneToMany,
 } from 'typeorm';
-import { UserEntity } from '../../../app-types/user';
+import { IUser } from '../../../app-types/user';
 import { UserCategories } from './user-categories.entity';
 
 @Entity()
-export class User extends BaseEntity implements UserEntity {
+export class User extends BaseEntity implements IUser {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
