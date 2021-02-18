@@ -3,18 +3,16 @@ import { UserCategories } from './entity/user-categories.entity';
 import { User } from './entity/user.entity';
 import { UserDto } from './user.dto';
 
-
 @Injectable()
 export class UserService {
-  constructor(
-  ) { }
+  constructor() {}
 
   async getByEmail(email: string): Promise<any> {
     try {
       const user = await User.findOne({
         where: {
           email,
-        }
+        },
       });
       return user ? user : undefined;
     } catch (error) {
@@ -27,11 +25,13 @@ export class UserService {
     if (user) {
       return user;
     }
-    throw new HttpException('User with this id does not exist', HttpStatus.NOT_FOUND);
+    throw new HttpException(
+      'User with this id does not exist',
+      HttpStatus.NOT_FOUND,
+    );
   }
 
   async saveUser(newUser: UserDto): Promise<any> {
-
     try {
       const user = new User();
 

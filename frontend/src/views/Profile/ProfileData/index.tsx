@@ -21,24 +21,21 @@ const Profile: FC = observer(() => {
     <Box as="section" marginTop="5%">
       <Container maxW="xl" centerContent>
         <Grid
-          templateRows={{ lg: '0.3fr 1fr' }}
-          templateColumns={{ lg: '0.2fr 1fr' }}
+          templateRows={{ lg: '0.5fr 1fr' }}
+          templateColumns={{ lg: '0.4fr 0.2fr 1fr' }}
           gap={4}
         >
           <GridItem>
-            <Circle>
-              {
+            <Box>
                 <Image
-                  boxSize="100%"
                   src={avatar}
                   objectFit="cover"
-                  alt="User profile photo"
+                  alt="User profile photo"                  
                 />
-              }
-            </Circle>
+            </Box>
           </GridItem>
-          <GridItem w="100%">
-            <Center>
+          <GridItem w="100%" colSpan={2}>
+            <Center >
               Profil użytkownika  {userStore.user.details?.firstName}{' '}
               {userStore.user.details?.lastName}
             </Center>

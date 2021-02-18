@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Box } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, FormProvider } from 'react-hook-form';
@@ -22,8 +22,10 @@ export const ProfileForm: FC = observer(() => {
   const { isValid } = methods.formState;
 
   useEffect(() => {
-    methods.reset(userStore.user?.details as any)
-    }, [])
+    methods.reset(userStore.user?.details as any);
+  }, []);
+  
+  const [photo, setPhoto] = useState<any>();
 
   return (
     <FormProvider {...methods}>
@@ -35,6 +37,8 @@ export const ProfileForm: FC = observer(() => {
           submit(payload, methods.setError)
         )}
       >
+        <input type="file" onChange={(e)=>e.target?.files && setPhoto(URL.createObjectURL(e.target.files[0]))}/>
+        <img src={photo} alt=""/>
         <FormField
           labelText={`Obecne imie ${userStore.user.details?.firstName}`}
           inputName="firstName"

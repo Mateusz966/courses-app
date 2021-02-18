@@ -18,17 +18,16 @@ export const useProfileSetPassword = (): UseProfileSetPassword => {
     setInProgress(true);
 
     const res = await api.post<UserReq, UserSetPassword>(
-      `/user/profile-set-password`,
+      `/auth/profile/set-password`,
       payload,
       setError,
       setInProgress
     );
 
     if (res) {
-      console.log(res);
       userStore.setUser(res);
       successNotification('Dane zostały zmienione');
-      history.push('/profile-set-password');
+      history.push('/dashboard/profile/set-password');
     }
   };
 

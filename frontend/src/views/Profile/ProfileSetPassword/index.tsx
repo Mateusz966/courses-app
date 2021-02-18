@@ -6,11 +6,14 @@ import {
   Container,
   Image,
   Circle,
+  Link,
 } from '@chakra-ui/react';
 import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
 import avatar from '../../../assets/blank-profile.svg';
+import { ProfileSetPasswordForm } from '../../../components/forms/Profile/ProfileSetPassword';
 import { useRootStore } from '../../../stores/storeContext';
+import { Link as RLink } from 'react-router-dom';
 
 const ProfileSetPassword: FC = observer(() => {
   const { userStore } = useRootStore();
@@ -36,12 +39,15 @@ const ProfileSetPassword: FC = observer(() => {
           </GridItem>
           <GridItem w="100%">
             <Center>
-              Profil użytkownika X {userStore.user.details?.firstName}
+              Profil użytkownika {userStore.user.details?.firstName}{' '}
               {userStore.user.details?.lastName}
             </Center>
           </GridItem>
           <GridItem w="100%" colSpan={3}>
-            <Center>dupa</Center>
+            <Link as={RLink} to="/dashboard/profile/details">
+              User data
+            </Link>
+            <Center><ProfileSetPasswordForm/></Center>
           </GridItem>
         </Grid>
       </Container>

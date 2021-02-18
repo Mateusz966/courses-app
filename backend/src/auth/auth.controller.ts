@@ -73,7 +73,7 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('profile-set-password')
+  @Post('profile/set-password')
   async setPassword(@Body() userData: any, @UserObj() user) {
     return await this.authService.setPassword(user.id, userData);
   }

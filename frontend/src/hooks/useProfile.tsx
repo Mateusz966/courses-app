@@ -18,17 +18,16 @@ export const useProfile = (): UseProfile => {
     setInProgress(true);
 
     const res = await api.post<UserReq, UserMyProfile>(
-      `/user/profile`,
+      `/user/profile/details`,
       payload,
       setError,
       setInProgress
     );
 
     if (res) {
-      console.log(res);
       userStore.setUser(res);
       successNotification('Dane zostały zmienione');
-      history.push('/profile');
+      history.push('/dashboard/profile/details');
     }
   };
 

@@ -1,5 +1,5 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { hash, compare } from 'bcrypt';;
+import { hash, compare } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../user/entity/user.entity';
 import { UserDto } from '../user/user.dto';
@@ -12,16 +12,17 @@ interface TokenPayload {
 
 @Injectable()
 export class AuthService {
-
-  constructor(    
+  constructor(
     private readonly jwtService: JwtService,
-    private readonly configService: ConfigService
-  ) { }
+    private readonly configService: ConfigService,
+  ) {}
 
   async getCookieWithJwtToken(userId: string) {
     const payload: TokenPayload = { userId };
     const token = this.jwtService.sign(payload);
-    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get('JWT_EXPIRATION_TIME')}`;
+    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
+      'JWT_EXPIRATION_TIME',
+    )}`;
   }
 
   async hashPassword(password: string): Promise<string> {
@@ -37,7 +38,7 @@ export class AuthService {
   async validateUser(user: UserDto): Promise<UserRes> {
     const { email } = user;
     try {
-      const userInDb = await User.findOne({ email } );
+      const userInDb = await User.findOne({ email });
       if (userInDb) {
         const isUserValid = await compare(user.password, userInDb.password);
         const { password, ...userRes } = userInDb;
@@ -50,7 +51,7 @@ export class AuthService {
   }
 
   async login(user: UserRes) {
-    const { id, firstName, lastName, email } = user
+    const { id, firstName, lastName, email } = user;
     const payload = {
       email,
       id,
@@ -58,23 +59,20 @@ export class AuthService {
       lastName,
     };
     return {
-      token: this.jwtService.sign(payload)
-    }
+      token: this.jwtService.sign(payload),
+    };
   }
 
   async setPassword(userId, userData): Promise<any> {
     try {
-      const hashedPassword = await this.hashPassword(userData.oldPassword);
       const user = await User.findOne({ id: userId });
-      if (hashedPassword === user.password) {
+      if (compare(userData.oldPassword, user.password)) {
         const newPassword = await this.hashPassword(userData.newPassword);
         await User.update(userId, { password: newPassword });
         return await User.findOne({ id: userId });
       }
-      return "Podane hasło jest nie prawidłowe";
     } catch (error) {
       console.error(error);
     }
   }
-
 }

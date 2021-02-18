@@ -2,20 +2,20 @@ import { FC } from 'react';
 import { Box } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, FormProvider } from 'react-hook-form';
-import { useProfile } from '../../../../hooks/useProfile';
+import { useProfileSetPassword } from '../../../../hooks/useProfileSetPassword';
 import { FormField } from '../../../common/FormField';
 import { Input } from '../../../common/FormField/Input';
 import { Button } from '../../../common/Button';
-import { profileSchema } from '../../../../formSchemas/profile';
-import { UserMyProfile } from '../../../../app-types/user';
+import { profileSetPasswordSchema } from '../../../../formSchemas/profileSetPassword';
+import { UserSetPassword } from '../../../../app-types/user';
 
 export const ProfileSetPasswordForm: FC = () => {
   const methods = useForm({
     mode: 'onChange',
-    resolver: yupResolver(profileSchema),
+    resolver: yupResolver(profileSetPasswordSchema),
   });
 
-  const { submit, inProgress } = useProfile();
+  const { submit, inProgress } = useProfileSetPassword();
   const { isValid } = methods.formState;
 
   return (
@@ -24,7 +24,7 @@ export const ProfileSetPasswordForm: FC = () => {
         maxW="100%"
         margin="auto"
         as="form"
-        onSubmit={methods.handleSubmit((payload: UserMyProfile) =>
+        onSubmit={methods.handleSubmit((payload: UserSetPassword) =>
           submit(payload, methods.setError)
         )}
       >

@@ -17,7 +17,7 @@ export const NotLoggedActions: FC<Props> = ({ justifyContentType }) => {
           isValid
           type="button"
           variant="outline"
-          onClick={() => history.push('sign-in')}
+          onClick={() => history.push('/sign-in')}
         >
           Sign In
         </Button>
@@ -27,7 +27,7 @@ export const NotLoggedActions: FC<Props> = ({ justifyContentType }) => {
           mt0
           isValid
           type="button"
-          onClick={() => history.push('sign-up')}
+          onClick={() => history.push('/sign-up')}
         >
           Sign Up
         </Button>
