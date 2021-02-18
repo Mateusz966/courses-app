@@ -1,3 +1,4 @@
+import { ISection } from 'app-types/course';
 import {
   Entity,
   BaseEntity,
@@ -10,7 +11,7 @@ import { Course } from './course.entity';
 import { Lesson } from './lesson.entity';
 
 @Entity()
-export class Section extends BaseEntity {
+export class Section extends BaseEntity implements ISection {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

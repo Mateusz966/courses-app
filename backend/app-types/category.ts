@@ -1,4 +1,4 @@
-import { ICourse } from "./course";
+import { ICourse, ICourseTopics } from "./course";
 import { CustomSelectOption } from "./global";
 import { IUser } from "./user";
 
@@ -8,20 +8,20 @@ export interface ISubcategory {
   category: ICategory;
   topic: ITopic;
   course: ICourse;
+
 }
 export interface ITopic {
   id: string;
   name: string;
-  userCategories: IUserCategories;
-  course: ICourse;
-  topic: ITopic;
+  category: ICategory;
   subcategory: ISubcategory;
+  courseTopics: ICourseTopics[];
 }
 
 export interface ICategory {
   id: string;
   name: string;
-  userCategories: IUserCategories;
+  userCategories: IUserCategories[];
   course: ICourse;
   topic: ITopic;
   subcategory: ISubcategory;

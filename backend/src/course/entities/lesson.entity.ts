@@ -1,3 +1,4 @@
+import { ILesson } from 'app-types/course';
 import {
   Entity,
   BaseEntity,
@@ -8,7 +9,7 @@ import {
 import { Section } from './section.entity';
 
 @Entity()
-export class Lesson extends BaseEntity {
+export class Lesson extends BaseEntity implements ILesson {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

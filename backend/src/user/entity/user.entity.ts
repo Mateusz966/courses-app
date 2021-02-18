@@ -1,3 +1,4 @@
+import { ICourse } from 'app-types/course';
 import { Course } from 'src/course/entities/course.entity';
 import {
   Entity,
@@ -6,11 +7,12 @@ import {
   BaseEntity,
   OneToMany,
 } from 'typeorm';
-import { IUser } from '../../../app-types/user';
+import { IUser, IUserCategories } from '../../../app-types/user';
 import { UserCategories } from './user-categories.entity';
 
 @Entity()
 export class User extends BaseEntity implements IUser {
+
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -23,15 +25,13 @@ export class User extends BaseEntity implements IUser {
   @Column()
   password: string;
 
-  @Column({ nullable: true })
-  phoneNumber: string | null;
-
   @Column({ unique: true })
   email: string;
 
   @OneToMany(() => UserCategories, (userCategories) => userCategories.user)
-  userCategories: UserCategories;
-
+  userCategories: UserCategories[];
+  
   @OneToMany(() => Course, (course) => course.user)
   course: Course;
+
 }

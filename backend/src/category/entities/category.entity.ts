@@ -1,4 +1,4 @@
-import {  ICategory } from '../../../app-types/category';
+import {  ICategory, ISubcategory, ITopic, IUserCategories } from '../../../app-types/category';
 import { UserCategories } from '../../user/entity/user-categories.entity';
 import {
   Entity,
@@ -11,9 +11,11 @@ import {
 import { Topic } from './topic.entity';
 import { Course } from 'src/course/entities/course.entity';
 import { Subcategory } from './subcategory.entity';
+import { ICourse } from 'app-types/course';
 
 @Entity()
 export class Category extends BaseEntity implements ICategory {
+
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -21,7 +23,7 @@ export class Category extends BaseEntity implements ICategory {
   name: string;
 
   @OneToMany(() => UserCategories, (userCategories) => userCategories.category)
-  userCategories: UserCategories;
+  userCategories: UserCategories[];
 
   @OneToMany(() => Course, (course) => course.category)
   course: Course;
