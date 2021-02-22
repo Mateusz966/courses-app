@@ -38,6 +38,13 @@ export class CourseController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/update/:courseId')
-  async update() {}
+  async update(@Param('courseId') courseId: string, @Body() payload: any) {
+    try {
+      return await this.courseService.update(payload, courseId);
+    } catch (error) {
+      throw error;
+    }
+  }
 }

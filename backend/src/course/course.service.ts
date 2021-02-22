@@ -59,10 +59,16 @@ export class CourseService {
   }
 
   async update(newCourse: any, courseId: string) {
-    const course = await Course.findOne({ where: { id: courseId } });
-    course.description = newCourse.description;
-    course.title = newCourse.title;
-    course.content = newCourse.content;
+    try {
+      const course = await Course.findOne({ where: { id: courseId } });
+      course.description = newCourse.description;
+      course.title = newCourse.title;
+      course.content = newCourse.content;
+      return await course.save();
+    } catch (error) {
+      throw error;
+    }
+
   }
 
   async updateCategoriesDetails() {
