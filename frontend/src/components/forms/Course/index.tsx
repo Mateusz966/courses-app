@@ -45,7 +45,12 @@ export const CourseForm: FC = observer(() => {
   }, [courseStore.course]);
 
   useEffect(() => {
-    updateCourse(getValues(), methods.setError, courseId);
+    updateCourse(
+      getValues(),
+      courseStore.courseContent,
+      methods.setError,
+      courseId
+    );
   }, [contentDebounce]);
 
   return (

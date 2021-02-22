@@ -48,8 +48,10 @@ export const useCourse = (): UseCourse => {
     history.push(`/dashboard/course/edit/${courseId}`);
   };
 
-  const updateCourse = async (payload: any, setError: any, courseId: string) => {
-    await api.post(`/course/update/${courseId}`, payload, setError, setInProgress);
+  const updateCourse = async (payload: any, content: any, setError: any, courseId: string) => {
+    const fd = new FormData();
+    fd.append('body', JSON.stringify({...payload, content}));
+    await api.post(`/course/update/${courseId}`, fd, setError, setInProgress);
   }
 
   return {
