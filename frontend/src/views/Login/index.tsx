@@ -16,7 +16,7 @@ const Login: FC = () => {
 
   return (
     <ContainerPhotoContent
-      image={<Image boxSize="100%" src={LoginDesktop} objectFit="cover" />}
+      image={<Image boxSize="100%" h="100vh" src={LoginDesktop} objectFit="cover" />}
       content={
         <>
           <GridItem>

@@ -1,5 +1,7 @@
 import { action, makeObservable, observable, runInAction } from 'mobx';
-import { CreateCourse } from '../app-types/category';
+import { CategoryDto, CreateCourse } from '../app-types/category';
+import { ICourse } from '../app-types/course';
+import { CustomSelectOption } from '../app-types/global';
 import { handlingError } from '../helpers/handleErrors';
 import api from '../service/api';
 
@@ -9,7 +11,7 @@ class Course {
     subcategory: null,
     topics: null,
   };
-  course: any = {};
+  course?: Omit<ICourse, 'content'>;
   courseContent: string = '';
   inProgress = false;
 
@@ -27,7 +29,7 @@ class Course {
     });
   }
 
-  setCourse(course: any) {
+  setCourse(course: Omit<ICourse, 'content'>) {
     this.course = course;
   }
 
@@ -35,23 +37,22 @@ class Course {
     this.courseContent = content;
   }
 
-  setCategory(category: any) {
+  setCategory(category: CustomSelectOption<CategoryDto>) {
     this.createCourse.category = category;
   }
 
-  setSubcategory(subcategory: any) {
+  setSubcategory(subcategory: CustomSelectOption<CategoryDto>) {
     this.createCourse.subcategory = subcategory;
   }
 
-  setTopic(topic: any) {
+  setTopic(topic: CustomSelectOption<CategoryDto>[]) {
     this.createCourse.topics = topic;
   }
 
   async getCourseDetails(id: string) {
-    this.course = {};
     this.inProgress = true;
     try {
-      const details = await api.get<any>(`/course/details/${id}`);
+      const details = await api.get<ICourse>(`/course/details/${id}`);
       if (details) {
         runInAction(() => {
           const { content, ...rest } = details;

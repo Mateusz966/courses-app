@@ -18,7 +18,11 @@ import { Button } from '../../../common/Button';
 import { FormField } from '../../../common/FormField';
 import { FormSelect } from '../../../common/FormField/Select';
 
-export const CourseTopicForm: FC = observer(() => {
+interface Props {
+  courseId?: string;
+}
+
+export const CourseTopicForm: FC<Props> = observer(({ courseId }) => {
   const methods = useForm({
     mode: 'onChange',
     resolver: yupResolver(courseTopicsSchema),

@@ -28,9 +28,13 @@ export const CourseForm: FC = observer(() => {
   const { inProgress, updateCourse } = useCourse();
 
   const { isValid } = methods.formState;
-  const { getValues } = methods;
+  const { getValues, watch, reset } = methods;
+  const title = watch('title');
+  const description = watch('description');
 
-  const contentDebounce = useDebounce(courseStore.courseContent, 2000);
+  const contentDebounce = useDebounce(courseStore.courseContent, 3500);
+  const titleDebounce = useDebounce(title, 3500);
+  const descriptionDebounce = useDebounce(description, 3500);
 
   useEffect(() => {
     if (courseId) {
@@ -40,7 +44,7 @@ export const CourseForm: FC = observer(() => {
 
   useEffect(() => {
     if (courseStore.course) {
-      methods.reset(courseStore.course);
+      reset(courseStore.course);
     }
   }, [courseStore.course]);
 
@@ -51,7 +55,7 @@ export const CourseForm: FC = observer(() => {
       methods.setError,
       courseId
     );
-  }, [contentDebounce]);
+  }, [contentDebounce, titleDebounce, descriptionDebounce]);
 
   return (
     <FormProvider {...methods}>
@@ -75,9 +79,9 @@ export const CourseForm: FC = observer(() => {
           init={{
             height: 400,
             plugins: [
-              'advlist autolink lists link image charmap preview anchor',
-              'searchreplace visualblocks code fullscreen',
-              'insertdatetime medi paste code help',
+              'advlist autolink lists link preview anchor',
+              'searchreplace',
+              'paste code help',
             ],
             toolbar:
               'undo redo | formatselect | bold italic backcolor | \
