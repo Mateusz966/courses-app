@@ -1,11 +1,13 @@
 import { Box, HStack, Link } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useEffect } from 'react';
 import { FC } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { Link as RLink } from 'react-router-dom';
+import { CategoryDto } from '../../../../app-types/category';
+import { CustomSelectOption } from '../../../../app-types/global';
 import { courseSubcategorySchema } from '../../../../formSchemas/courseCategoryForm';
 import { useCategories } from '../../../../hooks/useCategories';
 import { useCourse } from '../../../../hooks/useCourse';
@@ -28,9 +30,22 @@ export const CourseSubcategoryForm: FC<Props> = observer(({ courseId }) => {
   const { submitSubcategory } = useCourse();
   const { isValid } = methods.formState;
 
+  const backLink = useCallback(() => {
+    const url = courseId
+      ? `/dashboard/course/edit/category/${courseId}`
+      : '/dashboard/course/add/category';
+    return url;
+  }, [courseId]);
+
   useEffect(() => {
     getSubcategories(courseStore.createCourse?.category?.value?.id);
   }, []);
+
+  useEffect(() => {
+    if (courseId) {
+      courseStore.setTopic(null);
+    }
+  }, [methods.getValues('subcategory')]);
 
   return (
     <FormProvider {...methods}>
@@ -38,7 +53,10 @@ export const CourseSubcategoryForm: FC<Props> = observer(({ courseId }) => {
         maxW="425px"
         margin="auto"
         as="form"
-        onSubmit={methods.handleSubmit(submitSubcategory)}
+        onSubmit={methods.handleSubmit(
+          (payload: { subcategory: CustomSelectOption<CategoryDto> }) =>
+            submitSubcategory(payload, courseId)
+        )}
       >
         <FormField
           labelText="Course subcategory"
@@ -51,7 +69,7 @@ export const CourseSubcategoryForm: FC<Props> = observer(({ courseId }) => {
           />
         </FormField>
         <HStack>
-          <Link as={RLink} to="/dashboard/course/add/category">
+          <Link as={RLink} to={backLink()}>
             Back
           </Link>
           <Button type="submit" isValid={isValid}>

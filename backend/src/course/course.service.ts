@@ -30,19 +30,7 @@ export class CourseService {
 
       const addedCourse = await course.save();
 
-      const courseTopics: CourseTopics[] = [];
-      const courseTopicsToSave: CourseTopics[] = [];
-
-      if (addedCourse) {
-        categoriesDetails.topics.forEach((topic, index) => {
-          courseTopics[index] = new CourseTopics();
-          courseTopics[index].course = addedCourse;
-          courseTopics[index].topic = topic.value as Topic;
-          courseTopicsToSave.push(courseTopics[index]);
-        });
-      }
-
-      await CourseTopics.save(courseTopicsToSave);
+      await this.handleCourseTopics(addedCourse, categoriesDetails);
 
       return addedCourse.id;
     } catch (error) {
@@ -51,16 +39,12 @@ export class CourseService {
   }
 
   async getCourseDetails(id: string) {
-    try {
-      return await Course.findOne({ where: { id } });
-    } catch (error) {
-      throw error;
-    }
+    return await Course.findOrThrow({ where: { id } });
   }
 
   async update(newCourse: any, courseId: string) {
     try {
-      const course = await Course.findOne({ where: { id: courseId } });
+      const course = await Course.findOrThrow({ where: { id: courseId } });
       course.description = newCourse.description;
       course.title = newCourse.title;
       course.content = newCourse.content;
@@ -68,24 +52,43 @@ export class CourseService {
     } catch (error) {
       throw error;
     }
-
   }
 
-  async updateCategoriesDetails() {
-    const course = new Course();
-    const courseTopics: CourseTopics[] = [];
-    const courseTopicsToSave: CourseTopics[] = [];
+  async updateCategory(courseId: string, categoriesDetails: CreateCourse) {
+    try {
+      const course = await Course.findOrThrow({ where: { id: courseId } });
+      await this.handleCourseTopics(course, categoriesDetails);
+    } catch (error) {
+      throw error;
+    }
   }
 
   async publish(courseId: string) {
-    const course = await Course.findOne({ where: { id: courseId } });
+    const course = await Course.findOrThrow({ where: { id: courseId } });
     course.courseStatus = CourseStatus.Published;
     return await course.save();
   }
 
   async delete(courseId: string) {
-    const course = await Course.findOne({ where: { id: courseId } });
+    const course = await Course.findOrThrow({ where: { id: courseId } });
     course.courseStatus = CourseStatus.Removed;
     return await course.save();
+  }
+
+  async handleCourseTopics(
+    addedCourse: Course,
+    categoriesDetails: CreateCourse,
+  ) {
+    const courseTopics: CourseTopics[] = [];
+    const courseTopicsToSave: CourseTopics[] = [];
+
+    categoriesDetails.topics.forEach((topic, index) => {
+      courseTopics[index] = new CourseTopics();
+      courseTopics[index].course = addedCourse;
+      courseTopics[index].topic = topic.value as Topic;
+      courseTopicsToSave.push(courseTopics[index]);
+    });
+
+    return await CourseTopics.save(courseTopicsToSave);
   }
 }

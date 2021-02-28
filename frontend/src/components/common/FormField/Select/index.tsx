@@ -45,6 +45,7 @@ export const FormSelect: FC<Props> = ({
       control={control}
       placeholder="Wybierz"
       defaultValue={defaultValue}
+      rules={{ required: isRequired }}
       render={({ value, name, onChange }) => (
         <Select
           defaultValue={defaultValue}

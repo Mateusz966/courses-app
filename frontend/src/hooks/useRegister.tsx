@@ -19,8 +19,8 @@ export const useRegister = (): UseRegister => {
 
     const data: UserReq = {
       ...payload,
-      userCategories: payload?.userCategories?.map((category) => ({
-        id: category.value,
+      userCategories: payload?.userCategories?.map(({ value }) => ({
+        id: value,
       })),
     };
 

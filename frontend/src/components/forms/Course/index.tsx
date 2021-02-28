@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useParams } from 'react-router-dom';
-import React, { FC, useCallback, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import React, { FC, useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { FormField } from '../../common/FormField';
 import { Input } from '../../common/FormField/Input';
@@ -19,22 +19,23 @@ export const CourseForm: FC = observer(() => {
     mode: 'onChange',
     resolver: yupResolver(courseSchema),
   });
-  const handleEditorChange = useCallback(
-    (content, editor) => {
-      courseStore.setContent(content);
-    },
-    [courseStore.courseContent]
-  );
-  const { inProgress, updateCourse } = useCourse();
-
-  const { isValid } = methods.formState;
-  const { getValues, watch, reset } = methods;
+  const DEBOUNCE_TIMEOUT = 3500;
+  const { inProgress, updateCourse, handleEditorChange } = useCourse();
+  const {
+    getValues,
+    watch,
+    reset,
+    formState: { isValid },
+  } = methods;
   const title = watch('title');
   const description = watch('description');
 
-  const contentDebounce = useDebounce(courseStore.courseContent, 3500);
-  const titleDebounce = useDebounce(title, 3500);
-  const descriptionDebounce = useDebounce(description, 3500);
+  const contentDebounce = useDebounce(
+    courseStore.courseContent,
+    DEBOUNCE_TIMEOUT
+  );
+  const titleDebounce = useDebounce(title, DEBOUNCE_TIMEOUT);
+  const descriptionDebounce = useDebounce(description, DEBOUNCE_TIMEOUT);
 
   useEffect(() => {
     if (courseId) {
@@ -90,6 +91,9 @@ export const CourseForm: FC = observer(() => {
           }}
           onEditorChange={handleEditorChange}
         />
+        <Link to={`/dashboard/course/edit/category/details/${courseId}`}>
+          Kategorie
+        </Link>
         <Button type="submit" isValid={isValid} inProgress={inProgress}>
           Opublikuj kurs
         </Button>

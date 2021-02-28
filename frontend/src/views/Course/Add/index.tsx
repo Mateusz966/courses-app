@@ -8,7 +8,6 @@ const AddCourse: FC = () => {
   useEffect(() => {
   }, []);
 
-
   return (
     <Switch>
       <Route

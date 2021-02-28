@@ -1,13 +1,13 @@
-import { Box } from '@chakra-ui/react';
+import { Box, HStack, Link } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useEffect } from 'react';
 import { FC } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
+import { Link as RLink } from 'react-router-dom';
 import { CategoryDto } from '../../../../app-types/category';
 import {
-  BaseSelectOption,
   CustomSelectOption,
 } from '../../../../app-types/global';
 import { courseTopicsSchema } from '../../../../formSchemas/courseCategoryForm';
@@ -32,6 +32,13 @@ export const CourseTopicForm: FC<Props> = observer(({ courseId }) => {
   const { createCourse } = useCourse();
   const { isValid } = methods.formState;
 
+  const backLink = useCallback(() => {
+    const url = courseId
+      ? `/dashboard/course/edit/subcategory/${courseId}`
+      : '/dashboard/course/add/subcategory';
+    return url;
+  }, [courseId]);
+
   useEffect(() => {
     getTopics(
       courseStore.createCourse.category?.value?.id,
@@ -47,7 +54,7 @@ export const CourseTopicForm: FC<Props> = observer(({ courseId }) => {
         as="form"
         onSubmit={methods.handleSubmit(
           (payload: { topics: CustomSelectOption<CategoryDto>[] }) =>
-            createCourse(payload)
+            createCourse(payload, courseId)
         )}
       >
         <FormField
@@ -57,9 +64,14 @@ export const CourseTopicForm: FC<Props> = observer(({ courseId }) => {
         >
           <FormSelect isMulti options={topics ?? []} />
         </FormField>
-        <Button type="submit" isValid={isValid}>
-          Create Course
-        </Button>
+        <HStack>
+          <Link as={RLink} to={backLink()}>
+            Back
+          </Link>
+          <Button type="submit" isValid={isValid}>
+            Next
+          </Button>
+        </HStack>
       </Box>
     </FormProvider>
   );

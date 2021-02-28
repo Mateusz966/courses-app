@@ -8,8 +8,8 @@ export interface ISubcategory {
   category: ICategory;
   topic: ITopic;
   course: ICourse;
-
 }
+
 export interface ITopic {
   id: string;
   name: string;

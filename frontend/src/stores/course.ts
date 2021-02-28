@@ -37,15 +37,15 @@ class Course {
     this.courseContent = content;
   }
 
-  setCategory(category: CustomSelectOption<CategoryDto>) {
+  setCategory(category: CustomSelectOption<CategoryDto> | null) {
     this.createCourse.category = category;
   }
 
-  setSubcategory(subcategory: CustomSelectOption<CategoryDto>) {
+  setSubcategory(subcategory: CustomSelectOption<CategoryDto>| null) {
     this.createCourse.subcategory = subcategory;
   }
 
-  setTopic(topic: CustomSelectOption<CategoryDto>[]) {
+  setTopic(topic: CustomSelectOption<CategoryDto>[]| null) {
     this.createCourse.topics = topic;
   }
 

@@ -4,7 +4,6 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  BaseEntity,
   ManyToOne,
   OneToMany,
 } from 'typeorm';
@@ -13,12 +12,10 @@ import { Subcategory } from 'src/category/entities/subcategory.entity';
 import { Section } from './section.entity';
 import { CourseStatus } from '../../../app-types/category';
 import { ICourse } from '../../../app-types/course';
+import { MyBaseEntity } from 'src/base/MyBaseEntity';
 
 @Entity()
-export class Course extends BaseEntity implements ICourse {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+export class Course extends MyBaseEntity implements ICourse {
   @Column({ type: 'varchar', default: '' })
   title: string;
 
