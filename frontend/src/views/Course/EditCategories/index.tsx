@@ -7,7 +7,6 @@ import { CourseTopicForm } from '../../../components/forms/Course/Topics';
 const EditCategories: FC = () => {
   const { courseId } = useParams<{ courseId: string }>();
 
-
   return (
     <Switch>
       <Route

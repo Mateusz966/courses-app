@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { history } from '../../config/history';
 import AddCourse from './Add';
 import EditCourse from './Edit';
 import EditCategories from './EditCategories';
