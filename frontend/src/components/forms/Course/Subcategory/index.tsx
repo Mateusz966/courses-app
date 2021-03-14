@@ -5,7 +5,7 @@ import React, { useCallback } from 'react';
 import { useEffect } from 'react';
 import { FC } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
-import { Link as RLink } from 'react-router-dom';
+import { Link as RLink, useParams } from 'react-router-dom';
 import { CategoryDto } from '../../../../app-types/category';
 import { CustomSelectOption } from '../../../../app-types/global';
 import { courseSubcategorySchema } from '../../../../formSchemas/courseCategoryForm';
@@ -16,11 +16,11 @@ import { Button } from '../../../common/Button';
 import { FormField } from '../../../common/FormField';
 import { FormSelect } from '../../../common/FormField/Select';
 
-interface Props {
-  courseId?: string;
-}
 
-export const CourseSubcategoryForm: FC<Props> = observer(({ courseId }) => {
+
+export const CourseSubcategoryForm: FC = observer(() => {
+  const { courseId } = useParams<{ courseId?: string }>();
+
   const methods = useForm({
     mode: 'onChange',
     resolver: yupResolver(courseSubcategorySchema),
@@ -38,7 +38,7 @@ export const CourseSubcategoryForm: FC<Props> = observer(({ courseId }) => {
   }, [courseId]);
 
   useEffect(() => {
-    getSubcategories(courseStore.createCourse?.category?.value?.id);
+    getSubcategories(courseStore.courseCategoryDetails?.category?.value?.id);
   }, []);
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export const CourseSubcategoryForm: FC<Props> = observer(({ courseId }) => {
           helperText="Chose subcategory"
         >
           <FormSelect
-            defaultValue={courseStore.createCourse.subcategory}
+            defaultValue={courseStore.courseCategoryDetails.subcategory}
             options={subcategories ?? []}
           />
         </FormField>

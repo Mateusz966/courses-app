@@ -3,18 +3,15 @@ import { Course } from '../../course/entities/course.entity';
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
   ManyToOne,
   OneToMany,
-  BaseEntity,
 } from 'typeorm';
 import { Category } from './category.entity';
 import { Topic } from './topic.entity';
+import { MyBaseEntity } from 'src/base/MyBaseEntity';
 
 @Entity()
-export class Subcategory extends BaseEntity implements ISubcategory {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+export class Subcategory extends MyBaseEntity implements ISubcategory {
 
   @Column()
   name: string;

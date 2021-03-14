@@ -1,23 +1,17 @@
-import {  ICategory, ISubcategory, ITopic, IUserCategories } from '../../../app-types/category';
+import {  ICategory} from '../../../app-types/category';
 import { UserCategories } from '../../user/entity/user-categories.entity';
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
-  BaseEntity,
   OneToMany,
-  ManyToOne,
 } from 'typeorm';
 import { Topic } from './topic.entity';
 import { Course } from 'src/course/entities/course.entity';
 import { Subcategory } from './subcategory.entity';
-import { ICourse } from 'app-types/course';
+import { MyBaseEntity } from 'src/base/MyBaseEntity';
 
 @Entity()
-export class Category extends BaseEntity implements ICategory {
-
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+export class Category extends MyBaseEntity implements ICategory {
 
   @Column()
   name: string;

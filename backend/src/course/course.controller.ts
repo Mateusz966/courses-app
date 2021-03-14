@@ -34,6 +34,7 @@ export class CourseController {
     try {
       return await this.courseService.getCourseDetails(courseId);
     } catch (error) {
+      console.log(error);
       throw error;
     }
   }

@@ -56,7 +56,7 @@ export const CourseCategoryForm: FC = observer(() => {
           helperText="Chose category"
         >
           <FormSelect
-            defaultValue={courseStore.createCourse.category}
+            defaultValue={courseStore.courseCategoryDetails.category}
             options={categories ?? []}
           />
         </FormField>

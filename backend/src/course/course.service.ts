@@ -39,7 +39,34 @@ export class CourseService {
   }
 
   async getCourseDetails(id: string) {
-    return await Course.findOrThrow({ where: { id } });
+
+    try {
+
+      const course = await Course
+        .createQueryBuilder("course")
+        .select("course")
+        .leftJoinAndSelect("course.category", "category")
+        .leftJoinAndSelect("course.subcategory", "subcategory")
+        .where("course.id = :id", { id, })
+        .getOne();
+
+
+      const topics = await CourseTopics
+        .createQueryBuilder("topics")
+        .leftJoinAndSelect("topics.topic", "topic")
+        .where("topics.course = :id", { id: course.id })
+        .getMany();
+
+
+      return { 
+        ...course, 
+        ...topics 
+      };
+
+    } catch (error) {
+      console.log(error)
+      throw error;
+    }
   }
 
   async update(newCourse: any, courseId: string) {

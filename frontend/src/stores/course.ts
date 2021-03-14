@@ -6,7 +6,7 @@ import { handlingError } from '../helpers/handleErrors';
 import api from '../service/api';
 
 class Course {
-  createCourse: CreateCourse = {
+  courseCategoryDetails: CreateCourse = {
     category: null,
     subcategory: null,
     topics: null,
@@ -19,7 +19,7 @@ class Course {
     makeObservable(this, {
       course: observable,
       courseContent: observable,
-      createCourse: observable,
+      courseCategoryDetails: observable,
       inProgress: observable,
       getCourseDetails: action,
       setCategory: action,
@@ -38,15 +38,15 @@ class Course {
   }
 
   setCategory(category: CustomSelectOption<CategoryDto> | null) {
-    this.createCourse.category = category;
+    this.courseCategoryDetails.category = category;
   }
 
   setSubcategory(subcategory: CustomSelectOption<CategoryDto>| null) {
-    this.createCourse.subcategory = subcategory;
+    this.courseCategoryDetails.subcategory = subcategory;
   }
 
   setTopic(topic: CustomSelectOption<CategoryDto>[]| null) {
-    this.createCourse.topics = topic;
+    this.courseCategoryDetails.topics = topic;
   }
 
   async getCourseDetails(id: string) {

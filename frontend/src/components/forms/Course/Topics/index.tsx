@@ -41,8 +41,8 @@ export const CourseTopicForm: FC<Props> = observer(({ courseId }) => {
 
   useEffect(() => {
     getTopics(
-      courseStore.createCourse.category?.value?.id,
-      courseStore.createCourse.subcategory?.value?.id
+      courseStore.courseCategoryDetails.category?.value?.id,
+      courseStore.courseCategoryDetails.subcategory?.value?.id
     );
   }, []);
 

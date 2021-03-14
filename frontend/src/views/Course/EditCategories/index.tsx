@@ -9,21 +9,14 @@ const EditCategories: FC = () => {
 
   return (
     <Switch>
-      <Route
-        exact
-        path="/dashboard/course/edit/category/details"
-        render={() => (
-          <Redirect to="/dashboard/course/edit/category/details/:courseId" />
-        )}
-      />
       <Route path="/dashboard/course/edit/category/details/:courseId">
         <CourseCategoryForm />
       </Route>
       <Route path="/dashboard/course/edit/subcategory/details/:courseId">
-        <CourseSubcategoryForm courseId={courseId} />
+        <CourseSubcategoryForm />
       </Route>
       <Route path="/dashboard/course/edit/topics/details/:courseId">
-        <CourseTopicForm courseId={courseId} />
+        <CourseTopicForm />
       </Route>
     </Switch>
   );

@@ -76,12 +76,12 @@ export const useCourse = (): UseCourse => {
     if (courseId) {
       savedCourseId = await api.post<string, CreateCourse>(
         '/course/edit',
-        courseStore.createCourse
+        courseStore.courseCategoryDetails
       );
     } else {
       savedCourseId = await api.post<string, CreateCourse>(
         '/course/add',
-        courseStore.createCourse
+        courseStore.courseCategoryDetails
       );
     }
     history.push(`/dashboard/course/edit/${savedCourseId}`);
