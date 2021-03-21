@@ -7,9 +7,7 @@ import { FC } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { Link as RLink } from 'react-router-dom';
 import { CategoryDto } from '../../../../app-types/category';
-import {
-  CustomSelectOption,
-} from '../../../../app-types/global';
+import { CustomSelectOption } from '../../../../app-types/global';
 import { courseTopicsSchema } from '../../../../formSchemas/courseCategoryForm';
 import { useCategories } from '../../../../hooks/useCategories';
 import { useCourse } from '../../../../hooks/useCourse';
@@ -40,10 +38,15 @@ export const CourseTopicForm: FC<Props> = observer(({ courseId }) => {
   }, [courseId]);
 
   useEffect(() => {
-    getTopics(
-      courseStore.courseCategoryDetails.category?.value?.id,
+    if (
+      courseStore.courseCategoryDetails.category?.value?.id &&
       courseStore.courseCategoryDetails.subcategory?.value?.id
-    );
+    ) {
+      getTopics(
+        courseStore.courseCategoryDetails.category?.value?.id,
+        courseStore.courseCategoryDetails.subcategory?.value?.id
+      );
+    }
   }, [getTopics]);
 
   return (

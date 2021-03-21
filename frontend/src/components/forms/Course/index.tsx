@@ -72,7 +72,7 @@ export const CourseForm:FC = observer(() => {
         maxW="425px"
         margin="auto"
         as="form"
-        onSubmit={methods.handleSubmit((data: any) => publish(courseId))}
+        onSubmit={methods.handleSubmit(() => publish(courseId))}
       >
         <FormField labelText="Title" inputName="title">
           <Input type="text" placeholder="NodeJS Course" />

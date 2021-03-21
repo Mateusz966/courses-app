@@ -25,7 +25,7 @@ export const RegisterForm: FC = () => {
 
   useEffect(() => {
     getCategories();
-  }, []);
+  }, [getCategories]);
 
   return (
     <FormProvider {...methods}>

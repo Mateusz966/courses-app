@@ -10,7 +10,7 @@ interface UseCategories {
   getSubcategories: (categoryId?: string) => Promise<void | null>;
   subcategories: CustomSelectOption<CategoryDto>[] | null;
   topics: BaseSelectOption[] | null;
-  getTopics: (categoryId: any, subcategoryId: any) => Promise<void | null>;
+  getTopics: (categoryId: string, subcategoryId: string) => Promise<void | null>;
 }
 
 export const useCategories = (): UseCategories => {
