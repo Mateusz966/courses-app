@@ -65,7 +65,11 @@ export const CourseTopicForm: FC<Props> = observer(({ courseId }) => {
           inputName="topics"
           helperText="Chose course topics"
         >
-          <FormSelect isMulti options={topics ?? []} />
+          <FormSelect
+            isMulti
+            defaultValue={courseStore.courseCategoryDetails.topics}
+            options={topics ?? []}
+          />
         </FormField>
         <HStack>
           <Link as={RLink} to={backLink()}>

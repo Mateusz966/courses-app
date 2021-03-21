@@ -54,7 +54,7 @@ export const RegisterForm: FC = () => {
           inputName="userCategories"
           helperText="Select your interests"
         >
-          <FormSelect isMulti options={categories ?? []} />
+          <FormSelect isMulti defaultValue={null} options={categories ?? []} />
         </FormField>
         <Button type="submit" isValid={isValid} inProgress={inProgress}>
           Sign Up

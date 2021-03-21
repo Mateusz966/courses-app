@@ -10,7 +10,10 @@ interface UseCategories {
   getSubcategories: (categoryId?: string) => Promise<void | null>;
   subcategories: CustomSelectOption<CategoryDto>[] | null;
   topics: BaseSelectOption[] | null;
-  getTopics: (categoryId: string, subcategoryId: string) => Promise<void | null>;
+  getTopics: (
+    categoryId: string,
+    subcategoryId: string
+  ) => Promise<void | null>;
 }
 
 export const useCategories = (): UseCategories => {
@@ -56,15 +59,15 @@ export const useCategories = (): UseCategories => {
   }, []);
 
   const getTopics = useCallback(async (categoryId: any, subcategoryId: any) => {
-    const res = await api.get<CustomSelectOption<CategoryDto>[]>(
+    const res = await api.get<CategoryDto[]>(
       `/category/subcategory/${categoryId}/${subcategoryId}`
     );
 
     if (res) {
       setTopics(
-        res.map((cat: any) => ({
-          value: cat.id,
-          label: cat.name,
+        res.map((topic) => ({
+          value: topic.id,
+          label: topic.name,
         }))
       );
     }
