@@ -100,7 +100,7 @@ export const CourseForm:FC = observer(() => {
         <Link to={`/dashboard/course/edit/details/${courseId}/category`}>
           Kategorie
         </Link>
-        <Button type="submit" isValid={isValid} inProgress={inProgress}>
+        <Button type="submit" disabled={!isValid} inProgress={inProgress}>
           Opublikuj kurs
         </Button>
       </Box>

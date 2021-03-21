@@ -6,7 +6,7 @@ interface Props {
   secondary?: boolean;
   variant?: 'outline';
   loadingText?: string;
-  isValid?: boolean;
+  disabled?: boolean;
   inProgress?: boolean;
   type: 'submit' | 'button';
   mt0?: boolean;
@@ -18,7 +18,7 @@ export const Button: FC<Props> = ({
   primary,
   secondary,
   variant,
-  isValid,
+  disabled,
   inProgress,
   type,
   mt0,
@@ -27,7 +27,7 @@ export const Button: FC<Props> = ({
   return (
     <ChakraButton
       type={type}
-      disabled={!isValid || inProgress}
+      disabled={disabled || inProgress}
       mt={mt0 ? 0 : 6}
       w="100%"
       borderRadius="25px"
