@@ -2,7 +2,10 @@ import { FC } from 'react';
 import { useFormContext, Controller } from 'react-hook-form';
 import Select from 'react-select';
 import { BaseInputProps } from '../../../../app-types/form';
-import { BaseSelectOption } from '../../../../app-types/global';
+import {
+  BaseSelectOption,
+  CustomSelectOption,
+} from '../../../../app-types/global';
 
 const customStyles = {
   control: (provided: any) => {
@@ -12,12 +15,18 @@ const customStyles = {
 };
 
 interface Props extends BaseInputProps {
-  options?: BaseSelectOption[];
+  options?: BaseSelectOption[] | CustomSelectOption<any>[];
   handleChange?: (
-    selected?: BaseSelectOption | BaseSelectOption[] | null
+    selected?:
+      | BaseSelectOption
+      | BaseSelectOption[]
+      | CustomSelectOption<any>
+      | CustomSelectOption<any>[]
+      | null
   ) => void;
   isMulti?: boolean;
   name?: any;
+  defaultValue?: any;
 }
 
 export const FormSelect: FC<Props> = ({
@@ -27,6 +36,7 @@ export const FormSelect: FC<Props> = ({
   isDisabled,
   name,
   isMulti,
+  defaultValue,
 }) => {
   const { control } = useFormContext();
   return (
@@ -34,10 +44,11 @@ export const FormSelect: FC<Props> = ({
       name={name}
       control={control}
       placeholder="Wybierz"
-      defaultValue={null}
-      required={isRequired}
+      defaultValue={defaultValue}
+      rules={{ required: isRequired }}
       render={({ value, name, onChange }) => (
         <Select
+          defaultValue={defaultValue}
           styles={customStyles}
           isMulti={isMulti}
           options={options}

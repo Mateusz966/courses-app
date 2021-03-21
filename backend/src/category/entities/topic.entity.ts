@@ -1,15 +1,30 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
-import { Category } from "./category.entity";
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToOne,
+  BaseEntity,
+} from 'typeorm';
+import { Category } from './category.entity';
+import { CourseTopics } from 'src/course/entities/course-topics.entity';
+import { Subcategory } from './subcategory.entity';
+import { ITopic } from '../../../app-types/category';
 
 @Entity()
-export class Topic {
+export class Topic extends BaseEntity implements ITopic {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
- 
-    @Column()
-    name: string;
+  @Column()
+  name: string;
 
-    @OneToMany(() => Category, category => category.topic)
-    category: Category;
+  @ManyToOne(() => Category, (category) => category.topic)
+  category: Category;
+
+  @ManyToOne(() => Subcategory, (subcategory) => subcategory.topic)
+  subcategory: Subcategory;
+
+  @OneToMany(() => CourseTopics, (courseTopic) => courseTopic.topic)
+  courseTopics: CourseTopics[];
 }

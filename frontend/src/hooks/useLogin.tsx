@@ -3,6 +3,7 @@ import { UserLogin, UserReq } from '../app-types/user';
 import { useState } from 'react';
 import { history } from '../config/history';
 import { useRootStore } from '../stores/storeContext';
+
 interface UseLogin {
   submit: (payload: UserLogin, setError: any) => void;
   inProgress: boolean;
@@ -19,9 +20,10 @@ export const useLogin = (): UseLogin => {
       setError,
       setInProgress
     );
+
     if (user) {
       userStore.setUser(user);
-      history.push('/');
+      history.push('/dashboard');
     }
   };
 
