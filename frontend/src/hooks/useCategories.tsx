@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { CategoryDto } from '../app-types/category';
 import { BaseSelectOption, CustomSelectOption } from '../app-types/global';
 import { errorNotification } from '../components/common/Toast';
@@ -22,7 +22,7 @@ export const useCategories = (): UseCategories => {
   >(null);
   const [topics, setTopics] = useState<BaseSelectOption[] | null>(null);
 
-  const getCategories = async () => {
+  const getCategories = useCallback(async () => {
     const categories = await api.get<CategoryDto[]>(`/category/all`);
 
     if (categories) {
@@ -33,9 +33,9 @@ export const useCategories = (): UseCategories => {
         }))
       );
     }
-  };
+  }, []);
 
-  const getSubcategories = async (categoryId?: string) => {
+  const getSubcategories = useCallback(async (categoryId?: string) => {
     if (!categoryId) {
       errorNotification('Category not given');
       return null;
@@ -53,9 +53,9 @@ export const useCategories = (): UseCategories => {
         }))
       );
     }
-  };
+  }, []);
 
-  const getTopics = async (categoryId: any, subcategoryId: any) => {
+  const getTopics = useCallback(async (categoryId: any, subcategoryId: any) => {
     const res = await api.get<CustomSelectOption<CategoryDto>[]>(
       `/category/subcategory/${categoryId}/${subcategoryId}`
     );
@@ -68,7 +68,7 @@ export const useCategories = (): UseCategories => {
         }))
       );
     }
-  };
+  }, []);
 
   return {
     categories,
