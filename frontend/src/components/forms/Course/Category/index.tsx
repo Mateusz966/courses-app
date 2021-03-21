@@ -30,14 +30,14 @@ export const CourseCategoryForm: FC = observer(() => {
 
   useEffect(() => {
     getCategories();
-  }, []);
+  }, [getCategories]);
 
   useEffect(() => {
     if (courseId) {
       courseStore.setSubcategory(null);
       courseStore.setTopic(null);
     }
-  }, [methods.getValues('category')]);
+  }, [courseId]);
 
   return (
     <FormProvider {...methods}>

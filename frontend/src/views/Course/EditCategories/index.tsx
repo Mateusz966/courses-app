@@ -1,21 +1,19 @@
 import { FC } from 'react';
-import { Redirect, Route, Switch, useParams } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { CourseCategoryForm } from '../../../components/forms/Course/Category';
 import { CourseSubcategoryForm } from '../../../components/forms/Course/Subcategory';
 import { CourseTopicForm } from '../../../components/forms/Course/Topics';
 
 const EditCategories: FC = () => {
-  const { courseId } = useParams<{ courseId: string }>();
-
   return (
     <Switch>
-      <Route path="/dashboard/course/edit/category/details/:courseId">
+      <Route path="/dashboard/course/edit/details/:courseId/category">
         <CourseCategoryForm />
       </Route>
-      <Route path="/dashboard/course/edit/subcategory/details/:courseId">
+      <Route path="/dashboard/course/edit/details/:courseId/subcategory">
         <CourseSubcategoryForm />
       </Route>
-      <Route path="/dashboard/course/edit/topics/details/:courseId">
+      <Route path="/dashboard/course/edit/details/:courseId/topics">
         <CourseTopicForm />
       </Route>
     </Switch>

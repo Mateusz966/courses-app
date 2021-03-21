@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, useParams } from 'react-router-dom';
-import React, { FC, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { FormField } from '../../common/FormField';
 import { Input } from '../../common/FormField/Input';
@@ -20,7 +20,7 @@ export const CourseForm: FC = observer(() => {
     resolver: yupResolver(courseSchema),
   });
   const DEBOUNCE_TIMEOUT = 3500;
-  const { inProgress, updateCourse, handleEditorChange } = useCourse();
+  const { inProgress, updateCourse, handleEditorChange, publish } = useCourse();
   const {
     getValues,
     watch,
@@ -47,7 +47,7 @@ export const CourseForm: FC = observer(() => {
     if (courseStore.course) {
       reset(courseStore.course);
     }
-  }, [courseStore.course]);
+  }, [reset]);
 
   useEffect(() => {
     updateCourse(
@@ -56,7 +56,15 @@ export const CourseForm: FC = observer(() => {
       methods.setError,
       courseId
     );
-  }, [contentDebounce, titleDebounce, descriptionDebounce]);
+  }, [
+    contentDebounce,
+    titleDebounce,
+    descriptionDebounce,
+    courseId,
+    getValues,
+    methods.setError,
+    updateCourse,
+  ]);
 
   return (
     <FormProvider {...methods}>
@@ -64,9 +72,7 @@ export const CourseForm: FC = observer(() => {
         maxW="425px"
         margin="auto"
         as="form"
-        onSubmit={methods.handleSubmit((data: any) =>
-          updateCourse(data, methods.setError, courseId)
-        )}
+        onSubmit={methods.handleSubmit((data: any) => publish(courseId))}
       >
         <FormField labelText="Title" inputName="title">
           <Input type="text" placeholder="NodeJS Course" />
@@ -91,7 +97,7 @@ export const CourseForm: FC = observer(() => {
           }}
           onEditorChange={handleEditorChange}
         />
-        <Link to={`/dashboard/course/edit/category/details/${courseId}`}>
+        <Link to={`/dashboard/course/edit/details/${courseId}/category`}>
           Kategorie
         </Link>
         <Button type="submit" isValid={isValid} inProgress={inProgress}>

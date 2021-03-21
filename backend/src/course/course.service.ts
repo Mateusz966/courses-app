@@ -64,7 +64,6 @@ export class CourseService {
       };
 
     } catch (error) {
-      console.log(error)
       throw error;
     }
   }

@@ -23,7 +23,7 @@ const get = <T>(
 
 const post = <T, K>(
   url: string,
-  body: K,
+  body?: K,
   setError?: any,
   setInProgress?: React.Dispatch<React.SetStateAction<boolean>>,
   queryParams?: any

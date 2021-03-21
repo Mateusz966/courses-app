@@ -6,7 +6,7 @@ import { CourseService } from './course.service';
 
 @Controller('course')
 export class CourseController {
-  constructor(private readonly courseService: CourseService) {}
+  constructor(private readonly courseService: CourseService) { }
 
   @UseGuards(JwtAuthGuard)
   @Get('/my-all')
@@ -48,4 +48,15 @@ export class CourseController {
       throw error;
     }
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/publish/:courseId')
+  async publish(@Param('courseId') courseId: string) {
+    try {
+      return this.courseService.publish(courseId);
+    } catch (error) {
+      throw error;
+    }
+  }
+
 }

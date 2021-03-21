@@ -25,6 +25,7 @@ interface UseCourse {
     courseId?: string
   ) => void;
   handleEditorChange: (content: any) => void;
+  publish: (courseId: string) => Promise<void>;
   updateCourse: any;
   inProgress: boolean;
 }
@@ -32,11 +33,16 @@ interface UseCourse {
 export const useCourse = (): UseCourse => {
   const [inProgress, setInProgress] = useState(false);
 
+  const publish = async (courseId: string) => {
+    await api
+      .post(`/course/publish/${courseId}`)
+  }
+
   const handleEditorChange = useCallback(
     (content) => {
       courseStore.setContent(content);
     },
-    [courseStore.courseContent]
+    []
   );
 
   const submitCategory = async (
@@ -46,7 +52,7 @@ export const useCourse = (): UseCourse => {
     courseId?: string
   ) => {
     const url = courseId
-      ? `/dashboard/course/edit/subcategory/details/${courseId}`
+      ? `/dashboard/course/edit/details/${courseId}/subcategory`
       : '/dashboard/course/add/subcategory';
     courseStore.setCategory(payload.category);
     history.push(url);
@@ -59,7 +65,7 @@ export const useCourse = (): UseCourse => {
     courseId?: string
   ) => {
     const url = courseId
-      ? `/dashboard/course/edit/topics/details/${courseId}`
+      ? `/dashboard/course/edit/details/${courseId}/topics`
       : `/dashboard/course/add/topics`;
     courseStore.setSubcategory(payload.subcategory);
     history.push(url);
@@ -105,5 +111,6 @@ export const useCourse = (): UseCourse => {
     updateCourse,
     handleEditorChange,
     inProgress,
+    publish
   };
 };

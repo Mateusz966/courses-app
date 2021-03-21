@@ -1,7 +1,7 @@
 import { Box, HStack, Link } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { observer } from 'mobx-react-lite';
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { useEffect } from 'react';
 import { FC } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
@@ -34,7 +34,7 @@ export const CourseTopicForm: FC<Props> = observer(({ courseId }) => {
 
   const backLink = useCallback(() => {
     const url = courseId
-      ? `/dashboard/course/edit/subcategory/${courseId}`
+      ? `/dashboard/course/edit/details/${courseId}/subcategory`
       : '/dashboard/course/add/subcategory';
     return url;
   }, [courseId]);
@@ -44,7 +44,7 @@ export const CourseTopicForm: FC<Props> = observer(({ courseId }) => {
       courseStore.courseCategoryDetails.category?.value?.id,
       courseStore.courseCategoryDetails.subcategory?.value?.id
     );
-  }, []);
+  }, [getTopics]);
 
   return (
     <FormProvider {...methods}>
