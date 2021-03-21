@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Box } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, FormProvider } from 'react-hook-form';
@@ -18,10 +18,14 @@ export const RegisterForm: FC = () => {
     resolver: yupResolver(registerSchema),
   });
 
-  const { categories } = useCategories();
+  const { categories, getCategories } = useCategories();
   const { submit, inProgress } = useRegister();
 
   const { isValid } = methods.formState;
+
+  useEffect(() => {
+    getCategories();
+  }, []);
 
   return (
     <FormProvider {...methods}>

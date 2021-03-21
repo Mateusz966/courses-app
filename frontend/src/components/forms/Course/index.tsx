@@ -13,7 +13,7 @@ import { courseSchema } from '../../../formSchemas/course';
 import { useCourse } from '../../../hooks/useCourse';
 import { useDebounce } from '../../../hooks/useDebounce';
 
-export const CourseForm: FC = observer(() => {
+export const CourseForm:FC = observer(() => {
   const { courseId } = useParams<{ courseId: string }>();
   const methods = useForm({
     mode: 'onChange',

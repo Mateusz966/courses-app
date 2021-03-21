@@ -44,7 +44,7 @@ export type CreateCourse = {
 };
 
 export enum CourseStatus {
-  Draft,
+  Draft = 1,
   Published,
   Removed,
 }
