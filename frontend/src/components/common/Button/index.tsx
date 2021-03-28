@@ -15,8 +15,6 @@ interface Props {
 
 export const Button: FC<Props> = ({
   children,
-  primary,
-  secondary,
   variant,
   disabled,
   inProgress,

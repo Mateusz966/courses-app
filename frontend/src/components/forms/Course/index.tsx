@@ -12,8 +12,9 @@ import { courseStore } from '../../../stores/course';
 import { courseSchema } from '../../../formSchemas/course';
 import { useCourse } from '../../../hooks/useCourse';
 import { useDebounce } from '../../../hooks/useDebounce';
+import ImagePicker from '../../common/FormField/File';
 
-export const CourseForm:FC = observer(() => {
+export const CourseForm: FC = observer(() => {
   const { courseId } = useParams<{ courseId: string }>();
   const methods = useForm({
     mode: 'onChange',
@@ -74,6 +75,15 @@ export const CourseForm:FC = observer(() => {
         as="form"
         onSubmit={methods.handleSubmit(() => publish(courseId))}
       >
+        <FormField labelText="Title" inputName="title">
+          <ImagePicker
+            labelText="test"
+            mobileRatio={14 / 9}
+            desktopRatio={22 / 9}
+            required
+            previewUrl={courseId && `article/image/articleFn/${courseId}`}
+          />
+        </FormField>
         <FormField labelText="Title" inputName="title">
           <Input type="text" placeholder="NodeJS Course" />
         </FormField>

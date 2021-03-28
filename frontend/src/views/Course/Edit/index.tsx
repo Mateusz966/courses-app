@@ -1,5 +1,5 @@
 import { Box, Spinner } from '@chakra-ui/react';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
