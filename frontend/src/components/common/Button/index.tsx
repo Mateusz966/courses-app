@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import { Button as ChakraButton } from '@chakra-ui/react';
+import { Button as ChakraButton, ButtonProps } from '@chakra-ui/react';
 
-interface Props {
+interface Props extends ButtonProps {
   primary?: boolean;
   secondary?: boolean;
   variant?: 'outline';
@@ -21,6 +21,7 @@ export const Button: FC<Props> = ({
   type,
   mt0,
   onClick,
+  ...props
 }) => {
   return (
     <ChakraButton
@@ -34,6 +35,7 @@ export const Button: FC<Props> = ({
       colorScheme="teal"
       variant={variant}
       onClick={onClick}
+      {...props}
     >
       {children}
     </ChakraButton>

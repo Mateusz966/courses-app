@@ -67,6 +67,8 @@ export const CourseForm: FC = observer(() => {
     updateCourse,
   ]);
 
+  console.log(methods.errors)
+
   return (
     <FormProvider {...methods}>
       <Box
@@ -75,20 +77,17 @@ export const CourseForm: FC = observer(() => {
         as="form"
         onSubmit={methods.handleSubmit(() => publish(courseId))}
       >
-        <FormField labelText="Title" inputName="title">
+        <FormField labelText="Course photo" inputName="courseFn">
           <ImagePicker
-            labelText="test"
-            mobileRatio={14 / 9}
             desktopRatio={22 / 9}
-            required
             previewUrl={courseId && `article/image/articleFn/${courseId}`}
           />
         </FormField>
         <FormField labelText="Title" inputName="title">
-          <Input type="text" placeholder="NodeJS Course" />
+          <Input isRequired type="text" placeholder="NodeJS Course" />
         </FormField>
         <FormField labelText="Description" inputName="description">
-          <Input type="text" placeholder="Course about...." />
+          <Input isRequired type="text" placeholder="Course about...." />
         </FormField>
         <Editor
           apiKey="f77pjcz1vwa1mi1almj8uhwj2crs196lq21stcyj2dq0w8pf"

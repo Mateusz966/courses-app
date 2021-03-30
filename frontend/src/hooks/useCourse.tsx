@@ -100,6 +100,7 @@ export const useCourse = (): UseCourse => {
     courseId: string
   ) => {
     const fd = new FormData();
+    console.log(payload);
     fd.append('body', JSON.stringify({ ...payload, content }));
     await api.post(`/course/update/${courseId}`, fd, setError, setInProgress);
   };

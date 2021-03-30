@@ -2,50 +2,34 @@ import React, { useEffect, useState } from 'react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 import { Image } from '@chakra-ui/image';
-import { FormLabel } from '@chakra-ui/form-control';
-import { Button, HStack, Spinner } from '@chakra-ui/react';
+import { Box, HStack, Icon, IconButton, Spinner } from '@chakra-ui/react';
 import { apiUrl } from '../../../../config/apiUrl';
 import { useFormContext } from 'react-hook-form';
+import { Button } from '../../Button';
+import { MdDeleteForever } from 'react-icons/md';
 
 interface Props {
   desktopRatio: number;
-  mobileRatio: number;
-  labelText: string;
-  required?: boolean;
   previewUrl?: string;
   name?: string;
 }
 
 export const ImagePicker: React.FC<Props> = ({
   desktopRatio,
-  labelText,
   previewUrl,
-  required,
   name,
 }: Props) => {
   const [imagePreviewUrl, setImagePreviewUrl] = useState(previewUrl);
-  const [initialDataModified, setInitialDataModified] = useState<boolean>(
-    false
-  );
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState();
   const [cropData, setCropData] = useState();
   const [cropper, setCropper] = useState<any>();
-  const [isPreview, setPreview] = useState<boolean>(false);
-  const [photos, setPhotos] = useState<any[]>([]);
+  const [file, setFile] = useState<File>();
 
-  const { register } = useFormContext();
-
-  useEffect(() => {
-    if (previewUrl) {
-      setLoading(true);
-      setPreview(true);
-    }
-  }, []);
+  const { register, setValue } = useFormContext();
 
   const previewUnavailable = () => {
     setLoading(false);
-    setPreview(false);
   };
 
   const previewAvaiable = () => {
@@ -69,15 +53,9 @@ export const ImagePicker: React.FC<Props> = ({
 
   const imageBlobHandler = (blob: Blob, url: string, fieldName: string) => {
     let image: any = blob;
-    image.name = `${fieldName}.png`;
-    image.lastModified = new Date().getTime();
-    const tempImage: any = {
-      previewUrl: [url],
-      file: [image as File],
-      fieldName,
-    };
-    setPhotos((photos) => [...photos, tempImage]);
-    setInitialDataModified(true);
+
+    const formData = new FormData();
+
   };
 
   const getCropData = () => {
@@ -86,85 +64,82 @@ export const ImagePicker: React.FC<Props> = ({
       setCropData(imageUrl);
       cropper.getCroppedCanvas().toBlob((blob: Blob) => {
         imageBlobHandler(blob, imageUrl, name as string);
-        setPreview(true);
       });
     }
   };
 
-  const handleEdit = () => {
-    setPreview(false);
-  };
-
   const cancelEdit = () => {
     setCropData(undefined);
-    setImage(undefined);
-    setPreview(true);
   };
 
   return (
     <>
-      <div>
-        {loading && <Spinner overlay />}
-        {!isPreview && !image && (
-          <input
-            ref={register()}
-            name={name}
-            type="file"
-            id="file"
-            onChange={onChange}
+      {loading && <Spinner overlay />}
+      <input
+        ref={register()}
+        name={name}
+        type="file"
+        id="file"
+        onChange={onChange}
+      />
+      {!cropData && (
+        <Box position="relative" border="1px solid">
+          <Cropper
+            zoomTo={0}
+            aspectRatio={desktopRatio}
+            src={image}
+            viewMode={2}
+            guides={true}
+            minCropBoxHeight={10}
+            minCropBoxWidth={10}
+            background={false}
+            responsive={true}
+            autoCropArea={0}
+            checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
+            onInitialized={(instance) => {
+              setCropper(instance);
+            }}
+          />
+        </Box>
+      )}
+      {imagePreviewUrl && (
+        <IconButton
+          aria-label="Remove photo"
+          color="#fff"
+          bgColor="transparent"
+          onClick={cancelEdit}
+          icon={<Icon w={6} h={6} as={MdDeleteForever} color="red" />}
+          position="absolute"
+          top="0"
+          right="0"
+        />
+      )}
+      <>
+        {cropData && <Image src={cropData} />}
+        {imagePreviewUrl && !cropData && (
+          <Image
+            border="1px solid #000"
+            src={`${apiUrl}/${imagePreviewUrl}`}
+            onError={previewUnavailable}
+            onLoad={previewAvaiable}
           />
         )}
-        {!isPreview && image && (
-          <>
-            <Cropper
-              zoomTo={0}
-              aspectRatio={desktopRatio}
-              preview=".img-preview"
-              src={image}
-              viewMode={2}
-              guides={true}
-              minCropBoxHeight={10}
-              minCropBoxWidth={10}
-              background={false}
-              responsive={true}
-              autoCropArea={0}
-              checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
-              onInitialized={(instance) => {
-                setCropper(instance);
-              }}
-            />
-          </>
-        )}
-        {isPreview && (
-          <>
-            {cropData && <Image src={cropData} />}
-            {imagePreviewUrl && !cropData && (
-              <Image
-                src={`${apiUrl}/${imagePreviewUrl}`}
-                onError={previewUnavailable}
-                onLoad={previewAvaiable}
-              />
-            )}
-          </>
-        )}
-        <HStack>
-          {!isPreview && previewUrl && (
-            <Button type="button" onClick={cancelEdit} marginRight={10}>
-              usuń
-            </Button>
-          )}
-          {isPreview && (
-            <Button type="button" onClick={handleEdit}>
-              Edycja
-            </Button>
-          )}
-          {!isPreview && image && (
-            <Button type="button" onClick={getCropData}>
-              Zapisz
-            </Button>
-          )}
-        </HStack>
-      </div>
+      </>
+      <HStack mt="5" spacing="48px">
+        <Button
+          disabled={!imagePreviewUrl}
+          type="button"
+          mt0
+          variant="outline"
+          onClick={cancelEdit}
+        >
+          Edit
+        </Button>
+
+        <Button disabled={!image} type="button" onClick={getCropData}>
+          Save
+        </Button>
+      </HStack>
     </>
   );
 };
