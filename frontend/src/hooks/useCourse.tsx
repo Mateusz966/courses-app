@@ -4,6 +4,7 @@ import { courseStore } from '../stores/course';
 import { CategoryDto, CreateCourse } from '../app-types/category';
 import { CustomSelectOption } from '../../../app-types/global';
 import { useCallback, useState } from 'react';
+import { useRootStore } from '../stores/storeContext';
 
 interface UseCourse {
   submitCategory: (
@@ -32,18 +33,15 @@ interface UseCourse {
 
 export const useCourse = (): UseCourse => {
   const [inProgress, setInProgress] = useState(false);
+  const { fileStore } = useRootStore();
 
   const publish = async (courseId: string) => {
-    await api
-      .post(`/course/publish/${courseId}`)
-  }
+    await api.post(`/course/publish/${courseId}`);
+  };
 
-  const handleEditorChange = useCallback(
-    (content) => {
-      courseStore.setContent(content);
-    },
-    []
-  );
+  const handleEditorChange = useCallback((content) => {
+    courseStore.setContent(content);
+  }, []);
 
   const submitCategory = async (
     payload: {
@@ -100,9 +98,17 @@ export const useCourse = (): UseCourse => {
     courseId: string
   ) => {
     const fd = new FormData();
-    console.log(payload);
+
     fd.append('body', JSON.stringify({ ...payload, content }));
+    
+    if (fileStore.files) {
+      fileStore.files.forEach((file) => {
+        fd.append(file?.name, file?.file, file?.name);
+      });
+    }
+
     await api.post(`/course/update/${courseId}`, fd, setError, setInProgress);
+    fileStore.removeAllFiles();
   };
 
   return {
@@ -112,6 +118,6 @@ export const useCourse = (): UseCourse => {
     updateCourse,
     handleEditorChange,
     inProgress,
-    publish
+    publish,
   };
 };

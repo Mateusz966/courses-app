@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CourseStatus, CreateCourse } from 'app-types/category';
 import { Category } from 'src/category/entities/category.entity';
 import { Topic } from 'src/category/entities/topic.entity';
+import { setFileIfExists } from 'utils/setFileIfExist';
 import { User } from '../user/entity/user.entity';
 import { CourseTopics } from './entities/course-topics.entity';
 import { Course } from './entities/course.entity';
@@ -68,13 +69,23 @@ export class CourseService {
     }
   }
 
-  async update(newCourse: any, courseId: string) {
+  async update(newCourse: any, courseId: string, courseFn: Express.Multer.File) {
     try {
       const course = await Course.findOrThrow({ where: { id: courseId } });
+      console.log(course)
       course.description = newCourse.description;
       course.title = newCourse.title;
       course.content = newCourse.content;
-      return await course.save();
+      await course.save();
+
+      console.log(courseFn)
+
+      if (courseFn) {
+        await setFileIfExists(course , 'courseFn', 'course_photo', courseFn, true, 512);
+      }
+
+      return course;
+
     } catch (error) {
       throw error;
     }

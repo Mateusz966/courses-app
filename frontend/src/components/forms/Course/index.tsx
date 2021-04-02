@@ -67,8 +67,6 @@ export const CourseForm: FC = observer(() => {
     updateCourse,
   ]);
 
-  console.log(methods.errors)
-
   return (
     <FormProvider {...methods}>
       <Box

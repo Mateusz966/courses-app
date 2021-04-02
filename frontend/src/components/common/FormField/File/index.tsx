@@ -7,6 +7,8 @@ import { apiUrl } from '../../../../config/apiUrl';
 import { useFormContext } from 'react-hook-form';
 import { Button } from '../../Button';
 import { MdDeleteForever } from 'react-icons/md';
+import { useFile } from '../../../../hooks/useFile';
+import { useRootStore } from '../../../../stores/storeContext';
 
 interface Props {
   desktopRatio: number;
@@ -24,9 +26,8 @@ export const ImagePicker: React.FC<Props> = ({
   const [image, setImage] = useState();
   const [cropData, setCropData] = useState();
   const [cropper, setCropper] = useState<any>();
-  const [file, setFile] = useState<File>();
-
   const { register, setValue } = useFormContext();
+  const { fileStore } = useRootStore();
 
   const previewUnavailable = () => {
     setLoading(false);
@@ -53,9 +54,9 @@ export const ImagePicker: React.FC<Props> = ({
 
   const imageBlobHandler = (blob: Blob, url: string, fieldName: string) => {
     let image: any = blob;
-
-    const formData = new FormData();
-
+    image.name = `${fieldName}.png`;
+    image.lastModified = new Date().getTime();
+    fileStore.setFile({ file: image, name: fieldName });
   };
 
   const getCropData = () => {

@@ -1,8 +1,11 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CreateCourse } from '../../app-types/category';
 import { UserObj } from 'decorators/user-obj.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CourseService } from './course.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { storDir } from 'utils/storDir';
+const path = require('path');
 
 @Controller('course')
 export class CourseController {
@@ -41,9 +44,16 @@ export class CourseController {
 
   @UseGuards(JwtAuthGuard)
   @Post('/update/:courseId')
-  async update(@Param('courseId') courseId: string, @Body() payload: any) {
+  @UseInterceptors(FileInterceptor('courseFn', {
+    dest: path.join(storDir() + '/course_photo'),
+  }))
+  async update(
+    @Param('courseId') courseId: string, 
+    @Body() payload: any,
+    @UploadedFile() courseFn: Express.Multer.File,
+    ) {
     try {
-      return await this.courseService.update(payload, courseId);
+      return await this.courseService.update(payload, courseId, courseFn);
     } catch (error) {
       throw error;
     }
@@ -57,6 +67,15 @@ export class CourseController {
     } catch (error) {
       throw error;
     }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/main-photo/:courseId')
+  @UseInterceptors(FileInterceptor('courseFn'))
+  async setMainPhoto(
+    @UploadedFile() courseFn: Express.Multer.File
+  ) {
+    console.log(courseFn)
   }
 
 }
