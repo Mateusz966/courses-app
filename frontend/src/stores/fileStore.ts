@@ -32,7 +32,8 @@ export class FileStore {
 
   removeFile(name: string) {
     if (this.files) {
-      this.files.filter((file: any) => file.name !== name);
+      const filteredData = this.files.filter((file) => file.name !== name);
+      this.files = filteredData;
     }
 
     if (this.files?.length === 0) {

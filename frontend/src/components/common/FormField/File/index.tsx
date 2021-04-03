@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 import { Image } from '@chakra-ui/image';
-import { Box, HStack, Icon, IconButton, Spinner } from '@chakra-ui/react';
+import { Box, HStack, Icon, IconButton, Spinner, Text } from '@chakra-ui/react';
 import { apiUrl } from '../../../../config/apiUrl';
 import { useFormContext } from 'react-hook-form';
 import { Button } from '../../Button';
@@ -21,13 +21,17 @@ export const ImagePicker: React.FC<Props> = ({
   previewUrl,
   name,
 }: Props) => {
-  const [imagePreviewUrl, setImagePreviewUrl] = useState(previewUrl);
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState();
   const [cropData, setCropData] = useState();
   const [cropper, setCropper] = useState<any>();
-  const { register, setValue } = useFormContext();
+  const { register, getValues } = useFormContext();
   const { fileStore } = useRootStore();
+
+  if (!name) {
+    return <Text>Picker doesn't have name attr</Text>
+  }
+
 
   const previewUnavailable = () => {
     setLoading(false);
@@ -38,8 +42,11 @@ export const ImagePicker: React.FC<Props> = ({
   };
 
   const onChange = (e: any) => {
+    setImage(undefined);
     e.preventDefault();
     let files;
+    console.log(e?.dataTransfer?.files);
+    console.log(e?.target?.files);
     if (e.dataTransfer) {
       files = e.dataTransfer.files;
     } else if (e.target) {
@@ -52,10 +59,15 @@ export const ImagePicker: React.FC<Props> = ({
     reader.readAsDataURL(files[0]);
   };
 
+  console.log(getValues(name as string));
+
   const imageBlobHandler = (blob: Blob, url: string, fieldName: string) => {
     let image: any = blob;
     image.name = `${fieldName}.png`;
     image.lastModified = new Date().getTime();
+    if (fileStore?.files) {
+      fileStore.removeFile(fieldName);
+    }
     fileStore.setFile({ file: image, name: fieldName });
   };
 
@@ -64,27 +76,58 @@ export const ImagePicker: React.FC<Props> = ({
       const imageUrl = cropper.getCroppedCanvas().toDataURL();
       setCropData(imageUrl);
       cropper.getCroppedCanvas().toBlob((blob: Blob) => {
-        imageBlobHandler(blob, imageUrl, name as string);
+        imageBlobHandler(blob, imageUrl, name);
       });
     }
   };
 
   const cancelEdit = () => {
     setCropData(undefined);
+    cropper.reset();
+    fileStore.removeFile(name as string);
   };
 
+  const deletePhoto = () => {
+    setImage(undefined);
+    setCropData(undefined);
+    if (typeof cropper !== 'undefined') {
+      cropper.destroy();
+    }
+    fileStore.removeFile(name);
+  };
+
+
+  
   return (
-    <>
+    <Box position="relative">
       {loading && <Spinner overlay />}
-      <input
-        ref={register()}
-        name={name}
-        type="file"
-        id="file"
-        onChange={onChange}
-      />
+      <Box as="label" htmlFor={name} position="relative" cursor="pointer">
+        {!image && (
+          <>
+            Upload photo
+            <input
+              ref={register()}
+              name={name}
+              type="file"
+              id="file"
+              onChange={onChange}
+              style={{
+                width: '100%',
+                height: '100%',
+                opacity: '0',
+                cursor: 'pointer',
+                position: 'absolute',
+                top: '0',
+                left: '0',
+                right: '0',
+                bottom: '0',
+              }}
+            />
+          </>
+        )}
+      </Box>
       {!cropData && (
-        <Box position="relative" border="1px solid">
+        <Box position="relative">
           <Cropper
             zoomTo={0}
             aspectRatio={desktopRatio}
@@ -96,19 +139,19 @@ export const ImagePicker: React.FC<Props> = ({
             background={false}
             responsive={true}
             autoCropArea={0}
-            checkOrientation={false} // https://github.com/fengyuanchen/cropperjs/issues/671
+            checkOrientation={false}
             onInitialized={(instance) => {
               setCropper(instance);
             }}
           />
         </Box>
       )}
-      {imagePreviewUrl && (
+      {previewUrl && (
         <IconButton
           aria-label="Remove photo"
           color="#fff"
           bgColor="transparent"
-          onClick={cancelEdit}
+          onClick={deletePhoto}
           icon={<Icon w={6} h={6} as={MdDeleteForever} color="red" />}
           position="absolute"
           top="0"
@@ -117,10 +160,9 @@ export const ImagePicker: React.FC<Props> = ({
       )}
       <>
         {cropData && <Image src={cropData} />}
-        {imagePreviewUrl && !cropData && (
+        {previewUrl && !cropData && (
           <Image
-            border="1px solid #000"
-            src={`${apiUrl}/${imagePreviewUrl}`}
+            src={`${apiUrl}/${previewUrl}`}
             onError={previewUnavailable}
             onLoad={previewAvaiable}
           />
@@ -128,7 +170,7 @@ export const ImagePicker: React.FC<Props> = ({
       </>
       <HStack mt="5" spacing="48px">
         <Button
-          disabled={!imagePreviewUrl}
+          disabled={!previewUrl}
           type="button"
           mt0
           variant="outline"
@@ -141,7 +183,7 @@ export const ImagePicker: React.FC<Props> = ({
           Save
         </Button>
       </HStack>
-    </>
+    </Box>
   );
 };
 
