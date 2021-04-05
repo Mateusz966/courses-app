@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 import { Image } from '@chakra-ui/image';
@@ -7,7 +7,6 @@ import { apiUrl } from '../../../../config/apiUrl';
 import { useFormContext } from 'react-hook-form';
 import { Button } from '../../Button';
 import { MdDeleteForever } from 'react-icons/md';
-import { useFile } from '../../../../hooks/useFile';
 import { useRootStore } from '../../../../stores/storeContext';
 
 interface Props {
