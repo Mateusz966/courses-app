@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Category } from 'src/category/entities/category.entity';
 import { UserCategories } from './entity/user-categories.entity';
 import { User } from './entity/user.entity';
 import { UserDto } from './user.dto';
@@ -42,14 +43,15 @@ export class UserService {
 
       const savedUser = await User.save(user);
 
-      const userCategories: UserCategories[] = [];
+      const userCategories: UserCategories[] = []
       const categoriesToSave: UserCategories[] = [];
 
       if (newUser?.userCategories) {
         newUser.userCategories.forEach((category, index) => {
           userCategories[index] = new UserCategories();
+          userCategories[index].category = new Category();
           userCategories[index].user = savedUser;
-          userCategories[index].category = category;
+          userCategories[index].category.id = category.id;
           categoriesToSave.push(userCategories[index]);
         });
       }

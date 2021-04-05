@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Box } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, FormProvider } from 'react-hook-form';
@@ -18,10 +18,14 @@ export const RegisterForm: FC = () => {
     resolver: yupResolver(registerSchema),
   });
 
-  const { categories } = useCategories();
+  const { categories, getCategories } = useCategories();
   const { submit, inProgress } = useRegister();
 
   const { isValid } = methods.formState;
+
+  useEffect(() => {
+    getCategories();
+  }, [getCategories]);
 
   return (
     <FormProvider {...methods}>
@@ -50,9 +54,9 @@ export const RegisterForm: FC = () => {
           inputName="userCategories"
           helperText="Select your interests"
         >
-          <FormSelect isMulti options={categories ?? []} />
+          <FormSelect isMulti defaultValue={null} options={categories ?? []} />
         </FormField>
-        <Button type="submit" isValid={isValid} inProgress={inProgress}>
+        <Button type="submit" disabled={!isValid} inProgress={inProgress}>
           Sign Up
         </Button>
         <FormBottomText

@@ -7,6 +7,7 @@ import {
   FormLabel,
 } from '@chakra-ui/react';
 import React from 'react';
+import { BaseInputProps } from '../../../app-types/form';
 
 interface Props {
   labelText?: string;
@@ -27,7 +28,7 @@ export const FormField: FC<Props> = ({
     <FormControl isInvalid={errors[inputName]}>
       <FormLabel htmlFor="firstName">{labelText && labelText}</FormLabel>
       {React.isValidElement(children) &&
-        React.cloneElement(children, { name: inputName })}
+        React.cloneElement<BaseInputProps>(children, { name: inputName })}
       <FormHelperText>{helperText && helperText}</FormHelperText>
       <FormErrorMessage>
         {errors?.[inputName] && errors[inputName]?.message}

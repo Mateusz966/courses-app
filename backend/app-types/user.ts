@@ -1,3 +1,6 @@
+import { ICategory } from './category';
+import { ICourse } from './course';
+
 
 // Internal type
 export interface UserDefault {
@@ -8,32 +11,29 @@ export interface UserDefault {
 }
 
 export interface UserCategoriesReq {
-  userCategories?: { id: string }[]
+  userCategories?: { id: string }[];
 }
-export interface UserReq extends UserDefault, UserCategoriesReq {
-  
-}
+export interface UserReq extends UserDefault, UserCategoriesReq {}
+
 export interface UserRes {
-  id: string
+  id: string;
   email: string;
   firstName: string;
   lastName: string;
 }
 
-export interface UserEntity extends UserDefault {
+export interface IUser extends UserDefault {
   id: string;
+  userCategories: IUserCategories[];
+  course: ICourse;
 }
 
 export interface UserLogin {
   email: string;
   password: string;
 }
-export interface UserMyProfile {
-  email: string;
-  firstName: string;
-  lastName: string;
-}
-export interface UserSetPassword {
-  newPassword: string;
-  oldPassword: string;
+
+export interface IUserCategories {
+  user: IUser;
+  category: ICategory;
 }
