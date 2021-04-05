@@ -24,7 +24,7 @@ export const ImagePicker: React.FC<Props> = ({
   const [image, setImage] = useState();
   const [cropData, setCropData] = useState();
   const [cropper, setCropper] = useState<any>();
-  const { register, getValues } = useFormContext();
+  const { register } = useFormContext();
   const { fileStore } = useRootStore();
 
   if (!name) {
@@ -57,8 +57,6 @@ export const ImagePicker: React.FC<Props> = ({
     };
     reader.readAsDataURL(files[0]);
   };
-
-  console.log(getValues(name as string));
 
   const imageBlobHandler = (blob: Blob, url: string, fieldName: string) => {
     let image: any = blob;
