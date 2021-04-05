@@ -35,7 +35,7 @@ export const LoginForm: FC = () => {
         <FormField labelText="Password" inputName="password">
           <Input name="password" type="password" placeholder="*****" />
         </FormField>
-        <Button type="submit" isValid={isValid} inProgress={inProgress}>
+        <Button type="submit" disabled={!isValid} inProgress={inProgress}>
           Sign In
         </Button>
         <Box textAlign="center" w="100%">

@@ -1,12 +1,12 @@
 import { FC } from 'react';
-import { Button as ChakraButton } from '@chakra-ui/react';
+import { Button as ChakraButton, ButtonProps } from '@chakra-ui/react';
 
-interface Props {
+interface Props extends ButtonProps {
   primary?: boolean;
   secondary?: boolean;
   variant?: 'outline';
   loadingText?: string;
-  isValid?: boolean;
+  disabled?: boolean;
   inProgress?: boolean;
   type: 'submit' | 'button';
   mt0?: boolean;
@@ -15,19 +15,18 @@ interface Props {
 
 export const Button: FC<Props> = ({
   children,
-  primary,
-  secondary,
   variant,
-  isValid,
+  disabled,
   inProgress,
   type,
   mt0,
   onClick,
+  ...props
 }) => {
   return (
     <ChakraButton
       type={type}
-      disabled={!isValid || inProgress}
+      disabled={disabled || inProgress}
       mt={mt0 ? 0 : 6}
       w="100%"
       borderRadius="25px"
@@ -36,6 +35,7 @@ export const Button: FC<Props> = ({
       colorScheme="teal"
       variant={variant}
       onClick={onClick}
+      {...props}
     >
       {children}
     </ChakraButton>

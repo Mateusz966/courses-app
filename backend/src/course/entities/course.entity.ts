@@ -28,6 +28,9 @@ export class Course extends MyBaseEntity implements ICourse {
   @Column({ default: CourseStatus.Draft })
   courseStatus: CourseStatus;
 
+  @Column({nullable: true})
+  courseFn: string;
+
   @OneToMany(() => CourseTopics, (courseTopic) => courseTopic.course)
   courseTopics: CourseTopics[];
 

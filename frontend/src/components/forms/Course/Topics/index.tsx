@@ -75,7 +75,7 @@ export const CourseTopicForm: FC<Props> = observer(({ courseId }) => {
           <Link as={RLink} to={backLink()}>
             Back
           </Link>
-          <Button type="submit" isValid={isValid}>
+          <Button type="submit" disabled={!isValid}>
             Next
           </Button>
         </HStack>

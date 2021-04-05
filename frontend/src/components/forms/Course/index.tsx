@@ -12,8 +12,9 @@ import { courseStore } from '../../../stores/course';
 import { courseSchema } from '../../../formSchemas/course';
 import { useCourse } from '../../../hooks/useCourse';
 import { useDebounce } from '../../../hooks/useDebounce';
+import ImagePicker from '../../common/FormField/File';
 
-export const CourseForm:FC = observer(() => {
+export const CourseForm: FC = observer(() => {
   const { courseId } = useParams<{ courseId: string }>();
   const methods = useForm({
     mode: 'onChange',
@@ -74,11 +75,17 @@ export const CourseForm:FC = observer(() => {
         as="form"
         onSubmit={methods.handleSubmit(() => publish(courseId))}
       >
+        <FormField labelText="Course photo" inputName="courseFn">
+          <ImagePicker
+            desktopRatio={22 / 9}
+            previewUrl={courseId && `article/image/articleFn/${courseId}`}
+          />
+        </FormField>
         <FormField labelText="Title" inputName="title">
-          <Input type="text" placeholder="NodeJS Course" />
+          <Input isRequired type="text" placeholder="NodeJS Course" />
         </FormField>
         <FormField labelText="Description" inputName="description">
-          <Input type="text" placeholder="Course about...." />
+          <Input isRequired type="text" placeholder="Course about...." />
         </FormField>
         <Editor
           apiKey="f77pjcz1vwa1mi1almj8uhwj2crs196lq21stcyj2dq0w8pf"
@@ -100,7 +107,7 @@ export const CourseForm:FC = observer(() => {
         <Link to={`/dashboard/course/edit/details/${courseId}/category`}>
           Kategorie
         </Link>
-        <Button type="submit" isValid={isValid} inProgress={inProgress}>
+        <Button type="submit" disabled={!isValid} inProgress={inProgress}>
           Opublikuj kurs
         </Button>
       </Box>

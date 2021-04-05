@@ -56,7 +56,7 @@ export const RegisterForm: FC = () => {
         >
           <FormSelect isMulti defaultValue={null} options={categories ?? []} />
         </FormField>
-        <Button type="submit" isValid={isValid} inProgress={inProgress}>
+        <Button type="submit" disabled={!isValid} inProgress={inProgress}>
           Sign Up
         </Button>
         <FormBottomText
