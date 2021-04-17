@@ -1,27 +1,28 @@
-import { useState } from 'react';
-import { UserReq } from '../app-types/user';
+import { SetError } from '../app-types/global';
+import { UserDefault, UserReq } from '../app-types/user';
 import { successNotification } from '../components/common/Toast';
 import { history } from '../config/history';
-import api from '../service/api';
 import { useRootStore } from '../stores/storeContext';
+import { useApi } from './useApi';
+
+interface Props {
+  setError: SetError;
+}
 
 interface UseProfileSetPassword {
-  submit: (payload: any, setError: any) => void;
+  submit: (payload: UserReq) => void;
   inProgress: boolean;
 }
 
-export const useProfileSetPassword = (): UseProfileSetPassword => {
+export const useProfileSetPassword = (props: Props): UseProfileSetPassword => {
   const { userStore } = useRootStore();
-  const [inProgress, setInProgress] = useState(false);
 
-  const submit = async (payload: any, setError?: any) => {
-    setInProgress(true);
+  const { post, inProgress } = useApi({ setError: props.setError });
 
-    const res = await api.post<UserReq, any>(
+  const submit = async (payload: UserReq) => {
+    const res = await post<UserReq, UserDefault>(
       `/auth/profile/set-password`,
-      payload,
-      setError,
-      setInProgress
+      payload
     );
 
     if (res) {

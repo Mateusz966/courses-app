@@ -39,7 +39,7 @@ const Profile: FC = observer(() => {
           </GridItem>
           <GridItem w="100%" colSpan={3}>
             <Link as={RLink} to="/dashboard/profile/set-password">
-              password
+              Change password
             </Link>
             <Center>
               <ProfileForm />
