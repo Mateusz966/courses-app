@@ -1,3 +1,5 @@
+import { ErrorOption } from "react-hook-form"
+
 export type BaseSelectOption = {
     value: string;
     label: string;
@@ -16,9 +18,5 @@ export type CustomSelectOption<T> = {
     label: string
 }
 
-export type SetError = (
-    path: string,
-    message: {
-      message: string;
-    },
-  ) => void;
+
+export type SetError = (path: string, error: ErrorOption) => void;

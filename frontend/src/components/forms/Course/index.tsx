@@ -21,13 +21,17 @@ export const CourseForm: FC = observer(() => {
     resolver: yupResolver(courseSchema),
   });
   const DEBOUNCE_TIMEOUT = 3500;
-  const { inProgress, updateCourse, handleEditorChange, publish } = useCourse();
   const {
     getValues,
     watch,
     reset,
+    setError,
     formState: { isValid },
   } = methods;
+  const { inProgress, updateCourse, handleEditorChange, publish } = useCourse({
+    setError,
+  });
+
   const title = watch('title');
   const description = watch('description');
 
