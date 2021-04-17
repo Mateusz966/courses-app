@@ -28,6 +28,9 @@ export class User extends BaseEntity implements IUser {
   @Column({ unique: true })
   email: string;
 
+  @Column({nullable: true})
+  photoFn: string;
+
   @OneToMany(() => UserCategories, (userCategories) => userCategories.user)
   userCategories: UserCategories[];
   

@@ -44,8 +44,6 @@ export const ImagePicker: React.FC<Props> = ({
     setImage(undefined);
     e.preventDefault();
     let files;
-    console.log(e?.dataTransfer?.files);
-    console.log(e?.target?.files);
     if (e.dataTransfer) {
       files = e.dataTransfer.files;
     } else if (e.target) {

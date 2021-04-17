@@ -8,6 +8,7 @@ export interface UserDefault {
   firstName: string;
   lastName: string;
   password: string;
+  photoFn?: string;
 }
 
 export interface UserCategoriesReq {

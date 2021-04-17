@@ -3,11 +3,13 @@ import { ICourse } from './course';
 
 
 // Internal type
+
 export interface UserDefault {
   email: string;
   firstName: string;
   lastName: string;
   password: string;
+  photoFn?: string;
 }
 
 export interface UserCategoriesReq {

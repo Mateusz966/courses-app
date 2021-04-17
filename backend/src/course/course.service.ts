@@ -72,13 +72,11 @@ export class CourseService {
   async update(newCourse: any, courseId: string, courseFn: Express.Multer.File) {
     try {
       const course = await Course.findOrThrow({ where: { id: courseId } });
-      console.log(course)
+
       course.description = newCourse.description;
       course.title = newCourse.title;
       course.content = newCourse.content;
       await course.save();
-
-      console.log(courseFn)
 
       if (courseFn) {
         await setFileIfExists(course , 'courseFn', 'course_photo', courseFn, true, 512);

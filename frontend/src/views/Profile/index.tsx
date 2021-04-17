@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import useHeader from '../../hooks/useHeader';
 import ProfileData from '../Profile/ProfileData';
 import ProfileSetPassword from './ProfileSetPassword';
 

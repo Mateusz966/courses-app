@@ -1,25 +1,34 @@
 import { useState } from 'react';
-import { UserMyProfile, UserReq } from '../app-types/user';
+import { UserReq } from '../app-types/user';
 import { successNotification } from '../components/common/Toast';
 import { history } from '../config/history';
 import api from '../service/api';
 import { useRootStore } from '../stores/storeContext';
 
 interface UseProfile {
-  submit: (payload: UserMyProfile, setError: any) => void;
+  submit: (payload: any, setError: any) => void;
   inProgress: boolean;
 }
 
 export const useProfile = (): UseProfile => {
   const { userStore } = useRootStore();
   const [inProgress, setInProgress] = useState(false);
+  const { fileStore  } = useRootStore()
 
-  const submit = async (payload: UserMyProfile, setError?: any) => {
+  const submit = async (payload: any, setError?: any) => {
     setInProgress(true);
+    const fd = new FormData();
+    fd.append('body', JSON.stringify(payload));
 
-    const res = await api.post<UserReq, UserMyProfile>(
+    if (fileStore?.files) {
+      fileStore.files.forEach(({file, name}) => {
+        fd.append(name, file, name)
+      })
+    }
+
+    const res = await api.post<UserReq, any>(
       `/user/profile/details`,
-      payload,
+      fd,
       setError,
       setInProgress
     );

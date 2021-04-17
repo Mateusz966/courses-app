@@ -16,5 +16,5 @@ export class UserDto implements UserReq {
   
     @IsArray()
     @IsOptional()
-    userCategories?: { id: string }[]
+    userCategories?: any
   }

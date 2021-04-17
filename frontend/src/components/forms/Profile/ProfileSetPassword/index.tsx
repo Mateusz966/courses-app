@@ -7,7 +7,7 @@ import { FormField } from '../../../common/FormField';
 import { Input } from '../../../common/FormField/Input';
 import { Button } from '../../../common/Button';
 import { profileSetPasswordSchema } from '../../../../formSchemas/profileSetPassword';
-import { UserSetPassword } from '../../../../app-types/user';
+
 
 export const ProfileSetPasswordForm: FC = () => {
   const methods = useForm({
@@ -24,7 +24,7 @@ export const ProfileSetPasswordForm: FC = () => {
         maxW="100%"
         margin="auto"
         as="form"
-        onSubmit={methods.handleSubmit((payload: UserSetPassword) =>
+        onSubmit={methods.handleSubmit((payload: any) =>
           submit(payload, methods.setError)
         )}
       >
@@ -34,7 +34,7 @@ export const ProfileSetPasswordForm: FC = () => {
         <FormField labelText="Podaj nowe hasło" inputName="newPassword">
           <Input type="password" placeholder="*****" />
         </FormField>
-        <Button type="submit" isValid={isValid} inProgress={inProgress}>
+        <Button type="submit" disabled={!isValid} inProgress={inProgress}>
           Resetuj
         </Button>
       </Box>

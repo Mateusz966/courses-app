@@ -10,10 +10,10 @@ import {
 } from '@chakra-ui/react';
 import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
-import avatar from '../../../assets/blank-profile.svg';
 import { ProfileSetPasswordForm } from '../../../components/forms/Profile/ProfileSetPassword';
 import { useRootStore } from '../../../stores/storeContext';
-import { Link as RLink } from 'react-router-dom';
+import { Link as RLink } from 'react-router-dom' ;
+import { apiUrl } from '../../../config/apiUrl';
 
 const ProfileSetPassword: FC = observer(() => {
   const { userStore } = useRootStore();
@@ -30,7 +30,7 @@ const ProfileSetPassword: FC = observer(() => {
               {
                 <Image
                   boxSize="100%"
-                  src={avatar}
+                  src={`${apiUrl}/user/avatar`}
                   objectFit="cover"
                   alt="User profile photo"
                 />
