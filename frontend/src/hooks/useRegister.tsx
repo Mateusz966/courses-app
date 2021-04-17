@@ -10,7 +10,7 @@ interface Props {
   setError: SetError
 }
 interface UseRegister {
-  submit: (payload: SignUpUserPayload, setError: any) => void;
+  submit: (payload: SignUpUserPayload) => void;
   inProgress: boolean;
 }
 
