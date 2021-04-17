@@ -24,5 +24,7 @@ export class UserStore {
     this.user.details = user;
   }
 
-  getUserDetails() {}
+  getUserDetails() {
+    console.log('strzał do api')
+  }
 }

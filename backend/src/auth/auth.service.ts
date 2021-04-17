@@ -62,4 +62,17 @@ export class AuthService {
       token: this.jwtService.sign(payload),
     };
   }
+
+  async setPassword(userId, userData): Promise<any> {
+    try {
+      const user = await User.findOne({ id: userId });
+      if (compare(userData.oldPassword, user.password)) {
+        const newPassword = await this.hashPassword(userData.newPassword);
+        await User.update(userId, { password: newPassword });
+        return await User.findOne({ id: userId });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }

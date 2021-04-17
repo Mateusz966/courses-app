@@ -40,6 +40,7 @@ export const LoggedActions: FC<Props> = ({ justifyContentType }) => {
           <MenuItem as={Link} to="/dashboard/course/add/category" >Stwórz kurs</MenuItem>
           <MenuItem as={Link} to="/dashboard/course" >Moje kurs</MenuItem>
           <MenuItem>Ustawienia</MenuItem>
+          <MenuItem as={Link} to="/dashboard/profile">Mój Profil</MenuItem>
         </MenuList>
       </Menu>
     </HStack>

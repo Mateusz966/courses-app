@@ -1,9 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Response } from 'express';
 import { Category } from 'src/category/entities/category.entity';
+import { setFileIfExists } from 'utils/setFileIfExist';
+import { storDir } from 'utils/storDir';
 import { UserCategories } from './entity/user-categories.entity';
 import { User } from './entity/user.entity';
 import { UserDto } from './user.dto';
-
+const path = require('path')
 
 @Injectable()
 export class UserService {
@@ -14,7 +17,7 @@ export class UserService {
       const user = await User.findOne({
         where: {
           email,
-        }
+        },
       });
       return user ? user : undefined;
     } catch (error) {
@@ -27,11 +30,13 @@ export class UserService {
     if (user) {
       return user;
     }
-    throw new HttpException('User with this id does not exist', HttpStatus.NOT_FOUND);
+    throw new HttpException(
+      'User with this id does not exist',
+      HttpStatus.NOT_FOUND,
+    );
   }
 
   async saveUser(newUser: UserDto): Promise<any> {
-
     try {
       const user = new User();
 
@@ -60,4 +65,37 @@ export class UserService {
       console.error(error);
     }
   }
+  async setUserData(userId, userData: any, photoFn: Express.Multer.File): Promise<any> {
+    try {
+      await User.update(userId, JSON.parse(userData.body));
+      const user = await User.findOne({ id: userId });
+
+      if (photoFn) {
+        await setFileIfExists(user, 'photoFn', 'user_photo', photoFn, true, 512);
+      }
+
+      return user;
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async getMyPhoto(userId: string, res: Response) {
+    const user = await User.findOne({ id: userId });
+    const { photoFn } = user;
+    console.log(user)
+    try {
+      if (!photoFn) {
+        res.status(HttpStatus.OK).json(null);
+      } else {
+        res.sendFile(
+          path.join(storDir(), 'user_photo/', photoFn),
+        );
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
 }
