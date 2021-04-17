@@ -15,3 +15,10 @@ export type CustomSelectOption<T> = {
     value: T,
     label: string
 }
+
+export type SetError = (
+    path: string,
+    message: {
+      message: string;
+    },
+  ) => void;

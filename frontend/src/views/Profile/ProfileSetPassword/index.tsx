@@ -12,7 +12,7 @@ import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
 import { ProfileSetPasswordForm } from '../../../components/forms/Profile/ProfileSetPassword';
 import { useRootStore } from '../../../stores/storeContext';
-import { Link as RLink } from 'react-router-dom' ;
+import { Link as RLink } from 'react-router-dom';
 import { apiUrl } from '../../../config/apiUrl';
 
 const ProfileSetPassword: FC = observer(() => {
@@ -45,9 +45,11 @@ const ProfileSetPassword: FC = observer(() => {
           </GridItem>
           <GridItem w="100%" colSpan={3}>
             <Link as={RLink} to="/dashboard/profile/details">
-              User data
+              My profile
             </Link>
-            <Center><ProfileSetPasswordForm/></Center>
+            <Center>
+              <ProfileSetPasswordForm />
+            </Center>
           </GridItem>
         </Grid>
       </Container>

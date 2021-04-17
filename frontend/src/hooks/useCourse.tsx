@@ -3,8 +3,14 @@ import { history } from '../config/history';
 import { courseStore } from '../stores/course';
 import { CategoryDto, CreateCourse } from '../app-types/category';
 import { CustomSelectOption } from '../../../app-types/global';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useRootStore } from '../stores/storeContext';
+import { useApi } from './useApi';
+import { SetError } from '../app-types/global';
+
+interface Props {
+  setError: SetError;
+}
 
 interface UseCourse {
   submitCategory: (
@@ -31,12 +37,12 @@ interface UseCourse {
   inProgress: boolean;
 }
 
-export const useCourse = (): UseCourse => {
-  const [inProgress, setInProgress] = useState(false);
+export const useCourse = (props?: Props): UseCourse => {
   const { fileStore } = useRootStore();
+  const { inProgress, post } = useApi({ setError: props?.setError });
 
   const publish = async (courseId: string) => {
-    await api.post(`/course/publish/${courseId}`);
+    await post(`/course/publish/${courseId}`);
   };
 
   const handleEditorChange = useCallback((content) => {
@@ -91,23 +97,18 @@ export const useCourse = (): UseCourse => {
     history.push(`/dashboard/course/edit/${savedCourseId}`);
   };
 
-  const updateCourse = async (
-    payload: any,
-    content: any,
-    setError: any,
-    courseId: string
-  ) => {
+  const updateCourse = async (payload: any, content: any, courseId: string) => {
     const fd = new FormData();
 
     fd.append('body', JSON.stringify({ ...payload, content }));
-    
+
     if (fileStore.files) {
       fileStore.files.forEach((file) => {
         fd.append(file?.name, file?.file, file?.name);
       });
     }
 
-    await api.post(`/course/update/${courseId}`, fd, setError, setInProgress);
+    await post(`/course/update/${courseId}`, fd);
     fileStore.removeAllFiles();
   };
 

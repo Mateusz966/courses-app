@@ -10,7 +10,6 @@ import { FormSelect } from '../../common/FormField/Select';
 import { registerSchema } from '../../../formSchemas/register';
 import { FormBottomText } from '../../common/FormBottomText';
 import { Button } from '../../common/Button';
-import { SignUpUserPayload } from '../../../interal-types/user';
 
 export const RegisterForm: FC = () => {
   const methods = useForm({
@@ -18,10 +17,13 @@ export const RegisterForm: FC = () => {
     resolver: yupResolver(registerSchema),
   });
 
-  const { categories, getCategories } = useCategories();
-  const { submit, inProgress } = useRegister();
+  const {
+    setError,
+    formState: { isValid },
+  } = methods;
 
-  const { isValid } = methods.formState;
+  const { categories, getCategories } = useCategories();
+  const { submit, inProgress } = useRegister({ setError });
 
   useEffect(() => {
     getCategories();
@@ -33,9 +35,7 @@ export const RegisterForm: FC = () => {
         maxW="425px"
         margin="auto"
         as="form"
-        onSubmit={methods.handleSubmit((payload: SignUpUserPayload) =>
-          submit(payload, methods.setError)
-        )}
+        onSubmit={methods.handleSubmit(submit)}
       >
         <FormField labelText="First name" inputName="firstName">
           <Input type="text" placeholder="Mati" />

@@ -8,15 +8,18 @@ import { Input } from '../../../common/FormField/Input';
 import { Button } from '../../../common/Button';
 import { profileSetPasswordSchema } from '../../../../formSchemas/profileSetPassword';
 
-
 export const ProfileSetPasswordForm: FC = () => {
   const methods = useForm({
     mode: 'onChange',
     resolver: yupResolver(profileSetPasswordSchema),
   });
 
-  const { submit, inProgress } = useProfileSetPassword();
-  const { isValid } = methods.formState;
+  const {
+    setError,
+    formState: { isValid },
+  } = methods;
+
+  const { submit, inProgress } = useProfileSetPassword({ setError });
 
   return (
     <FormProvider {...methods}>
@@ -24,9 +27,7 @@ export const ProfileSetPasswordForm: FC = () => {
         maxW="100%"
         margin="auto"
         as="form"
-        onSubmit={methods.handleSubmit((payload: any) =>
-          submit(payload, methods.setError)
-        )}
+        onSubmit={methods.handleSubmit(submit)}
       >
         <FormField labelText="Podaj stare hasło" inputName="oldPassword">
           <Input type="password" placeholder="*****" />
