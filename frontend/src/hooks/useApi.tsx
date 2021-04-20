@@ -3,7 +3,8 @@ import { AxiosResponse } from 'axios';
 import { axiosRequestConfiguration } from '../config/axios';
 import initializeAxios from '../config/axiosSetup';
 import { handlingError } from '../helpers/handleErrors';
-import { SetError } from '../../../app-types/global';
+import { SetError } from '../app-types/global';
+
 
 type ApiReqFnBasic = <T extends {}>(
   url: string,

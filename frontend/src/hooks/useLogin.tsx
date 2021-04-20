@@ -1,8 +1,8 @@
+import { SetError } from '../app-types/global';
 import { UserLogin, UserReq } from '../app-types/user';
 import { history } from '../config/history';
 import { useRootStore } from '../stores/storeContext';
 import { useApi } from './useApi';
-import { SetError } from '../../../app-types/global';
 
 interface Props {
   setError: SetError;
