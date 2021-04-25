@@ -97,8 +97,7 @@ export const useCourse = (props?: Props): UseCourse => {
     history.push(`/dashboard/course/edit/${savedCourseId}`);
   };
 
-  const updateCourse = useCallback(
-    async (payload: any, content: any, courseId: string) => {
+  const updateCourse = async (payload: any, content: any, courseId: string) => {
     const fd = new FormData();
 
     fd.append('body', JSON.stringify({ ...payload, content }));
@@ -109,9 +108,10 @@ export const useCourse = (props?: Props): UseCourse => {
       });
     }
 
+
     await post(`/course/update/${courseId}`, fd);
     fileStore.removeAllFiles();
-  }, [fileStore, post]);
+  };
 
   return {
     createCourse,

@@ -11,8 +11,8 @@ import { Button } from '../../common/Button';
 import { courseStore } from '../../../stores/course';
 import { courseSchema } from '../../../formSchemas/course';
 import { useCourse } from '../../../hooks/useCourse';
-import ImagePicker from '../../common/FormField/File';
 import { useDebounce } from '../../../hooks/useDebounce';
+import ImagePicker from '../../common/FormField/File';
 
 export const CourseForm: FC = observer(() => {
   const { courseId } = useParams<{ courseId: string }>();
@@ -55,15 +55,26 @@ export const CourseForm: FC = observer(() => {
   }, [reset]);
 
   useEffect(() => {
-    updateCourse(getValues(), courseStore.courseContent, courseId);
+    updateCourse(
+      getValues(),
+      courseStore.courseContent,
+      courseId
+    );
+    console.log(updateCourse);
+    console.log(getValues);
   }, [
-    contentDebounce,
-    titleDebounce,
-    descriptionDebounce,
-    courseId,
-    getValues,
+    // contentDebounce,
+    // titleDebounce,
+    // descriptionDebounce,
+    // courseId,
+    // getValues,
     updateCourse,
   ]);
+
+  // useEffect(() => {
+  //   console.log(updateCourse);
+  //   console.log(getValues);
+  // }, [updateCourse, getValues])
 
   return (
     <FormProvider {...methods}>

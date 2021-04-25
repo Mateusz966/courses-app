@@ -3,7 +3,7 @@ import { history } from '../config/history';
 import { courseStore } from '../stores/course';
 import { CategoryDto, CreateCourse } from '../app-types/category';
 import { CustomSelectOption } from '../../../app-types/global';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useRootStore } from '../stores/storeContext';
 import { useApi } from './useApi';
 import { SetError } from '../app-types/global';
@@ -97,21 +97,22 @@ export const useCourse = (props?: Props): UseCourse => {
     history.push(`/dashboard/course/edit/${savedCourseId}`);
   };
 
-  const updateCourse = useCallback(
-    async (payload: any, content: any, courseId: string) => {
-    const fd = new FormData();
+  const updateCourse = async (payload: any, content: any, courseId: string) => {
+    useEffect(() => {
+      const fd = new FormData();
 
-    fd.append('body', JSON.stringify({ ...payload, content }));
-
-    if (fileStore.files) {
-      fileStore.files.forEach((file) => {
-        fd.append(file?.name, file?.file, file?.name);
-      });
-    }
-
-    await post(`/course/update/${courseId}`, fd);
-    fileStore.removeAllFiles();
-  }, [fileStore, post]);
+      fd.append('body', JSON.stringify({ ...payload, content }));
+  
+      if (fileStore.files) {
+        fileStore.files.forEach((file) => {
+          fd.append(file?.name, file?.file, file?.name);
+        });
+      }
+  
+      post(`/course/update/${courseId}`, fd);
+      fileStore.removeAllFiles();
+    }, [payload, content, courseId])
+  };
 
   return {
     createCourse,

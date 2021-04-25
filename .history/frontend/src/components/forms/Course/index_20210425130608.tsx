@@ -35,13 +35,6 @@ export const CourseForm: FC = observer(() => {
   const title = watch('title');
   const description = watch('description');
 
-  const contentDebounce = useDebounce(
-    courseStore.courseContent,
-    DEBOUNCE_TIMEOUT
-  );
-  const titleDebounce = useDebounce(title, DEBOUNCE_TIMEOUT);
-  const descriptionDebounce = useDebounce(description, DEBOUNCE_TIMEOUT);
-
   useEffect(() => {
     if (courseId) {
       courseStore.getCourseDetails(courseId);
@@ -55,14 +48,15 @@ export const CourseForm: FC = observer(() => {
   }, [reset]);
 
   useEffect(() => {
-    updateCourse(getValues(), courseStore.courseContent, courseId);
+    updateCourse(
+      getValues(),
+      courseStore.courseContent,
+      courseId
+    );
   }, [
-    contentDebounce,
-    titleDebounce,
-    descriptionDebounce,
     courseId,
     getValues,
-    updateCourse,
+    updateCourse
   ]);
 
   return (

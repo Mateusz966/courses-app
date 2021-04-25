@@ -46,8 +46,7 @@ describe('Course tests', () => {
     const select = cy.get('[class*="-control"]');
     const selectVal = ['React', 'Angular'];
 
-    cy.get('[class*="-multiValue"]')
-      .eq(0)
+    cy.get('[class*="-multiValue"]').eq(0)
       .invoke('text')
       .should('eq', `${selectVal[0]}`);
 

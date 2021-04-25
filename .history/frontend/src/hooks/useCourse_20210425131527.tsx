@@ -108,10 +108,10 @@ export const useCourse = (props?: Props): UseCourse => {
         fd.append(file?.name, file?.file, file?.name);
       });
     }
-
+    
     await post(`/course/update/${courseId}`, fd);
     fileStore.removeAllFiles();
-  }, [fileStore, post]);
+  }, []);
 
   return {
     createCourse,

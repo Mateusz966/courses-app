@@ -11,8 +11,8 @@ import { Button } from '../../common/Button';
 import { courseStore } from '../../../stores/course';
 import { courseSchema } from '../../../formSchemas/course';
 import { useCourse } from '../../../hooks/useCourse';
-import ImagePicker from '../../common/FormField/File';
 import { useDebounce } from '../../../hooks/useDebounce';
+import ImagePicker from '../../common/FormField/File';
 
 export const CourseForm: FC = observer(() => {
   const { courseId } = useParams<{ courseId: string }>();
@@ -32,15 +32,15 @@ export const CourseForm: FC = observer(() => {
     setError,
   });
 
-  const title = watch('title');
-  const description = watch('description');
+  // const title = watch('title');
+  // const description = watch('description');
 
-  const contentDebounce = useDebounce(
-    courseStore.courseContent,
-    DEBOUNCE_TIMEOUT
-  );
-  const titleDebounce = useDebounce(title, DEBOUNCE_TIMEOUT);
-  const descriptionDebounce = useDebounce(description, DEBOUNCE_TIMEOUT);
+  // const contentDebounce = useDebounce(
+  //   courseStore.courseContent,
+  //   DEBOUNCE_TIMEOUT
+  // );
+  // const titleDebounce = useDebounce(title, DEBOUNCE_TIMEOUT);
+  // const descriptionDebounce = useDebounce(description, DEBOUNCE_TIMEOUT);
 
   useEffect(() => {
     if (courseId) {
@@ -55,15 +55,23 @@ export const CourseForm: FC = observer(() => {
   }, [reset]);
 
   useEffect(() => {
-    updateCourse(getValues(), courseStore.courseContent, courseId);
+    updateCourse(
+      getValues(),
+      courseStore.courseContent,
+      courseId
+    );
   }, [
-    contentDebounce,
-    titleDebounce,
-    descriptionDebounce,
+    // contentDebounce,
+    // titleDebounce,
+    // descriptionDebounce,
     courseId,
     getValues,
-    updateCourse,
   ]);
+
+  // useEffect(() => {
+  //   console.log(updateCourse);
+  //   console.log(getValues);
+  // }, [updateCourse, getValues])
 
   return (
     <FormProvider {...methods}>
