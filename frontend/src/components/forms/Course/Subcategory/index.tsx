@@ -66,7 +66,7 @@ export const CourseSubcategoryForm: FC = observer(() => {
           <Link as={RLink} to={backLink()}>
             Back
           </Link>
-          <Button type="submit" disabled={!isValid}>
+          <Button dataCy="nextButton" type="submit" disabled={!isValid}>
             Next
           </Button>
         </HStack>

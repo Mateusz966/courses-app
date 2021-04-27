@@ -11,6 +11,7 @@ interface Props extends ButtonProps {
   type: 'submit' | 'button';
   mt0?: boolean;
   onClick?: any;
+  dataCy?: string;
 }
 
 export const Button: FC<Props> = ({
@@ -21,6 +22,7 @@ export const Button: FC<Props> = ({
   type,
   mt0,
   onClick,
+  dataCy,
   ...props
 }) => {
   return (
@@ -35,6 +37,7 @@ export const Button: FC<Props> = ({
       colorScheme="teal"
       variant={variant}
       onClick={onClick}
+      data-cy={dataCy}
       {...props}
     >
       {children}

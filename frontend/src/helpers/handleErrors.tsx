@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { SetError } from '../../../app-types/global';
+import { SetError } from '../app-types/global';
 import { errorNotification } from '../components/common/Toast';
 import { getError } from './getError';
 

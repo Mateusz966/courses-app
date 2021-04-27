@@ -60,7 +60,7 @@ export const CourseCategoryForm: FC = observer(() => {
             options={categories ?? []}
           />
         </FormField>
-        <Button type="submit" disabled={!isValid}>
+        <Button dataCy="nextButton" type="submit" disabled={!isValid}>
           Next
         </Button>
       </Box>

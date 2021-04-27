@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { AxiosResponse } from 'axios';
 import { axiosRequestConfiguration } from '../config/axios';
 import initializeAxios from '../config/axiosSetup';
 import { handlingError } from '../helpers/handleErrors';
-import { SetError } from '../../../app-types/global';
+import { SetError } from '../app-types/global';
 
 type ApiReqFnBasic = <T extends {}>(
   url: string,
@@ -34,57 +34,69 @@ const axiosInstance = initializeAxios(axiosRequestConfiguration);
 export const useApi = (props?: Props): UseApi => {
   const [inProgress, setInProgress] = useState(false);
 
-  const get = <T extends {}>(url: string, queryParams?: object) => {
-    setInProgress(true);
-    return axiosInstance
-      .get<Promise<T>>(url, { params: queryParams })
-      .then((res) => res.data)
-      .catch((err) => {
-        handlingError(err.response, props?.setError);
-      })
-      .finally(() => {
-        setInProgress(false);
-      });
-  };
+  const get = useCallback(
+    <T extends {}>(url: string, queryParams?: object) => {
+      setInProgress(true);
+      return axiosInstance
+        .get<Promise<T>>(url, { params: queryParams })
+        .then((res) => res.data)
+        .catch((err) => {
+          handlingError(err.response, props?.setError);
+        })
+        .finally(() => {
+          setInProgress(false);
+        });
+    },
+    [props?.setError]
+  );
 
-  const post = <T, K>(url: string, body?: K, queryParams?: object) => {
-    setInProgress(true);
-    return axiosInstance
-      .post<T>(url, body, { params: queryParams })
-      .then((res) => res.data)
-      .catch((err) => {
-        handlingError(err.response, props?.setError);
-      })
-      .finally(() => {
-        setInProgress(false);
-      });
-  };
+  const post = useCallback(
+    <T, K>(url: string, body?: K, queryParams?: object) => {
+      setInProgress(true);
+      return axiosInstance
+        .post<T>(url, body, { params: queryParams })
+        .then((res) => res.data)
+        .catch((err) => {
+          handlingError(err.response, props?.setError);
+        })
+        .finally(() => {
+          setInProgress(false);
+        });
+    },
+    [props?.setError]
+  );
 
-  const put = <T, K>(url: string, body?: K, queryParams?: object) => {
-    setInProgress(true);
-    return axiosInstance
-      .put<T>(url, body, { params: queryParams })
-      .then((res) => res.data)
-      .catch((err) => {
-        handlingError(err.response, props?.setError);
-      })
-      .finally(() => {
-        setInProgress(false);
-      });
-  };
+  const put = useCallback(
+    <T, K>(url: string, body?: K, queryParams?: object) => {
+      setInProgress(true);
+      return axiosInstance
+        .put<T>(url, body, { params: queryParams })
+        .then((res) => res.data)
+        .catch((err) => {
+          handlingError(err.response, props?.setError);
+        })
+        .finally(() => {
+          setInProgress(false);
+        });
+    },
+    [props?.setError]
+  );
 
-  const patch = <T, K>(url: string, body?: K, queryParams?: object) => {
-    setInProgress(true);
-    return axiosInstance
-      .patch<T>(url, body, { params: queryParams })
-      .then((res) => res.data)
-      .catch((err) => {
-        handlingError(err.response, props?.setError);
-      })
-      .finally(() => {
-        setInProgress(false);
-      });
-  };
+  const patch = useCallback(
+    <T, K>(url: string, body?: K, queryParams?: object) => {
+      setInProgress(true);
+      return axiosInstance
+        .patch<T>(url, body, { params: queryParams })
+        .then((res) => res.data)
+        .catch((err) => {
+          handlingError(err.response, props?.setError);
+        })
+        .finally(() => {
+          setInProgress(false);
+        });
+    },
+    [props?.setError]
+  );
 
   const deleteR = (url: string, id: number) => {
     return axiosInstance.delete(`${url}/${id}`);

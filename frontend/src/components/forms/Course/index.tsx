@@ -11,8 +11,8 @@ import { Button } from '../../common/Button';
 import { courseStore } from '../../../stores/course';
 import { courseSchema } from '../../../formSchemas/course';
 import { useCourse } from '../../../hooks/useCourse';
-import { useDebounce } from '../../../hooks/useDebounce';
 import ImagePicker from '../../common/FormField/File';
+import { useDebounce } from '../../../hooks/useDebounce';
 
 export const CourseForm: FC = observer(() => {
   const { courseId } = useParams<{ courseId: string }>();
@@ -55,19 +55,13 @@ export const CourseForm: FC = observer(() => {
   }, [reset]);
 
   useEffect(() => {
-    updateCourse(
-      getValues(),
-      courseStore.courseContent,
-      methods.setError,
-      courseId
-    );
+    updateCourse(getValues(), courseStore.courseContent, courseId);
   }, [
     contentDebounce,
     titleDebounce,
     descriptionDebounce,
     courseId,
     getValues,
-    methods.setError,
     updateCourse,
   ]);
 
@@ -82,7 +76,7 @@ export const CourseForm: FC = observer(() => {
         <FormField labelText="Course photo" inputName="courseFn">
           <ImagePicker
             desktopRatio={22 / 9}
-            previewUrl={courseId && `article/image/articleFn/${courseId}`}
+            previewUrl={courseId && `course/image/courseFn/${courseId}`}
           />
         </FormField>
         <FormField labelText="Title" inputName="title">

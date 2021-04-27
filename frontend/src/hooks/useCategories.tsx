@@ -3,6 +3,7 @@ import { CategoryDto } from '../app-types/category';
 import { BaseSelectOption, CustomSelectOption } from '../app-types/global';
 import { errorNotification } from '../components/common/Toast';
 import api from '../service/api';
+import { useApi } from './useApi';
 
 interface UseCategories {
   getCategories: () => void;
@@ -24,9 +25,10 @@ export const useCategories = (): UseCategories => {
     CustomSelectOption<CategoryDto>[] | null
   >(null);
   const [topics, setTopics] = useState<BaseSelectOption[] | null>(null);
+  const { get } = useApi();
 
   const getCategories = useCallback(async () => {
-    const categories = await api.get<CategoryDto[]>(`/category/all`);
+    const categories = await get<CategoryDto[]>(`/category/all`);
 
     if (categories) {
       setCategories(
@@ -44,7 +46,7 @@ export const useCategories = (): UseCategories => {
       return null;
     }
 
-    const res = await api.get<CategoryDto[]>(
+    const res = await get<CategoryDto[]>(
       `/category/subcategory/${categoryId}`
     );
 
@@ -58,8 +60,8 @@ export const useCategories = (): UseCategories => {
     }
   }, []);
 
-  const getTopics = useCallback(async (categoryId: any, subcategoryId: any) => {
-    const res = await api.get<CategoryDto[]>(
+  const getTopics = useCallback(async (categoryId: string, subcategoryId: string) => {
+    const res = await get<CategoryDto[]>(
       `/category/subcategory/${categoryId}/${subcategoryId}`
     );
 

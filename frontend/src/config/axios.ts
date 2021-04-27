@@ -3,7 +3,7 @@ import { apiUrl } from './apiUrl';
 import axios from 'axios';
 import { history } from './history';
 
-const REQ_TIMEOUT = 10000;
+const REQ_TIMEOUT = 20000;
 
 export const redirectToLogin = () => history.push('/');
 
