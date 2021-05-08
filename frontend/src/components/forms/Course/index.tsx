@@ -50,7 +50,10 @@ export const CourseForm: FC = observer(() => {
 
   useEffect(() => {
     if (courseStore.course) {
-      reset(courseStore.course);
+      reset({
+        title: courseStore.course.title,
+        description: courseStore.course.description,
+      });
     }
   }, [reset]);
 
@@ -68,7 +71,7 @@ export const CourseForm: FC = observer(() => {
   return (
     <FormProvider {...methods}>
       <Box
-        maxW="425px"
+        maxW="100%"
         margin="auto"
         as="form"
         onSubmit={methods.handleSubmit(() => publish(courseId))}
@@ -96,12 +99,16 @@ export const CourseForm: FC = observer(() => {
               'paste code help',
             ],
             toolbar:
+              // eslint-disable-next-line no-multi-str
               'undo redo | formatselect | bold italic backcolor | \
              alignleft aligncenter alignright alignjustify | \
              bullist numlist outdent indent | removeformat | help',
           }}
           onEditorChange={handleEditorChange}
         />
+        <Link to={`/dashboard/course/edit/details/${courseId}/content`}>
+          Edytuj zawartość kursu
+        </Link>
         <Link to={`/dashboard/course/edit/details/${courseId}/category`}>
           Kategorie
         </Link>

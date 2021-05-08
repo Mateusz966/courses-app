@@ -7,6 +7,9 @@ import { User } from '../user/entity/user.entity';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { CourseTopics } from './entities/course-topics.entity';
 import { Course } from './entities/course.entity';
+import * as path from 'path';
+import { Lesson } from './entities/lesson.entity';
+const Vimeo = require('vimeo').Vimeo;
 
 @Injectable()
 export class CourseService {
@@ -127,4 +130,23 @@ export class CourseService {
 
     return await CourseTopics.save(courseTopicsToSave);
   }
+
+
+  async uploadLessonVideo(
+    user: User,
+    file: Express.Multer.File,
+    courseId: string,
+    lessonId: string,
+    res: Response
+  ) {
+    try {
+      const client = new Vimeo(process.env.VIMEO_CLIENT_ID, process.env.VIMEO_CLIENT_SECRET, process.env.VIMEO_ACCESS_TOKEN)
+      const lesson = await Lesson.findOrThrow({ where: { id: lessonId } })
+      const newFileName = file.filename + path.parse(file.originalname).ext;
+      const nameWithoutExt = file.originalname.replace(/\.[^/.]+$/, '');
+    } catch (error) {
+      throw error;
+    }
+  }
+
 }
