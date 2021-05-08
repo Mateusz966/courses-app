@@ -1,4 +1,4 @@
-import { SetError } from '../app-types/global';
+import { SetError } from '../types/global';
 import { UserLogin, UserReq } from '../app-types/user';
 import { history } from '../config/history';
 import { useRootStore } from '../stores/storeContext';

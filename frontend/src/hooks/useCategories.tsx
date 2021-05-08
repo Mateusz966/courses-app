@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react';
 import { CategoryDto } from '../app-types/category';
 import { BaseSelectOption, CustomSelectOption } from '../app-types/global';
 import { errorNotification } from '../components/common/Toast';
-import api from '../service/api';
 import { useApi } from './useApi';
 
 interface UseCategories {
@@ -38,7 +37,7 @@ export const useCategories = (): UseCategories => {
         }))
       );
     }
-  }, []);
+  }, [get]);
 
   const getSubcategories = useCallback(async (categoryId?: string) => {
     if (!categoryId) {
@@ -58,7 +57,7 @@ export const useCategories = (): UseCategories => {
         }))
       );
     }
-  }, []);
+  }, [get]);
 
   const getTopics = useCallback(async (categoryId: string, subcategoryId: string) => {
     const res = await get<CategoryDto[]>(
@@ -73,7 +72,7 @@ export const useCategories = (): UseCategories => {
         }))
       );
     }
-  }, []);
+  }, [get]);
 
   return {
     categories,

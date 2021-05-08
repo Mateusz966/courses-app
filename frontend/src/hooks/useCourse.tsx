@@ -6,7 +6,7 @@ import { CustomSelectOption } from '../../../app-types/global';
 import { useCallback } from 'react';
 import { useRootStore } from '../stores/storeContext';
 import { useApi } from './useApi';
-import { SetError } from '../app-types/global';
+import { SetError } from '../types/global';
 
 interface Props {
   setError: SetError;

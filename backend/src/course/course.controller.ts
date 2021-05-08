@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Param, Post, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
-import { CreateCourse } from '../../app-types/category';
+import { Body, Controller, Get, Param, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UserObj } from 'decorators/user-obj.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CourseService } from './course.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { storDir } from 'utils/storDir';
+import { CreateCourseDto } from './dto/create-course.dto';
+import { UpdateCourseDto } from './dto/update-course.dto';
 const path = require('path');
 
 @Controller('course')
@@ -23,7 +24,7 @@ export class CourseController {
 
   @UseGuards(JwtAuthGuard)
   @Post('/add')
-  async add(@UserObj() user, @Body() categoriesDetails: CreateCourse) {
+  async add(@UserObj() user, @Body() categoriesDetails: CreateCourseDto) {
     try {
       return await this.courseService.add(user, categoriesDetails);
     } catch (error) {
@@ -37,7 +38,6 @@ export class CourseController {
     try {
       return await this.courseService.getCourseDetails(courseId);
     } catch (error) {
-      console.log(error);
       throw error;
     }
   }
@@ -49,7 +49,7 @@ export class CourseController {
   }))
   async update(
     @Param('courseId') courseId: string, 
-    @Body() payload: any,
+    @Body() payload: UpdateCourseDto,
     @UploadedFile() courseFn: Express.Multer.File,
     ) {
     try {

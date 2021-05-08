@@ -1,6 +1,6 @@
 import { BadRequestException, HttpStatus } from "@nestjs/common";
 import { ApiErrorCode } from "app-types/global";
-import { ValidationArguments, ValidationOptions, ValidatorConstraintInterface } from "class-validator";
+import { ValidationArguments, ValidationOptions, ValidatorConstraint, registerDecorator, ValidatorConstraintInterface } from "class-validator";
 
 export const formError = (path: string, message: ApiErrorCode) => {
   throw new BadRequestException({ code: HttpStatus.BAD_REQUEST, message: [{ path, message }] });
@@ -24,7 +24,7 @@ export const tooShort = {
       return `{"key": "formErrors.text_to_short", "args": "${args.constraints[0]}"}`;
     }
   },
-};
+}; 
 
 export function Match(property: string, validationOptions?: ValidationOptions) {
   return (object: any, propertyName: string) => {
@@ -47,11 +47,3 @@ export class MatchConstraint implements ValidatorConstraintInterface {
   }
 }
 
-function registerDecorator(arg0: { target: any; propertyName: string; options: any; constraints: string[]; validator: typeof MatchConstraint; }) {
-  throw new Error("Function not implemented.");
-}
-
-
-function ValidatorConstraint(arg0: { name: string; }) {
-  throw new Error("Function not implemented.");
-}

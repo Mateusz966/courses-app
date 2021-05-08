@@ -14,7 +14,7 @@ import { Button } from '../../common/Button';
 export const RegisterForm: FC = () => {
   const methods = useForm({
     mode: 'onChange',
-    // resolver: yupResolver(registerSchema),
+    resolver: yupResolver(registerSchema),
   });
 
   const {
@@ -56,7 +56,7 @@ export const RegisterForm: FC = () => {
         >
           <FormSelect isMulti defaultValue={null} options={categories ?? []} />
         </FormField>
-        <Button type="submit" disabled={false} inProgress={inProgress}>
+        <Button type="submit" disabled={!isValid} inProgress={inProgress}>
           Sign Up
         </Button>
         <FormBottomText

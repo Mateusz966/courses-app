@@ -1,9 +1,10 @@
-import { IsEmail, IsString, IsArray, IsOptional, IsNotEmpty } from "class-validator";
+import { IsEmail, IsString, IsArray, IsOptional, IsNotEmpty, MinLength } from "class-validator";
+import { tooShort } from "utils/dtoValidators";
 import { UserReq } from '../../../app-types/user';
 
 export class UserDto implements UserReq {
     @IsEmail()
-    @IsNotEmpty({ message: `{"key": "formErrors.cannot_be_empty"}` })
+    @IsNotEmpty()
     email: string;
    
     @IsString()
@@ -15,6 +16,7 @@ export class UserDto implements UserReq {
     lastName: string
   
     @IsString()
+    @MinLength(6, tooShort)
     @IsNotEmpty()
     password: string;
   

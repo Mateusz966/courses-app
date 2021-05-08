@@ -43,13 +43,15 @@ export type CreateCourse = {
   topics: CustomSelectOption<CategoryDto>[] | null;
 };
 
+export interface CreateCourseReq {
+  category: CustomSelectOption<CategoryDto>;
+  subcategory: CustomSelectOption<CategoryDto>;
+  topics: CustomSelectOption<CategoryDto>[];
+}
+
 export enum CourseStatus {
   Draft,
   Published,
   Removed,
 }
 
-export interface UpdateCourseReq {
-  description: string;
-  title: string;
-}
