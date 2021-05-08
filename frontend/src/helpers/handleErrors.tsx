@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
-import { SetError } from '../app-types/global';
 import { errorNotification } from '../components/common/Toast';
+import { SetError } from '../types/global';
 import { getError } from './getError';
 
 export const handlingError = (response: AxiosResponse, setError?: SetError) => {

@@ -1,14 +1,23 @@
-import { ValidationPipe } from '@nestjs/common';
+import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import * as cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
+import { RequestConverterPipe } from './pipes/request-converter.pipe';
+import rateLimit = require('express-rate-limit');
+import { ValidDtoFilter } from 'filters/dto-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {cors: { origin: 'http://localhost:3000', credentials: true }});
+  app.use(
+    rateLimit({
+      windowMs: 15 * 60 * 1000,
+      max: 50000,
+    }),
+  );
   app.use(cookieParser());
-  app.useGlobalPipes(new ValidationPipe({
-    transform: true,
-    whitelist: true,
+  app.useGlobalFilters(new ValidDtoFilter());
+  app.useGlobalPipes(new RequestConverterPipe, new ValidationPipe({
+    exceptionFactory: (errors) => new BadRequestException(errors),
   }));
   await app.listen(3001);
 }

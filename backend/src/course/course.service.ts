@@ -4,6 +4,7 @@ import { Category } from 'src/category/entities/category.entity';
 import { Topic } from 'src/category/entities/topic.entity';
 import { setFileIfExists } from 'utils/setFileIfExist';
 import { User } from '../user/entity/user.entity';
+import { UpdateCourseDto } from './dto/update-course.dto';
 import { CourseTopics } from './entities/course-topics.entity';
 import { Course } from './entities/course.entity';
 
@@ -59,9 +60,9 @@ export class CourseService {
         .getMany();
 
 
-      return { 
-        ...course, 
-        ...topics 
+      return {
+        ...course,
+        ...topics
       };
 
     } catch (error) {
@@ -69,7 +70,7 @@ export class CourseService {
     }
   }
 
-  async update(newCourse: any, courseId: string, courseFn: Express.Multer.File) {
+  async update(newCourse: UpdateCourseDto, courseId: string, courseFn: Express.Multer.File) {
     try {
       const course = await Course.findOrThrow({ where: { id: courseId } });
 
@@ -79,7 +80,7 @@ export class CourseService {
       await course.save();
 
       if (courseFn) {
-        await setFileIfExists(course , 'courseFn', 'course_photo', courseFn, true, 512);
+        await setFileIfExists(course, 'courseFn', 'course_photo', courseFn, true, 512);
       }
 
       return course;

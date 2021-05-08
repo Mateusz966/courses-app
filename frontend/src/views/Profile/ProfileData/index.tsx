@@ -18,10 +18,11 @@ const Profile: FC = observer(() => {
   } = useRootStore();
 
   useEffect(() => {
+    console.log('test');
     if (!user?.details) {
       getUserDetails();
     }
-  }, [user?.details]);
+  }, [getUserDetails, user?.details]);
 
   return (
     <Box as="section" marginTop="5%">

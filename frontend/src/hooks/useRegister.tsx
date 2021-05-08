@@ -1,4 +1,4 @@
-import { SetError } from '../app-types/global';
+import { SetError } from '../types/global';
 import { UserReq } from '../app-types/user';
 import { successNotification } from '../components/common/Toast';
 import { apiUrl } from '../config/apiUrl';
