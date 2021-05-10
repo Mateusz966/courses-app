@@ -82,7 +82,7 @@ export class CourseController {
 
   @UseGuards(JwtAuthGuard)
   @Post('upload-video-lesson/:courseId/:lessonId')
-  @UseInterceptors(FileInterceptor('video'))
+  @UseInterceptors(FileInterceptor('video', { dest: path.join(storDir(), 'video_store') }))
   async uploadLessonVideo(
     @Param('courseId') courseId: string,
     @Param('lessonId') lessonId: string,

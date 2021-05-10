@@ -8,7 +8,10 @@ import { UpdateCourseDto } from './dto/update-course.dto';
 import { CourseTopics } from './entities/course-topics.entity';
 import { Course } from './entities/course.entity';
 import * as path from 'path';
+import * as util from "util";
+import * as fs from "fs";
 import { Lesson } from './entities/lesson.entity';
+import { storDir } from 'utils/storDir';
 const Vimeo = require('vimeo').Vimeo;
 
 @Injectable()
@@ -141,10 +144,45 @@ export class CourseService {
   ) {
     try {
       const client = new Vimeo(process.env.VIMEO_CLIENT_ID, process.env.VIMEO_CLIENT_SECRET, process.env.VIMEO_ACCESS_TOKEN)
-      const lesson = await Lesson.findOrThrow({ where: { id: lessonId } })
+      // const lesson = await Lesson.findOrThrow({ where: { id: lessonId } })
       const newFileName = file.filename + path.parse(file.originalname).ext;
       const nameWithoutExt = file.originalname.replace(/\.[^/.]+$/, '');
+
+
+      await util.promisify(fs.rename)(
+        path.join(storDir(), 'video_store' + '/') + file.filename,
+        path.join(storDir(), 'video_store' + '/') + newFileName,
+      );
+
+      client.upload(
+        path.join(storDir(), 'video_store/', newFileName),
+        {
+          name: nameWithoutExt,
+          description: 'lesson video',
+          privacy: {
+            view: 'unlisted',
+            comments: 'nobody',
+          },
+        },
+        async (uri) => {
+          try {
+            console.log('URI: ' + uri);
+          } catch (error) {
+            console.log(error)
+          }
+        },
+        function (bytes_uploaded, bytes_total) {
+          let percentage = ((bytes_uploaded / bytes_total) * 100).toFixed(2);
+          console.log(bytes_uploaded, bytes_total, percentage + '%');
+        },
+        async error => {
+          console.log('Failed because: ' + error);
+          await util.promisify(fs.unlink)(path.join(storDir(), 'article_picture', newFileName));
+        },
+      )
+
     } catch (error) {
+      console.log(error)
       throw error;
     }
   }

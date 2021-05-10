@@ -13,8 +13,6 @@ export const Checkbox: FC<Props> = ({
   isDisabled,
   isRequired,
   content,
-  onChange,
-  onClick,
   multiple,
   id,
 }) => {
@@ -22,13 +20,10 @@ export const Checkbox: FC<Props> = ({
 
   return (
     <ChakraChekbox
-      onChange={onChange}
-      onClick={onClick}
       multiple={multiple}
-      name={name}
       isDisabled={isDisabled}
       id={`${id || name}`}
-      ref={register({ required: isRequired && 'Field is required' })}
+      {...register(name as string, { required: isRequired })}
     >
       {content}
     </ChakraChekbox>

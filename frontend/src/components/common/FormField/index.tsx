@@ -22,7 +22,9 @@ export const FormField: FC<Props> = ({
   inputName,
   children,
 }) => {
-  const { errors } = useFormContext();
+  const {
+    formState: { errors },
+  } = useFormContext();
 
   return (
     <FormControl isInvalid={errors[inputName]}>
