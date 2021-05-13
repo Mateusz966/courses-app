@@ -143,26 +143,15 @@ export class CourseService {
     res: Response
   ) {
     try {
-      const client = new Vimeo(process.env.VIMEO_CLIENT_ID, process.env.VIMEO_CLIENT_SECRET, process.env.VIMEO_ACCESS_TOKEN)
+      const client = new Vimeo(process.env.VIMEO_CLIENT_ID, process.env.VIMEO_CLIENT_SECRET, process.env.VIMEO_ACCESS_TOKEN);
       // const lesson = await Lesson.findOrThrow({ where: { id: lessonId } })
-      const newFileName = file.filename + path.parse(file.originalname).ext;
+
       const nameWithoutExt = file.originalname.replace(/\.[^/.]+$/, '');
-
-
-      await util.promisify(fs.rename)(
-        path.join(storDir(), 'video_store' + '/') + file.filename,
-        path.join(storDir(), 'video_store' + '/') + newFileName,
-      );
-
       client.upload(
-        path.join(storDir(), 'video_store/', newFileName),
+        path.join(storDir(), 'video_store/', file.filename),
         {
           name: nameWithoutExt,
           description: 'lesson video',
-          privacy: {
-            view: 'unlisted',
-            comments: 'nobody',
-          },
         },
         async (uri) => {
           try {
@@ -171,13 +160,13 @@ export class CourseService {
             console.log(error)
           }
         },
-        function (bytes_uploaded, bytes_total) {
+        (bytes_uploaded, bytes_total) => {
           let percentage = ((bytes_uploaded / bytes_total) * 100).toFixed(2);
           console.log(bytes_uploaded, bytes_total, percentage + '%');
         },
         async error => {
           console.log('Failed because: ' + error);
-          await util.promisify(fs.unlink)(path.join(storDir(), 'article_picture', newFileName));
+          await util.promisify(fs.unlink)(path.join(storDir(), 'video_store/', file.filename));
         },
       )
 

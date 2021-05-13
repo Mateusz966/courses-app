@@ -1,11 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import Player from '@vimeo/player';
 
-export const VideoPlayer = () => {
+interface Props {
+  id: number;
+}
+
+export const VideoPlayer:FC<Props> = ({id}) => {
 
   useEffect(() => {
     const player = new Player('videoPlayer', {
-        id: 226053498,
+        url: `https://vimeo.com/${id}`,
         width: 640
     });
     

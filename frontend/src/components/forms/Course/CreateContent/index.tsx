@@ -9,9 +9,13 @@ import { FormField } from '../../../common/FormField';
 import { Input } from '../../../common/FormField/Input';
 import { v4 as uuidv4 } from 'uuid';
 import { VideoPlayer } from '../../../common/VideoPlayer';
+import { Textarea } from '../../../common/FormField/Textarea';
 
 export const CreateCourseContent: FC = observer(() => {
-  const { courseId, sectionId } = useParams<{ courseId: string, sectionId?: string }>();
+  const { courseId, sectionId } = useParams<{
+    courseId: string;
+    sectionId?: string;
+  }>();
   const methods = useForm({
     mode: 'onChange',
   });
@@ -43,12 +47,12 @@ export const CreateCourseContent: FC = observer(() => {
                 <Input type="text" placeholder="Nazwa sekcji" />
               </FormField>
               <FormField
-                labelText="Nazwa lekcji"
+                labelText="Opis lekcji"
                 inputName={`lesson.${index}.description`}
               >
-                <Input type="text" placeholder="opis lekcji" />
+                <Textarea placeholder="opis lekcji" />
               </FormField>
-              <VideoPlayer />
+              <VideoPlayer id={548993721} />
             </Box>
           </>
         ))}
