@@ -1,15 +1,16 @@
 import { Box, Grid } from '@chakra-ui/react';
 import { observer } from 'mobx-react-lite';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
-import { defaultGap } from '../../../../config/defaultStyles';
+import { defaultGap } from '../../../../config/globalStyles';
 import { Button } from '../../../common/Button';
 import { FormField } from '../../../common/FormField';
 import { Input } from '../../../common/FormField/Input';
 import { v4 as uuidv4 } from 'uuid';
-import { VideoPlayer } from '../../../common/VideoPlayer';
 import { Textarea } from '../../../common/FormField/Textarea';
+import { useCreateContent } from '../../../../hooks/useCreateContent';
+import { Video } from '../../../common/FormField/Video';
 
 export const CreateCourseContent: FC = observer(() => {
   const { courseId, sectionId } = useParams<{
@@ -25,10 +26,23 @@ export const CreateCourseContent: FC = observer(() => {
       name: 'lesson',
     }
   );
+  const {
+    handleSubmit,
+    setError,
+    formState: { isValid },
+  } = methods;
+
+  const { submit } = useCreateContent({ setError });
 
   return (
     <FormProvider {...methods}>
-      <Grid as="ul" gap={defaultGap} templateColumns="1fr">
+      <Grid
+        as="form"
+        onSubmit={handleSubmit((payload) => submit(payload, courseId))}
+        listStyleType="none"
+        gap={defaultGap}
+        templateColumns="1fr"
+      >
         <Box as="li" w="100%">
           <FormField labelText="Nazwa sekcji" inputName="sectionName">
             <Input type="text" placeholder="Nazwa sekcji" />
@@ -52,21 +66,32 @@ export const CreateCourseContent: FC = observer(() => {
               >
                 <Textarea placeholder="opis lekcji" />
               </FormField>
-              <VideoPlayer id={548993721} />
+              <FormField
+                labelText="Miejsce na video"
+                inputName={`lesson.${index}.video`}
+              >
+                <Video name={field.id} />
+              </FormField>
             </Box>
           </>
         ))}
+        <Button
+          w="auto"
+          ml="auto"
+          type="button"
+          disabled={!isValid}
+          onClick={() =>
+            append({
+              id: uuidv4(),
+            })
+          }
+        >
+          Add lesson
+        </Button>
+        <Button type="submit" w="100%" ml="auto" variant="outline">
+          Add section
+        </Button>
       </Grid>
-      <Button
-        type="button"
-        onClick={() =>
-          append({
-            id: uuidv4(),
-          })
-        }
-      >
-        dodaj
-      </Button>
     </FormProvider>
   );
 });

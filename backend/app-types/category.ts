@@ -55,3 +55,7 @@ export enum CourseStatus {
   Removed,
 }
 
+export interface UpdateCourseReq {
+  description: string;
+  title: string;
+}

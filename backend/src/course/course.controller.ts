@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Req, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Res, UploadedFile, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UserObj } from 'decorators/user-obj.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CourseService } from './course.service';
@@ -81,25 +81,24 @@ export class CourseController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('upload-video-lesson/:courseId/:lessonId')
+  @Post('upload-video-lesson/:courseId')
   @UseInterceptors(FileInterceptor('video', { dest: path.join(storDir(), 'video_store') }))
   async uploadLessonVideo(
     @Param('courseId') courseId: string,
-    @Param('lessonId') lessonId: string,
-    @UploadedFile() video: Express.Multer.File,
+    @UploadedFiles() videos: Express.Multer.File[],
+    @Body() payload: any,
     @Res() res,
     @UserObj() user,
   ) {
     try {
       this.courseService.uploadLessonVideo(
         user,
-        video,
+        videos,
         courseId,
-        lessonId,
-        res,
+        payload,
       )
     } catch (error) {
-
+      throw error;
     }
   }
 

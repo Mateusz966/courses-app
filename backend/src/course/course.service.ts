@@ -2,20 +2,20 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CourseStatus, CreateCourse } from 'app-types/category';
 import { Category } from 'src/category/entities/category.entity';
 import { Topic } from 'src/category/entities/topic.entity';
+import { VimeoService } from 'src/vimeo/vimeo.service';
 import { setFileIfExists } from 'utils/setFileIfExist';
 import { User } from '../user/entity/user.entity';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { CourseTopics } from './entities/course-topics.entity';
 import { Course } from './entities/course.entity';
-import * as path from 'path';
-import * as util from "util";
-import * as fs from "fs";
 import { Lesson } from './entities/lesson.entity';
-import { storDir } from 'utils/storDir';
-const Vimeo = require('vimeo').Vimeo;
+import { Section } from './entities/section.entity';
 
 @Injectable()
 export class CourseService {
+  constructor(
+    private readonly vimeoService: VimeoService,
+  ) { }
   async myAll(userId: string) {
     try {
       return await Course.find({ where: { userId } });
@@ -135,40 +135,42 @@ export class CourseService {
   }
 
 
+  async uploadVideoForLesson(lessonId, video) {
+    await this.vimeoService.upload(video, video.fileName, 'test');
+  }
+  
+
   async uploadLessonVideo(
     user: User,
-    file: Express.Multer.File,
+    files: Express.Multer.File[],
     courseId: string,
-    lessonId: string,
-    res: Response
+    data: any
   ) {
     try {
-      const client = new Vimeo(process.env.VIMEO_CLIENT_ID, process.env.VIMEO_CLIENT_SECRET, process.env.VIMEO_ACCESS_TOKEN);
-      // const lesson = await Lesson.findOrThrow({ where: { id: lessonId } })
 
-      const nameWithoutExt = file.originalname.replace(/\.[^/.]+$/, '');
-      client.upload(
-        path.join(storDir(), 'video_store/', file.filename),
-        {
-          name: nameWithoutExt,
-          description: 'lesson video',
-        },
-        async (uri) => {
-          try {
-            console.log('URI: ' + uri);
-          } catch (error) {
-            console.log(error)
-          }
-        },
-        (bytes_uploaded, bytes_total) => {
-          let percentage = ((bytes_uploaded / bytes_total) * 100).toFixed(2);
-          console.log(bytes_uploaded, bytes_total, percentage + '%');
-        },
-        async error => {
-          console.log('Failed because: ' + error);
-          await util.promisify(fs.unlink)(path.join(storDir(), 'video_store/', file.filename));
-        },
-      )
+      const section = new Section();
+      section.description = data.sectionDescription;
+      section.title = data.sectionTitle;
+      const savedSection = await section.save();
+      const course = await Course.findOne({ where: { id: courseId }});
+
+
+      await Promise.all(data.map((payload) => {
+          const lesson = new Lesson();
+          lesson.description = payload.description;
+          lesson.section = savedSection;
+          lesson.save();
+          this.uploadVideoForLesson(lesson.id, files[`video_${lesson.id}`]);
+      }))
+
+        // return new Promise(async (resolve, reject) => {
+        //   const lesson = new Lesson();
+        //   lesson.description = payload.description;
+        //   lesson.section = savedSection
+        //   section.course = course;
+        //   section.title = payload.sectionName;
+        //   resolve(Promise.all([lesson.save(), section.save()]));
+        // })
 
     } catch (error) {
       console.log(error)

@@ -10,16 +10,20 @@ import {
 import { Section } from './section.entity';
 
 @Entity()
-export class Lesson extends MyBaseEntity implements ILesson {
-  @PrimaryGeneratedColumn('uuid')
+export class Lesson extends BaseEntity implements ILesson {
+
+  @Column({type: 'uuid'})
   id: string;
 
   @Column({ type: 'varchar' })
   title: string;
 
   @Column({ type: 'varchar' })
+  description: string;
+
+  @Column({ type: 'varchar' })
   videoFn: string;
 
-  @ManyToOne(() => Section, (section) => section.lesson)
+  @ManyToOne(() => Section, (section) => section.id)
   section: Section;
 }

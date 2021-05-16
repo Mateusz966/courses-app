@@ -1,4 +1,5 @@
 import { ISection } from 'app-types/course';
+import { MyBaseEntity } from 'src/base/MyBaseEntity';
 import {
   Entity,
   BaseEntity,
@@ -11,16 +12,14 @@ import { Course } from './course.entity';
 import { Lesson } from './lesson.entity';
 
 @Entity()
-export class Section extends BaseEntity implements ISection {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+export class Section extends MyBaseEntity implements ISection {
 
   @Column({ type: 'varchar' })
   title: string;
 
-  @OneToMany(() => Lesson, (lesson) => lesson.section)
-  lesson: Lesson;
-
+  @Column({ type: 'varchar'})
+  description: string;
+  
   @ManyToOne(() => Course, (course) => course.section)
   course: Course;
 }
