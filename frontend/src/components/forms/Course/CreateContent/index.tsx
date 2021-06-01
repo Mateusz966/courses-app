@@ -47,6 +47,9 @@ export const CreateCourseContent: FC = observer(() => {
           <FormField labelText="Nazwa sekcji" inputName="sectionName">
             <Input type="text" placeholder="Nazwa sekcji" />
           </FormField>
+          <FormField labelText="Opis sekcji" inputName="sectionDescription">
+            <Input type="text" placeholder="Opis sekcji" />
+          </FormField>
         </Box>
         {fields.map((field, index) => (
           <>

@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CourseStatus, CreateCourse } from 'app-types/category';
 import { Category } from 'src/category/entities/category.entity';
+import { Subcategory } from 'src/category/entities/subcategory.entity';
 import { Topic } from 'src/category/entities/topic.entity';
 import { VimeoService } from 'src/vimeo/vimeo.service';
 import { setFileIfExists } from 'utils/setFileIfExist';
@@ -27,14 +28,14 @@ export class CourseService {
   async add(user: User, categoriesDetails: CreateCourse) {
     try {
       const course = new Course();
-
+      
       course.user = user;
       course.title = 'No title';
       course.description = '';
-      //@ts-ignore
-      course.category = categoriesDetails.category.value;
-      //@ts-ignore
-      course.subcategory = categoriesDetails.subcategory.value as Category;
+      course.category = new Category();
+      course.category.id = categoriesDetails.category.value.id;
+      course.subcategory = new Subcategory();
+      course.subcategory.id = categoriesDetails.category.value.id
 
       const addedCourse = await course.save();
 
@@ -83,6 +84,7 @@ export class CourseService {
       course.description = newCourse.description;
       course.title = newCourse.title;
       course.content = newCourse.content;
+
       await course.save();
 
       if (courseFn) {
@@ -124,21 +126,22 @@ export class CourseService {
     const courseTopics: CourseTopics[] = [];
     const courseTopicsToSave: CourseTopics[] = [];
 
-    categoriesDetails.topics.forEach((topic, index) => {
+    await Promise.all(categoriesDetails.topics.map(async (topicToAdd, index) => {
+      const topic = await Topic.findOneOrFail({where: { id: topicToAdd.value }})
       courseTopics[index] = new CourseTopics();
       courseTopics[index].course = addedCourse;
-      courseTopics[index].topic = topic.value as Topic;
+      courseTopics[index].topic = topic
       courseTopicsToSave.push(courseTopics[index]);
-    });
+    }));
 
-    return await CourseTopics.save(courseTopicsToSave);
+    return CourseTopics.save(courseTopicsToSave);
   }
 
 
   async uploadVideoForLesson(lessonId, video) {
-    await this.vimeoService.upload(video, video.fileName, 'test');
+    return this.vimeoService.upload(video, video.filename, 'opis');
   }
-  
+
 
   async uploadLessonVideo(
     user: User,
@@ -147,30 +150,24 @@ export class CourseService {
     data: any
   ) {
     try {
-
+      const course = await Course.findOne({ where: { id: courseId } });
       const section = new Section();
+
       section.description = data.sectionDescription;
-      section.title = data.sectionTitle;
+      section.title = data.sectionName;
+      section.course = course;
+
       const savedSection = await section.save();
-      const course = await Course.findOne({ where: { id: courseId }});
 
-
-      await Promise.all(data.map((payload) => {
-          const lesson = new Lesson();
-          lesson.description = payload.description;
-          lesson.section = savedSection;
-          lesson.save();
-          this.uploadVideoForLesson(lesson.id, files[`video_${lesson.id}`]);
+      await Promise.all(data.lesson.map(async (payload) => {
+        const lesson = new Lesson();
+        lesson.id = payload.id
+        lesson.description = payload.description;
+        lesson.section = savedSection;
+        lesson.title = payload.name;
+        lesson.videoFn = await this.uploadVideoForLesson(lesson.id, files.find((file) => file.fieldname === `video_${lesson.id}`));
+        await lesson.save();
       }))
-
-        // return new Promise(async (resolve, reject) => {
-        //   const lesson = new Lesson();
-        //   lesson.description = payload.description;
-        //   lesson.section = savedSection
-        //   section.course = course;
-        //   section.title = payload.sectionName;
-        //   resolve(Promise.all([lesson.save(), section.save()]));
-        // })
 
     } catch (error) {
       console.log(error)

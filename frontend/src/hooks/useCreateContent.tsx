@@ -30,7 +30,7 @@ export const useCreateContent = (props: Props): UseCreateContent => {
     console.log(fd)
 
     await post<any, any>(
-      `/course/upload-video-lesson/${courseId}/${id}}`,
+      `/course/upload-video-lesson/to-course/${courseId}`,
       fd
     );
   };

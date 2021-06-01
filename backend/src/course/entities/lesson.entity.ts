@@ -6,13 +6,14 @@ import {
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
+  PrimaryColumn,
 } from 'typeorm';
 import { Section } from './section.entity';
 
 @Entity()
 export class Lesson extends BaseEntity implements ILesson {
 
-  @Column({type: 'uuid'})
+  @PrimaryColumn({type: 'uuid'})
   id: string;
 
   @Column({ type: 'varchar' })
