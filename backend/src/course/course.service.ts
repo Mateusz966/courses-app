@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CourseStatus, CreateCourse } from 'app-types/category';
-import { Category } from 'src/category/entities/category.entity';
-import { Subcategory } from 'src/category/entities/subcategory.entity';
+import { CategoryService } from 'src/category/category.service';
 import { Topic } from 'src/category/entities/topic.entity';
 import { VimeoService } from 'src/vimeo/vimeo.service';
 import { setFileIfExists } from 'utils/setFileIfExist';
@@ -16,7 +15,9 @@ import { Section } from './entities/section.entity';
 export class CourseService {
   constructor(
     private readonly vimeoService: VimeoService,
+    private readonly categoryService: CategoryService
   ) { }
+
   async myAll(userId: string) {
     try {
       return await Course.find({ where: { userId } });
@@ -25,27 +26,44 @@ export class CourseService {
     }
   }
 
+  async handleCourseTopics(
+    addedCourse: Course,
+    topics: Topic[],
+  ) {
+    const courseTopics: CourseTopics[] = [];
+    const courseTopicsToSave: CourseTopics[] = [];
+
+    await Promise.all(topics.map(async (topic, index) => {
+      courseTopics[index] = new CourseTopics();
+      courseTopics[index].course = addedCourse;
+      courseTopics[index].topic = topic
+      courseTopicsToSave.push(courseTopics[index]);
+    }));
+
+    return CourseTopics.save(courseTopicsToSave);
+  }
+
   async add(user: User, categoriesDetails: CreateCourse) {
     try {
+      const { category, subcategory, topics } = await this.categoryService.areCategoriesExist(categoriesDetails);
       const course = new Course();
-      
+
       course.user = user;
       course.title = 'No title';
       course.description = '';
-      course.category = new Category();
-      course.category.id = categoriesDetails.category.value.id;
-      course.subcategory = new Subcategory();
-      course.subcategory.id = categoriesDetails.category.value.id
+      course.category = category;
+      course.subcategory = subcategory;
 
       const addedCourse = await course.save();
 
-      await this.handleCourseTopics(addedCourse, categoriesDetails);
+      await this.handleCourseTopics(addedCourse, topics);
 
       return addedCourse.id;
     } catch (error) {
       throw error;
     }
   }
+
 
   async getCourseDetails(id: string) {
 
@@ -101,7 +119,8 @@ export class CourseService {
   async updateCategory(courseId: string, categoriesDetails: CreateCourse) {
     try {
       const course = await Course.findOrThrow({ where: { id: courseId } });
-      await this.handleCourseTopics(course, categoriesDetails);
+      const { topics } = await this.categoryService.areCategoriesExist(categoriesDetails);
+      await this.handleCourseTopics(course, topics);
     } catch (error) {
       throw error;
     }
@@ -117,24 +136,6 @@ export class CourseService {
     const course = await Course.findOrThrow({ where: { id: courseId } });
     course.courseStatus = CourseStatus.Removed;
     return await course.save();
-  }
-
-  async handleCourseTopics(
-    addedCourse: Course,
-    categoriesDetails: CreateCourse,
-  ) {
-    const courseTopics: CourseTopics[] = [];
-    const courseTopicsToSave: CourseTopics[] = [];
-
-    await Promise.all(categoriesDetails.topics.map(async (topicToAdd, index) => {
-      const topic = await Topic.findOneOrFail({where: { id: topicToAdd.value }})
-      courseTopics[index] = new CourseTopics();
-      courseTopics[index].course = addedCourse;
-      courseTopics[index].topic = topic
-      courseTopicsToSave.push(courseTopics[index]);
-    }));
-
-    return CourseTopics.save(courseTopicsToSave);
   }
 
 
