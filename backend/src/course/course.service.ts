@@ -1,6 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CourseStatus, CreateCourse } from 'app-types/category';
+import { CategoryDto, CourseStatus, CreateCourse } from 'app-types/category';
+import { CustomSelectOption } from 'app-types/global';
 import { CategoryService } from 'src/category/category.service';
+import { Category } from 'src/category/entities/category.entity';
 import { Topic } from 'src/category/entities/topic.entity';
 import { VimeoService } from 'src/vimeo/vimeo.service';
 import { setFileIfExists } from 'utils/setFileIfExist';
@@ -51,7 +53,7 @@ export class CourseService {
       course.user = user;
       course.title = 'No title';
       course.description = '';
-      course.category = category;
+      course.category = category as Category;
       course.subcategory = subcategory;
 
       const addedCourse = await course.save();
@@ -64,11 +66,9 @@ export class CourseService {
     }
   }
 
-
   async getCourseDetails(id: string) {
 
     try {
-
       const course = await Course
         .createQueryBuilder("course")
         .select("course")
@@ -77,13 +77,11 @@ export class CourseService {
         .where("course.id = :id", { id, })
         .getOne();
 
-
       const topics = await CourseTopics
         .createQueryBuilder("topics")
         .leftJoinAndSelect("topics.topic", "topic")
         .where("topics.course = :id", { id: course.id })
         .getMany();
-
 
       return {
         ...course,
