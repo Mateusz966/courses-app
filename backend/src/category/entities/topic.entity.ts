@@ -1,10 +1,8 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
   OneToMany,
   ManyToOne,
-  BaseEntity,
 } from 'typeorm';
 import { Category } from './category.entity';
 import { CourseTopics } from 'src/course/entities/course-topics.entity';
