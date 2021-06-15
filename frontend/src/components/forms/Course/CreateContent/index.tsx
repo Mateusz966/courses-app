@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Textarea } from '../../../common/FormField/Textarea';
 import { useCreateContent } from '../../../../hooks/useCreateContent';
 import { Video } from '../../../common/FormField/Video';
+import { CourseContentReq } from '../../../../app-types/course';
 
 export const CreateCourseContent: FC = observer(() => {
   const { courseId, sectionId } = useParams<{
@@ -20,7 +21,7 @@ export const CreateCourseContent: FC = observer(() => {
   const methods = useForm({
     mode: 'onChange',
   });
-  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
+  const { fields, append } = useFieldArray(
     {
       control: methods.control,
       name: 'lesson',
@@ -38,7 +39,7 @@ export const CreateCourseContent: FC = observer(() => {
     <FormProvider {...methods}>
       <Grid
         as="form"
-        onSubmit={handleSubmit((payload) => submit(payload, courseId))}
+        onSubmit={handleSubmit((payload: CourseContentReq) => submit(payload, courseId))}
         listStyleType="none"
         gap={defaultGap}
         templateColumns="1fr"
@@ -59,7 +60,7 @@ export const CreateCourseContent: FC = observer(() => {
               </FormField>
               <FormField
                 labelText="Nazwa lekcji"
-                inputName={`lesson.${index}.name`}
+                inputName={`lesson.${index}.title`}
               >
                 <Input type="text" placeholder="Nazwa sekcji" />
               </FormField>

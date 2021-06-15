@@ -1,8 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CategoryDto, CourseStatus, CreateCourse } from 'app-types/category';
-import { CustomSelectOption } from 'app-types/global';
+import { CourseStatus, CreateCourse } from 'app-types/category';
 import { CategoryService } from 'src/category/category.service';
-import { Category } from 'src/category/entities/category.entity';
 import { Topic } from 'src/category/entities/topic.entity';
 import { VimeoService } from 'src/vimeo/vimeo.service';
 import { setFileIfExists } from 'utils/setFileIfExist';
@@ -137,8 +135,22 @@ export class CourseService {
   }
 
 
-  async uploadVideoForLesson(lessonId, video) {
-    return this.vimeoService.upload(video, video.filename, 'opis');
+  async uploadVideoForLesson(lesson: Lesson[], savedSection: Section, videos: Express.Multer.File[]) {
+    console.log(videos)
+    try {
+      return Promise.all(lesson.map(async (payload) => {
+        const lesson = new Lesson();
+        const video = videos.find((file) => file.fieldname === `video_${payload.id}`);
+        lesson.id = payload.id
+        lesson.description = payload.description;
+        lesson.section = savedSection;
+        lesson.title = payload.title;
+        lesson.videoFn = await this.vimeoService.upload(video, video.filename, 'opis');
+        return lesson.save();
+      }))
+    } catch (error) {
+      throw error;
+    }
   }
 
 
@@ -158,15 +170,7 @@ export class CourseService {
 
       const savedSection = await section.save();
 
-      await Promise.all(data.lesson.map(async (payload) => {
-        const lesson = new Lesson();
-        lesson.id = payload.id
-        lesson.description = payload.description;
-        lesson.section = savedSection;
-        lesson.title = payload.name;
-        lesson.videoFn = await this.uploadVideoForLesson(lesson.id, files.find((file) => file.fieldname === `video_${lesson.id}`));
-        await lesson.save();
-      }))
+      return this.uploadVideoForLesson(data.lesson, savedSection, files);
 
     } catch (error) {
       console.log(error)
