@@ -2,9 +2,9 @@ import { FC, lazy } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { TopNavBar } from '../../components/common/TopNavbar';
 
-const Course = lazy(() => import('../Course'));
-const Start = lazy(() => import('../Start'));
-const Profile = lazy(() => import('../Profile'));
+const Course = lazy(() => import('./Course'));
+const Start = lazy(() => import('./Start'));
+const Profile = lazy(() => import('./Profile'));
 
 const Dashboard: FC = () => {
   // TODO USE HEADER TO MOBX HEADER

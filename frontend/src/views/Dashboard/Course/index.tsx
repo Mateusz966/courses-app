@@ -10,7 +10,7 @@ const Courses: FC = () => {
     <>
       <Switch>
         <Route
-          path="/dashboard/course/edit/details/content/:courseId"
+          path="/dashboard/course/edit/content/:courseId"
           component={CourseContent}
         />
         <Route
@@ -18,7 +18,7 @@ const Courses: FC = () => {
           component={EditCategories}
         />
         <Route path="/dashboard/course/edit/:courseId" component={EditCourse} />
-        <Route path="/dashboard/course/add" component={AddCourse} />
+        <Route exact path="/dashboard/course/add" component={AddCourse} />
       </Switch>
     </>
   );

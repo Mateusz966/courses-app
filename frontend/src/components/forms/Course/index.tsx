@@ -106,7 +106,7 @@ export const CourseForm: FC = observer(() => {
           }}
           onEditorChange={handleEditorChange}
         />
-        <Link to={`/dashboard/course/edit/details/${courseId}/content`}>
+        <Link to={`/dashboard/course/edit/content/${courseId}`}>
           Edytuj zawartość kursu
         </Link>
         <Link to={`/dashboard/course/edit/details/${courseId}/category`}>
