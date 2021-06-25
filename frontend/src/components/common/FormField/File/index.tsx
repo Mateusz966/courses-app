@@ -1,4 +1,4 @@
-import React, {  useState } from 'react';
+import React, { useState } from 'react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 import { Image } from '@chakra-ui/image';
@@ -28,9 +28,8 @@ export const ImagePicker: React.FC<Props> = ({
   const { fileStore } = useRootStore();
 
   if (!name) {
-    return <Text>Picker doesn't have name attr</Text>
+    return <Text>Picker doesn't have name attr</Text>;
   }
-
 
   const previewUnavailable = () => {
     setLoading(false);
@@ -91,8 +90,6 @@ export const ImagePicker: React.FC<Props> = ({
     fileStore.removeFile(name);
   };
 
-
-  
   return (
     <Box position="relative">
       {loading && <Spinner overlay />}
@@ -101,7 +98,7 @@ export const ImagePicker: React.FC<Props> = ({
           <>
             Upload photo
             <input
-              ref={register()}
+              {...register(name)}
               name={name}
               type="file"
               id="file"

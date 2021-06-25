@@ -10,10 +10,10 @@ import {
 } from '@chakra-ui/react';
 import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
-import { ProfileSetPasswordForm } from '../../../components/forms/Profile/ProfileSetPassword';
-import { useRootStore } from '../../../stores/storeContext';
+import { ProfileSetPasswordForm } from '../../../../components/forms/Profile/ProfileSetPassword';
+import { useRootStore } from '../../../../stores/storeContext';
 import { Link as RLink } from 'react-router-dom';
-import { apiUrl } from '../../../config/apiUrl';
+import { apiUrl } from '../../../../config/apiUrl';
 
 const ProfileSetPassword: FC = observer(() => {
   const { userStore } = useRootStore();

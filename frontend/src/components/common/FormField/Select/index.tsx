@@ -43,10 +43,9 @@ export const FormSelect: FC<Props> = ({
     <Controller
       name={name}
       control={control}
-      placeholder="Wybierz"
       defaultValue={defaultValue}
       rules={{ required: isRequired }}
-      render={({ value, name, onChange }) => (
+      render={({field, fieldState }) => (
         <Select
           defaultValue={defaultValue}
           styles={customStyles}
@@ -54,12 +53,12 @@ export const FormSelect: FC<Props> = ({
           options={options}
           isDisabled={isDisabled}
           onChange={(e: any) => {
-            onChange(e);
+            field.onChange(e);
             handleChange?.(e);
           }}
           name={name}
           placeholder="Wybierz"
-          value={value}
+          value={field.value}
         />
       )}
     />

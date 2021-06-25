@@ -8,6 +8,7 @@ import { CategoryModule } from './category/category.module';
 import * as Joi from '@hapi/joi';
 import { AuthModule } from './auth/auth.module';
 import { CourseModule } from './course/course.module';
+import { VimeoModule } from './vimeo/vimeo.module';
   
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { CourseModule } from './course/course.module';
   UserModule,
   CategoryModule,
   CourseModule,
+  VimeoModule,
 ],
   controllers: [AppController],
   providers: [AppService],

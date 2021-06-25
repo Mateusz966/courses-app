@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Response } from 'express';
+import { CategoryService } from 'src/category/category.service';
 import { Category } from 'src/category/entities/category.entity';
 import { setFileIfExists } from 'utils/setFileIfExist';
 import { storDir } from 'utils/storDir';
@@ -10,7 +11,9 @@ const path = require('path')
 
 @Injectable()
 export class UserService {
-  constructor() { }
+  constructor(
+    private readonly categoryService: CategoryService
+  ) { }
 
   async getByEmail(email: string): Promise<any> {
     try {
@@ -21,7 +24,7 @@ export class UserService {
       });
       return user ? user : undefined;
     } catch (error) {
-      console.error(error);
+      throw error;
     }
   }
 
@@ -36,7 +39,7 @@ export class UserService {
     );
   }
 
-  async saveUser(newUser: UserDto): Promise<any> {
+  async saveUser(newUser: UserDto): Promise<void> {
     try {
       const user = new User();
 
@@ -51,20 +54,21 @@ export class UserService {
       const categoriesToSave: UserCategories[] = [];
 
       if (newUser?.userCategories) {
-        newUser.userCategories.forEach((category, index) => {
+        const { categories } = await this.categoryService.areCategoriesExist({ categories: newUser.userCategories });
+        categories.forEach((category, index) => {
           userCategories[index] = new UserCategories();
           userCategories[index].category = new Category();
           userCategories[index].user = savedUser;
-          userCategories[index].category.id = category.id;
+          userCategories[index].category = category;
           categoriesToSave.push(userCategories[index]);
         });
       }
-
-      return await UserCategories.insert(categoriesToSave);
+      await UserCategories.insert(categoriesToSave);
     } catch (error) {
-      console.error(error);
+      throw error;
     }
   }
+
   async setUserData(userId, userData: any, photoFn: Express.Multer.File): Promise<any> {
     try {
       await User.update(userId, JSON.parse(userData.body));
@@ -77,7 +81,7 @@ export class UserService {
       return user;
 
     } catch (error) {
-      console.error(error);
+      throw error;
     }
   }
 

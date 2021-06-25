@@ -1,21 +1,17 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
   OneToMany,
   ManyToOne,
-  BaseEntity,
 } from 'typeorm';
 import { Category } from './category.entity';
 import { CourseTopics } from 'src/course/entities/course-topics.entity';
 import { Subcategory } from './subcategory.entity';
 import { ITopic } from '../../../app-types/category';
+import { MyBaseEntity } from 'src/base/MyBaseEntity';
 
 @Entity()
-export class Topic extends BaseEntity implements ITopic {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+export class Topic extends MyBaseEntity implements ITopic {
   @Column()
   name: string;
 

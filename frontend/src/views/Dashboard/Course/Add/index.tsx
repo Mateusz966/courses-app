@@ -1,8 +1,8 @@
 import { FC, useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { CourseCategoryForm } from '../../../components/forms/Course/Category';
-import { CourseSubcategoryForm } from '../../../components/forms/Course/Subcategory';
-import { CourseTopicForm } from '../../../components/forms/Course/Topics';
+import { CourseCategoryForm } from '../../../../components/forms/Course/Category';
+import { CourseSubcategoryForm } from '../../../../components/forms/Course/Subcategory';
+import { CourseTopicForm } from '../../../../components/forms/Course/Topics';
 
 const AddCourse: FC = () => {
   useEffect(() => {

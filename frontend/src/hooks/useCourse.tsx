@@ -32,8 +32,8 @@ interface UseCourse {
     courseId?: string
   ) => void;
   handleEditorChange: (content: any) => void;
-  publish: (courseId: string) => Promise<void>;
   updateCourse: any;
+  publish: (courseId: string) => Promise<void>;
   inProgress: boolean;
 }
 
@@ -94,24 +94,26 @@ export const useCourse = (props?: Props): UseCourse => {
         courseStore.courseCategoryDetails
       );
     }
-    history.push(`/dashboard/course/edit/${savedCourseId}`);
+    // history.push(`/dashboard/course/edit/${savedCourseId}`);
   };
 
   const updateCourse = useCallback(
     async (payload: any, content: any, courseId: string) => {
-    const fd = new FormData();
+      const fd = new FormData();
 
-    fd.append('body', JSON.stringify({ ...payload, content }));
+      fd.append('body', JSON.stringify({ ...payload, content }));
 
-    if (fileStore.files) {
-      fileStore.files.forEach((file) => {
-        fd.append(file?.name, file?.file, file?.name);
-      });
-    }
+      if (fileStore.files) {
+        fileStore.files.forEach((file) => {
+          fd.append(file?.name, file?.file, file?.name);
+        });
+      }
 
-    await post(`/course/update/${courseId}`, fd);
-    fileStore.removeAllFiles();
-  }, [fileStore, post]);
+      await post(`/course/update/${courseId}`, fd);
+      fileStore.removeAllFiles();
+    },
+    [fileStore, post]
+  );
 
   return {
     createCourse,

@@ -21,16 +21,9 @@ export const useRegister = (props: Props): UseRegister => {
   const submit = async (payload: SignUpUserPayload) => {
 
 
-    const data: UserReq = {
-      ...payload,
-      userCategories: payload?.userCategories?.map(({ value }) => ({
-        id: value.id,
-      })),
-    };
-
-    const res = await post<UserReq, UserReq>(
+    const res = await post<UserReq, SignUpUserPayload>(
       `${apiUrl}/auth/sign-up`,
-      data,
+      payload,
     );
 
     if (res) {

@@ -1,22 +1,33 @@
-import { Body, Controller, Get, Param, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, Query, Res, UploadedFile, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UserObj } from 'decorators/user-obj.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CourseService } from './course.service';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { AnyFilesInterceptor, FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { storDir } from 'utils/storDir';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
+import { PaginationParams } from 'src/pagination/pagination-params.dto';
 const path = require('path');
+
+
 
 @Controller('course')
 export class CourseController {
   constructor(private readonly courseService: CourseService) { }
 
   @UseGuards(JwtAuthGuard)
-  @Get('/my-all')
-  async all(@UserObj() user) {
+  @Get('/created/all')
+  async myCreated(
+    @UserObj() user,
+    @Query('search') search: string,
+    @Query() { offset, limit }: PaginationParams
+  ) {
     try {
-      return await this.courseService.myAll(user.id);
+      if (search) {
+        // logic with search
+      } else {
+        return this.courseService.myCreated(user.id, offset, limit);
+      }
     } catch (error) {
       throw error;
     }
@@ -26,6 +37,7 @@ export class CourseController {
   @Post('/add')
   async add(@UserObj() user, @Body() categoriesDetails: CreateCourseDto) {
     try {
+      console.log(categoriesDetails)
       return await this.courseService.add(user, categoriesDetails);
     } catch (error) {
       throw error;
@@ -48,10 +60,10 @@ export class CourseController {
     dest: path.join(storDir() + '/course_photo'),
   }))
   async update(
-    @Param('courseId') courseId: string, 
+    @Param('courseId') courseId: string,
     @Body() payload: UpdateCourseDto,
     @UploadedFile() courseFn: Express.Multer.File,
-    ) {
+  ) {
     try {
       return await this.courseService.update(payload, courseId, courseFn);
     } catch (error) {
@@ -77,5 +89,28 @@ export class CourseController {
   ) {
     console.log(courseFn)
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('upload-video-lesson/to-course/:courseId')
+  @HttpCode(204)
+  @UseInterceptors(AnyFilesInterceptor({ dest: path.join(storDir(), 'video_store') }))
+  async uploadLessonVideo(
+    @Param('courseId') courseId: string,
+    @UploadedFiles() videos: Express.Multer.File[],
+    @Body() payload: any,
+    @UserObj() user,
+  ) {
+    try {
+      return this.courseService.uploadLessonVideo(
+        user,
+        videos,
+        courseId,
+        payload,
+      )
+    } catch (error) {
+      throw error;
+    }
+  }
+
 
 }

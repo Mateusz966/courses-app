@@ -17,6 +17,7 @@ export interface ICourse {
 export interface ILesson {
   id: string;
   title: string;
+  description: string;
   videoFn: string;
   section: ISection;
 }
@@ -29,7 +30,7 @@ export interface ICourseTopics {
 export interface ISection {
   id: string;
   title: string;
-  lesson: ILesson;
+  description: string;
   course: ICourse;
 }
 
@@ -43,4 +44,11 @@ export interface PublishCourseReq {
   title: string;
   description: string;
   content: string;
+}
+
+
+export interface CourseContentReq {
+  sectionName: string;
+  sectionDescription: string;
+  lesson: Omit<ILesson, 'videoFn'>[]
 }

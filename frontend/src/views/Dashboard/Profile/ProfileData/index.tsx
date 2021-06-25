@@ -8,8 +8,8 @@ import {
 } from '@chakra-ui/react';
 import { observer } from 'mobx-react-lite';
 import { FC, useEffect } from 'react';
-import { ProfileForm } from '../../../components/forms/Profile/ProfileData';
-import { useRootStore } from '../../../stores/storeContext';
+import { ProfileForm } from '../../../../components/forms/Profile/ProfileData';
+import { useRootStore } from '../../../../stores/storeContext';
 import { Link as RLink } from 'react-router-dom';;
 
 const Profile: FC = observer(() => {
