@@ -1,4 +1,4 @@
-import { ICourse } from 'app-types/course';
+import { Exclude } from 'class-transformer';
 import { Course } from 'src/course/entities/course.entity';
 import {
   Entity,
@@ -7,7 +7,7 @@ import {
   BaseEntity,
   OneToMany,
 } from 'typeorm';
-import { IUser, IUserCategories } from '../../../app-types/user';
+import { IUser } from '../../../app-types/user';
 import { UserCategories } from './user-categories.entity';
 
 @Entity()
@@ -22,6 +22,7 @@ export class User extends BaseEntity implements IUser {
   @Column()
   lastName: string;
 
+  @Exclude()
   @Column()
   password: string;
 
