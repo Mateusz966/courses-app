@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, Post, Res, UploadedFile, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, Query, Res, UploadedFile, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UserObj } from 'decorators/user-obj.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CourseService } from './course.service';
@@ -6,6 +6,7 @@ import { AnyFilesInterceptor, FileInterceptor, FilesInterceptor } from '@nestjs/
 import { storDir } from 'utils/storDir';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
+import { PaginationParams } from 'src/pagination/pagination-params.dto';
 const path = require('path');
 
 
@@ -15,10 +16,18 @@ export class CourseController {
   constructor(private readonly courseService: CourseService) { }
 
   @UseGuards(JwtAuthGuard)
-  @Get('/my-all')
-  async all(@UserObj() user) {
+  @Get('/created/all')
+  async myCreated(
+    @UserObj() user,
+    @Query('search') search: string,
+    @Query() { offset, limit }: PaginationParams
+  ) {
     try {
-      return await this.courseService.myAll(user.id);
+      if (search) {
+        // logic with search
+      } else {
+        return this.courseService.myCreated(user.id, offset, limit);
+      }
     } catch (error) {
       throw error;
     }

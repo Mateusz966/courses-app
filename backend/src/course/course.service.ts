@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CourseStatus, CreateCourse } from 'app-types/category';
 import { CategoryService } from 'src/category/category.service';
 import { Topic } from 'src/category/entities/topic.entity';
@@ -18,11 +18,19 @@ export class CourseService {
     private readonly categoryService: CategoryService
   ) { }
 
-  async myAll(userId: string) {
+  async myCreated(userId: string, offset: number, limit: number) {
     try {
-      return await Course.find({ where: { userId } });
+
+      const [items, countTotal] = await Course
+        .createQueryBuilder("course")
+        .where("course.user = :id", { id: userId })
+        .skip(offset)
+        .take(limit)
+        .getManyAndCount()
+
+      return { items, countTotal }
     } catch (error) {
-      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw error
     }
   }
 
