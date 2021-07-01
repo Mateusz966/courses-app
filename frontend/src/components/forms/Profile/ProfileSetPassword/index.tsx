@@ -29,10 +29,10 @@ export const ProfileSetPasswordForm: FC = () => {
         as="form"
         onSubmit={methods.handleSubmit(submit)}
       >
-        <FormField labelText="Podaj stare hasło" inputName="oldPassword">
+        <FormField labelText="Podaj stare hasło" name="oldPassword">
           <Input type="password" placeholder="*****" />
         </FormField>
-        <FormField labelText="Podaj nowe hasło" inputName="newPassword">
+        <FormField labelText="Podaj nowe hasło" name="newPassword">
           <Input type="password" placeholder="*****" />
         </FormField>
         <Button type="submit" disabled={!isValid} inProgress={inProgress}>

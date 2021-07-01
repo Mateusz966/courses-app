@@ -1,14 +1,14 @@
 import { action, makeObservable, observable } from 'mobx';
 import { RootStore } from '.';
 
-
 interface MultimediaFile {
-  file: File | Blob
-  name: string
+  file: File | Blob;
+  name: string;
 }
 
 export class FileStore {
   root: RootStore;
+
   files: MultimediaFile[] | null;
 
   constructor(root: RootStore) {
@@ -18,13 +18,13 @@ export class FileStore {
       files: observable,
       setFile: action,
       removeFile: action,
-      removeAllFiles: action
+      removeAllFiles: action,
     });
   }
 
   setFile(file: MultimediaFile) {
     if (this.files) {
-      this.files.push(file)
+      this.files.push(file);
     } else {
       this.files = [file];
     }
@@ -44,5 +44,4 @@ export class FileStore {
   removeAllFiles() {
     this.files = null;
   }
-
 }

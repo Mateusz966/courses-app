@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import initializeAxios from '../config/axiosSetup';
 import { axiosRequestConfiguration } from '../config/axios';
 import { handlingError } from '../helpers/handleErrors';
@@ -6,11 +7,11 @@ const axiosInstance = initializeAxios(axiosRequestConfiguration);
 
 const get = <T>(
   url: string,
-  queryParams?: object,
+  queryParams?: Record<string, string>,
   setError?: any,
-  setInProgress?: React.Dispatch<React.SetStateAction<boolean>>
-) => {
-  return axiosInstance
+  setInProgress?: Dispatch<SetStateAction<boolean>>,
+) =>
+  axiosInstance
     .get<Promise<T>>(url, { params: queryParams })
     .then((res) => res.data)
     .catch((err) => {
@@ -19,16 +20,15 @@ const get = <T>(
     .finally(() => {
       setInProgress?.(false);
     });
-};
 
 const post = <T, K>(
   url: string,
   body?: K,
   setError?: any,
-  setInProgress?: React.Dispatch<React.SetStateAction<boolean>>,
-  queryParams?: any
-) => {
-  return axiosInstance
+  setInProgress?: Dispatch<SetStateAction<boolean>>,
+  queryParams?: any,
+) =>
+  axiosInstance
     .post<T>(url, body, { params: queryParams })
     .then((res) => res.data)
     .catch((err) => {
@@ -37,16 +37,15 @@ const post = <T, K>(
     .finally(() => {
       setInProgress?.(false);
     });
-};
 
 const put = <T, K>(
   url: string,
   body: K,
   setError?: any,
-  setInProgress?: React.Dispatch<React.SetStateAction<boolean>>,
-  queryParams?: any
-) => {
-  return axiosInstance
+  setInProgress?: Dispatch<SetStateAction<boolean>>,
+  queryParams?: any,
+) =>
+  axiosInstance
     .put<T>(url, body, { params: queryParams })
     .then((res) => res.data)
     .catch((err) => {
@@ -55,16 +54,15 @@ const put = <T, K>(
     .finally(() => {
       setInProgress?.(false);
     });
-};
 
 const patch = <T, K>(
   url: string,
   body: K,
   setError?: any,
-  setInProgress?: React.Dispatch<React.SetStateAction<boolean>>,
-  queryParams?: any
-) => {
-  return axiosInstance
+  setInProgress?: Dispatch<SetStateAction<boolean>>,
+  queryParams?: any,
+) =>
+  axiosInstance
     .patch<T>(url, body, { params: queryParams })
     .then((res) => res.data)
     .catch((err) => {
@@ -73,10 +71,8 @@ const patch = <T, K>(
     .finally(() => {
       setInProgress?.(false);
     });
-};
 
-const deleteR = (url: string, id: number) => {
-  return axiosInstance.delete(`${url}/${id}`);
-};
+const deleteR = (url: string, id: number) =>
+  axiosInstance.delete(`${url}/${id}`);
 
 export default { get, post, put, patch, delete: deleteR };

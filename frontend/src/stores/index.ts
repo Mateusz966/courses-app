@@ -4,7 +4,9 @@ import { UserStore } from './user';
 
 export class RootStore {
   userStore: UserStore;
+
   headerStore: HeaderStore;
+
   fileStore: FileStore;
 
   constructor() {

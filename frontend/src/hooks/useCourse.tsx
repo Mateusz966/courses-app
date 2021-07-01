@@ -1,9 +1,9 @@
+import { useCallback } from 'react';
 import api from '../service/api';
 import { history } from '../config/history';
 import { courseStore } from '../stores/course';
 import { CategoryDto, CreateCourse } from '../app-types/category';
 import { CustomSelectOption } from '../../../app-types/global';
-import { useCallback } from 'react';
 import { useRootStore } from '../stores/storeContext';
 import { useApi } from './useApi';
 import { SetError } from '../types/global';
@@ -17,19 +17,19 @@ interface UseCourse {
     payload: {
       category: CustomSelectOption<CategoryDto>;
     },
-    courseId?: string
+    courseId?: string,
   ) => void;
   submitSubcategory: (
     payload: {
       subcategory: CustomSelectOption<CategoryDto>;
     },
-    courseId?: string
+    courseId?: string,
   ) => void;
   createCourse: (
     payload: {
       topics: CustomSelectOption<CategoryDto>[];
     },
-    courseId?: string
+    courseId?: string,
   ) => void;
   handleEditorChange: (content: any) => void;
   updateCourse: any;
@@ -53,7 +53,7 @@ export const useCourse = (props?: Props): UseCourse => {
     payload: {
       category: CustomSelectOption<CategoryDto>;
     },
-    courseId?: string
+    courseId?: string,
   ) => {
     const url = courseId
       ? `/dashboard/course/edit/details/${courseId}/subcategory`
@@ -66,11 +66,11 @@ export const useCourse = (props?: Props): UseCourse => {
     payload: {
       subcategory: CustomSelectOption<CategoryDto>;
     },
-    courseId?: string
+    courseId?: string,
   ) => {
     const url = courseId
       ? `/dashboard/course/edit/details/${courseId}/topics`
-      : `/dashboard/course/add/topics`;
+      : '/dashboard/course/add/topics';
     courseStore.setSubcategory(payload.subcategory);
     history.push(url);
   };
@@ -79,22 +79,22 @@ export const useCourse = (props?: Props): UseCourse => {
     payload: {
       topics: CustomSelectOption<CategoryDto>[];
     },
-    courseId?: string
+    courseId?: string,
   ) => {
     let savedCourseId;
     courseStore.setTopic(payload.topics);
     if (courseId) {
       savedCourseId = await api.post<string, CreateCourse>(
         '/course/edit',
-        courseStore.courseCategoryDetails
+        courseStore.courseCategoryDetails,
       );
     } else {
       savedCourseId = await api.post<string, CreateCourse>(
         '/course/add',
-        courseStore.courseCategoryDetails
+        courseStore.courseCategoryDetails,
       );
     }
-    // history.push(`/dashboard/course/edit/${savedCourseId}`);
+    history.push(`/dashboard/course/edit/${savedCourseId}`);
   };
 
   const updateCourse = useCallback(
@@ -112,7 +112,7 @@ export const useCourse = (props?: Props): UseCourse => {
       await post(`/course/update/${courseId}`, fd);
       fileStore.removeAllFiles();
     },
-    [fileStore, post]
+    [fileStore, post],
   );
 
   return {

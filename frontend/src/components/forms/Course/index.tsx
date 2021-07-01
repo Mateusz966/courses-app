@@ -3,10 +3,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, useParams } from 'react-router-dom';
 import { FC, useEffect } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
+import { observer } from 'mobx-react-lite';
+import { Editor } from '@tinymce/tinymce-react';
 import { FormField } from '../../common/FormField';
 import { Input } from '../../common/FormField/Input';
-import { Editor } from '@tinymce/tinymce-react';
-import { observer } from 'mobx-react-lite';
 import { Button } from '../../common/Button';
 import { courseStore } from '../../../stores/course';
 import { courseSchema } from '../../../formSchemas/course';
@@ -37,7 +37,7 @@ export const CourseForm: FC = observer(() => {
 
   const contentDebounce = useDebounce(
     courseStore.courseContent,
-    DEBOUNCE_TIMEOUT
+    DEBOUNCE_TIMEOUT,
   );
   const titleDebounce = useDebounce(title, DEBOUNCE_TIMEOUT);
   const descriptionDebounce = useDebounce(description, DEBOUNCE_TIMEOUT);
@@ -76,16 +76,16 @@ export const CourseForm: FC = observer(() => {
         as="form"
         onSubmit={methods.handleSubmit(() => publish(courseId))}
       >
-        <FormField labelText="Course photo" inputName="courseFn">
+        <FormField labelText="Course photo" name="courseFn">
           <ImagePicker
             desktopRatio={22 / 9}
             previewUrl={courseId && `course/image/courseFn/${courseId}`}
           />
         </FormField>
-        <FormField labelText="Title" inputName="title">
+        <FormField labelText="Title" name="title">
           <Input isRequired type="text" placeholder="NodeJS Course" />
         </FormField>
-        <FormField labelText="Description" inputName="description">
+        <FormField labelText="Description" name="description">
           <Input isRequired type="text" placeholder="Course about...." />
         </FormField>
         <Editor

@@ -37,21 +37,21 @@ export const RegisterForm: FC = () => {
         as="form"
         onSubmit={methods.handleSubmit(submit)}
       >
-        <FormField labelText="First name" inputName="firstName">
+        <FormField labelText="First name" name="firstName">
           <Input type="text" placeholder="Mati" />
         </FormField>
-        <FormField labelText="Last name" inputName="lastName">
+        <FormField labelText="Last name" name="lastName">
           <Input type="text" placeholder="Itam" />
         </FormField>
-        <FormField labelText="Email" inputName="email">
+        <FormField labelText="Email" name="email">
           <Input type="email" placeholder="example@example.com" />
         </FormField>
-        <FormField labelText="Password" inputName="password">
+        <FormField labelText="Password" name="password">
           <Input type="password" placeholder="*****" />
         </FormField>
         <FormField
           labelText="Categories"
-          inputName="userCategories"
+          name="userCategories"
           helperText="Select your interests"
         >
           <FormSelect isMulti defaultValue={null} options={categories ?? []} />

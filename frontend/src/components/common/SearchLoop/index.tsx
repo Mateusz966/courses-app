@@ -17,7 +17,8 @@ import { MdSearch, MdShoppingCart, MdClose } from 'react-icons/md';
 
 export const SearchLoop = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const searchField = React.useRef() as React.MutableRefObject<HTMLInputElement>;
+  const searchField =
+    React.useRef() as React.MutableRefObject<HTMLInputElement>;
 
   return (
     <HStack justifyContent="flex-end">

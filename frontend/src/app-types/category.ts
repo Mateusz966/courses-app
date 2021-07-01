@@ -1,6 +1,6 @@
-import { ICourse, ICourseTopics } from "./course";
-import { CustomSelectOption } from "./global";
-import { IUser } from "./user";
+import { ICourse, ICourseTopics } from './course';
+import { CustomSelectOption } from './global';
+import { IUser } from './user';
 
 export interface ISubcategory {
   id: string;
@@ -28,7 +28,7 @@ export interface ICategory {
 }
 
 export interface IUserCategories {
-  user: IUser; 
+  user: IUser;
   category: ICategory;
 }
 

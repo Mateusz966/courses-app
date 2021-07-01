@@ -49,7 +49,7 @@ export const MainDrawer = () => {
                 justifyContent="start"
                 borderBottom="1px solid #eee"
               >
-                <NavUserActions justifyContentType={'flex-start'} />
+                <NavUserActions justifyContentType="flex-start" />
               </DrawerHeader>
               <DrawerBody>
                 <UnorderedList listStyleType="none" ml="0">

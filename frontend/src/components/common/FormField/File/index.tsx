@@ -3,10 +3,10 @@ import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 import { Image } from '@chakra-ui/image';
 import { Box, HStack, Icon, IconButton, Spinner, Text } from '@chakra-ui/react';
-import { apiUrl } from '../../../../config/apiUrl';
 import { useFormContext } from 'react-hook-form';
-import { Button } from '../../Button';
 import { MdDeleteForever } from 'react-icons/md';
+import { apiUrl } from '../../../../config/apiUrl';
+import { Button } from '../../Button';
 import { useRootStore } from '../../../../stores/storeContext';
 
 interface Props {
@@ -28,7 +28,7 @@ export const ImagePicker: React.FC<Props> = ({
   const { fileStore } = useRootStore();
 
   if (!name) {
-    return <Text>Picker doesn't have name attr</Text>;
+    return <Text>Picker does not have name attr</Text>;
   }
 
   const previewUnavailable = () => {
@@ -56,13 +56,13 @@ export const ImagePicker: React.FC<Props> = ({
   };
 
   const imageBlobHandler = (blob: Blob, url: string, fieldName: string) => {
-    let image: any = blob;
-    image.name = `${fieldName}.png`;
-    image.lastModified = new Date().getTime();
+    const blobImage: any = blob;
+    blobImage.name = `${fieldName}.png`;
+    blobImage.lastModified = new Date().getTime();
     if (fileStore?.files) {
       fileStore.removeFile(fieldName);
     }
-    fileStore.setFile({ file: image, name: fieldName });
+    fileStore.setFile({ file: blobImage, name: fieldName });
   };
 
   const getCropData = () => {
@@ -125,11 +125,11 @@ export const ImagePicker: React.FC<Props> = ({
             aspectRatio={desktopRatio}
             src={image}
             viewMode={2}
-            guides={true}
+            guides
             minCropBoxHeight={10}
             minCropBoxWidth={10}
             background={false}
-            responsive={true}
+            responsive
             autoCropArea={0}
             checkOrientation={false}
             onInitialized={(instance) => {

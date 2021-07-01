@@ -1,16 +1,9 @@
-import {
-  Box,
-  Center,
-  Grid,
-  GridItem,
-  Container,
-  Link,
-} from '@chakra-ui/react';
+import { Box, Center, Grid, GridItem, Container, Link } from '@chakra-ui/react';
 import { observer } from 'mobx-react-lite';
 import { FC, useEffect } from 'react';
+import { Link as RLink } from 'react-router-dom';
 import { ProfileForm } from '../../../../components/forms/Profile/ProfileData';
 import { useRootStore } from '../../../../stores/storeContext';
-import { Link as RLink } from 'react-router-dom';;
 
 const Profile: FC = observer(() => {
   const {
@@ -27,11 +20,7 @@ const Profile: FC = observer(() => {
   return (
     <Box as="section" marginTop="5%">
       <Container maxW="xl" centerContent>
-        <Grid
-          templateRows="1fr"
-          templateColumns="1fr"
-          gap={2}
-        >
+        <Grid templateRows="1fr" templateColumns="1fr" gap={2}>
           <GridItem w="100%" colSpan={2}>
             <Center>
               Profil użytkownika {user?.details?.firstName}{' '}

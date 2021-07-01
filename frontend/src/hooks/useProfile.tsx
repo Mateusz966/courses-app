@@ -13,7 +13,7 @@ interface UseProfile {
 export const useProfile = (): UseProfile => {
   const { userStore } = useRootStore();
   const [inProgress, setInProgress] = useState(false);
-  const { fileStore  } = useRootStore()
+  const { fileStore } = useRootStore();
 
   const submit = async (payload: any, setError?: any) => {
     setInProgress(true);
@@ -21,16 +21,16 @@ export const useProfile = (): UseProfile => {
     fd.append('body', JSON.stringify(payload));
 
     if (fileStore?.files) {
-      fileStore.files.forEach(({file, name}) => {
-        fd.append(name, file, name)
-      })
+      fileStore.files.forEach(({ file, name }) => {
+        fd.append(name, file, name);
+      });
     }
 
     const res = await api.post<UserReq, any>(
-      `/user/profile/details`,
+      '/user/profile/details',
       fd,
       setError,
-      setInProgress
+      setInProgress,
     );
 
     if (res) {

@@ -27,7 +27,7 @@ export const useCreateContent = (props: Props): UseCreateContent => {
     }
     await post<void, FormData>(
       `/course/upload-video-lesson/to-course/${courseId}`,
-      fd
+      fd,
     );
   };
 

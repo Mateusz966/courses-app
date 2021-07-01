@@ -11,8 +11,11 @@ class Course {
     subcategory: null,
     topics: null,
   };
+
   course?: Omit<ICourse, 'content'>;
-  courseContent: string = '';
+
+  courseContent = '';
+
   inProgress = false;
 
   constructor() {
@@ -41,11 +44,11 @@ class Course {
     this.courseCategoryDetails.category = category;
   }
 
-  setSubcategory(subcategory: CustomSelectOption<CategoryDto>| null) {
+  setSubcategory(subcategory: CustomSelectOption<CategoryDto> | null) {
     this.courseCategoryDetails.subcategory = subcategory;
   }
 
-  setTopic(topic: CustomSelectOption<CategoryDto>[]| null) {
+  setTopic(topic: CustomSelectOption<CategoryDto>[] | null) {
     this.courseCategoryDetails.topics = topic;
   }
 

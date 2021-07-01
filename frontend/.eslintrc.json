@@ -1,0 +1,85 @@
+{
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "plugin:prettier/recommended",
+    "airbnb"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "prefer-arrow", "prettier", "react"],
+  "rules": {
+    "prettier/prettier": ["error", {
+      "endOfLine":"auto",
+      "trailingComma" : "all"
+    }],
+    "indent": "off",
+
+    "@typescript-eslint/no-unused-vars": [
+      2,
+      {
+        "args": "none"
+      }
+    ],
+    "no-unused-vars": "off",
+    "react/jsx-filename-extension": [
+      "error",
+      {
+        "extensions": [".tsx"]
+      }
+    ],
+    "react/jsx-props-no-spreading": "off",
+    "react/jsx-wrap-multilines": ["warn", {"declaration": false, "assignment": false}],
+    "max-len": ["warn", { "code": 100 }],
+    "react/prop-types": "off",
+    "no-useless-constructor": "off",
+    "react/jsx-curly-newline": "off",
+    "react/require-default-props": "off",
+    "linebreak-style": "off",
+    "no-else-return": "off",
+    "jsx-a11y/anchor-is-valid": "off",
+    "jsx-a11y/click-events-have-key-events": "warn",
+    "react/jsx-one-expression-per-line": "off",
+    "object-curly-newline": "off",
+    "implicit-arrow-linebreak": "off",
+    "function-paren-newline": "off",
+    "operator-linebreak": "off",
+    "arrow-parens": "off",
+    "no-confusing-arrow": "off",
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
+    "import/named": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/prefer-default-export": "off",
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "prefer-arrow/prefer-arrow-functions": [
+      "warn",
+      {
+        "disallowPrototype": true,
+        "classPropertiesAllowed": false
+      }
+    ],
+    "no-param-reassign": ["warn", {
+      "props": true,
+      "ignorePropertyModificationsFor": [
+        "state"
+      ]
+    }]
+  },
+  "env": {
+    "browser": true,
+    "jest": true
+  },
+  "overrides": [
+    {
+      "files": ["**/*.ts"],
+      "rules": {
+        "react/jsx-uses-react": "off",
+        "react/react-in-jsx-scope": "off"
+      }
+    }
+  ]
+}

@@ -1,6 +1,6 @@
-import { AxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import { apiUrl } from './apiUrl';
-import axios from 'axios';
+
 import { history } from './history';
 
 const REQ_TIMEOUT = 20000;
@@ -14,22 +14,16 @@ export const axiosRequestConfiguration: AxiosRequestConfig = {
 };
 
 axios.interceptors.request.use(
-  (config) => {
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (config) => config,
+  (error) => Promise.reject(error),
 );
 
 axios.interceptors.response.use(
-  (res) => {
-    return res;
-  },
+  (res) => res,
   (error) => {
     if (error.response.status === 401) {
       redirectToLogin();
     }
     return error;
-  }
+  },
 );

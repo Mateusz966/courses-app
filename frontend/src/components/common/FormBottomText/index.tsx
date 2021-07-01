@@ -8,26 +8,24 @@ interface Props {
   path: string;
 }
 
-export const FormBottomText: FC<Props> = ({ text, buttonText, path }) => {
-  return (
-    <Text
-      display="flex"
-      justifyContent="center"
-      w="100%"
-      mt="5"
-      textAlign="center"
+export const FormBottomText: FC<Props> = ({ text, buttonText, path }) => (
+  <Text
+    display="flex"
+    justifyContent="center"
+    w="100%"
+    mt="5"
+    textAlign="center"
+    fontSize="sm"
+  >
+    {text}
+    <Button
+      onClick={() => history.push(path)}
+      ml="1"
       fontSize="sm"
+      variant="link"
     >
-      {text}
-      <Button
-        onClick={() => history.push(path)}
-        ml="1"
-        fontSize="sm"
-        variant="link"
-      >
-        {' '}
-        {buttonText}
-      </Button>
-    </Text>
-  );
-};
+      {' '}
+      {buttonText}
+    </Button>
+  </Text>
+);

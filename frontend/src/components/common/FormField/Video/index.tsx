@@ -1,6 +1,6 @@
 import React, { FC, useRef, useState } from 'react';
-import { Controller } from 'react-hook-form';
-import { useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
+
 import { useRootStore } from '../../../../stores/storeContext';
 
 interface Props {
@@ -9,9 +9,9 @@ interface Props {
 }
 
 export const Video: FC<Props> = ({ name, isRequired }) => {
-  const { register, control } = useFormContext();
+  const { control } = useFormContext();
   const { fileStore } = useRootStore();
-  const [image, setImage] = useState();
+  const [image, setImage] = useState<string | null>();
   const videoRef = useRef<any>();
 
   const onChange = (e: any) => {
@@ -25,19 +25,22 @@ export const Video: FC<Props> = ({ name, isRequired }) => {
     }
     const reader = new FileReader();
     reader.onload = () => {
-      setImage(reader.result as any);
+      setImage(reader.result as string);
       videoRef.current.load();
       videoRef.current.play();
       fileStore.setFile({ file: file[0], name: name ?? file[0].name });
     };
-    //@ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     reader.readAsDataURL(file[0]);
   };
 
   return (
     <>
       {image && (
-        <video width="300" height="300" ref={videoRef} src={image} controls />
+        <video width="300" height="300" ref={videoRef} src={image} controls>
+          <track kind="captions" />
+        </video>
       )}
       <Controller
         name={name ?? 'video'}

@@ -12,7 +12,7 @@ interface UseCategories {
   topics: BaseSelectOption[] | null;
   getTopics: (
     categoryId: string,
-    subcategoryId: string
+    subcategoryId: string,
   ) => Promise<void | null>;
 }
 
@@ -27,52 +27,58 @@ export const useCategories = (): UseCategories => {
   const { get } = useApi();
 
   const getCategories = useCallback(async () => {
-    const categories = await get<CategoryDto[]>(`/category/all`);
+    const allCategories = await get<CategoryDto[]>('/category/all');
 
-    if (categories) {
+    if (allCategories) {
       setCategories(
-        categories.map((cat) => ({
+        allCategories.map((cat) => ({
           value: cat,
           label: cat.name,
-        }))
+        })),
       );
     }
   }, [get]);
 
-  const getSubcategories = useCallback(async (categoryId?: string) => {
-    if (!categoryId) {
-      errorNotification('Category not given');
-      return null;
-    }
+  const getSubcategories = useCallback(
+    async (categoryId?: string) => {
+      if (!categoryId) {
+        errorNotification('Category not given');
+        return;
+      }
 
-    const res = await get<CategoryDto[]>(
-      `/category/subcategory/${categoryId}`
-    );
-
-    if (res) {
-      setSubcategories(
-        res.map((cat) => ({
-          value: cat,
-          label: cat.name,
-        }))
+      const res = await get<CategoryDto[]>(
+        `/category/subcategory/${categoryId}`,
       );
-    }
-  }, [get]);
 
-  const getTopics = useCallback(async (categoryId: string, subcategoryId: string) => {
-    const res = await get<CategoryDto[]>(
-      `/category/subcategory/${categoryId}/${subcategoryId}`
-    );
+      if (res) {
+        setSubcategories(
+          res.map((cat) => ({
+            value: cat,
+            label: cat.name,
+          })),
+        );
+      }
+    },
+    [get],
+  );
 
-    if (res) {
-      setTopics(
-        res.map((topic) => ({
-          value: topic.id,
-          label: topic.name,
-        }))
+  const getTopics = useCallback(
+    async (categoryId: string, subcategoryId: string) => {
+      const res = await get<CategoryDto[]>(
+        `/category/subcategory/${categoryId}/${subcategoryId}`,
       );
-    }
-  }, [get]);
+
+      if (res) {
+        setTopics(
+          res.map((topic) => ({
+            value: topic.id,
+            label: topic.name,
+          })),
+        );
+      }
+    },
+    [get],
+  );
 
   return {
     categories,

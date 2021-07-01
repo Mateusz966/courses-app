@@ -9,16 +9,20 @@ export const handlingError = (response: AxiosResponse, setError?: SetError) => {
     return errorNotification('An error occured');
   }
   const { status, data } = response;
-  const { message } = data;
+  const { message: resMessage } = data;
   switch (status) {
     case 401:
       return null;
     case 400:
-      typeof message === 'object'
-        ? message.map(({ path, message }: any) => setError?.(path, { message }))
+      // eslint-disable-next-line no-unused-expressions
+      typeof resMessage === 'object'
+        ? resMessage.map(({ path, message }: any) =>
+            setError?.(path, { message }),
+          )
         : errorNotification(getError(data.errorCode));
-      break;
+      return null;
     default:
       errorNotification(getError(data.errorCode));
+      return null;
   }
 };
