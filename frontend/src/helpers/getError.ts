@@ -10,6 +10,8 @@ export const getError = (error: ApiErrorCode) => {
       return 'An error occured';
     case ApiErrorCode.EmailIsTaken:
       return 'Given email is taken';
+    case ApiErrorCode.NotFoundById:
+      return 'Nie znaleziono';
     default:
       return 'An error occured';
   }

@@ -27,6 +27,6 @@ export class CategoryController {
     @Param('categoryId') categoryId: string,
     @Param('subcategoryId') subcategoryId: string,
   ): Promise<Topic[]> {
-    return await this.categoryService.topics(categoryId, subcategoryId);
+    return this.categoryService.topics(categoryId, subcategoryId);
   }
 }

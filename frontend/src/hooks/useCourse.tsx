@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import api from '../service/api';
 import { history } from '../config/history';
 import { courseStore } from '../stores/course';
 import { CategoryDto, CreateCourse } from '../app-types/category';
@@ -25,7 +24,7 @@ interface UseCourse {
     },
     courseId?: string,
   ) => void;
-  createCourse: (
+  handleCourseDetailsSubmit: (
     payload: {
       topics: CustomSelectOption<CategoryDto>[];
     },
@@ -45,9 +44,9 @@ export const useCourse = (props?: Props): UseCourse => {
     await post(`/course/publish/${courseId}`);
   };
 
-  const handleEditorChange = useCallback((content) => {
+  const handleEditorChange = (content: any) => {
     courseStore.setContent(content);
-  }, []);
+  };
 
   const submitCategory = async (
     payload: {
@@ -58,6 +57,7 @@ export const useCourse = (props?: Props): UseCourse => {
     const url = courseId
       ? `/dashboard/course/edit/details/${courseId}/subcategory`
       : '/dashboard/course/add/subcategory';
+    console.log(payload.category);
     courseStore.setCategory(payload.category);
     history.push(url);
   };
@@ -75,7 +75,19 @@ export const useCourse = (props?: Props): UseCourse => {
     history.push(url);
   };
 
-  const createCourse = async (
+  const courseDetailsEdit = async () =>
+    post<string, CreateCourse>(
+      '/course/edit',
+      courseStore.courseCategoryDetails,
+    );
+
+  const courseDetailsCreate = async () =>
+    post<string, CreateCourse>(
+      '/course/add',
+      courseStore.courseCategoryDetails,
+    );
+
+  const handleCourseDetailsSubmit = async (
     payload: {
       topics: CustomSelectOption<CategoryDto>[];
     },
@@ -84,17 +96,13 @@ export const useCourse = (props?: Props): UseCourse => {
     let savedCourseId;
     courseStore.setTopic(payload.topics);
     if (courseId) {
-      savedCourseId = await api.post<string, CreateCourse>(
-        '/course/edit',
-        courseStore.courseCategoryDetails,
-      );
+      savedCourseId = await courseDetailsEdit();
     } else {
-      savedCourseId = await api.post<string, CreateCourse>(
-        '/course/add',
-        courseStore.courseCategoryDetails,
-      );
+      savedCourseId = await courseDetailsCreate();
     }
-    history.push(`/dashboard/course/edit/${savedCourseId}`);
+    if (savedCourseId) {
+      history.push(`/dashboard/course/edit/${savedCourseId}`);
+    }
   };
 
   const updateCourse = useCallback(
@@ -116,7 +124,7 @@ export const useCourse = (props?: Props): UseCourse => {
   );
 
   return {
-    createCourse,
+    handleCourseDetailsSubmit,
     submitCategory,
     submitSubcategory,
     updateCourse,

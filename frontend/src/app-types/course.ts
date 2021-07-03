@@ -46,8 +46,9 @@ export interface PublishCourseReq {
   content: string;
 }
 
+
 export interface CourseContentReq {
   sectionName: string;
   sectionDescription: string;
-  lesson: Omit<ILesson, 'videoFn'>[];
+  lesson: Omit<ILesson, 'videoFn'>[]
 }

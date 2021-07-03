@@ -2,7 +2,7 @@ import { Box } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, useParams } from 'react-router-dom';
 import { FC, useEffect } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm, FormProvider, Controller } from 'react-hook-form';
 import { observer } from 'mobx-react-lite';
 import { Editor } from '@tinymce/tinymce-react';
 import { FormField } from '../../common/FormField';
@@ -12,7 +12,6 @@ import { courseStore } from '../../../stores/course';
 import { courseSchema } from '../../../formSchemas/course';
 import { useCourse } from '../../../hooks/useCourse';
 import ImagePicker from '../../common/FormField/File';
-import { useDebounce } from '../../../hooks/useDebounce';
 
 export const CourseForm: FC = observer(() => {
   const { courseId } = useParams<{ courseId: string }>();
@@ -20,27 +19,15 @@ export const CourseForm: FC = observer(() => {
     mode: 'onChange',
     resolver: yupResolver(courseSchema),
   });
-  const DEBOUNCE_TIMEOUT = 3500;
+
   const {
-    getValues,
-    watch,
     reset,
     setError,
     formState: { isValid },
   } = methods;
-  const { inProgress, updateCourse, handleEditorChange, publish } = useCourse({
+  const { inProgress, handleEditorChange, publish } = useCourse({
     setError,
   });
-
-  const title = watch('title');
-  const description = watch('description');
-
-  const contentDebounce = useDebounce(
-    courseStore.courseContent,
-    DEBOUNCE_TIMEOUT,
-  );
-  const titleDebounce = useDebounce(title, DEBOUNCE_TIMEOUT);
-  const descriptionDebounce = useDebounce(description, DEBOUNCE_TIMEOUT);
 
   useEffect(() => {
     if (courseId) {
@@ -57,16 +44,16 @@ export const CourseForm: FC = observer(() => {
     }
   }, [reset]);
 
-  useEffect(() => {
-    updateCourse(getValues(), courseStore.courseContent, courseId);
-  }, [
-    contentDebounce,
-    titleDebounce,
-    descriptionDebounce,
-    courseId,
-    getValues,
-    updateCourse,
-  ]);
+  // useEffect(() => {
+  //   updateCourse(getValues(), courseStore.courseContent, courseId);
+  // }, [
+  //   contentDebounce,
+  //   titleDebounce,
+  //   descriptionDebounce,
+  //   courseId,
+  //   getValues,
+  //   updateCourse,
+  // ]);
 
   return (
     <FormProvider {...methods}>
@@ -88,24 +75,31 @@ export const CourseForm: FC = observer(() => {
         <FormField labelText="Description" name="description">
           <Input isRequired type="text" placeholder="Course about...." />
         </FormField>
-        <Editor
-          apiKey="f77pjcz1vwa1mi1almj8uhwj2crs196lq21stcyj2dq0w8pf"
-          initialValue={courseStore?.courseContent}
-          init={{
-            height: 400,
-            plugins: [
-              'advlist autolink lists link preview anchor',
-              'searchreplace',
-              'paste code help',
-            ],
-            toolbar:
-              // eslint-disable-next-line no-multi-str
-              'undo redo | formatselect | bold italic backcolor | \
-             alignleft aligncenter alignright alignjustify | \
-             bullist numlist outdent indent | removeformat | help',
-          }}
-          onEditorChange={handleEditorChange}
+        <Controller
+          name="content"
+          render={(field) => (
+            <Editor
+              apiKey="f77pjcz1vwa1mi1almj8uhwj2crs196lq21stcyj2dq0w8pf"
+              initialValue={courseStore?.courseContent}
+              init={{
+                height: 400,
+                directionality: 'ltr',
+                plugins: [
+                  'advlist autolink lists link preview anchor',
+                  'searchreplace',
+                  'paste code help',
+                ],
+                toolbar:
+                  // eslint-disable-next-line no-multi-str
+                  'undo redo | formatselect | bold italic backcolor | \
+               alignleft aligncenter alignright alignjustify | \
+               bullist numlist outdent indent | removeformat | help',
+              }}
+              onEditorChange={handleEditorChange}
+            />
+          )}
         />
+
         <Link to={`/dashboard/course/edit/content/${courseId}`}>
           Edytuj zawartość kursu
         </Link>

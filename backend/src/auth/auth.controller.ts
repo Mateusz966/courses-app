@@ -33,7 +33,7 @@ export class AuthController {
     console.log(cookie)
     response.setHeader('Set-Cookie', cookie);
     const { password, ...userRes } = user;
-    return response.send(userRes);
+    response.send(userRes);
   }
 
   @Post('sign-up')

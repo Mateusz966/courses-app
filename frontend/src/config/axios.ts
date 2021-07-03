@@ -5,7 +5,7 @@ import { history } from './history';
 
 const REQ_TIMEOUT = 20000;
 
-export const redirectToLogin = () => history.push('/');
+export const redirectToLogin = () => history.push('/sign-up');
 
 export const axiosRequestConfiguration: AxiosRequestConfig = {
   baseURL: apiUrl,
@@ -18,12 +18,15 @@ axios.interceptors.request.use(
   (error) => Promise.reject(error),
 );
 
-axios.interceptors.response.use(
-  (res) => res,
-  (error) => {
-    if (error.response.status === 401) {
-      redirectToLogin();
-    }
-    return error;
-  },
-);
+export const axios401Interceptor = () => {
+  axios.interceptors.response.use(
+    (res) => res,
+    (error) => {
+      console.log(error);
+      if (error.response.status === 401) {
+        redirectToLogin();
+      }
+      return error;
+    },
+  );
+};

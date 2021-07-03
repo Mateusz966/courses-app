@@ -26,7 +26,7 @@ export const CourseTopicForm: FC<Props> = observer(({ courseId }) => {
   });
 
   const { topics, getTopics } = useCategories();
-  const { createCourse } = useCourse();
+  const { handleCourseDetailsSubmit, inProgress } = useCourse();
   const { isValid } = methods.formState;
 
   const backLink = useCallback(
@@ -49,6 +49,8 @@ export const CourseTopicForm: FC<Props> = observer(({ courseId }) => {
     }
   }, [getTopics]);
 
+  console.log(inProgress);
+
   return (
     <FormProvider {...methods}>
       <Box
@@ -57,7 +59,7 @@ export const CourseTopicForm: FC<Props> = observer(({ courseId }) => {
         as="form"
         onSubmit={methods.handleSubmit(
           (payload: { topics: CustomSelectOption<CategoryDto>[] }) =>
-            createCourse(payload, courseId),
+            handleCourseDetailsSubmit(payload, courseId),
         )}
       >
         <FormField
@@ -75,7 +77,7 @@ export const CourseTopicForm: FC<Props> = observer(({ courseId }) => {
           <Link as={RLink} to={backLink()}>
             Back
           </Link>
-          <Button type="submit" disabled={!isValid}>
+          <Button inProgress={inProgress} type="submit" disabled={!isValid}>
             Next
           </Button>
         </HStack>

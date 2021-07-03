@@ -17,7 +17,7 @@ const Courses: FC = () => (
         component={EditCategories}
       />
       <Route path="/dashboard/course/edit/:courseId" component={EditCourse} />
-      <Route exact path="/dashboard/course/add" component={AddCourse} />
+      <Route path="/dashboard/course/add" component={AddCourse} />
     </Switch>
   </>
 );
