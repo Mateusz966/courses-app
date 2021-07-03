@@ -8,23 +8,23 @@ import { MdDeleteForever } from 'react-icons/md';
 import { apiUrl } from '../../../../config/apiUrl';
 import { Button } from '../../Button';
 import { useRootStore } from '../../../../stores/storeContext';
+import { useFormFieldContext } from '../../../../hooks/useFormFieldContext';
 
 interface Props {
   desktopRatio: number;
   previewUrl?: string;
-  name?: string;
 }
 
 export const ImagePicker: React.FC<Props> = ({
   desktopRatio,
   previewUrl,
-  name,
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState();
   const [cropData, setCropData] = useState();
   const [cropper, setCropper] = useState<any>();
   const { register } = useFormContext();
+  const { name } = useFormFieldContext();
   const { fileStore } = useRootStore();
 
   if (!name) {

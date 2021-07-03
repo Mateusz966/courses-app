@@ -1,9 +1,4 @@
-import {
-  ChakraProvider,
-  ColorModeScript,
-  CSSReset,
-  Spinner,
-} from '@chakra-ui/react';
+import { ChakraProvider, CSSReset, Spinner } from '@chakra-ui/react';
 import { FC, lazy, Suspense } from 'react';
 import { Redirect, Route, Router, Switch } from 'react-router-dom';
 import { history } from './config/history';
@@ -21,7 +16,6 @@ axios401Interceptor();
 const App: FC = () => (
   <RootStoreProvider>
     <ChakraProvider theme={theme}>
-      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <CSSReset />
       <Router history={history}>
         <Header />
