@@ -5,6 +5,7 @@ import { FC, useEffect } from 'react';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
 import { observer } from 'mobx-react-lite';
 import { Editor } from '@tinymce/tinymce-react';
+import debounce from 'lodash/debounce';
 import { FormField } from '../../common/FormField';
 import { Input } from '../../common/FormField/Input';
 import { Button } from '../../common/Button';
@@ -24,10 +25,15 @@ export const CourseForm: FC = observer(() => {
     reset,
     setError,
     formState: { isValid },
+    getValues,
+    watch,
   } = methods;
-  const { inProgress, handleEditorChange, publish } = useCourse({
+  const { inProgress, publish } = useCourse({
     setError,
   });
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const watchedFields = watch(['content', 'description', 'title']);
 
   useEffect(() => {
     if (courseId) {
@@ -44,16 +50,9 @@ export const CourseForm: FC = observer(() => {
     }
   }, [reset]);
 
-  // useEffect(() => {
-  //   updateCourse(getValues(), courseStore.courseContent, courseId);
-  // }, [
-  //   contentDebounce,
-  //   titleDebounce,
-  //   descriptionDebounce,
-  //   courseId,
-  //   getValues,
-  //   updateCourse,
-  // ]);
+  useEffect(() => {
+    debounce(() => console.log('strzał do api'), 1000);
+  }, [getValues(['content', 'description', 'title'])]);
 
   return (
     <FormProvider {...methods}>
@@ -70,15 +69,16 @@ export const CourseForm: FC = observer(() => {
           />
         </FormField>
         <FormField labelText="Title" name="title">
-          <Input isRequired type="text" placeholder="NodeJS Course" />
+          <Input type="text" placeholder="NodeJS Course" />
         </FormField>
         <FormField labelText="Description" name="description">
-          <Input isRequired type="text" placeholder="Course about...." />
+          <Input type="text" placeholder="Course about...." />
         </FormField>
         <Controller
           name="content"
           render={(field) => (
             <Editor
+              {...field}
               apiKey="f77pjcz1vwa1mi1almj8uhwj2crs196lq21stcyj2dq0w8pf"
               initialValue={courseStore?.courseContent}
               init={{
@@ -95,7 +95,7 @@ export const CourseForm: FC = observer(() => {
                alignleft aligncenter alignright alignjustify | \
                bullist numlist outdent indent | removeformat | help',
               }}
-              onEditorChange={handleEditorChange}
+              onEditorChange={field.field.onChange}
             />
           )}
         />

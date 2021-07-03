@@ -57,7 +57,6 @@ export const useCourse = (props?: Props): UseCourse => {
     const url = courseId
       ? `/dashboard/course/edit/details/${courseId}/subcategory`
       : '/dashboard/course/add/subcategory';
-    console.log(payload.category);
     courseStore.setCategory(payload.category);
     history.push(url);
   };
