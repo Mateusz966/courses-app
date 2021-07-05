@@ -11,15 +11,19 @@ interface Props extends BaseInputProps {
 export const Input: FC<Props> = ({ type, placeholder, onChange }) => {
   const { register } = useFormContext();
   const { name, isDisabled, id } = useFormFieldContext();
+  const { onChange: fieldOnChange, ...rest } = register(name);
   return (
     <ChakraInput
       borderRadius="25px"
       placeholder={placeholder}
       type={type}
       id={id || name}
-      {...register(name as string)}
+      {...rest}
       isDisabled={isDisabled}
-      onChange={onChange}
+      onChange={async (e) => {
+        await fieldOnChange(e);
+        onChange?.();
+      }}
     />
   );
 };
