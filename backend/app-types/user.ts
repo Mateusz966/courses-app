@@ -1,9 +1,7 @@
 import { CustomSelectOption } from './global'
-import { CategoryDto, ICategory } from './category';
+import { CategoryDto, IUserCategories } from './category';
 import { ICourse } from './course';
 
-
-// Internal type
 
 export interface UserDefault {
   email: string;
@@ -36,9 +34,4 @@ export interface IUser extends UserDefault {
 export interface UserLogin {
   email: string;
   password: string;
-}
-
-export interface IUserCategories {
-  user: IUser;
-  category: ICategory;
 }

@@ -30,11 +30,11 @@ export const LoginForm: FC = () => {
         as="form"
         onSubmit={methods.handleSubmit(submit)}
       >
-        <FormField labelText="Email" inputName="email">
+        <FormField labelText="Email" name="email">
           <Input type="email" placeholder="example@example.com" />
         </FormField>
-        <FormField labelText="Password" inputName="password">
-          <Input name="password" type="password" placeholder="*****" />
+        <FormField name="password" labelText="Password">
+          <Input type="password" placeholder="*****" />
         </FormField>
         <Button type="submit" disabled={!isValid} inProgress={inProgress}>
           Sign In

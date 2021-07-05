@@ -5,14 +5,15 @@ import initializeAxios from '../config/axiosSetup';
 import { handlingError } from '../helpers/handleErrors';
 import { SetError } from '../types/global';
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 type ApiReqFnBasic = <T extends {}>(
   url: string,
-  queryParams?: object | undefined
+  queryParams?: Record<string, string>,
 ) => Promise<void | T>;
 type ApiReqFn = <T, K>(
   url: string,
   body?: K | undefined,
-  queryParams?: object | undefined
+  queryParams?: Record<string, string>,
 ) => Promise<void | T>;
 type ApiReqDelete = (url: string, id: number) => Promise<AxiosResponse<any>>;
 
@@ -35,6 +36,7 @@ export const useApi = (props?: Props): UseApi => {
   const [inProgress, setInProgress] = useState(false);
 
   const get = useCallback(
+    // eslint-disable-next-line @typescript-eslint/ban-types
     <T extends {}>(url: string, queryParams?: object) => {
       setInProgress(true);
       return axiosInstance
@@ -47,11 +49,11 @@ export const useApi = (props?: Props): UseApi => {
           setInProgress(false);
         });
     },
-    [props?.setError]
+    [props?.setError],
   );
 
   const post = useCallback(
-    <T, K>(url: string, body?: K, queryParams?: object) => {
+    <T, K>(url: string, body?: K, queryParams?: Record<string, string>) => {
       setInProgress(true);
       return axiosInstance
         .post<T>(url, body, { params: queryParams })
@@ -63,11 +65,11 @@ export const useApi = (props?: Props): UseApi => {
           setInProgress(false);
         });
     },
-    [props?.setError]
+    [props?.setError],
   );
 
   const put = useCallback(
-    <T, K>(url: string, body?: K, queryParams?: object) => {
+    <T, K>(url: string, body?: K, queryParams?: Record<string, string>) => {
       setInProgress(true);
       return axiosInstance
         .put<T>(url, body, { params: queryParams })
@@ -79,11 +81,11 @@ export const useApi = (props?: Props): UseApi => {
           setInProgress(false);
         });
     },
-    [props?.setError]
+    [props?.setError],
   );
 
   const patch = useCallback(
-    <T, K>(url: string, body?: K, queryParams?: object) => {
+    <T, K>(url: string, body?: K, queryParams?: Record<string, string>) => {
       setInProgress(true);
       return axiosInstance
         .patch<T>(url, body, { params: queryParams })
@@ -95,12 +97,11 @@ export const useApi = (props?: Props): UseApi => {
           setInProgress(false);
         });
     },
-    [props?.setError]
+    [props?.setError],
   );
 
-  const deleteR = (url: string, id: number) => {
-    return axiosInstance.delete(`${url}/${id}`);
-  };
+  const deleteR = (url: string, id: number) =>
+    axiosInstance.delete(`${url}/${id}`);
 
   return {
     get,

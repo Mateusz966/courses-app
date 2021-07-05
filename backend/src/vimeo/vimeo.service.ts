@@ -1,19 +1,22 @@
 import { Injectable } from '@nestjs/common';
 import * as path from 'path';
-import * as util from "util";
-import * as fs from "fs";
-import { storDir } from 'utils/storDir';
-const Vimeo = require('vimeo').Vimeo;
+import * as util from 'util';
+import * as fs from 'fs';
+import { storDir } from '../../utils/storDir';
 
+const { Vimeo } = require('vimeo');
 
 @Injectable()
 export class VimeoService {
-  private client = new Vimeo(process.env.VIMEO_CLIENT_ID, process.env.VIMEO_CLIENT_SECRET, process.env.VIMEO_ACCESS_TOKEN);
-
+  private client = new Vimeo(
+    process.env.VIMEO_CLIENT_ID,
+    process.env.VIMEO_CLIENT_SECRET,
+    process.env.VIMEO_ACCESS_TOKEN,
+  );
 
   async upload(file: Express.Multer.File, name: string, description: string) {
-    return new Promise<any>((resolve, reject) => {
-      return this.client.upload(
+    return new Promise<any>((resolve, reject) =>
+      this.client.upload(
         path.join(storDir(), 'video_store/', file.filename),
         {
           name,
@@ -21,24 +24,25 @@ export class VimeoService {
         },
         async (uri: string) => {
           try {
-            console.log('URI: ' + uri);
-            resolve(uri)
+            console.log(`URI: ${uri}`);
+            resolve(uri);
             // returnuri;
           } catch (error) {
             reject(error);
           }
         },
         (bytes_uploaded, bytes_total) => {
-          let percentage = ((bytes_uploaded / bytes_total) * 100).toFixed(2);
-          console.log(bytes_uploaded, bytes_total, percentage + '%');
+          const percentage = ((bytes_uploaded / bytes_total) * 100).toFixed(2);
+          console.log(bytes_uploaded, bytes_total, `${percentage}%`);
         },
-        async error => {
+        async (error) => {
           // return error;
-          await util.promisify(fs.unlink)(path.join(storDir(), 'video_store/', file.filename));
+          await util.promisify(fs.unlink)(
+            path.join(storDir(), 'video_store/', file.filename),
+          );
           reject(error);
         },
-      )
-    });
-
+      ),
+    );
   }
 }

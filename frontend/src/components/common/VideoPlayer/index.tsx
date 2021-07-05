@@ -5,18 +5,17 @@ interface Props {
   id: number;
 }
 
-export const VideoPlayer:FC<Props> = ({id}) => {
-
+export const VideoPlayer: FC<Props> = ({ id }) => {
   useEffect(() => {
     const player = new Player('videoPlayer', {
-        url: `https://vimeo.com/${id}`,
-        width: 640
+      url: `https://vimeo.com/${id}`,
+      width: 640,
     });
-    
-    player.on('play', function() {
-        console.log('played the video!');
+
+    player.on('play', () => {
+      console.log('played the video!');
     });
   }, []);
 
-  return <div id="videoPlayer"></div>;
+  return <div id="videoPlayer" />;
 };

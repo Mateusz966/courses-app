@@ -6,7 +6,7 @@ import LoginDesktop from '../../assets/login-desktop.jpg';
 import ContainerPhotoContent from '../../components/layout/ContainerPhotoContent';
 import { useRootStore } from '../../stores/storeContext';
 
-//TODO ADD BRAND IMAGE INSTEAD OF LOGIN DESKTOP
+// TODO ADD BRAND IMAGE INSTEAD OF LOGIN DESKTOP
 const Login: FC = () => {
   const { headerStore } = useRootStore();
 
@@ -16,7 +16,9 @@ const Login: FC = () => {
 
   return (
     <ContainerPhotoContent
-      image={<Image boxSize="100%" h="100vh" src={LoginDesktop} objectFit="cover" />}
+      image={
+        <Image boxSize="100%" h="100vh" src={LoginDesktop} objectFit="cover" />
+      }
       content={
         <>
           <GridItem>

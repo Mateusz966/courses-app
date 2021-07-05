@@ -1,12 +1,12 @@
-import api from '../service/api';
+import { useCallback } from 'react';
 import { history } from '../config/history';
 import { courseStore } from '../stores/course';
 import { CategoryDto, CreateCourse } from '../app-types/category';
 import { CustomSelectOption } from '../../../app-types/global';
-import { useCallback } from 'react';
 import { useRootStore } from '../stores/storeContext';
 import { useApi } from './useApi';
 import { SetError } from '../types/global';
+import { UpdateCourseForm } from '../interal-types';
 
 interface Props {
   setError: SetError;
@@ -17,22 +17,21 @@ interface UseCourse {
     payload: {
       category: CustomSelectOption<CategoryDto>;
     },
-    courseId?: string
+    courseId?: string,
   ) => void;
   submitSubcategory: (
     payload: {
       subcategory: CustomSelectOption<CategoryDto>;
     },
-    courseId?: string
+    courseId?: string,
   ) => void;
-  createCourse: (
+  handleCourseDetailsSubmit: (
     payload: {
       topics: CustomSelectOption<CategoryDto>[];
     },
-    courseId?: string
+    courseId?: string,
   ) => void;
-  handleEditorChange: (content: any) => void;
-  updateCourse: any;
+  updateCourse: (payload: UpdateCourseForm, courseId: string) => Promise<void>;
   publish: (courseId: string) => Promise<void>;
   inProgress: boolean;
 }
@@ -45,15 +44,11 @@ export const useCourse = (props?: Props): UseCourse => {
     await post(`/course/publish/${courseId}`);
   };
 
-  const handleEditorChange = useCallback((content) => {
-    courseStore.setContent(content);
-  }, []);
-
   const submitCategory = async (
     payload: {
       category: CustomSelectOption<CategoryDto>;
     },
-    courseId?: string
+    courseId?: string,
   ) => {
     const url = courseId
       ? `/dashboard/course/edit/details/${courseId}/subcategory`
@@ -66,42 +61,49 @@ export const useCourse = (props?: Props): UseCourse => {
     payload: {
       subcategory: CustomSelectOption<CategoryDto>;
     },
-    courseId?: string
+    courseId?: string,
   ) => {
     const url = courseId
       ? `/dashboard/course/edit/details/${courseId}/topics`
-      : `/dashboard/course/add/topics`;
+      : '/dashboard/course/add/topics';
     courseStore.setSubcategory(payload.subcategory);
     history.push(url);
   };
 
-  const createCourse = async (
+  const courseDetailsEdit = async () =>
+    post<string, CreateCourse>(
+      '/course/edit',
+      courseStore.courseCategoryDetails,
+    );
+
+  const courseDetailsCreate = async () =>
+    post<string, CreateCourse>(
+      '/course/add',
+      courseStore.courseCategoryDetails,
+    );
+
+  const handleCourseDetailsSubmit = async (
     payload: {
       topics: CustomSelectOption<CategoryDto>[];
     },
-    courseId?: string
+    courseId?: string,
   ) => {
     let savedCourseId;
     courseStore.setTopic(payload.topics);
     if (courseId) {
-      savedCourseId = await api.post<string, CreateCourse>(
-        '/course/edit',
-        courseStore.courseCategoryDetails
-      );
+      savedCourseId = await courseDetailsEdit();
     } else {
-      savedCourseId = await api.post<string, CreateCourse>(
-        '/course/add',
-        courseStore.courseCategoryDetails
-      );
+      savedCourseId = await courseDetailsCreate();
     }
-    // history.push(`/dashboard/course/edit/${savedCourseId}`);
+    if (savedCourseId) {
+      history.push(`/dashboard/course/edit/${savedCourseId}`);
+    }
   };
 
   const updateCourse = useCallback(
-    async (payload: any, content: any, courseId: string) => {
+    async (payload: UpdateCourseForm, courseId: string) => {
       const fd = new FormData();
-
-      fd.append('body', JSON.stringify({ ...payload, content }));
+      fd.append('body', JSON.stringify(payload));
 
       if (fileStore.files) {
         fileStore.files.forEach((file) => {
@@ -112,15 +114,14 @@ export const useCourse = (props?: Props): UseCourse => {
       await post(`/course/update/${courseId}`, fd);
       fileStore.removeAllFiles();
     },
-    [fileStore, post]
+    [],
   );
 
   return {
-    createCourse,
+    handleCourseDetailsSubmit,
     submitCategory,
     submitSubcategory,
     updateCourse,
-    handleEditorChange,
     inProgress,
     publish,
   };

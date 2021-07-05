@@ -1,10 +1,9 @@
 import { Box, HStack, Link } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { observer } from 'mobx-react-lite';
-import { useCallback } from 'react';
-import { useEffect } from 'react';
-import { FC } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+import { FC, useCallback, useEffect } from 'react';
+
+import { FormProvider, useForm } from 'react-hook-form';
 import { Link as RLink, useParams } from 'react-router-dom';
 import { CategoryDto } from '../../../../app-types/category';
 import { CustomSelectOption } from '../../../../app-types/global';
@@ -15,8 +14,6 @@ import { courseStore } from '../../../../stores/course';
 import { Button } from '../../../common/Button';
 import { FormField } from '../../../common/FormField';
 import { FormSelect } from '../../../common/FormField/Select';
-
-
 
 export const CourseSubcategoryForm: FC = observer(() => {
   const { courseId } = useParams<{ courseId?: string }>();
@@ -30,12 +27,13 @@ export const CourseSubcategoryForm: FC = observer(() => {
   const { submitSubcategory } = useCourse();
   const { isValid } = methods.formState;
 
-  const backLink = useCallback(() => {
-    const url = courseId
-      ? `/dashboard/course/edit/details/${courseId}/category`
-      : '/dashboard/course/add/category';
-    return url;
-  }, [courseId]);
+  const backLink = useCallback(
+    () =>
+      courseId
+        ? `/dashboard/course/edit/details/${courseId}/category`
+        : '/dashboard/course/add/category',
+    [courseId],
+  );
 
   useEffect(() => {
     getSubcategories(courseStore.courseCategoryDetails?.category?.value?.id);
@@ -49,12 +47,12 @@ export const CourseSubcategoryForm: FC = observer(() => {
         as="form"
         onSubmit={methods.handleSubmit(
           (payload: { subcategory: CustomSelectOption<CategoryDto> }) =>
-            submitSubcategory(payload, courseId)
+            submitSubcategory(payload, courseId),
         )}
       >
         <FormField
           labelText="Course subcategory"
-          inputName="subcategory"
+          name="subcategory"
           helperText="Chose subcategory"
         >
           <FormSelect

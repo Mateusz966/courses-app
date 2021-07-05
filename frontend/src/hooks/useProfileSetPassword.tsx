@@ -21,8 +21,8 @@ export const useProfileSetPassword = (props: Props): UseProfileSetPassword => {
 
   const submit = async (payload: UserReq) => {
     const res = await post<UserReq, UserDefault>(
-      `/auth/profile/set-password`,
-      payload
+      '/auth/profile/set-password',
+      payload,
     );
 
     if (res) {

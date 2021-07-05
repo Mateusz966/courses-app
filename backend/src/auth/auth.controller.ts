@@ -15,8 +15,8 @@ import { JwtAuthGuard } from './jwt-auth.guard';
 import { UserService } from '../user/user.service';
 import { UserDto } from '../user/user.dto';
 import { LocalGuard } from './local-strategy.guard';
-import { ApiErrorCode } from '../../app-types/global';
-import { UserObj } from 'decorators/user-obj.decorator';
+import { ApiErrorCode } from '../../app-types';
+import { UserObj } from '../../decorators/user-obj.decorator';
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -30,10 +30,10 @@ export class AuthController {
   async logIn(@Req() request, @Res() response) {
     const { user } = request;
     const cookie = await this.authService.getCookieWithJwtToken(user.id);
-    console.log(cookie)
+    console.log(cookie);
     response.setHeader('Set-Cookie', cookie);
     const { password, ...userRes } = user;
-    return response.send(userRes);
+    response.send(userRes);
   }
 
   @Post('sign-up')
@@ -76,6 +76,6 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Post('profile/set-password')
   async setPassword(@Body() userData: any, @UserObj() user) {
-    return await this.authService.setPassword(user.id, userData);
+    return this.authService.setPassword(user.id, userData);
   }
 }

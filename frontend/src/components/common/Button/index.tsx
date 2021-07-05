@@ -24,23 +24,21 @@ export const Button: FC<Props> = ({
   onClick,
   dataCy,
   ...props
-}) => {
-  return (
-    <ChakraButton
-      type={type}
-      disabled={disabled || inProgress}
-      mt={mt0 ? 0 : 6}
-      w="100%"
-      borderRadius="25px"
-      isLoading={inProgress}
-      loadingText="Submitting"
-      colorScheme="teal"
-      variant={variant}
-      onClick={onClick}
-      data-cy={dataCy}
-      {...props}
-    >
-      {children}
-    </ChakraButton>
-  );
-};
+}) => (
+  <ChakraButton
+    type={type}
+    disabled={disabled || inProgress}
+    mt={mt0 ? 0 : 6}
+    w="100%"
+    borderRadius="25px"
+    isLoading={inProgress}
+    loadingText="Submitting"
+    colorScheme="teal"
+    variant={variant}
+    onClick={onClick}
+    data-cy={dataCy}
+    {...props}
+  >
+    {children}
+  </ChakraButton>
+);

@@ -10,6 +10,7 @@ interface User {
 
 export class UserStore {
   root: RootStore;
+
   user: User = {
     details: null,
   };
@@ -33,19 +34,19 @@ export class UserStore {
       if (user) {
         runInAction(() => {
           this.user.details = user;
-        })
+        });
       }
     } catch (error) {
-      const toast = createStandaloneToast()
+      const toast = createStandaloneToast();
       runInAction(() => {
         toast({
-          title: "An error occurred.",
-          status: "error",
+          title: 'An error occurred.',
+          status: 'error',
           duration: 2000,
           isClosable: true,
-          position: 'top-right'
-        })
-      })
+          position: 'top-right',
+        });
+      });
       throw error;
     }
   }

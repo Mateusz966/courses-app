@@ -1,6 +1,4 @@
-import { extend } from '@hapi/joi';
 import { BadRequestException } from '@nestjs/common';
-import { ApiErrorCode } from 'app-types/global';
 import {
   PrimaryGeneratedColumn,
   ObjectType,
@@ -8,6 +6,7 @@ import {
   BaseEntity,
   FindOneOptions,
 } from 'typeorm';
+import { ApiErrorCode } from '../../app-types';
 
 export class MyBaseEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -19,8 +18,11 @@ export class MyBaseEntity extends BaseEntity {
     error?: ApiErrorCode,
   ): Promise<T> {
     const one = await getRepository(this).findOne(options);
+    console.log(one);
     if (!one) {
-      throw new BadRequestException(error ?? ApiErrorCode.InvalidParams);
+      throw new BadRequestException({
+        errorCode: error ?? ApiErrorCode.InvalidParams,
+      });
     }
     return one;
   }

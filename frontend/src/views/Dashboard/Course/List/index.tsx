@@ -1,1 +1,5 @@
-export default null;
+const CreatedCoursesList = () => {
+  return null;
+};
+
+export default CreatedCoursesList;

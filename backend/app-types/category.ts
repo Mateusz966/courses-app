@@ -28,7 +28,7 @@ export interface ICategory {
 }
 
 export interface IUserCategories {
-  user: IUser; 
+  user: IUser;
   category: ICategory;
 }
 
@@ -53,9 +53,4 @@ export enum CourseStatus {
   Draft,
   Published,
   Removed,
-}
-
-export interface UpdateCourseReq {
-  description: string;
-  title: string;
 }

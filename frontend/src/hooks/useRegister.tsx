@@ -7,7 +7,7 @@ import { SignUpUserPayload } from '../interal-types/user';
 import { useApi } from './useApi';
 
 interface Props {
-  setError: SetError
+  setError: SetError;
 }
 interface UseRegister {
   submit: (payload: SignUpUserPayload) => void;
@@ -15,12 +15,9 @@ interface UseRegister {
 }
 
 export const useRegister = (props: Props): UseRegister => {
-
-  const { inProgress, post } = useApi({setError: props.setError})
+  const { inProgress, post } = useApi({ setError: props.setError });
 
   const submit = async (payload: SignUpUserPayload) => {
-
-
     const res = await post<UserReq, SignUpUserPayload>(
       `${apiUrl}/auth/sign-up`,
       payload,

@@ -6,7 +6,7 @@ import LoginDesktop from '../../assets/login-desktop.jpg';
 import LoginImg from '../../assets/login-enter.png';
 import { useRootStore } from '../../stores/storeContext';
 
-//TODO ADD BRAND IMAGE INSTEAD OF LOGIN DESKTOP
+// TODO ADD BRAND IMAGE INSTEAD OF LOGIN DESKTOP
 
 const Register: FC = () => {
   const { headerStore } = useRootStore();

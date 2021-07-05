@@ -1,32 +1,48 @@
-import { Body, Controller, Get, HttpCode, Param, Post, Query, Res, UploadedFile, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  Query,
+  Res,
+  UploadedFile,
+  UploadedFiles,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { UserObj } from 'decorators/user-obj.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { CourseService } from './course.service';
-import { AnyFilesInterceptor, FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import {
+  AnyFilesInterceptor,
+  FileInterceptor,
+  FilesInterceptor,
+} from '@nestjs/platform-express';
 import { storDir } from 'utils/storDir';
+import { PaginationParams } from 'src/pagination/pagination-params.dto';
+import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
-import { PaginationParams } from 'src/pagination/pagination-params.dto';
+
 const path = require('path');
-
-
 
 @Controller('course')
 export class CourseController {
-  constructor(private readonly courseService: CourseService) { }
+  constructor(private readonly courseService: CourseService) {}
 
   @UseGuards(JwtAuthGuard)
   @Get('/created/all')
   async myCreated(
     @UserObj() user,
     @Query('search') search: string,
-    @Query() { offset, limit }: PaginationParams
+    @Query() { offset, limit }: PaginationParams,
   ) {
     try {
       if (search) {
         // logic with search
       } else {
-        return this.courseService.myCreated(user.id, offset, limit);
+        return await this.courseService.myCreated(user.id, offset, limit);
       }
     } catch (error) {
       throw error;
@@ -37,7 +53,7 @@ export class CourseController {
   @Post('/add')
   async add(@UserObj() user, @Body() categoriesDetails: CreateCourseDto) {
     try {
-      console.log(categoriesDetails)
+      console.log(categoriesDetails);
       return await this.courseService.add(user, categoriesDetails);
     } catch (error) {
       throw error;
@@ -56,9 +72,11 @@ export class CourseController {
 
   @UseGuards(JwtAuthGuard)
   @Post('/update/:courseId')
-  @UseInterceptors(FileInterceptor('courseFn', {
-    dest: path.join(storDir() + '/course_photo'),
-  }))
+  @UseInterceptors(
+    FileInterceptor('courseFn', {
+      dest: path.join(`${storDir()}/course_photo`),
+    }),
+  )
   async update(
     @Param('courseId') courseId: string,
     @Body() payload: UpdateCourseDto,
@@ -75,7 +93,7 @@ export class CourseController {
   @Post('/publish/:courseId')
   async publish(@Param('courseId') courseId: string) {
     try {
-      return this.courseService.publish(courseId);
+      return await this.courseService.publish(courseId);
     } catch (error) {
       throw error;
     }
@@ -84,16 +102,16 @@ export class CourseController {
   @UseGuards(JwtAuthGuard)
   @Post('/main-photo/:courseId')
   @UseInterceptors(FileInterceptor('courseFn'))
-  async setMainPhoto(
-    @UploadedFile() courseFn: Express.Multer.File
-  ) {
-    console.log(courseFn)
+  async setMainPhoto(@UploadedFile() courseFn: Express.Multer.File) {
+    console.log(courseFn);
   }
 
   @UseGuards(JwtAuthGuard)
   @Post('upload-video-lesson/to-course/:courseId')
   @HttpCode(204)
-  @UseInterceptors(AnyFilesInterceptor({ dest: path.join(storDir(), 'video_store') }))
+  @UseInterceptors(
+    AnyFilesInterceptor({ dest: path.join(storDir(), 'video_store') }),
+  )
   async uploadLessonVideo(
     @Param('courseId') courseId: string,
     @UploadedFiles() videos: Express.Multer.File[],
@@ -101,16 +119,14 @@ export class CourseController {
     @UserObj() user,
   ) {
     try {
-      return this.courseService.uploadLessonVideo(
+      return await this.courseService.uploadLessonVideo(
         user,
         videos,
         courseId,
         payload,
-      )
+      );
     } catch (error) {
       throw error;
     }
   }
-
-
 }

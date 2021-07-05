@@ -1,11 +1,12 @@
 import { FC } from 'react';
 import { useFormContext, Controller } from 'react-hook-form';
 import Select from 'react-select';
-import { BaseInputProps } from '../../../../app-types/form';
+import { BaseInputProps } from '../../../../interal-types';
 import {
   BaseSelectOption,
   CustomSelectOption,
 } from '../../../../app-types/global';
+import { useFormFieldContext } from '../../../../hooks/useFormFieldContext';
 
 const customStyles = {
   control: (provided: any) => {
@@ -22,10 +23,10 @@ interface Props extends BaseInputProps {
       | BaseSelectOption[]
       | CustomSelectOption<any>
       | CustomSelectOption<any>[]
-      | null
+      | null,
   ) => void;
   isMulti?: boolean;
-  name?: any;
+  // name?: any;
   defaultValue?: any;
 }
 
@@ -33,25 +34,23 @@ export const FormSelect: FC<Props> = ({
   handleChange,
   options,
   isRequired,
-  isDisabled,
-  name,
   isMulti,
   defaultValue,
 }) => {
   const { control } = useFormContext();
+  const { name } = useFormFieldContext();
   return (
     <Controller
       name={name}
       control={control}
       defaultValue={defaultValue}
       rules={{ required: isRequired }}
-      render={({field, fieldState }) => (
+      render={({ field, fieldState }) => (
         <Select
           defaultValue={defaultValue}
           styles={customStyles}
           isMulti={isMulti}
           options={options}
-          isDisabled={isDisabled}
           onChange={(e: any) => {
             field.onChange(e);
             handleChange?.(e);

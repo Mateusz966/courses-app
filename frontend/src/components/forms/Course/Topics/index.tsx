@@ -1,10 +1,9 @@
 import { Box, HStack, Link } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { observer } from 'mobx-react-lite';
-import { useCallback } from 'react';
-import { useEffect } from 'react';
-import { FC } from 'react';
-import { useForm, FormProvider } from 'react-hook-form';
+import { FC, useCallback, useEffect } from 'react';
+
+import { FormProvider, useForm } from 'react-hook-form';
 import { Link as RLink } from 'react-router-dom';
 import { CategoryDto } from '../../../../app-types/category';
 import { CustomSelectOption } from '../../../../app-types/global';
@@ -27,15 +26,16 @@ export const CourseTopicForm: FC<Props> = observer(({ courseId }) => {
   });
 
   const { topics, getTopics } = useCategories();
-  const { createCourse } = useCourse();
+  const { handleCourseDetailsSubmit, inProgress } = useCourse();
   const { isValid } = methods.formState;
 
-  const backLink = useCallback(() => {
-    const url = courseId
-      ? `/dashboard/course/edit/details/${courseId}/subcategory`
-      : '/dashboard/course/add/subcategory';
-    return url;
-  }, [courseId]);
+  const backLink = useCallback(
+    () =>
+      courseId
+        ? `/dashboard/course/edit/details/${courseId}/subcategory`
+        : '/dashboard/course/add/subcategory',
+    [courseId],
+  );
 
   useEffect(() => {
     if (
@@ -44,10 +44,12 @@ export const CourseTopicForm: FC<Props> = observer(({ courseId }) => {
     ) {
       getTopics(
         courseStore.courseCategoryDetails.category?.value?.id,
-        courseStore.courseCategoryDetails.subcategory?.value?.id
+        courseStore.courseCategoryDetails.subcategory?.value?.id,
       );
     }
   }, [getTopics]);
+
+  console.log(inProgress);
 
   return (
     <FormProvider {...methods}>
@@ -57,12 +59,12 @@ export const CourseTopicForm: FC<Props> = observer(({ courseId }) => {
         as="form"
         onSubmit={methods.handleSubmit(
           (payload: { topics: CustomSelectOption<CategoryDto>[] }) =>
-            createCourse(payload, courseId)
+            handleCourseDetailsSubmit(payload, courseId),
         )}
       >
         <FormField
           labelText="Course topics"
-          inputName="topics"
+          name="topics"
           helperText="Chose course topics"
         >
           <FormSelect
@@ -75,7 +77,7 @@ export const CourseTopicForm: FC<Props> = observer(({ courseId }) => {
           <Link as={RLink} to={backLink()}>
             Back
           </Link>
-          <Button type="submit" disabled={!isValid}>
+          <Button inProgress={inProgress} type="submit" disabled={!isValid}>
             Next
           </Button>
         </HStack>
