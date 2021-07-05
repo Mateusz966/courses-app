@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useFormContext, Controller } from 'react-hook-form';
 import Select from 'react-select';
-import { BaseInputProps } from '../../../../app-types/form';
+import { BaseInputProps } from '../../../../interal-types';
 import {
   BaseSelectOption,
   CustomSelectOption,

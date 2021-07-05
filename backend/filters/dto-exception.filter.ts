@@ -5,8 +5,8 @@ import {
   HttpException,
   BadRequestException,
 } from '@nestjs/common';
-import { ApiErrorCode } from 'app-types/global';
 import { Request, Response } from 'express';
+import { ApiErrorCode } from '../app-types';
 
 @Catch(BadRequestException)
 export class ValidDtoFilter implements ExceptionFilter {

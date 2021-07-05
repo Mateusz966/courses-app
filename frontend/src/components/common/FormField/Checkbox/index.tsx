@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Checkbox as ChakraChekbox } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
-import { BaseInputProps } from '../../../../app-types/form';
+import { BaseInputProps } from '../../../../interal-types';
 import { useFormFieldContext } from '../../../../hooks/useFormFieldContext';
 
 interface Props extends BaseInputProps {

@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, useParams } from 'react-router-dom';
-import { FC, useCallback, useEffect } from 'react';
+import { FC, useCallback, useEffect, useRef } from 'react';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
 import { observer } from 'mobx-react-lite';
 import { Editor } from '@tinymce/tinymce-react';
@@ -16,6 +16,7 @@ import ImagePicker from '../../common/FormField/File';
 
 export const CourseForm: FC = observer(() => {
   const { courseId } = useParams<{ courseId: string }>();
+  const debouncedFunctionRef = useRef<any>();
   const methods = useForm({
     mode: 'onChange',
     resolver: yupResolver(courseSchema),
@@ -25,7 +26,6 @@ export const CourseForm: FC = observer(() => {
     reset,
     setError,
     formState: { isValid },
-    getValues,
     watch,
   } = methods;
   const { inProgress, publish, updateCourse } = useCourse({
@@ -35,7 +35,13 @@ export const CourseForm: FC = observer(() => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const watchedFields = watch(['content', 'description', 'title']);
 
-  const debounceLoadData = useCallback(() => debounce(updateCourse, 1000), []);
+  debouncedFunctionRef.current = (payload: any) =>
+    updateCourse(payload, courseId);
+
+  const debounceLoadData = useCallback(
+    debounce((...args) => debouncedFunctionRef.current(...args), 2500),
+    [],
+  );
 
   useEffect(() => {
     if (courseId) {
@@ -53,10 +59,6 @@ export const CourseForm: FC = observer(() => {
     }
   }, [reset, courseStore.course]);
 
-  useEffect(() => {
-    debounceLoadData();
-  }, [getValues(['content', 'description', 'title'])]);
-
   return (
     <FormProvider {...methods}>
       <Box
@@ -72,10 +74,18 @@ export const CourseForm: FC = observer(() => {
           />
         </FormField>
         <FormField labelText="Title" name="title">
-          <Input type="text" placeholder="NodeJS Course" />
+          <Input
+            type="text"
+            placeholder="NodeJS Course"
+            onChange={() => debounceLoadData()}
+          />
         </FormField>
         <FormField labelText="Description" name="description">
-          <Input type="text" placeholder="Course about...." />
+          <Input
+            onChange={() => debounceLoadData()}
+            type="text"
+            placeholder="Course about...."
+          />
         </FormField>
         <Controller
           name="content"
@@ -98,7 +108,10 @@ export const CourseForm: FC = observer(() => {
                alignleft aligncenter alignright alignjustify | \
                bullist numlist outdent indent | removeformat | help',
               }}
-              onEditorChange={field.field.onChange}
+              onEditorChange={() => {
+                field.field.onChange();
+                debounceLoadData();
+              }}
             />
           )}
         />

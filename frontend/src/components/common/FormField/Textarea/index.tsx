@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Textarea as ChakraTextarea } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
-import { BaseInputProps } from '../../../../app-types/form';
+import { BaseInputProps } from '../../../../interal-types';
 import { useFormFieldContext } from '../../../../hooks/useFormFieldContext';
 
 export const Textarea: FC<BaseInputProps> = ({ placeholder }) => {

@@ -1,14 +1,14 @@
 import { FC } from 'react';
 import { Input as ChakraInput } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
-import { BaseInputProps } from '../../../../app-types/form';
+import { BaseInputProps } from '../../../../interal-types';
 import { useFormFieldContext } from '../../../../hooks/useFormFieldContext';
 
 interface Props extends BaseInputProps {
   type: 'text' | 'number' | 'password' | 'email' | 'hidden';
 }
 
-export const Input: FC<Props> = ({ type, placeholder }) => {
+export const Input: FC<Props> = ({ type, placeholder, onChange }) => {
   const { register } = useFormContext();
   const { name, isDisabled, id } = useFormFieldContext();
   return (
@@ -19,6 +19,7 @@ export const Input: FC<Props> = ({ type, placeholder }) => {
       id={id || name}
       {...register(name as string)}
       isDisabled={isDisabled}
+      onChange={onChange}
     />
   );
 };

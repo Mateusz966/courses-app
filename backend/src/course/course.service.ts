@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { CourseStatus, CreateCourse } from 'app-types/category';
-import { CategoryService } from 'src/category/category.service';
-import { Topic } from 'src/category/entities/topic.entity';
-import { VimeoService } from 'src/vimeo/vimeo.service';
-import { setFileIfExists } from 'utils/setFileIfExist';
+import { setFileIfExists } from '../../utils/setFileIfExist';
+import { VimeoService } from '../vimeo/vimeo.service';
+import { CategoryService } from '../category/category.service';
+import { Topic } from '../category/entities/topic.entity';
 import { User } from '../user/entity/user.entity';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { CourseTopics } from './entities/course-topics.entity';
@@ -15,45 +15,46 @@ import { Section } from './entities/section.entity';
 export class CourseService {
   constructor(
     private readonly vimeoService: VimeoService,
-    private readonly categoryService: CategoryService
-  ) { }
+    private readonly categoryService: CategoryService,
+  ) {}
 
   async myCreated(userId: string, offset: number, limit: number) {
     try {
-
-      const [items, countTotal] = await Course
-        .createQueryBuilder("course")
-        .where("course.user = :id", { id: userId })
+      const [items, countTotal] = await Course.createQueryBuilder('course')
+        .where('course.user = :id', { id: userId })
         .skip(offset)
         .take(limit)
-        .getManyAndCount()
+        .getManyAndCount();
 
-      return { items, countTotal }
+      return { items, countTotal };
     } catch (error) {
-      throw error
+      throw error;
     }
   }
 
-  async handleCourseTopics(
-    addedCourse: Course,
-    topics: Topic[],
-  ) {
+  async handleCourseTopics(addedCourse: Course, topics: Topic[]) {
     const courseTopics: CourseTopics[] = [];
     const courseTopicsToSave: CourseTopics[] = [];
 
-    await Promise.all(topics.map(async (topic, index) => {
-      courseTopics[index] = new CourseTopics();
-      courseTopics[index].course = addedCourse;
-      courseTopics[index].topic = topic
-      courseTopicsToSave.push(courseTopics[index]);
-    }));
+    await Promise.all(
+      topics.map(async (topic, index) => {
+        courseTopics[index] = new CourseTopics();
+        courseTopics[index].course = addedCourse;
+        courseTopics[index].topic = topic;
+        courseTopicsToSave.push(courseTopics[index]);
+      }),
+    );
 
     return CourseTopics.save(courseTopicsToSave);
   }
 
   async add(user: User, categoriesDetails: CreateCourse) {
     try {
-      const { category, subcategory, topics } = await this.categoryService.areCategoriesExist(categoriesDetails);
+      const {
+        category,
+        subcategory,
+        topics,
+      } = await this.categoryService.areCategoriesExist(categoriesDetails);
       const course = new Course();
 
       course.user = user;
@@ -73,33 +74,33 @@ export class CourseService {
   }
 
   async getCourseDetails(id: string) {
-
     try {
-      const course = await Course
-        .createQueryBuilder("course")
-        .select("course")
-        .leftJoinAndSelect("course.category", "category")
-        .leftJoinAndSelect("course.subcategory", "subcategory")
-        .where("course.id = :id", { id, })
+      const course = await Course.createQueryBuilder('course')
+        .select('course')
+        .leftJoinAndSelect('course.category', 'category')
+        .leftJoinAndSelect('course.subcategory', 'subcategory')
+        .where('course.id = :id', { id })
         .getOne();
 
-      const topics = await CourseTopics
-        .createQueryBuilder("topics")
-        .leftJoinAndSelect("topics.topic", "topic")
-        .where("topics.course = :id", { id: course.id })
+      const topics = await CourseTopics.createQueryBuilder('topics')
+        .leftJoinAndSelect('topics.topic', 'topic')
+        .where('topics.course = :id', { id: course.id })
         .getMany();
 
       return {
         ...course,
-        ...topics
+        ...topics,
       };
-
     } catch (error) {
       throw error;
     }
   }
 
-  async update(newCourse: UpdateCourseDto, courseId: string, courseFn: Express.Multer.File) {
+  async update(
+    newCourse: UpdateCourseDto,
+    courseId: string,
+    courseFn: Express.Multer.File,
+  ) {
     try {
       const course = await Course.findOrThrow({ where: { id: courseId } });
 
@@ -110,11 +111,17 @@ export class CourseService {
       await course.save();
 
       if (courseFn) {
-        await setFileIfExists(course, 'courseFn', 'course_photo', courseFn, true, 512);
+        await setFileIfExists(
+          course,
+          'courseFn',
+          'course_photo',
+          courseFn,
+          true,
+          512,
+        );
       }
 
       return course;
-
     } catch (error) {
       throw error;
     }
@@ -123,7 +130,9 @@ export class CourseService {
   async updateCategory(courseId: string, categoriesDetails: CreateCourse) {
     try {
       const course = await Course.findOrThrow({ where: { id: courseId } });
-      const { topics } = await this.categoryService.areCategoriesExist(categoriesDetails);
+      const { topics } = await this.categoryService.areCategoriesExist(
+        categoriesDetails,
+      );
       await this.handleCourseTopics(course, topics);
     } catch (error) {
       throw error;
@@ -133,40 +142,50 @@ export class CourseService {
   async publish(courseId: string) {
     const course = await Course.findOrThrow({ where: { id: courseId } });
     course.courseStatus = CourseStatus.Published;
-    return await course.save();
+    return course.save();
   }
 
   async delete(courseId: string) {
     const course = await Course.findOrThrow({ where: { id: courseId } });
     course.courseStatus = CourseStatus.Removed;
-    return await course.save();
+    return course.save();
   }
 
-
-  async uploadVideoForLesson(lesson: Lesson[], savedSection: Section, videos: Express.Multer.File[]) {
-    console.log(videos)
+  async uploadVideoForLesson(
+    lesson: Lesson[],
+    savedSection: Section,
+    videos: Express.Multer.File[],
+  ) {
+    console.log(videos);
     try {
-      return Promise.all(lesson.map(async (payload) => {
-        const lesson = new Lesson();
-        const video = videos.find((file) => file.fieldname === `video_${payload.id}`);
-        lesson.id = payload.id
-        lesson.description = payload.description;
-        lesson.section = savedSection;
-        lesson.title = payload.title;
-        lesson.videoFn = await this.vimeoService.upload(video, video.filename, 'opis');
-        return lesson.save();
-      }))
+      return await Promise.all(
+        lesson.map(async (payload) => {
+          const lesson = new Lesson();
+          const video = videos.find(
+            (file) => file.fieldname === `video_${payload.id}`,
+          );
+          lesson.id = payload.id;
+          lesson.description = payload.description;
+          lesson.section = savedSection;
+          lesson.title = payload.title;
+          lesson.videoFn = await this.vimeoService.upload(
+            video,
+            video.filename,
+            'opis',
+          );
+          return lesson.save();
+        }),
+      );
     } catch (error) {
       throw error;
     }
   }
 
-
   async uploadLessonVideo(
     user: User,
     files: Express.Multer.File[],
     courseId: string,
-    data: any
+    data: any,
   ) {
     try {
       const course = await Course.findOne({ where: { id: courseId } });
@@ -178,12 +197,10 @@ export class CourseService {
 
       const savedSection = await section.save();
 
-      return this.uploadVideoForLesson(data.lesson, savedSection, files);
-
+      return await this.uploadVideoForLesson(data.lesson, savedSection, files);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       throw error;
     }
   }
-
 }

@@ -1,5 +1,4 @@
 import { BadRequestException } from '@nestjs/common';
-import { ApiErrorCode } from 'app-types/global';
 import {
   PrimaryGeneratedColumn,
   ObjectType,
@@ -7,6 +6,7 @@ import {
   BaseEntity,
   FindOneOptions,
 } from 'typeorm';
+import { ApiErrorCode } from '../../app-types';
 
 export class MyBaseEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')

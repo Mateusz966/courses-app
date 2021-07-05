@@ -1,4 +1,4 @@
-import { ReactNode, Ref } from 'react';
+import { ReactNode, Ref, ChangeEventHandler } from 'react';
 
 export type FormFieldContextType = {
   name: string;
@@ -20,3 +20,14 @@ export type DatePickerProviderType = {
   children: ReactNode;
   value: DatePickerContextType;
 };
+
+export interface BaseInputProps {
+  placeholder?: string;
+  id?: string;
+  isDisabled?: boolean;
+  isRequired?: boolean;
+  isInvalid?: boolean;
+  onChange?: <T>(e?: T) => ChangeEventHandler<HTMLInputElement> | undefined;
+  onClick?: <T>(e: T) => void;
+  name?: string;
+}

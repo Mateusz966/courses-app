@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { history } from '../config/history';
 import { courseStore } from '../stores/course';
 import { CategoryDto, CreateCourse } from '../app-types/category';
@@ -5,6 +6,7 @@ import { CustomSelectOption } from '../../../app-types/global';
 import { useRootStore } from '../stores/storeContext';
 import { useApi } from './useApi';
 import { SetError } from '../types/global';
+import { UpdateCourseForm } from '../interal-types';
 
 interface Props {
   setError: SetError;
@@ -29,8 +31,7 @@ interface UseCourse {
     },
     courseId?: string,
   ) => void;
-  handleEditorChange: (content: any) => void;
-  updateCourse: any;
+  updateCourse: (payload: UpdateCourseForm, courseId: string) => Promise<void>;
   publish: (courseId: string) => Promise<void>;
   inProgress: boolean;
 }
@@ -41,10 +42,6 @@ export const useCourse = (props?: Props): UseCourse => {
 
   const publish = async (courseId: string) => {
     await post(`/course/publish/${courseId}`);
-  };
-
-  const handleEditorChange = (content: any) => {
-    courseStore.setContent(content);
   };
 
   const submitCategory = async (
@@ -103,28 +100,28 @@ export const useCourse = (props?: Props): UseCourse => {
     }
   };
 
-  const updateCourse = () => async (payload: any, courseId: string) => {
-    console.log(payload);
-    const fd = new FormData();
-    console.log('przerenderowanie updateCourse');
-    fd.append('body', JSON.stringify(payload));
+  const updateCourse = useCallback(
+    async (payload: UpdateCourseForm, courseId: string) => {
+      const fd = new FormData();
+      fd.append('body', JSON.stringify(payload));
 
-    if (fileStore.files) {
-      fileStore.files.forEach((file) => {
-        fd.append(file?.name, file?.file, file?.name);
-      });
-    }
+      if (fileStore.files) {
+        fileStore.files.forEach((file) => {
+          fd.append(file?.name, file?.file, file?.name);
+        });
+      }
 
-    await post(`/course/update/${courseId}`, fd);
-    fileStore.removeAllFiles();
-  };
+      await post(`/course/update/${courseId}`, fd);
+      fileStore.removeAllFiles();
+    },
+    [],
+  );
 
   return {
     handleCourseDetailsSubmit,
     submitCategory,
     submitSubcategory,
     updateCourse,
-    handleEditorChange,
     inProgress,
     publish,
   };

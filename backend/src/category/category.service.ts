@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ApiErrorCode, CustomSelectOption } from 'app-types/global';
-import { CategoryDto } from '../../app-types/category';
+import { CategoryDto } from '../../app-types';
 import { Category } from './entities/category.entity';
 import { Subcategory } from './entities/subcategory.entity';
 import { Topic } from './entities/topic.entity';

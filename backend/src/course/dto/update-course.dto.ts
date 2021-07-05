@@ -1,10 +1,8 @@
-import { UpdateCourseReq } from "app-types/course";
-import { IsNotEmpty, IsString, MaxLength, MinLength } from "class-validator";
-import { tooLong, tooShort } from "utils/dtoValidators";
-
+import { UpdateCourseReq } from 'app-types/course';
+import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
+import { tooLong, tooShort } from '../../../utils/dtoValidators';
 
 export class UpdateCourseDto implements UpdateCourseReq {
-
   @IsNotEmpty()
   @IsString()
   @MinLength(3, tooShort)
@@ -22,5 +20,4 @@ export class UpdateCourseDto implements UpdateCourseReq {
   @MinLength(3, tooShort)
   @MaxLength(10000, tooLong)
   content: string;
-
 }
