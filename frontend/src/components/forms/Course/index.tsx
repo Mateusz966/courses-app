@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, useParams } from 'react-router-dom';
-import { FC, useEffect } from 'react';
+import { FC, useCallback, useEffect } from 'react';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
 import { observer } from 'mobx-react-lite';
 import { Editor } from '@tinymce/tinymce-react';
@@ -28,12 +28,14 @@ export const CourseForm: FC = observer(() => {
     getValues,
     watch,
   } = methods;
-  const { inProgress, publish } = useCourse({
+  const { inProgress, publish, updateCourse } = useCourse({
     setError,
   });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const watchedFields = watch(['content', 'description', 'title']);
+
+  const debounceLoadData = useCallback(() => debounce(updateCourse, 1000), []);
 
   useEffect(() => {
     if (courseId) {
@@ -46,12 +48,13 @@ export const CourseForm: FC = observer(() => {
       reset({
         title: courseStore.course.title,
         description: courseStore.course.description,
+        content: courseStore.courseContent,
       });
     }
-  }, [reset]);
+  }, [reset, courseStore.course]);
 
   useEffect(() => {
-    debounce(() => console.log('strzał do api'), 1000);
+    debounceLoadData();
   }, [getValues(['content', 'description', 'title'])]);
 
   return (

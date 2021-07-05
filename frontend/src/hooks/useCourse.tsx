@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { history } from '../config/history';
 import { courseStore } from '../stores/course';
 import { CategoryDto, CreateCourse } from '../app-types/category';
@@ -104,23 +103,21 @@ export const useCourse = (props?: Props): UseCourse => {
     }
   };
 
-  const updateCourse = useCallback(
-    async (payload: any, content: any, courseId: string) => {
-      const fd = new FormData();
+  const updateCourse = () => async (payload: any, courseId: string) => {
+    console.log(payload);
+    const fd = new FormData();
+    console.log('przerenderowanie updateCourse');
+    fd.append('body', JSON.stringify(payload));
 
-      fd.append('body', JSON.stringify({ ...payload, content }));
+    if (fileStore.files) {
+      fileStore.files.forEach((file) => {
+        fd.append(file?.name, file?.file, file?.name);
+      });
+    }
 
-      if (fileStore.files) {
-        fileStore.files.forEach((file) => {
-          fd.append(file?.name, file?.file, file?.name);
-        });
-      }
-
-      await post(`/course/update/${courseId}`, fd);
-      fileStore.removeAllFiles();
-    },
-    [fileStore, post],
-  );
+    await post(`/course/update/${courseId}`, fd);
+    fileStore.removeAllFiles();
+  };
 
   return {
     handleCourseDetailsSubmit,
