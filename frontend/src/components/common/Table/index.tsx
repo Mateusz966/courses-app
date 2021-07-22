@@ -3,15 +3,17 @@ import { useTable, usePagination, useGlobalFilter } from 'react-table';
 import {
   Alert,
   Spinner,
-  Table,
-  Th,
+  Table as ChakraTable,
   Tr,
   Td,
   Thead,
   Tbody,
+  Text,
+  Th,
 } from '@chakra-ui/react';
 import { GlobalFilter } from '../../../components/common/GlobalSearch';
 import { useMobile } from '../../../hooks/useMobile';
+import { NewPagination } from '../NewPagination';
 
 interface Props {
   inProgress: boolean;
@@ -21,7 +23,7 @@ interface Props {
   initialPage?: number;
 }
 
-export const NewTable: FC<Props> = ({
+export const Table: FC<Props> = ({
   columns,
   data,
   hiddenColumns,
@@ -62,7 +64,7 @@ export const NewTable: FC<Props> = ({
   }
 
   if (!data || data?.length === 0) {
-    return <Alert simple type="notice" text="Brak danych do wyświetlenia." />;
+    return <Alert type="notice" text="Brak danych do wyświetlenia." />;
   }
 
   // Render the UI for your table
@@ -73,15 +75,15 @@ export const NewTable: FC<Props> = ({
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
       />
-      <Table {...getTableProps()}>
+      <ChakraTable {...getTableProps()}>
         <Thead>
           {!isMobile &&
             headerGroups.map((headerGroup) => (
               <Tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
-                  <Td {...column.getHeaderProps()}>
+                  <Th {...column.getHeaderProps()}>
                     {column.render('Header')}
-                  </Td>
+                  </Th>
                 ))}
               </Tr>
             ))}
@@ -101,7 +103,7 @@ export const NewTable: FC<Props> = ({
             );
           })}
         </Tbody>
-      </Table>
+      </ChakraTable>
       {data.length > 10 && (
         <NewPagination
           page={pageIndex}

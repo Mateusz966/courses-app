@@ -12,7 +12,6 @@ import { UserCategories } from './user-categories.entity';
 
 @Entity()
 export class User extends BaseEntity implements IUser {
-
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -29,13 +28,12 @@ export class User extends BaseEntity implements IUser {
   @Column({ unique: true })
   email: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   photoFn: string;
 
   @OneToMany(() => UserCategories, (userCategories) => userCategories.user)
   userCategories: UserCategories[];
-  
+
   @OneToMany(() => Course, (course) => course.user)
   course: Course;
-
 }

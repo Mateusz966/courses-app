@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { useAsyncDebounce } from 'react-table';
 import { Box } from '@chakra-ui/react';
 
@@ -7,10 +7,9 @@ export const GlobalFilter: FC<any> = ({
   globalFilter,
   setGlobalFilter,
 }) => {
-  const count = preGlobalFilteredRows.length;
-  const [value, setValue] = React.useState(globalFilter);
-  const onChange = useAsyncDebounce((value) => {
-    setGlobalFilter(value || undefined);
+  const [value, setValue] = useState(globalFilter);
+  const onChange = useAsyncDebounce((values) => {
+    setGlobalFilter(values || undefined);
   }, 500);
 
   return (
