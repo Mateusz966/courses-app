@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   Param,
@@ -47,8 +48,8 @@ export class CourseController {
     } catch (error) {
       throw error;
     }
-  }
-
+  };
+  
   @UseGuards(JwtAuthGuard)
   @Post('/add')
   async add(@UserObj() user, @Body() categoriesDetails: CreateCourseDto) {
@@ -128,5 +129,12 @@ export class CourseController {
     } catch (error) {
       throw error;
     }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('/:courseId')
+  @HttpCode(204)
+  async delete(@Param('courseId') courseId: string, @UserObj() user) {
+    return this.courseService.delete(user.id, courseId);
   }
 }

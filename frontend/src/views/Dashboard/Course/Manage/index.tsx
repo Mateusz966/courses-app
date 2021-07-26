@@ -5,10 +5,14 @@ import { Table } from '../../../../components/common/Table';
 import { useApi } from '../../../../hooks/useApi';
 import { getCourseStatus } from '../../../../helpers/getStatus';
 import { history } from '../../../../config/history';
+import { Alert } from '../../../../components/modals/Alert';
+import { successNotification } from '../../../../components/common/Toast';
 
 const ManageCourses = () => {
   const [courses, setCourses] = useState<any>([]);
-  const { get, inProgress } = useApi();
+  const { get, deleteR, inProgress } = useApi();
+  const [isOpen, setIsOpen] = useState(false);
+  const [idToDelete, setIdToDelete] = useState<string>('');
 
   const getCourses = async () => {
     const res = await get<any>('course/created/all?offset=0&limit=10');
@@ -17,9 +21,27 @@ const ManageCourses = () => {
     }
   };
 
+  const deleteCourse = async () => {
+    const res = await deleteR('/course', idToDelete);
+    if (res) {
+      successNotification('Course was removed');
+    }
+  };
+
+  const onClose = () => {
+    setIdToDelete('');
+    setIsOpen(false);
+  };
+
   useEffect(() => {
     getCourses();
   }, []);
+
+  useEffect(() => {
+    if (idToDelete) {
+      setIsOpen(true);
+    }
+  }, [idToDelete]);
 
   const columns = useMemo(
     () => [
@@ -29,7 +51,7 @@ const ManageCourses = () => {
       },
       {
         Header: 'Status',
-        accessor: ({ status }: any) => getCourseStatus(status),
+        accessor: ({ courseStatus }: any) => getCourseStatus(courseStatus),
       },
       {
         Header: 'Actions',
@@ -41,7 +63,7 @@ const ManageCourses = () => {
               icon={<MdEdit />}
             />
             <IconButton
-              onClick={() => history.push(`/dashboard/course/edit/${id}`)}
+              onClick={() => setIdToDelete(id)}
               aria-label="Delete course"
               icon={<IoMdTrash />}
             />
@@ -54,6 +76,12 @@ const ManageCourses = () => {
   return (
     <Container>
       <Table inProgress={inProgress} columns={columns} data={courses} />
+      <Alert
+        onAction={() => deleteCourse()}
+        isOpen={isOpen}
+        onClose={() => onClose()}
+      />
+      ;
     </Container>
   );
 };

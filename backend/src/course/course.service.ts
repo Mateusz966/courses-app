@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { CourseStatus, CreateCourse } from 'app-types/category';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { CourseStatus, CreateCourse, ApiErrorCode } from '../../app-types';
 import { setFileIfExists } from '../../utils/setFileIfExist';
 import { VimeoService } from '../vimeo/vimeo.service';
 import { CategoryService } from '../category/category.service';
@@ -58,8 +58,6 @@ export class CourseService {
       const course = new Course();
 
       course.user = user;
-      course.title = 'No title';
-      course.description = '';
       course.category = category;
       course.subcategory = subcategory;
 
@@ -75,13 +73,7 @@ export class CourseService {
 
   async getCourseDetails(id: string) {
     try {
-      const course = await Course.createQueryBuilder('course')
-        .select('course')
-        .leftJoinAndSelect('course.category', 'category')
-        .leftJoinAndSelect('course.subcategory', 'subcategory')
-        .where('course.id = :id', { id })
-        .getOne();
-
+      const course = await Course.getCourseDetailsById(id);
       const topics = await CourseTopics.createQueryBuilder('topics')
         .leftJoinAndSelect('topics.topic', 'topic')
         .where('topics.course = :id', { id: course.id })
@@ -145,10 +137,19 @@ export class CourseService {
     return course.save();
   }
 
-  async delete(courseId: string) {
-    const course = await Course.findOrThrow({ where: { id: courseId } });
-    course.courseStatus = CourseStatus.Removed;
-    return course.save();
+  async delete(userId: string, courseId: string) {
+    const course = await Course.getWithUser(userId, courseId);
+    if (course.user.id === userId) {
+      course.courseStatus = CourseStatus.Removed;
+      return Course.update(course.id, course);
+    } else {
+      throw new HttpException(
+        {
+          errorCode: ApiErrorCode.WrongCourseId,
+        },
+        HttpStatus.FORBIDDEN,
+      );
+    }
   }
 
   async uploadVideoForLesson(

@@ -102,6 +102,7 @@ export const useCourse = (props?: Props): UseCourse => {
 
   const updateCourse = useCallback(
     async (payload: UpdateCourseForm, courseId: string) => {
+      console.log(payload);
       const fd = new FormData();
       fd.append('body', JSON.stringify(payload));
 

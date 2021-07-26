@@ -12,6 +12,8 @@ export const getError = (error: ApiErrorCode) => {
       return 'Given email is taken';
     case ApiErrorCode.NotFoundById:
       return 'Nie znaleziono';
+    case ApiErrorCode.WrongCourseId:
+      return 'Wrong course id';
     default:
       return 'An error occured';
   }

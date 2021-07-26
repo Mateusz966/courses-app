@@ -13,6 +13,7 @@ import { courseStore } from '../../../stores/course';
 import { courseSchema } from '../../../formSchemas/course';
 import { useCourse } from '../../../hooks/useCourse';
 import ImagePicker from '../../common/FormField/File';
+import { UpdateCourseForm } from '../../../interal-types';
 
 export const CourseForm: FC = observer(() => {
   const { courseId } = useParams<{ courseId: string }>();
@@ -35,8 +36,8 @@ export const CourseForm: FC = observer(() => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const watchedFields = watch(['content', 'description', 'title']);
 
-  debouncedFunctionRef.current = (payload: any) =>
-    updateCourse(payload, courseId);
+  debouncedFunctionRef.current = () =>
+    updateCourse(methods.getValues() as UpdateCourseForm, courseId);
 
   const debounceLoadData = useCallback(
     debounce((...args) => debouncedFunctionRef.current(...args), 2500),
