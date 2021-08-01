@@ -46,9 +46,19 @@ export interface PublishCourseReq {
   content: string;
 }
 
-
 export interface CourseContentReq {
   sectionName: string;
   sectionDescription: string;
-  lesson: Omit<ILesson, 'videoFn'>[]
+  lesson: Omit<ILesson, 'videoFn'>[];
+}
+
+export interface CourseTableRes {
+  items: CourseTableResContent[];
+  countTotal: number;
+}
+
+export interface CourseTableResContent {
+  title: string;
+  id: string;
+  courseStatus: CourseStatus;
 }

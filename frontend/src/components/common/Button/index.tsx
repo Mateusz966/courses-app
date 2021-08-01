@@ -8,10 +8,11 @@ interface Props extends ButtonProps {
   loadingText?: string;
   disabled?: boolean;
   inProgress?: boolean;
-  type: 'submit' | 'button';
+  type?: 'submit' | 'button';
   mt0?: boolean;
-  onClick?: any;
+  onClick?: () => void;
   dataCy?: string;
+  ref?: any;
 }
 
 export const Button: FC<Props> = ({
@@ -19,10 +20,11 @@ export const Button: FC<Props> = ({
   variant,
   disabled,
   inProgress,
-  type,
+  type = 'button',
   mt0,
   onClick,
   dataCy,
+  ref,
   ...props
 }) => (
   <ChakraButton
@@ -37,6 +39,7 @@ export const Button: FC<Props> = ({
     variant={variant}
     onClick={onClick}
     data-cy={dataCy}
+    ref={ref}
     {...props}
   >
     {children}

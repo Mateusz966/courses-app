@@ -35,3 +35,13 @@ export interface UserLogin {
   email: string;
   password: string;
 }
+
+export interface ChangeBaseUserDataReq {
+  firstName: string;
+  lastName: string;
+}
+
+export interface ChangeUserPwdReq {
+  oldPassword: string;
+  newPassword: string;
+}

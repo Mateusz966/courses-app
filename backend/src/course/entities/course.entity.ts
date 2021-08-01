@@ -1,22 +1,16 @@
+import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Subcategory } from 'src/category/entities/subcategory.entity';
+import { MyBaseEntity } from 'src/base/MyBaseEntity';
 import { Category } from '../../category/entities/category.entity';
 import { User } from '../../user/entity/user.entity';
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  OneToMany,
-} from 'typeorm';
 import { CourseTopics } from './course-topics.entity';
-import { Subcategory } from 'src/category/entities/subcategory.entity';
 import { Section } from './section.entity';
 import { CourseStatus } from '../../../app-types/category';
 import { ICourse } from '../../../app-types/course';
-import { MyBaseEntity } from 'src/base/MyBaseEntity';
 
 @Entity()
 export class Course extends MyBaseEntity implements ICourse {
-  @Column({ type: 'varchar', default: '' })
+  @Column({ type: 'varchar', default: 'No title' })
   title: string;
 
   @Column({ type: 'varchar', default: '' })
@@ -28,7 +22,7 @@ export class Course extends MyBaseEntity implements ICourse {
   @Column({ default: CourseStatus.Draft })
   courseStatus: CourseStatus;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   courseFn: string;
 
   @OneToMany(() => CourseTopics, (courseTopic) => courseTopic.course)
@@ -45,4 +39,22 @@ export class Course extends MyBaseEntity implements ICourse {
 
   @ManyToOne(() => Subcategory, (subcategory) => subcategory.course)
   subcategory: Subcategory;
+
+  static getWithUser(userId: string, courseId: string) {
+    return this.createQueryBuilder('course')
+      .where('course.id = :id', { id: courseId })
+      .andWhere('course.user = :userId', { userId })
+      .leftJoinAndSelect('course.user', 'user')
+      .select(['course', 'user.id'])
+      .getOneOrFail();
+  }
+
+  static getCourseDetailsById(courseId: string) {
+    return this.createQueryBuilder('course')
+      .where('course.id = :id', { id: courseId })
+      .leftJoinAndSelect('course.category', 'category')
+      .leftJoinAndSelect('course.subcategory', 'subcategory')
+      .select('course')
+      .getOne();
+  }
 }

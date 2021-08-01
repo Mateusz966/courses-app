@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   Param,
@@ -100,10 +101,10 @@ export class CourseController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('/main-photo/:courseId')
+  @Get('/main-photo/:courseId')
   @UseInterceptors(FileInterceptor('courseFn'))
-  async setMainPhoto(@UploadedFile() courseFn: Express.Multer.File) {
-    console.log(courseFn);
+  async setMainPhoto() {
+    console.log('strzał po foto');
   }
 
   @UseGuards(JwtAuthGuard)
@@ -128,5 +129,12 @@ export class CourseController {
     } catch (error) {
       throw error;
     }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('/:courseId')
+  @HttpCode(204)
+  async delete(@Param('courseId') courseId: string, @UserObj() user) {
+    return this.courseService.delete(user.id, courseId);
   }
 }

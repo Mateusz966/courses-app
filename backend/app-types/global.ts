@@ -11,6 +11,7 @@ export enum ApiErrorCode {
     EmailIsTaken,
     InvalidParams,
     NotFoundById,
+    WrongCourseId,
 }
 
 export type CustomSelectOption<T> = {

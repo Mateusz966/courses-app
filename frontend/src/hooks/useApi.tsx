@@ -15,7 +15,10 @@ type ApiReqFn = <T, K>(
   body?: K | undefined,
   queryParams?: Record<string, string>,
 ) => Promise<void | T>;
-type ApiReqDelete = (url: string, id: number) => Promise<AxiosResponse<any>>;
+type ApiReqDelete = (
+  url: string,
+  id: number | string,
+) => Promise<AxiosResponse<any>>;
 
 interface UseApi {
   inProgress: boolean;
@@ -100,7 +103,7 @@ export const useApi = (props?: Props): UseApi => {
     [props?.setError],
   );
 
-  const deleteR = (url: string, id: number) =>
+  const deleteR = (url: string, id: number | string) =>
     axiosInstance.delete(`${url}/${id}`);
 
   return {

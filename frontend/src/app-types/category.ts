@@ -49,6 +49,7 @@ export interface CreateCourseReq {
   topics: CustomSelectOption<CategoryDto>[];
 }
 
+// eslint-disable-next-line no-shadow
 export enum CourseStatus {
   Draft,
   Published,

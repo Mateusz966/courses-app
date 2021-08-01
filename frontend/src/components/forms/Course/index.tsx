@@ -13,6 +13,7 @@ import { courseStore } from '../../../stores/course';
 import { courseSchema } from '../../../formSchemas/course';
 import { useCourse } from '../../../hooks/useCourse';
 import ImagePicker from '../../common/FormField/File';
+import { UpdateCourseForm } from '../../../interal-types';
 
 export const CourseForm: FC = observer(() => {
   const { courseId } = useParams<{ courseId: string }>();
@@ -35,8 +36,8 @@ export const CourseForm: FC = observer(() => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const watchedFields = watch(['content', 'description', 'title']);
 
-  debouncedFunctionRef.current = (payload: any) =>
-    updateCourse(payload, courseId);
+  debouncedFunctionRef.current = () =>
+    updateCourse(methods.getValues() as UpdateCourseForm, courseId);
 
   const debounceLoadData = useCallback(
     debounce((...args) => debouncedFunctionRef.current(...args), 2500),
@@ -70,7 +71,7 @@ export const CourseForm: FC = observer(() => {
         <FormField labelText="Course photo" name="courseFn">
           <ImagePicker
             desktopRatio={22 / 9}
-            previewUrl={courseId && `course/image/courseFn/${courseId}`}
+            previewUrl={courseId && `course/main-photo/${courseId}`}
           />
         </FormField>
         <FormField labelText="Title" name="title">
@@ -108,8 +109,8 @@ export const CourseForm: FC = observer(() => {
                alignleft aligncenter alignright alignjustify | \
                bullist numlist outdent indent | removeformat | help',
               }}
-              onEditorChange={() => {
-                field.field.onChange();
+              onEditorChange={(e) => {
+                field.field.onChange(e);
                 debounceLoadData();
               }}
             />

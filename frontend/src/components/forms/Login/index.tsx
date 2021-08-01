@@ -22,6 +22,8 @@ export const LoginForm: FC = () => {
 
   const { submit, inProgress } = useLogin({ setError });
 
+  console.log(isValid);
+
   return (
     <FormProvider {...methods}>
       <Box
