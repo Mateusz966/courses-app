@@ -13,6 +13,7 @@ import { storDir } from 'utils/storDir';
 import { UserObj } from '../../decorators/user-obj.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UserService } from './user.service';
+import { ChangeBasicDataDto } from './dto/change-basic-data.dto';
 
 const path = require('path');
 
@@ -28,7 +29,7 @@ export class UserController {
     }),
   )
   async setUserData(
-    @Body() userData: any,
+    @Body() userData: ChangeBasicDataDto,
     @UserObj() user,
     @UploadedFile() photoFn: Express.Multer.File,
   ) {

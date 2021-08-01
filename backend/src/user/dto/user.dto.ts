@@ -7,9 +7,7 @@ import {
   MinLength,
 } from 'class-validator';
 import { tooShort } from 'utils/dtoValidators';
-import { CategoryDto } from '../../app-types/category';
-import { CustomSelectOption } from '../../../app-types/global';
-import { UserReq } from '../../../app-types/user';
+import { CustomSelectOption, UserReq, CategoryDto } from '../../../app-types';
 
 export class UserDto implements UserReq {
   @IsEmail()

@@ -6,14 +6,14 @@ import { setFileIfExists } from 'utils/setFileIfExist';
 import { storDir } from 'utils/storDir';
 import { UserCategories } from './entity/user-categories.entity';
 import { User } from './entity/user.entity';
-import { UserDto } from './user.dto';
-const path = require('path')
+import { UserDto } from './dto/user.dto';
+import { ChangeBasicDataDto } from './dto/change-basic-data.dto';
+
+const path = require('path');
 
 @Injectable()
 export class UserService {
-  constructor(
-    private readonly categoryService: CategoryService
-  ) { }
+  constructor(private readonly categoryService: CategoryService) {}
 
   async getByEmail(email: string): Promise<any> {
     try {
@@ -22,7 +22,7 @@ export class UserService {
           email,
         },
       });
-      return user ? user : undefined;
+      return user || undefined;
     } catch (error) {
       throw error;
     }
@@ -39,7 +39,7 @@ export class UserService {
     );
   }
 
-  async saveUser(newUser: UserDto): Promise<void> {
+  async saveUser(newUser: UserDto): Promise<User> {
     try {
       const user = new User();
 
@@ -50,11 +50,13 @@ export class UserService {
 
       const savedUser = await User.save(user);
 
-      const userCategories: UserCategories[] = []
+      const userCategories: UserCategories[] = [];
       const categoriesToSave: UserCategories[] = [];
 
       if (newUser?.userCategories) {
-        const { categories } = await this.categoryService.areCategoriesExist({ categories: newUser.userCategories });
+        const { categories } = await this.categoryService.areCategoriesExist({
+          categories: newUser.userCategories,
+        });
         categories.forEach((category, index) => {
           userCategories[index] = new UserCategories();
           userCategories[index].category = new Category();
@@ -64,22 +66,33 @@ export class UserService {
         });
       }
       await UserCategories.insert(categoriesToSave);
+      return savedUser;
     } catch (error) {
       throw error;
     }
   }
 
-  async setUserData(userId, userData: any, photoFn: Express.Multer.File): Promise<any> {
+  async setUserData(
+    userId,
+    userData: ChangeBasicDataDto,
+    photoFn: Express.Multer.File,
+  ): Promise<any> {
     try {
-      await User.update(userId, JSON.parse(userData.body));
+      await User.update(userId, userData);
       const user = await User.findOne({ id: userId });
 
       if (photoFn) {
-        await setFileIfExists(user, 'photoFn', 'user_photo', photoFn, true, 512);
+        await setFileIfExists(
+          user,
+          'photoFn',
+          'user_photo',
+          photoFn,
+          true,
+          512,
+        );
       }
 
       return user;
-
     } catch (error) {
       throw error;
     }
@@ -88,18 +101,15 @@ export class UserService {
   async getMyPhoto(userId: string, res: Response) {
     const user = await User.findOne({ id: userId });
     const { photoFn } = user;
-    console.log(user)
+    console.log(user);
     try {
       if (!photoFn) {
         res.status(HttpStatus.OK).json(null);
       } else {
-        res.sendFile(
-          path.join(storDir(), 'user_photo/', photoFn),
-        );
+        res.sendFile(path.join(storDir(), 'user_photo/', photoFn));
       }
     } catch (error) {
       throw error;
     }
   }
-
 }

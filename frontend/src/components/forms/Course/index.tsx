@@ -71,7 +71,7 @@ export const CourseForm: FC = observer(() => {
         <FormField labelText="Course photo" name="courseFn">
           <ImagePicker
             desktopRatio={22 / 9}
-            previewUrl={courseId && `course/image/courseFn/${courseId}`}
+            previewUrl={courseId && `course/main-photo/${courseId}`}
           />
         </FormField>
         <FormField labelText="Title" name="title">
@@ -109,8 +109,8 @@ export const CourseForm: FC = observer(() => {
                alignleft aligncenter alignright alignjustify | \
                bullist numlist outdent indent | removeformat | help',
               }}
-              onEditorChange={() => {
-                field.field.onChange();
+              onEditorChange={(e) => {
+                field.field.onChange(e);
                 debounceLoadData();
               }}
             />

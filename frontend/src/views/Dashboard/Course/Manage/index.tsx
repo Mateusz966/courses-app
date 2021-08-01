@@ -7,16 +7,21 @@ import { getCourseStatus } from '../../../../helpers/getStatus';
 import { history } from '../../../../config/history';
 import { Alert } from '../../../../components/modals/Alert';
 import { successNotification } from '../../../../components/common/Toast';
+import {
+  CourseStatus,
+  CourseTableRes,
+  CourseTableResContent,
+} from '../../../../app-types';
 
 const ManageCourses = () => {
-  const [courses, setCourses] = useState<any>([]);
+  const [courses, setCourses] = useState<CourseTableResContent[]>([]);
   const { get, deleteR, inProgress } = useApi();
   const [isOpen, setIsOpen] = useState(false);
   const [idToDelete, setIdToDelete] = useState<string>('');
 
   const getCourses = async () => {
-    const res = await get<any>('course/created/all?offset=0&limit=10');
-    if (res?.items) {
+    const res = await get<CourseTableRes>('course/created/all?offset=0');
+    if (res) {
       setCourses(res.items);
     }
   };
@@ -25,7 +30,16 @@ const ManageCourses = () => {
     const res = await deleteR('/course', idToDelete);
     if (res) {
       successNotification('Course was removed');
+      // eslint-disable-next-line no-shadow
+      setCourses((courses) =>
+        courses.map((course) =>
+          course.id === idToDelete
+            ? { ...course, courseStatus: CourseStatus.Removed }
+            : course,
+        ),
+      );
     }
+    setIsOpen(false);
   };
 
   const onClose = () => {
@@ -81,7 +95,6 @@ const ManageCourses = () => {
         isOpen={isOpen}
         onClose={() => onClose()}
       />
-      ;
     </Container>
   );
 };

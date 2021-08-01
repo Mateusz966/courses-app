@@ -48,8 +48,8 @@ export class CourseController {
     } catch (error) {
       throw error;
     }
-  };
-  
+  }
+
   @UseGuards(JwtAuthGuard)
   @Post('/add')
   async add(@UserObj() user, @Body() categoriesDetails: CreateCourseDto) {
@@ -101,10 +101,10 @@ export class CourseController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('/main-photo/:courseId')
+  @Get('/main-photo/:courseId')
   @UseInterceptors(FileInterceptor('courseFn'))
-  async setMainPhoto(@UploadedFile() courseFn: Express.Multer.File) {
-    console.log(courseFn);
+  async setMainPhoto() {
+    console.log('strzał po foto');
   }
 
   @UseGuards(JwtAuthGuard)

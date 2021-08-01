@@ -18,9 +18,10 @@ export class CourseService {
     private readonly categoryService: CategoryService,
   ) {}
 
-  async myCreated(userId: string, offset: number, limit: number) {
+  async myCreated(userId: string, offset: number, limit?: number) {
     try {
       const [items, countTotal] = await Course.createQueryBuilder('course')
+        .select(['course.title', 'course.courseStatus', 'course.id'])
         .where('course.user = :id', { id: userId })
         .skip(offset)
         .take(limit)
