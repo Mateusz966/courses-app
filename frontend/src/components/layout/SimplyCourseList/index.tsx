@@ -1,28 +1,66 @@
 import { Container } from '@chakra-ui/react';
 import { Props } from 'framer-motion/types/types';
-import { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { CourseTableRes, CourseTableResContent } from '../../../app-types';
 import { useApi } from '../../../hooks/useApi';
 import SimplyCourseTile from './simplyCourseTile';
 
 const SimplyCourseList: FC<Props> = () => {
   const [courses, setCourses] = useState<CourseTableResContent[]>([]);
+  const [offset, setOffset] = useState<number>(0);
+  const [loading, setLoading] = useState(true);
+  const [availableCourses, setAvailableCourses] = useState(true);
+  const [totalNumberOfCourses, setTotalNumberOfCourses] = useState(0);
   const { get } = useApi();
 
   const getCourses = async () => {
-    const res = await get<CourseTableRes>('course/created/all?offset=0');
+    const res = await get<CourseTableRes>(
+      `course/created/all?limit=10&offset=${offset}`,
+    );
     if (res) {
-      setCourses(res.items);
+      const newCourses = res.items;
+      setCourses((prev) => [...prev, ...newCourses]);
+      setTotalNumberOfCourses(res.countTotal);
     }
   };
 
+  const handleScroll = () => {
+    window.onscroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop ===
+        document.documentElement.offsetHeight
+      ) {
+        setOffset((prev) => prev + 10);
+        if (totalNumberOfCourses === courses.length) {
+          setAvailableCourses(false);
+        }
+      }
+    };
+  };
+
   useEffect(() => {
-    getCourses();
-  }, []);
+    if (offset === 0) {
+      handleScroll();
+    }
+    if (availableCourses) {
+      setLoading(true);
+      getCourses();
+      setLoading(false);
+    }
+  }, [offset]);
+
+  const coursesList = courses.map((course) => (
+    <SimplyCourseTile course={course} />
+  ));
 
   return (
     <Container>
-      <SimplyCourseTile courses={courses} />
+      {coursesList.length > 0 ? (
+        coursesList
+      ) : (
+        <p>Nie makursów do wyświetlenia</p>
+      )}
+      {loading && <p>Loading ...</p>}
     </Container>
   );
 };

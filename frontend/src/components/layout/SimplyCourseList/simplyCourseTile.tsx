@@ -4,16 +4,14 @@ import { Link } from 'react-router-dom';
 import { CourseTableResContent } from '../../../app-types';
 
 interface Props {
-  courses: CourseTableResContent[];
+  course: CourseTableResContent;
 }
 
-const SimplyCourseTile: React.FC<Props> = ({ courses }) => (
+const SimplyCourseTile: React.FC<Props> = ({ course }) => (
   <>
-    {courses.map((cours) => (
-      <Link to={`/course/${cours.id}`}>
+    <Box ml="25%" maxW="250px" key={course.id}>
+      <Link to={`/course/${course.id}`}>
         <Box
-          key={cours.id}
-          maxW="250px"
           minH="320px"
           mt="20px"
           mb="20px"
@@ -26,7 +24,7 @@ const SimplyCourseTile: React.FC<Props> = ({ courses }) => (
             <img src="" alt="Course im placeholder" />
           </Box>
           <Center p="15px">
-            <h2>{cours.title}</h2>
+            <h2>{course.title}</h2>
           </Center>
           <Grid templateRows="repeat(3, 1fr)" templateColumns="repeat(1, 1fr)">
             <GridItem rowSpan={1} colSpan={1} p="10px">
@@ -41,7 +39,7 @@ const SimplyCourseTile: React.FC<Props> = ({ courses }) => (
           </Grid>
         </Box>
       </Link>
-    ))}
+    </Box>
   </>
 );
 
