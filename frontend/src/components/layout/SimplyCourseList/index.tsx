@@ -1,4 +1,4 @@
-import { Container } from '@chakra-ui/react';
+import { Center, Container } from '@chakra-ui/react';
 import { Props } from 'framer-motion/types/types';
 import React, { FC, useEffect, useState } from 'react';
 import { CourseTableRes, CourseTableResContent } from '../../../app-types';
@@ -9,7 +9,6 @@ const SimplyCourseList: FC<Props> = () => {
   const [courses, setCourses] = useState<CourseTableResContent[]>([]);
   const [offset, setOffset] = useState<number>(0);
   const [loading, setLoading] = useState(true);
-  const [availableCourses, setAvailableCourses] = useState(true);
   const [totalNumberOfCourses, setTotalNumberOfCourses] = useState(0);
   const { get } = useApi();
 
@@ -31,22 +30,17 @@ const SimplyCourseList: FC<Props> = () => {
         document.documentElement.offsetHeight
       ) {
         setOffset((prev) => prev + 10);
-        if (totalNumberOfCourses === courses.length) {
-          setAvailableCourses(false);
-        }
       }
     };
   };
 
   useEffect(() => {
-    if (offset === 0) {
+    if (offset === 0 && courses.length === 0) {
       handleScroll();
     }
-    if (availableCourses) {
-      setLoading(true);
-      getCourses();
-      setLoading(false);
-    }
+    setLoading(true);
+    getCourses();
+    setLoading(false);
   }, [offset]);
 
   const coursesList = courses.map((course) => (
@@ -55,6 +49,7 @@ const SimplyCourseList: FC<Props> = () => {
 
   return (
     <Container>
+      <Center>Liczba wszystkich kursów:{totalNumberOfCourses}</Center>
       {coursesList.length > 0 ? (
         coursesList
       ) : (
