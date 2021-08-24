@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Response } from 'express';
 import { CourseStatus, CreateCourse, ApiErrorCode } from '../../app-types';
 import { setFileIfExists } from '../../utils/setFileIfExist';
 import { VimeoService } from '../vimeo/vimeo.service';
@@ -10,7 +11,9 @@ import { CourseTopics } from './entities/course-topics.entity';
 import { Course } from './entities/course.entity';
 import { Lesson } from './entities/lesson.entity';
 import { Section } from './entities/section.entity';
+import { storDir } from '../../utils/storDir';
 
+const path = require('path');
 @Injectable()
 export class CourseService {
   constructor(
@@ -203,6 +206,21 @@ export class CourseService {
     } catch (error) {
       console.log(error);
       throw error;
+    }
+  }
+
+  async getCoursePhoto(courseId: string, res: Response) {
+    const course = await Course.findOrThrow({ where: { id: courseId } });
+    try {
+      if (!course?.courseFn) {
+        res.status(HttpStatus.OK).json(null);
+      } else {
+        res.sendFile(
+          path.join(`${storDir()}/course_photo/${course?.courseFn}`),
+        );
+      }
+    } catch (e) {
+      console.log('e', e);
     }
   }
 }

@@ -103,8 +103,8 @@ export class CourseController {
   @UseGuards(JwtAuthGuard)
   @Get('/main-photo/:courseId')
   @UseInterceptors(FileInterceptor('courseFn'))
-  async setMainPhoto() {
-    console.log('strzał po foto');
+  async getCoursePhoto(@Param('courseId') courseId: string, @Res() res) {
+    return this.courseService.getCoursePhoto(courseId, res);
   }
 
   @UseGuards(JwtAuthGuard)
