@@ -10,7 +10,7 @@ interface Props {
 const SimplyCourseTile: React.FC<Props> = ({ course }) => (
   <>
     <Box ml="25%" maxW="250px" key={course.id}>
-      <Link to={`/course/${course.id}`}>
+      <Link to={`dashboard/course/view/${course.id}`}>
         <Box
           minH="320px"
           mt="20px"

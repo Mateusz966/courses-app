@@ -1,16 +1,15 @@
 import { Center, Container } from '@chakra-ui/react';
-import { Props } from 'framer-motion/types/types';
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { CourseTableRes, CourseTableResContent } from '../../../app-types';
 import { useApi } from '../../../hooks/useApi';
 import SimplyCourseTile from './simplyCourseTile';
 
-const SimplyCourseList: FC<Props> = () => {
+const SimplyCourseList: FC = () => {
   const [courses, setCourses] = useState<CourseTableResContent[]>([]);
-  const [offset, setOffset] = useState<number>(0);
-  const [loading, setLoading] = useState(true);
+  const [offset, setOffset] = useState(0);
   const [totalNumberOfCourses, setTotalNumberOfCourses] = useState(0);
-  const { get } = useApi();
+  const [iniFetch, setIniFetch] = useState(true);
+  const { get, inProgress } = useApi();
 
   const getCourses = async () => {
     const res = await get<CourseTableRes>(
@@ -20,32 +19,39 @@ const SimplyCourseList: FC<Props> = () => {
       const newCourses = res.items;
       setCourses((prev) => [...prev, ...newCourses]);
       setTotalNumberOfCourses(res.countTotal);
+      setIniFetch(false);
     }
   };
 
   const handleScroll = () => {
-    window.onscroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop ===
-        document.documentElement.offsetHeight
-      ) {
+    if (
+      window.innerHeight + document.documentElement.scrollTop ===
+      document.documentElement.offsetHeight
+    ) {
+      if (courses.length < totalNumberOfCourses) {
         setOffset((prev) => prev + 10);
       }
-    };
+    }
   };
 
   useEffect(() => {
-    if (offset === 0 && courses.length === 0) {
-      handleScroll();
-    }
-    setLoading(true);
     getCourses();
-    setLoading(false);
   }, [offset]);
 
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [courses, totalNumberOfCourses]);
+
   const coursesList = courses.map((course) => (
-    <SimplyCourseTile course={course} />
+    <SimplyCourseTile key={course.id} course={course} />
   ));
+
+  if (inProgress && iniFetch) {
+    return <p>Loading ...</p>;
+  }
 
   return (
     <Container>
@@ -55,7 +61,7 @@ const SimplyCourseList: FC<Props> = () => {
       ) : (
         <p>Nie makursów do wyświetlenia</p>
       )}
-      {loading && <p>Loading ...</p>}
+      <Center>{inProgress && !iniFetch && <p>Loading ...</p>}</Center>
     </Container>
   );
 };
