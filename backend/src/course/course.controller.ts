@@ -15,16 +15,13 @@ import {
 } from '@nestjs/common';
 import { UserObj } from 'decorators/user-obj.decorator';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import {
-  AnyFilesInterceptor,
-  FileInterceptor,
-  FilesInterceptor,
-} from '@nestjs/platform-express';
+import { AnyFilesInterceptor, FileInterceptor } from '@nestjs/platform-express';
 import { storDir } from 'utils/storDir';
 import { PaginationParams } from 'src/pagination/pagination-params.dto';
 import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
+import { CourseDetailsRes } from '../../app-types';
 
 const path = require('path');
 
@@ -51,10 +48,27 @@ export class CourseController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('/published')
+  async allPublished(
+    @UserObj() user,
+    @Query('search') search: string,
+    @Query() { offset, limit }: PaginationParams,
+  ) {
+    try {
+      if (search) {
+        // logic with search
+      } else {
+        return await this.courseService.allPublished(user.id, offset, limit);
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Post('/add')
   async add(@UserObj() user, @Body() categoriesDetails: CreateCourseDto) {
     try {
-      console.log(categoriesDetails);
       return await this.courseService.add(user, categoriesDetails);
     } catch (error) {
       throw error;
@@ -63,7 +77,9 @@ export class CourseController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/details/:courseId')
-  async getCourseDetails(@Param('courseId') courseId: string) {
+  async getCourseDetails(
+    @Param('courseId') courseId: string,
+  ): Promise<CourseDetailsRes> {
     try {
       return await this.courseService.getCourseDetails(courseId);
     } catch (error) {

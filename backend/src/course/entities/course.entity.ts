@@ -5,8 +5,12 @@ import { Category } from '../../category/entities/category.entity';
 import { User } from '../../user/entity/user.entity';
 import { CourseTopics } from './course-topics.entity';
 import { Section } from './section.entity';
-import { CourseStatus } from '../../../app-types/category';
-import { ICourse } from '../../../app-types/course';
+import {
+  CourseDetails,
+  CourseDetailsRes,
+  CourseStatus,
+  ICourse,
+} from '../../../app-types';
 
 @Entity()
 export class Course extends MyBaseEntity implements ICourse {
@@ -49,12 +53,34 @@ export class Course extends MyBaseEntity implements ICourse {
       .getOneOrFail();
   }
 
-  static getCourseDetailsById(courseId: string) {
-    return this.createQueryBuilder('course')
+  static async getCourseDetailsById(courseId: string): Promise<CourseDetails> {
+    const res: CourseDetails = await this.createQueryBuilder('course')
       .where('course.id = :id', { id: courseId })
       .leftJoinAndSelect('course.category', 'category')
       .leftJoinAndSelect('course.subcategory', 'subcategory')
-      .select('course')
+      .leftJoinAndSelect('course.user', 'user')
+      .select([
+        'course',
+        'category.name',
+        'subcategory.name',
+        'user.firstName',
+        'user.lastName',
+        'user.photoFn',
+        'user.id',
+      ])
       .getOne();
+    return res;
+  }
+
+  static allPublished(userId: string, offset: number, limit?: number) {
+    return this.createQueryBuilder('course')
+      .select(['course.title', 'course.courseStatus', 'course.id'])
+      .where('course.user != :id', { id: userId })
+      .where('course.courseStatus = :status', {
+        status: CourseStatus.Published,
+      })
+      .skip(offset)
+      .take(limit)
+      .getManyAndCount();
   }
 }
