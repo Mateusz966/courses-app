@@ -26,5 +26,5 @@ export const RouteAuthorized: FC<Props> = observer(
     } else {
       return <Route render={() => <Redirect to="/" />} />;
     }
-  }
+  },
 );

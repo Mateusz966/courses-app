@@ -5,11 +5,8 @@ import {
   MenuList,
   MenuItem,
   Button,
-  Link,
 } from '@chakra-ui/react';
-import { FC, lazy } from 'react';
-import { history } from '../../../config/history';
-
+import { FC } from 'react';
 
 export const TopNavbarLinks: FC = () => (
   <Box>
