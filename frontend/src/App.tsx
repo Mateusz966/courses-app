@@ -10,6 +10,7 @@ import theme from './config/theme';
 const Register = lazy(() => import('./views/Register'));
 const Login = lazy(() => import('./views/Login'));
 const Dashboard = lazy(() => import('./views/Dashboard'));
+const ViewCourse = lazy(() => import('./views/ViewCourse'));
 
 axios401Interceptor();
 
