@@ -1,5 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CourseStatus, CreateCourse, ApiErrorCode } from '../../app-types';
+import { Response } from 'express';
+import {
+  CourseStatus,
+  CreateCourse,
+  ApiErrorCode,
+  CourseDetailsRes,
+} from '../../app-types';
 import { setFileIfExists } from '../../utils/setFileIfExist';
 import { VimeoService } from '../vimeo/vimeo.service';
 import { CategoryService } from '../category/category.service';
@@ -10,6 +16,9 @@ import { CourseTopics } from './entities/course-topics.entity';
 import { Course } from './entities/course.entity';
 import { Lesson } from './entities/lesson.entity';
 import { Section } from './entities/section.entity';
+import { storDir } from '../../utils/storDir';
+
+const path = require('path');
 
 @Injectable()
 export class CourseService {
@@ -26,6 +35,20 @@ export class CourseService {
         .skip(offset)
         .take(limit)
         .getManyAndCount();
+
+      return { items, countTotal };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async allPublished(userId: string, offset: number, limit?: number) {
+    try {
+      const [items, countTotal] = await Course.allPublished(
+        userId,
+        offset,
+        limit,
+      );
 
       return { items, countTotal };
     } catch (error) {
@@ -72,17 +95,14 @@ export class CourseService {
     }
   }
 
-  async getCourseDetails(id: string) {
+  async getCourseDetails(id: string): Promise<CourseDetailsRes> {
     try {
       const course = await Course.getCourseDetailsById(id);
-      const topics = await CourseTopics.createQueryBuilder('topics')
-        .leftJoinAndSelect('topics.topic', 'topic')
-        .where('topics.course = :id', { id: course.id })
-        .getMany();
+      const topics = await CourseTopics.getCourseTopics(id);
 
       return {
         ...course,
-        ...topics,
+        topics,
       };
     } catch (error) {
       throw error;
@@ -203,6 +223,21 @@ export class CourseService {
     } catch (error) {
       console.log(error);
       throw error;
+    }
+  }
+
+  async getCoursePhoto(courseId: string, res: Response) {
+    const course = await Course.findOrThrow({ where: { id: courseId } });
+    try {
+      if (!course?.courseFn) {
+        res.status(HttpStatus.OK).json(null);
+      } else {
+        res.sendFile(
+          path.join(`${storDir()}/course_photo/${course?.courseFn}`),
+        );
+      }
+    } catch (e) {
+      res.status(HttpStatus.BAD_REQUEST);
     }
   }
 }

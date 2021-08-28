@@ -64,3 +64,30 @@ export interface CourseTableResContent {
   id: string;
   courseStatus: CourseStatus;
 }
+
+interface CourseDetailsCommon {
+  id: string;
+  title: string;
+  description: string;
+  content: string;
+  courseStatus: CourseStatus;
+  courseFn: string;
+  category: { name: string }
+  subcategory: { name: string }
+  user: {
+    id: string;
+    firstName: string;
+    lastName: string;
+    photoFn: string;
+  }
+}
+
+export interface CourseDetailsRes extends CourseDetailsCommon{
+ topics: {
+   topic: {
+     name: string;
+   }
+ }[]
+}
+
+export interface CourseDetails extends CourseDetailsCommon{}
