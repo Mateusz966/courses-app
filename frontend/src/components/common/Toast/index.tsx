@@ -2,8 +2,8 @@ import { createStandaloneToast } from '@chakra-ui/react';
 import { ToastType } from '../../../types/toast';
 
 const toast = (text: string, type: ToastType) => {
-  const toast = createStandaloneToast();
-  toast({
+  const toastContent = createStandaloneToast();
+  toastContent({
     title: text,
     status: type,
     duration: 2000,
@@ -17,5 +17,5 @@ export const successNotification = (text: string) => {
 };
 
 export const errorNotification = (text: string) => {
-  toast(text, 'success');
+  toast(text, 'error');
 };

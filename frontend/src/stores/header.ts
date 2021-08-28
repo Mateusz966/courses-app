@@ -10,6 +10,7 @@ interface Header {
 
 export class HeaderStore {
   root: RootStore;
+
   header: Header = {
     title: '',
   };

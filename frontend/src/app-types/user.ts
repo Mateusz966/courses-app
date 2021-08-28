@@ -1,13 +1,17 @@
-// Internal type
+import { CustomSelectOption } from './global';
+import { CategoryDto, IUserCategories } from './category';
+import { ICourse } from './course';
+
 export interface UserDefault {
   email: string;
   firstName: string;
   lastName: string;
   password: string;
+  photoFn?: string;
 }
 
 export interface UserCategoriesReq {
-  userCategories?: { id: string }[];
+  userCategories?: CustomSelectOption<CategoryDto>[];
 }
 export interface UserReq extends UserDefault, UserCategoriesReq {}
 
@@ -18,8 +22,10 @@ export interface UserRes {
   lastName: string;
 }
 
-export interface UserEntity extends UserDefault {
+export interface IUser extends UserDefault {
   id: string;
+  userCategories: IUserCategories[];
+  course: ICourse;
 }
 
 export interface UserLogin {

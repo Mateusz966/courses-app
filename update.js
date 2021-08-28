@@ -1,3 +1,4 @@
+
 const fs = require("fs")
 const srcDir =  `${__dirname}\\app-types\\`;
 const fePath = `${__dirname}\\frontend\\src\\app-types\\`;

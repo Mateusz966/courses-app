@@ -1,27 +1,28 @@
-import api from '../service/api';
+import { SetError } from '../types/global';
 import { UserLogin, UserReq } from '../app-types/user';
-import { useState } from 'react';
 import { history } from '../config/history';
 import { useRootStore } from '../stores/storeContext';
+import { useApi } from './useApi';
+
+interface Props {
+  setError: SetError;
+}
+
 interface UseLogin {
-  submit: (payload: UserLogin, setError: any) => void;
+  submit: (payload: UserLogin) => void;
   inProgress: boolean;
 }
 
-export const useLogin = (): UseLogin => {
-  const [inProgress, setInProgress] = useState(false);
+export const useLogin = (props: Props): UseLogin => {
   const { userStore } = useRootStore();
+  const { inProgress, post } = useApi({ setError: props?.setError });
 
-  const submit = async (payload: UserLogin, setError: any) => {
-    const user = await api.post<UserReq, UserLogin>(
-      `/auth/sign-in`,
-      payload,
-      setError,
-      setInProgress
-    );
+  const submit = async (payload: UserLogin) => {
+    const user = await post<UserReq, UserLogin>('/auth/sign-in', payload);
+
     if (user) {
       userStore.setUser(user);
-      history.push('/');
+      history.push('/dashboard');
     }
   };
 

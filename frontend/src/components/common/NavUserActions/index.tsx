@@ -1,11 +1,11 @@
 import { Box, IconButton, Icon, HStack } from '@chakra-ui/react';
-import React from 'react';
-import { FC } from 'react';
+import React, { FC } from 'react';
+
+import { MdShoppingCart } from 'react-icons/md';
+import { observer } from 'mobx-react-lite';
 import { LoggedActions } from './LoggedActions';
 import { NotLoggedActions } from './NotLoggedActions';
-import { MdShoppingCart } from 'react-icons/md';
 import { useRootStore } from '../../../stores/storeContext';
-import { observer } from 'mobx-react-lite';
 
 interface Props {
   justifyContentType?: string;

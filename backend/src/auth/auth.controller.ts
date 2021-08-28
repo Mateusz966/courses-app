@@ -1,20 +1,28 @@
-import { Controller, Post, Body, HttpException, HttpStatus, Get, UseGuards, Req, HttpCode, Res } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpException,
+  HttpStatus,
+  Get,
+  UseGuards,
+  Req,
+  HttpCode,
+  Res,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { UserService } from '../user/user.service';
-import { UserDto } from '../user/user.dto';
+import { UserDto } from '../user/dto/user.dto';
 import { LocalGuard } from './local-strategy.guard';
-import { ApiErrorCode } from '../../app-types/global';
-
-
-
+import { ApiErrorCode } from '../../app-types';
+import { UserObj } from '../../decorators/user-obj.decorator';
 @Controller('auth')
 export class AuthController {
-
   constructor(
     private readonly userService: UserService,
     private readonly authService: AuthService,
-  ) { }
+  ) {}
 
   @HttpCode(200)
   @UseGuards(LocalGuard)
@@ -22,11 +30,11 @@ export class AuthController {
   async logIn(@Req() request, @Res() response) {
     const { user } = request;
     const cookie = await this.authService.getCookieWithJwtToken(user.id);
+    console.log(cookie);
     response.setHeader('Set-Cookie', cookie);
     const { password, ...userRes } = user;
-    return response.send(userRes);
+    response.send(userRes);
   }
-
 
   @Post('sign-up')
   async registerUser(@Body() user: UserDto) {
@@ -38,13 +46,18 @@ export class AuthController {
       if (!registeredUser) {
         return await this.userService.saveUser(userToSave);
       } else {
-        throw new HttpException({
-          errorCode: ApiErrorCode.EmailIsTaken,
-          message: [{
-            path: 'email',
-            message: 'Given email is taken'
-          }]
-        }, HttpStatus.BAD_REQUEST);
+        throw new HttpException(
+          {
+            errorCode: ApiErrorCode.EmailIsTaken,
+            message: [
+              {
+                path: 'email',
+                message: 'Given email is taken',
+              },
+            ],
+          },
+          HttpStatus.BAD_REQUEST,
+        );
       }
     } catch (error) {
       throw error;
@@ -58,5 +71,11 @@ export class AuthController {
     const user = await this.userService.getByEmail(email);
     const { password, ...userRes } = user;
     return userRes;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('profile/set-password')
+  async setPassword(@Body() userData: any, @UserObj() user) {
+    return this.authService.setPassword(user.id, userData);
   }
 }

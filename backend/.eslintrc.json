@@ -1,0 +1,61 @@
+{
+  "extends": [
+  "plugin:@typescript-eslint/recommended",
+  "prettier",
+  "plugin:prettier/recommended",
+  "airbnb-typescript"
+],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": ["tsconfig.json"]
+  },
+
+  "plugins": ["@typescript-eslint", "prefer-arrow", "prettier"],
+  "rules": {
+  "prettier/prettier": ["error", {
+    "endOfLine":"auto",
+    "trailingComma" : "all"
+  }],
+    "indent": "off",
+    "@typescript-eslint/no-unused-vars": [
+    2,
+    {
+      "args": "none"
+    }
+  ],
+    "no-unused-vars": "off",
+    "max-len": ["warn", { "code": 100 }],
+    "no-useless-constructor": "off",
+    "linebreak-style": "off",
+    "no-else-return": "off",
+    "object-curly-newline": "off",
+    "implicit-arrow-linebreak": "off",
+    "function-paren-newline": "off",
+    "operator-linebreak": "off",
+    "arrow-parens": "off",
+    "no-confusing-arrow": "off",
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
+    "import/named": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/prefer-default-export": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "prefer-arrow/prefer-arrow-functions": [
+    "warn",
+    {
+      "disallowPrototype": true,
+      "classPropertiesAllowed": false
+    }
+  ],
+    "no-param-reassign": ["warn", {
+    "props": true,
+    "ignorePropertyModificationsFor": [
+      "state"
+    ]
+  }]
+},
+  "env": {
+  "browser": true,
+    "jest": true
+}
+}

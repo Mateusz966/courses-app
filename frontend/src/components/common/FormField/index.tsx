@@ -6,32 +6,40 @@ import {
   FormHelperText,
   FormLabel,
 } from '@chakra-ui/react';
-import React from 'react';
 
-interface Props {
+import { FormFieldProvider } from '../../../hooks/useFormFieldContext';
+import { FormFieldContextType } from '../../../interal-types/form';
+
+interface Props extends FormFieldContextType {
+  name: string;
+  children: ReactNode;
+  placeholder?: string;
   labelText?: string;
   helperText?: string;
-  inputName: string;
-  children: ReactNode;
 }
 
 export const FormField: FC<Props> = ({
+  children,
   labelText,
   helperText,
-  inputName,
-  children,
+  id,
+  name,
+  isDisabled,
 }) => {
-  const { errors } = useFormContext();
+  const {
+    formState: { errors },
+  } = useFormContext();
 
   return (
-    <FormControl isInvalid={errors[inputName]}>
-      <FormLabel htmlFor="firstName">{labelText && labelText}</FormLabel>
-      {React.isValidElement(children) &&
-        React.cloneElement(children, { name: inputName })}
-      <FormHelperText>{helperText && helperText}</FormHelperText>
-      <FormErrorMessage>
-        {errors?.[inputName] && errors[inputName]?.message}
-      </FormErrorMessage>
-    </FormControl>
+    <FormFieldProvider value={{ name, id, isDisabled }}>
+      <FormControl isInvalid={errors[name]}>
+        <FormLabel htmlFor="firstName">{labelText && labelText}</FormLabel>
+        {children}
+        <FormHelperText>{helperText && helperText}</FormHelperText>
+        <FormErrorMessage>
+          {errors?.[name] && errors[name]?.message}
+        </FormErrorMessage>
+      </FormControl>
+    </FormFieldProvider>
   );
 };

@@ -1,16 +1,24 @@
 import { GridItem, Image } from '@chakra-ui/react';
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { LoginForm } from '../../components/forms/Login';
-import useHeader from '../../hooks/useHeader';
 import LoginImg from '../../assets/login-enter.png';
 import LoginDesktop from '../../assets/login-desktop.jpg';
 import ContainerPhotoContent from '../../components/layout/ContainerPhotoContent';
-//TODO ADD BRAND IMAGE INSTEAD OF LOGIN DESKTOP
+import { useRootStore } from '../../stores/storeContext';
+
+// TODO ADD BRAND IMAGE INSTEAD OF LOGIN DESKTOP
 const Login: FC = () => {
-  useHeader('Welcome back!', '', true);
+  const { headerStore } = useRootStore();
+
+  useEffect(() => {
+    headerStore.setHeader({ title: 'Welcome back!', noLeft: true });
+  }, [headerStore]);
+
   return (
     <ContainerPhotoContent
-      image={<Image boxSize="100%" src={LoginDesktop} objectFit="cover" />}
+      image={
+        <Image boxSize="100%" h="100vh" src={LoginDesktop} objectFit="cover" />
+      }
       content={
         <>
           <GridItem>

@@ -1,10 +1,8 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { hash, compare } from 'bcrypt';;
+import { hash, compare } from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-
 import { User } from '../user/entity/user.entity';
-import { UserDto } from '../user/user.dto';
-import { UserService } from '../user/user.service';
+import { UserDto } from '../user/dto/user.dto';
 import { ConfigService } from '@nestjs/config';
 import { UserRes } from '../../app-types/user';
 
@@ -14,17 +12,17 @@ interface TokenPayload {
 
 @Injectable()
 export class AuthService {
-
   constructor(
-    private readonly usersService: UserService,
     private readonly jwtService: JwtService,
-    private readonly configService: ConfigService
-  ) { }
+    private readonly configService: ConfigService,
+  ) {}
 
   async getCookieWithJwtToken(userId: string) {
     const payload: TokenPayload = { userId };
     const token = this.jwtService.sign(payload);
-    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get('JWT_EXPIRATION_TIME')}`;
+    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
+      'JWT_EXPIRATION_TIME',
+    )}`;
   }
 
   async hashPassword(password: string): Promise<string> {
@@ -40,7 +38,7 @@ export class AuthService {
   async validateUser(user: UserDto): Promise<UserRes> {
     const { email } = user;
     try {
-      const userInDb = await User.findOne({ email } );
+      const userInDb = await User.findOne({ email });
       if (userInDb) {
         const isUserValid = await compare(user.password, userInDb.password);
         const { password, ...userRes } = userInDb;
@@ -53,7 +51,7 @@ export class AuthService {
   }
 
   async login(user: UserRes) {
-    const { id, firstName, lastName, email } = user
+    const { id, firstName, lastName, email } = user;
     const payload = {
       email,
       id,
@@ -61,8 +59,20 @@ export class AuthService {
       lastName,
     };
     return {
-      token: this.jwtService.sign(payload)
-    }
+      token: this.jwtService.sign(payload),
+    };
   }
 
+  async setPassword(userId, userData): Promise<any> {
+    try {
+      const user = await User.findOne({ id: userId });
+      if (compare(userData.oldPassword, user.password)) {
+        const newPassword = await this.hashPassword(userData.newPassword);
+        await User.update(userId, { password: newPassword });
+        return await User.findOne({ id: userId });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }

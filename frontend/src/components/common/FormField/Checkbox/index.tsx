@@ -1,34 +1,23 @@
 import { FC } from 'react';
-import { BaseInputProps } from '../../../../app-types/form';
 import { Checkbox as ChakraChekbox } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
+import { BaseInputProps } from '../../../../interal-types';
+import { useFormFieldContext } from '../../../../hooks/useFormFieldContext';
 
 interface Props extends BaseInputProps {
   content: string;
   multiple?: boolean;
 }
 
-export const Checkbox: FC<Props> = ({
-  name,
-  isDisabled,
-  isRequired,
-  content,
-  onChange,
-  onClick,
-  multiple,
-  id,
-}) => {
+export const Checkbox: FC<Props> = ({ content, multiple }) => {
   const { register } = useFormContext();
-
+  const { isDisabled, id, name } = useFormFieldContext();
   return (
     <ChakraChekbox
-      onChange={onChange}
-      onClick={onClick}
       multiple={multiple}
-      name={name}
       isDisabled={isDisabled}
       id={`${id || name}`}
-      ref={register({ required: isRequired && 'Field is required' })}
+      {...register(name as string)}
     >
       {content}
     </ChakraChekbox>

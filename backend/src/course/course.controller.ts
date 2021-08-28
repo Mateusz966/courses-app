@@ -1,0 +1,140 @@
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  Query,
+  Res,
+  UploadedFile,
+  UploadedFiles,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
+import { UserObj } from 'decorators/user-obj.decorator';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import {
+  AnyFilesInterceptor,
+  FileInterceptor,
+  FilesInterceptor,
+} from '@nestjs/platform-express';
+import { storDir } from 'utils/storDir';
+import { PaginationParams } from 'src/pagination/pagination-params.dto';
+import { CourseService } from './course.service';
+import { CreateCourseDto } from './dto/create-course.dto';
+import { UpdateCourseDto } from './dto/update-course.dto';
+
+const path = require('path');
+
+@Controller('course')
+export class CourseController {
+  constructor(private readonly courseService: CourseService) {}
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/created/all')
+  async myCreated(
+    @UserObj() user,
+    @Query('search') search: string,
+    @Query() { offset, limit }: PaginationParams,
+  ) {
+    try {
+      if (search) {
+        // logic with search
+      } else {
+        return await this.courseService.myCreated(user.id, offset, limit);
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/add')
+  async add(@UserObj() user, @Body() categoriesDetails: CreateCourseDto) {
+    try {
+      console.log(categoriesDetails);
+      return await this.courseService.add(user, categoriesDetails);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/details/:courseId')
+  async getCourseDetails(@Param('courseId') courseId: string) {
+    try {
+      return await this.courseService.getCourseDetails(courseId);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/update/:courseId')
+  @UseInterceptors(
+    FileInterceptor('courseFn', {
+      dest: path.join(`${storDir()}/course_photo`),
+    }),
+  )
+  async update(
+    @Param('courseId') courseId: string,
+    @Body() payload: UpdateCourseDto,
+    @UploadedFile() courseFn: Express.Multer.File,
+  ) {
+    try {
+      return await this.courseService.update(payload, courseId, courseFn);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/publish/:courseId')
+  async publish(@Param('courseId') courseId: string) {
+    try {
+      return await this.courseService.publish(courseId);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/main-photo/:courseId')
+  @UseInterceptors(FileInterceptor('courseFn'))
+  async setMainPhoto() {
+    console.log('strzał po foto');
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('upload-video-lesson/to-course/:courseId')
+  @HttpCode(204)
+  @UseInterceptors(
+    AnyFilesInterceptor({ dest: path.join(storDir(), 'video_store') }),
+  )
+  async uploadLessonVideo(
+    @Param('courseId') courseId: string,
+    @UploadedFiles() videos: Express.Multer.File[],
+    @Body() payload: any,
+    @UserObj() user,
+  ) {
+    try {
+      return await this.courseService.uploadLessonVideo(
+        user,
+        videos,
+        courseId,
+        payload,
+      );
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('/:courseId')
+  @HttpCode(204)
+  async delete(@Param('courseId') courseId: string, @UserObj() user) {
+    return this.courseService.delete(user.id, courseId);
+  }
+}

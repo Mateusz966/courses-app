@@ -1,34 +1,26 @@
-import { useState } from 'react';
+import { SetError } from '../types/global';
 import { UserReq } from '../app-types/user';
 import { successNotification } from '../components/common/Toast';
 import { apiUrl } from '../config/apiUrl';
 import { history } from '../config/history';
 import { SignUpUserPayload } from '../interal-types/user';
-import api from '../service/api';
+import { useApi } from './useApi';
 
+interface Props {
+  setError: SetError;
+}
 interface UseRegister {
-  submit: (payload: SignUpUserPayload, setError: any) => void;
+  submit: (payload: SignUpUserPayload) => void;
   inProgress: boolean;
 }
 
-export const useRegister = (): UseRegister => {
-  const [inProgress, setInProgress] = useState(false);
+export const useRegister = (props: Props): UseRegister => {
+  const { inProgress, post } = useApi({ setError: props.setError });
 
-  const submit = async (payload: SignUpUserPayload, setError?: any) => {
-    setInProgress(true);
-
-    const data: UserReq = {
-      ...payload,
-      userCategories: payload?.userCategories?.map((category) => ({
-        id: category.value,
-      })),
-    };
-
-    const res = await api.post<UserReq, UserReq>(
+  const submit = async (payload: SignUpUserPayload) => {
+    const res = await post<UserReq, SignUpUserPayload>(
       `${apiUrl}/auth/sign-up`,
-      data,
-      setError,
-      setInProgress
+      payload,
     );
 
     if (res) {
