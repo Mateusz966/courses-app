@@ -89,3 +89,9 @@ export interface CourseDetailsRes extends CourseDetailsCommon {
 }
 
 export type CourseDetails = CourseDetailsCommon;
+
+export interface CourseSectionsRes {
+  id: string;
+  title: string;
+  description: string;
+}

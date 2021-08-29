@@ -91,3 +91,9 @@ export interface CourseDetailsRes extends CourseDetailsCommon{
 }
 
 export interface CourseDetails extends CourseDetailsCommon{}
+
+export interface CourseSectionsRes {
+  id: string
+  title: string
+  description: string
+}

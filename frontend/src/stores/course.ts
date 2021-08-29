@@ -4,6 +4,7 @@ import { ICourse } from '../app-types/course';
 import { CustomSelectOption } from '../app-types/global';
 import { handlingError } from '../helpers/handleErrors';
 import api from '../service/api';
+import { CourseContentReq } from '../../../app-types';
 
 class Course {
   courseCategoryDetails: CreateCourse = {
@@ -17,6 +18,12 @@ class Course {
   courseContent = '';
 
   inProgress = false;
+
+  courseLessonLesson: CourseContentReq = {
+    sectionName: '',
+    sectionDescription: '',
+    lesson: [],
+  };
 
   constructor() {
     makeObservable(this, {

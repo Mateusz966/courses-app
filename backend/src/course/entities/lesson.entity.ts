@@ -11,11 +11,7 @@ import {
 import { Section } from './section.entity';
 
 @Entity()
-export class Lesson extends BaseEntity implements ILesson {
-
-  @PrimaryColumn({type: 'uuid'})
-  id: string;
-
+export class Lesson extends MyBaseEntity implements ILesson {
   @Column({ type: 'varchar' })
   title: string;
 
