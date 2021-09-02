@@ -22,6 +22,20 @@ export interface ILesson {
   section: ISection;
 }
 
+export interface SectionContentRes {
+  section: {
+    id: string;
+    title: string;
+    description: string;
+  },
+  lessons: {
+    id: string;
+    title: string;
+    description: string;
+    videoFn: string;
+  }
+}
+
 export interface ICourseTopics {
   topic: ITopic;
   course: ICourse;

@@ -22,9 +22,9 @@ import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 import { CourseDetailsRes, CourseSectionsRes } from '../../app-types';
-import { CourseContentReq } from '../../../app-types';
 import { CourseContentDto } from './dto/course-content';
 import { FilterParams } from '../pagination/filter-params.dto';
+import { Lesson } from './entities/lesson.entity';
 
 const path = require('path');
 
@@ -125,7 +125,7 @@ export class CourseController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('/publish/:courseId')
+  @Post('/publish/:coua9490730-8b13-4320-be27-a8932b24ff09rseId')
   async publish(@Param('courseId') courseId: string) {
     try {
       return await this.courseService.publish(courseId);

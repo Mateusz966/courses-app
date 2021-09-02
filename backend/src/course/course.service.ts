@@ -245,11 +245,16 @@ export class CourseService {
   }
 
   async getCourseSections(courseId: string): Promise<CourseSectionsRes[]> {
-    const course = await Course.findOrThrow({ where: { id: courseId } });
+    await Course.findOrThrow({ where: { id: courseId } });
     return Section.find({ where: { course: courseId } });
   }
 
   async getSectionLessons(sectionId: string) {
-    return Lesson.findOrThrow({ where: { section: sectionId } });
+    const section = await Section.findOrThrow({ where: { id: sectionId } });
+    const lessons = await Lesson.find({ where: { section: sectionId } });
+    return {
+      section,
+      lessons,
+    };
   }
 }

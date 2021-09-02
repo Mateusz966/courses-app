@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { ApiErrorCode, CustomSelectOption } from 'app-types/global';
-import { CategoryDto } from '../../app-types';
+import { CategoryDto, CourseStatus } from '../../app-types';
 import { Category } from './entities/category.entity';
 import { Subcategory } from './entities/subcategory.entity';
 import { Topic } from './entities/topic.entity';
+import { Course } from '../course/entities/course.entity';
 
 type OptionalCreateCourseDto = {
   category?: CustomSelectOption<CategoryDto>;
@@ -109,5 +110,20 @@ export class CategoryService {
     } catch (error) {
       throw error;
     }
+  }
+
+  async getCategoriesForFilters() {
+    const courses = await Course.createQueryBuilder('course')
+      .where('course.courseStatus = :courseStatus', {
+        courseStatus: CourseStatus.Published,
+      })
+      // .andWhere('')
+      .innerJoinAndSelect('course.category', 'category')
+      .innerJoinAndSelect('course.subcategory', 'subcategory')
+      .select('COUNT(category.id)', 'total')
+      .addSelect('category.name', 'categoryName')
+      .groupBy('category.id')
+      .getRawMany();
+    return courses;
   }
 }
