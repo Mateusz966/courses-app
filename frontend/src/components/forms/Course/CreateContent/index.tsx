@@ -73,7 +73,10 @@ export const CreateCourseContent: FC = observer(() => {
               labelText="Opis lekcji"
               name={`lesson.${index}.description`}
             >
-              <Textarea placeholder="opis lekcji" />
+              <Textarea
+                defaultValue={field.description}
+                placeholder="opis lekcji"
+              />
             </FormField>
             <FormField
               labelText="Miejsce na video"
