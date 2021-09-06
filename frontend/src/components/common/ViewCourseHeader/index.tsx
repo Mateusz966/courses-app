@@ -5,14 +5,9 @@ import {
   BreadcrumbLink,
   Heading,
   Text,
-  Stack,
   Icon,
   HStack,
   Image,
-  VStack,
-  Grid,
-  GridItem,
-  Link,
   Button,
 } from '@chakra-ui/react';
 import { BsCalendar } from 'react-icons/bs';
