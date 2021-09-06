@@ -125,7 +125,7 @@ export class CourseController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('/publish/:coua9490730-8b13-4320-be27-a8932b24ff09rseId')
+  @Post('/publish/:courseId')
   async publish(@Param('courseId') courseId: string) {
     try {
       return await this.courseService.publish(courseId);

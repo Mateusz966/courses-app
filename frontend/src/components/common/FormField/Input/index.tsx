@@ -8,7 +8,12 @@ interface Props extends BaseInputProps {
   type: 'text' | 'number' | 'password' | 'email' | 'hidden';
 }
 
-export const Input: FC<Props> = ({ type, placeholder, onChange }) => {
+export const Input: FC<Props> = ({
+  type,
+  placeholder,
+  onChange,
+  defaultValue,
+}) => {
   const { register } = useFormContext();
   const { name, isDisabled, id } = useFormFieldContext();
   const { onChange: fieldOnChange, ...rest } = register(name);
@@ -18,6 +23,7 @@ export const Input: FC<Props> = ({ type, placeholder, onChange }) => {
       placeholder={placeholder}
       type={type}
       id={id || name}
+      defaultValue={defaultValue}
       {...rest}
       isDisabled={isDisabled}
       onChange={async (e) => {

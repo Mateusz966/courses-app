@@ -251,10 +251,10 @@ export class CourseService {
 
   async getSectionLessons(sectionId: string) {
     const section = await Section.findOrThrow({ where: { id: sectionId } });
-    const lessons = await Lesson.find({ where: { section: sectionId } });
+    const lesson = await Lesson.find({ where: { section: sectionId } });
     return {
       section,
-      lessons,
+      lesson,
     };
   }
 }
