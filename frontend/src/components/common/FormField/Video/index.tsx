@@ -1,14 +1,14 @@
 import React, { FC, useRef, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-
 import { useRootStore } from '../../../../stores/storeContext';
 
 interface Props {
   name?: string;
   isRequired?: boolean;
+  previewUrl?: string;
 }
 
-export const Video: FC<Props> = ({ name, isRequired }) => {
+export const Video: FC<Props> = ({ name, isRequired, previewUrl }) => {
   const { control } = useFormContext();
   const { fileStore } = useRootStore();
   const [image, setImage] = useState<string | null>();
@@ -37,8 +37,14 @@ export const Video: FC<Props> = ({ name, isRequired }) => {
 
   return (
     <>
-      {image && (
-        <video width="300" height="300" ref={videoRef} src={image} controls>
+      {(image || previewUrl) && (
+        <video
+          width="300"
+          height="300"
+          ref={videoRef}
+          src={image || ''}
+          controls
+        >
           <track kind="captions" />
         </video>
       )}

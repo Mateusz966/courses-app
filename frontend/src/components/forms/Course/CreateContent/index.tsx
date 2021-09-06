@@ -82,7 +82,7 @@ export const CreateCourseContent: FC = observer(() => {
               labelText="Miejsce na video"
               name={`lesson.${index}.video`}
             >
-              <Video name={field.id} />
+              <Video previewUrl={field.videoFn} name={field.id} />
             </FormField>
           </Box>
         ))}
