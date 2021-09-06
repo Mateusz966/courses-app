@@ -4,6 +4,7 @@ import { ICourse } from '../app-types/course';
 import { CustomSelectOption } from '../app-types/global';
 import { handlingError } from '../helpers/handleErrors';
 import api from '../service/api';
+import { CourseContentReq } from '../../../app-types';
 
 class Course {
   courseCategoryDetails: CreateCourse = {
@@ -18,17 +19,25 @@ class Course {
 
   inProgress = false;
 
+  courseSectionLesson: CourseContentReq = {
+    sectionName: '',
+    sectionDescription: '',
+    lesson: [],
+  };
+
   constructor() {
     makeObservable(this, {
       course: observable,
       courseContent: observable,
       courseCategoryDetails: observable,
+      courseSectionLesson: observable,
       inProgress: observable,
       getCourseDetails: action,
       setCategory: action,
       setSubcategory: action,
       setTopic: action,
       setContent: action,
+      getSectionLessons: action,
     });
   }
 
@@ -50,6 +59,25 @@ class Course {
 
   setTopic(topic: CustomSelectOption<CategoryDto>[] | null) {
     this.courseCategoryDetails.topics = topic;
+  }
+
+  async getSectionLessons(sectionId: string) {
+    this.inProgress = true;
+    try {
+      const details = await api.get<CourseContentReq>(
+        `/course/sections/${sectionId}/lessons`,
+      );
+      console.log(details);
+      if (details) {
+        runInAction(() => {
+          this.inProgress = false;
+          this.courseSectionLesson = details;
+        });
+      }
+    } catch (error) {
+      handlingError(error.response);
+      this.inProgress = false;
+    }
   }
 
   async getCourseDetails(id: string) {

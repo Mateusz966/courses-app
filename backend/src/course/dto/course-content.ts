@@ -1,21 +1,16 @@
-import { CategoryDto, CreateCourseReq } from "app-types/category";
-import { CourseContentReq, ILesson } from "app-types/course";
-import { CustomSelectOption } from "app-types/global";
-import { IsArray, IsNotEmpty, IsString } from "class-validator";
-import { Lesson } from "../entities/lesson.entity";
+import { IsArray, IsNotEmpty, IsString } from 'class-validator';
+import { CourseContentReq, ILesson } from '../../../app-types';
 
-export class CreateCourseDto implements CourseContentReq {
+export class CourseContentDto implements CourseContentReq {
+  @IsString()
+  @IsNotEmpty()
+  sectionName: string;
 
-    @IsString()
-    @IsNotEmpty()
-    sectionName: string;
+  @IsString()
+  @IsNotEmpty()
+  sectionDescription: string;
 
-    @IsString()
-    @IsNotEmpty()
-    sectionDescription: string;
-
-    @IsArray()
-    @IsNotEmpty()
-    lesson: Omit<ILesson, 'videoFn'>[]
-
+  @IsArray()
+  @IsNotEmpty()
+  lesson: Omit<ILesson, 'videoFn'>[];
 }

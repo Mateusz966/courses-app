@@ -22,6 +22,7 @@ export type DatePickerProviderType = {
 };
 
 export interface BaseInputProps {
+  defaultValue?: string;
   placeholder?: string;
   id?: string;
   isDisabled?: boolean;

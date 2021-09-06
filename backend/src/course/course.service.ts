@@ -5,6 +5,8 @@ import {
   CreateCourse,
   ApiErrorCode,
   CourseDetailsRes,
+  CourseSectionsRes,
+  ILesson,
 } from '../../app-types';
 import { setFileIfExists } from '../../utils/setFileIfExist';
 import { VimeoService } from '../vimeo/vimeo.service';
@@ -17,6 +19,7 @@ import { Course } from './entities/course.entity';
 import { Lesson } from './entities/lesson.entity';
 import { Section } from './entities/section.entity';
 import { storDir } from '../../utils/storDir';
+import { CourseContentDto } from './dto/course-content';
 
 const path = require('path');
 
@@ -174,7 +177,7 @@ export class CourseService {
   }
 
   async uploadVideoForLesson(
-    lesson: Lesson[],
+    lesson: Omit<ILesson, 'videoFn'>[],
     savedSection: Section,
     videos: Express.Multer.File[],
   ) {
@@ -207,7 +210,7 @@ export class CourseService {
     user: User,
     files: Express.Multer.File[],
     courseId: string,
-    data: any,
+    data: CourseContentDto,
   ) {
     try {
       const course = await Course.findOne({ where: { id: courseId } });
@@ -239,5 +242,19 @@ export class CourseService {
     } catch (e) {
       res.status(HttpStatus.BAD_REQUEST);
     }
+  }
+
+  async getCourseSections(courseId: string): Promise<CourseSectionsRes[]> {
+    await Course.findOrThrow({ where: { id: courseId } });
+    return Section.find({ where: { course: courseId } });
+  }
+
+  async getSectionLessons(sectionId: string) {
+    const section = await Section.findOrThrow({ where: { id: sectionId } });
+    const lesson = await Lesson.find({ where: { section: sectionId } });
+    return {
+      section,
+      lesson,
+    };
   }
 }

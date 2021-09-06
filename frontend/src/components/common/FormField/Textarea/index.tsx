@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 import { BaseInputProps } from '../../../../interal-types';
 import { useFormFieldContext } from '../../../../hooks/useFormFieldContext';
 
-export const Textarea: FC<BaseInputProps> = ({ placeholder }) => {
+export const Textarea: FC<BaseInputProps> = ({ placeholder, defaultValue }) => {
   const { register } = useFormContext();
   const { name, isDisabled, id } = useFormFieldContext();
   return (
@@ -14,6 +14,7 @@ export const Textarea: FC<BaseInputProps> = ({ placeholder }) => {
       id={id || name}
       {...register(name as string)}
       isDisabled={isDisabled}
+      defaultValue={defaultValue}
     />
   );
 };

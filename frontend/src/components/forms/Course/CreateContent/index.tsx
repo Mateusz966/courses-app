@@ -1,6 +1,6 @@
 import { Box, Grid } from '@chakra-ui/react';
 import { observer } from 'mobx-react-lite';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
@@ -11,7 +11,8 @@ import { Input } from '../../../common/FormField/Input';
 import { Textarea } from '../../../common/FormField/Textarea';
 import { useCreateContent } from '../../../../hooks/useCreateContent';
 import { Video } from '../../../common/FormField/Video';
-import { CourseContentReq } from '../../../../app-types/course';
+import { CourseContentReq } from '../../../../app-types';
+import { courseStore } from '../../../../stores/course';
 
 export const CreateCourseContent: FC = observer(() => {
   const { courseId } = useParams<{
@@ -21,7 +22,7 @@ export const CreateCourseContent: FC = observer(() => {
   const methods = useForm({
     mode: 'onChange',
   });
-  const { fields, append } = useFieldArray({
+  const { fields, append } = useFieldArray<any>({
     control: methods.control,
     name: 'lesson',
   });
@@ -32,6 +33,10 @@ export const CreateCourseContent: FC = observer(() => {
   } = methods;
 
   const { submit } = useCreateContent({ setError });
+
+  useEffect(() => {
+    methods.reset({ lesson: courseStore.courseSectionLesson.lesson });
+  }, [courseStore.courseSectionLesson]);
 
   return (
     <FormProvider {...methods}>
@@ -52,32 +57,34 @@ export const CreateCourseContent: FC = observer(() => {
             <Input type="text" placeholder="Opis sekcji" />
           </FormField>
         </Box>
-        {fields.map((field, index) => (
-          <>
-            <Box as="li" w="100%" key={field.id}>
-              <FormField name={`lesson.${index}.id`}>
-                <Input type="hidden" />
-              </FormField>
-              <FormField
-                labelText="Nazwa lekcji"
-                name={`lesson.${index}.title`}
-              >
-                <Input type="text" placeholder="Nazwa sekcji" />
-              </FormField>
-              <FormField
-                labelText="Opis lekcji"
-                name={`lesson.${index}.description`}
-              >
-                <Textarea placeholder="opis lekcji" />
-              </FormField>
-              <FormField
-                labelText="Miejsce na video"
-                name={`lesson.${index}.video`}
-              >
-                <Video name={field.id} />
-              </FormField>
-            </Box>
-          </>
+        {fields.map((field: any, index) => (
+          <Box as="li" w="100%" key={field.id}>
+            <FormField name={`lesson.${index}.id`}>
+              <Input type="hidden" />
+            </FormField>
+            <FormField labelText="Nazwa lekcji" name={`lesson.${index}.title`}>
+              <Input
+                defaultValue={field.title}
+                type="text"
+                placeholder="Nazwa sekcji"
+              />
+            </FormField>
+            <FormField
+              labelText="Opis lekcji"
+              name={`lesson.${index}.description`}
+            >
+              <Textarea
+                defaultValue={field.description}
+                placeholder="opis lekcji"
+              />
+            </FormField>
+            <FormField
+              labelText="Miejsce na video"
+              name={`lesson.${index}.video`}
+            >
+              <Video name={field.id} />
+            </FormField>
+          </Box>
         ))}
         <Button
           w="auto"

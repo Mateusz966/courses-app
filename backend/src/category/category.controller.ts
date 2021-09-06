@@ -10,15 +10,15 @@ export class CategoryController {
 
   @Get('/all')
   async allCategories() {
-    return await this.categoryService.allCategories();
+    return this.categoryService.allCategories();
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('/subcategory/:categoryId')
   async subcategories(
-    @Param('categoryId') categoryId: string
+    @Param('categoryId') categoryId: string,
   ): Promise<Subcategory[]> {
-    return await this.categoryService.subcategories(categoryId);
+    return this.categoryService.subcategories(categoryId);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -28,5 +28,11 @@ export class CategoryController {
     @Param('subcategoryId') subcategoryId: string,
   ): Promise<Topic[]> {
     return this.categoryService.topics(categoryId, subcategoryId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/available-categories')
+  async getCategoriesForFilters() {
+    return this.categoryService.getCategoriesForFilters();
   }
 }

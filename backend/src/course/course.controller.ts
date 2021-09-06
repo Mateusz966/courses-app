@@ -21,7 +21,10 @@ import { PaginationParams } from 'src/pagination/pagination-params.dto';
 import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
-import { CourseDetailsRes } from '../../app-types';
+import { CourseDetailsRes, CourseSectionsRes } from '../../app-types';
+import { CourseContentDto } from './dto/course-content';
+import { FilterParams } from '../pagination/filter-params.dto';
+import { Lesson } from './entities/lesson.entity';
 
 const path = require('path');
 
@@ -53,6 +56,7 @@ export class CourseController {
     @UserObj() user,
     @Query('search') search: string,
     @Query() { offset, limit }: PaginationParams,
+    @Query() { category }: FilterParams,
   ) {
     try {
       if (search) {
@@ -85,6 +89,20 @@ export class CourseController {
     } catch (error) {
       throw error;
     }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/sections/:courseId')
+  async getCourseSections(
+    @Param('courseId') courseId: string,
+  ): Promise<CourseSectionsRes[]> {
+    return this.courseService.getCourseSections(courseId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/sections/:sectionId/lessons')
+  async getSectionLessons(@Param('sectionId') sectionId: string): Promise<any> {
+    return this.courseService.getSectionLessons(sectionId);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -132,7 +150,7 @@ export class CourseController {
   async uploadLessonVideo(
     @Param('courseId') courseId: string,
     @UploadedFiles() videos: Express.Multer.File[],
-    @Body() payload: any,
+    @Body() payload: CourseContentDto,
     @UserObj() user,
   ) {
     try {
