@@ -22,7 +22,7 @@ export const CreateCourseContent: FC = observer(() => {
   const methods = useForm({
     mode: 'onChange',
   });
-  const { fields, append } = useFieldArray({
+  const { fields, append } = useFieldArray<any>({
     control: methods.control,
     name: 'lesson',
   });
@@ -57,7 +57,7 @@ export const CreateCourseContent: FC = observer(() => {
             <Input type="text" placeholder="Opis sekcji" />
           </FormField>
         </Box>
-        {fields.map((field, index) => (
+        {fields.map((field: any, index) => (
           <Box as="li" w="100%" key={field.id}>
             <FormField name={`lesson.${index}.id`}>
               <Input type="hidden" />
