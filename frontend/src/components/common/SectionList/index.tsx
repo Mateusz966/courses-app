@@ -4,6 +4,7 @@ import { Box } from '@chakra-ui/react';
 import { useApi } from '../../../hooks/useApi';
 import { CourseSectionsRes } from '../../../app-types';
 import { courseStore } from '../../../stores/course';
+import { Button } from '../Button';
 
 export const SectionList = () => {
   const { courseId } = useParams<{ courseId: string }>();
@@ -36,6 +37,9 @@ export const SectionList = () => {
             </Box>
           ))}
       </Box>
+      <Button onClick={() => courseStore.clearSectionLessons()}>
+        Add section
+      </Button>
     </>
   );
 };

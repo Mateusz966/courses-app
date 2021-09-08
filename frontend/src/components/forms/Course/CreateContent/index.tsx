@@ -35,7 +35,7 @@ export const CreateCourseContent: FC = observer(() => {
   const { submit } = useCreateContent({ setError });
 
   useEffect(() => {
-    methods.reset({ lesson: courseStore.courseSectionLesson.lesson });
+    methods.reset(courseStore.courseSectionLesson);
   }, [courseStore.courseSectionLesson]);
 
   return (
@@ -100,7 +100,9 @@ export const CreateCourseContent: FC = observer(() => {
           Add lesson
         </Button>
         <Button type="submit" w="100%" ml="auto" variant="outline">
-          Add section
+          {courseStore.courseSectionLesson?.sectionName
+            ? 'Edit section'
+            : 'Add section'}
         </Button>
       </Grid>
     </FormProvider>
