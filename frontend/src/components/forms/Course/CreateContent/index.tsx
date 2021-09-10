@@ -4,6 +4,7 @@ import { FC, useEffect } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { defaultGap } from '../../../../config/globalStyles';
 import { Button } from '../../../common/Button';
 import { FormField } from '../../../common/FormField';
@@ -13,6 +14,7 @@ import { useCreateContent } from '../../../../hooks/useCreateContent';
 import { Video } from '../../../common/FormField/Video';
 import { CourseContentReq } from '../../../../app-types';
 import { courseStore } from '../../../../stores/course';
+import { createCourseContent } from '../../../../formSchemas/createCourseContent';
 
 export const CreateCourseContent: FC = observer(() => {
   const { courseId } = useParams<{
@@ -21,8 +23,9 @@ export const CreateCourseContent: FC = observer(() => {
   }>();
   const methods = useForm({
     mode: 'onChange',
+    resolver: yupResolver(createCourseContent),
   });
-  const { fields, append } = useFieldArray<any>({
+  const { fields, append } = useFieldArray({
     control: methods.control,
     name: 'lesson',
   });
@@ -32,10 +35,12 @@ export const CreateCourseContent: FC = observer(() => {
     formState: { isValid },
   } = methods;
 
-  const { submit } = useCreateContent({ setError });
+  const { submit, inProgress } = useCreateContent({ setError });
 
   useEffect(() => {
-    methods.reset(courseStore.courseSectionLesson);
+    if (courseStore.courseSectionLesson) {
+      methods.reset(courseStore.courseSectionLesson);
+    }
   }, [courseStore.courseSectionLesson]);
 
   return (
@@ -82,7 +87,10 @@ export const CreateCourseContent: FC = observer(() => {
               labelText="Miejsce na video"
               name={`lesson.${index}.video`}
             >
-              <Video previewUrl={field.videoFn} name={field.id} />
+              <Video
+                previewUrl={field.videoFn}
+                name={`lesson.${index}.video`}
+              />
             </FormField>
           </Box>
         ))}
@@ -94,12 +102,20 @@ export const CreateCourseContent: FC = observer(() => {
           onClick={() =>
             append({
               id: uuidv4(),
+              title: '',
+              video: '',
             })
           }
         >
           Add lesson
         </Button>
-        <Button type="submit" w="100%" ml="auto" variant="outline">
+        <Button
+          disabled={!isValid || inProgress}
+          type="submit"
+          w="100%"
+          ml="auto"
+          variant="outline"
+        >
           {courseStore.courseSectionLesson?.sectionName
             ? 'Edit section'
             : 'Add section'}
