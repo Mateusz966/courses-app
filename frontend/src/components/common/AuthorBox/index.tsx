@@ -9,15 +9,26 @@ import {
   Link,
 } from '@chakra-ui/react';
 import { MdVerifiedUser } from 'react-icons/md';
-import { FC } from 'react';
-import AvatarPlaceholder from '../../../assets/avatar-placeholder.jpg';
+import React from 'react';
+// import AvatarPlaceholder from '../../../assets/avatar-placeholder.jpg';
 
-export const AuthorBox: FC = () => (
+interface Props {
+  firstName: string;
+  lastName: string;
+  photoFn: string;
+}
+
+export const AuthorBox: React.FC<Props> = ({
+  firstName,
+  lastName,
+  photoFn,
+}) => (
   <HStack mt={{ md: '6', base: '8' }} mb="6">
     <Image
       borderRadius="full"
       boxSize="70px"
-      src={AvatarPlaceholder}
+      // src={AvatarPlaceholder}
+      src={photoFn}
       alt="avatar placeholder"
     />
 
@@ -34,7 +45,7 @@ export const AuthorBox: FC = () => (
         <GridItem>
           {/* Po kliknięciu prziekierowanie na podstronę autora i tam jego kursy, jakieś jego bio, może żeby mógł se podać linki do swoich sociali? */}
           <Link to="#" color="blue.600" fontSize="21px" fontWeight="600">
-            Mirosław Kowalczykiewicz
+            {firstName} {lastName}
           </Link>
           <Text color="#555" fontSize="16px" mt="0">
             Autor kursu
