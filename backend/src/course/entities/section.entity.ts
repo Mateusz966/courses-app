@@ -13,13 +13,15 @@ import { Lesson } from './lesson.entity';
 
 @Entity()
 export class Section extends MyBaseEntity implements ISection {
-
   @Column({ type: 'varchar' })
   title: string;
 
-  @Column({ type: 'varchar'})
+  @Column({ type: 'varchar' })
   description: string;
-  
+
+  @OneToMany(() => Lesson, (lesson) => lesson.section)
+  lesson: Lesson;
+
   @ManyToOne(() => Course, (course) => course.section)
   course: Course;
 }

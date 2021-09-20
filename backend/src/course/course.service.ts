@@ -45,11 +45,19 @@ export class CourseService {
     }
   }
 
-  async allPublished(userId: string, offset: number, limit?: number) {
+  async published(
+    userId: string,
+    offset: number,
+    filterBy: {
+      category?: string;
+    },
+    limit?: number,
+  ) {
     try {
-      const [items, countTotal] = await Course.allPublished(
+      const [items, countTotal] = await Course.published(
         userId,
         offset,
+        filterBy,
         limit,
       );
 
