@@ -16,27 +16,15 @@ import { MdChevronRight, MdShoppingCart } from 'react-icons/md';
 import React from 'react';
 import { CourseRating } from '../CourseRating';
 import { AuthorBox } from '../AuthorBox';
+import { CourseDetailsRes } from '../../../app-types';
+import { apiUrl } from '../../../config/apiUrl';
 
 interface Props {
-  title: string;
-  description: string;
-  photo: string;
-  authorFirstName: string;
-  authorLastName: string;
-  authorPhotoFn: string;
-  category: string;
-  subcategory: string;
+  courseDetails: CourseDetailsRes;
 }
 
 export const ViewCourseHeader: React.FC<Props> = ({
-  title,
-  description,
-  photo,
-  authorFirstName,
-  authorLastName,
-  authorPhotoFn,
-  category,
-  subcategory,
+  courseDetails: { category, subcategory, title, user, description, id },
 }) => (
   <Box pb="3">
     <Breadcrumb
@@ -52,13 +40,13 @@ export const ViewCourseHeader: React.FC<Props> = ({
 
       <BreadcrumbItem>
         <Tooltip label="Category">
-          <BreadcrumbLink href="#">{category}</BreadcrumbLink>
+          <BreadcrumbLink href="#">{category.name}</BreadcrumbLink>
         </Tooltip>
       </BreadcrumbItem>
 
       <BreadcrumbItem isCurrentPage>
         <Tooltip label="Subcategory">
-          <BreadcrumbLink href="#">{subcategory}</BreadcrumbLink>
+          <BreadcrumbLink href="#">{subcategory.name}</BreadcrumbLink>
         </Tooltip>
       </BreadcrumbItem>
 
@@ -71,9 +59,7 @@ export const ViewCourseHeader: React.FC<Props> = ({
     <Image
       display={{ md: 'none', base: 'block' }}
       mt={{ md: '0', base: '10px' }}
-      src="gibbresh.png"
-      // fallbackSrc="https://via.placeholder.com/750x350"
-      fallbackSrc={photo}
+      src={`${apiUrl}/course/main-photo/${id}`}
     />
     <Heading
       as="h1"
@@ -105,11 +91,7 @@ export const ViewCourseHeader: React.FC<Props> = ({
         Dodaj do koszyka
       </Button>
     </Box>
-    <AuthorBox
-      firstName={authorFirstName}
-      lastName={authorLastName}
-      photoFn={authorPhotoFn}
-    />
+    <AuthorBox user={user} />
     <Text mt="1">
       <Icon w="3" h="3" as={BsCalendar} /> 06.02.2021 - data wydania
     </Text>

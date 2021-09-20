@@ -1,15 +1,15 @@
 import { Box, Image, Text, HStack, Button, Icon } from '@chakra-ui/react';
 import { MdShoppingCart } from 'react-icons/md';
 import React from 'react';
+import { apiUrl } from '../../../config/apiUrl';
 
 interface Props {
-  photo: string;
+  photoId: string;
 }
 
-export const ViewCourseSidebar: React.FC<Props> = ({ photo }) => (
+export const ViewCourseSidebar: React.FC<Props> = ({ photoId }) => (
   <Box boxShadow="lg" border="1px solid #DDD" position="sticky" top="15px">
-    {/* <Image src="gibbresh.png" fallbackSrc="https://via.placeholder.com/750" /> */}
-    <Image src="gibbresh.png" fallbackSrc={photo} />
+    <Image src={`${apiUrl}/course/main-photo/${photoId}`} />
     <Box p="4">
       <HStack>
         <Text color="red.500" fontSize="32px" fontWeight="600">

@@ -80,6 +80,8 @@ interface CourseDetailsCommon {
   };
 }
 
+export type CourseAuthor = Pick<CourseDetailsCommon, 'user'>;
+
 export interface CourseDetailsRes extends CourseDetailsCommon {
   topics: {
     topic: {

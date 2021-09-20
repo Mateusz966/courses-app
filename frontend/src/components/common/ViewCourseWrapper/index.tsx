@@ -9,29 +9,14 @@ import { CourseDetailsRes } from '../../../app-types';
 
 export const ViewCourseWrapper: FC = () => {
   const { courseId } = useParams<{ courseId: string }>();
-  const [coursePhoto, setCoursePhoto] = useState('');
-  const [courseTitle, setCourseTitle] = useState('');
-  const [courseDescription, setCourseDescription] = useState('');
-  const [courseContent, setCourseContent] = useState('');
-  const [authorFirstName, setAuthorFirstName] = useState('');
-  const [authorLastName, setAuthorLastName] = useState('');
-  const [authorPhotoFn, setAuthorPhotoFn] = useState('');
-  const [category, setCategory] = useState('');
-  const [subcategory, setSubcategory] = useState('');
-  const { get } = useApi();
+  const [courseDetails, setCourseDetails] = useState<CourseDetailsRes>();
+  const { get, inProgress } = useApi();
 
   const getCourseDetail = async () => {
     const res = await get<CourseDetailsRes>(`/course/details/${courseId}`);
     if (res) {
-      setCoursePhoto(res.courseFn);
-      setCourseTitle(res.title);
-      setCourseDescription(res.description);
-      setCourseContent(res.content);
-      setAuthorFirstName(res.user.firstName);
-      setAuthorLastName(res.user.lastName);
-      setAuthorPhotoFn(res.user.photoFn);
-      setCategory(res.category.name);
-      setSubcategory(res.subcategory.name);
+      console.log(res);
+      setCourseDetails(res);
     }
   };
 
@@ -39,8 +24,11 @@ export const ViewCourseWrapper: FC = () => {
     getCourseDetail();
   }, []);
 
-  if (!courseId) {
+  if (inProgress) {
     return <Spinner />;
+  }
+  if (!courseDetails) {
+    return <Spinner />; // info o brak kursu
   }
 
   return (
@@ -60,20 +48,11 @@ export const ViewCourseWrapper: FC = () => {
         mr="auto"
       >
         <GridItem gridArea="mainArea">
-          <ViewCourseHeader
-            title={courseTitle}
-            description={courseDescription}
-            photo={coursePhoto}
-            authorFirstName={authorFirstName}
-            authorLastName={authorLastName}
-            authorPhotoFn={authorPhotoFn}
-            category={category}
-            subcategory={subcategory}
-          />
-          <ViewCourseBody content={courseContent} />
+          <ViewCourseHeader courseDetails={courseDetails} />
+          <ViewCourseBody content={courseDetails?.content} />
         </GridItem>
         <GridItem gridArea="sidebar" display={{ md: 'block', base: 'none' }}>
-          <ViewCourseSidebar photo={coursePhoto} />
+          <ViewCourseSidebar photoId={courseDetails?.id} />
         </GridItem>
       </Grid>
     </Container>

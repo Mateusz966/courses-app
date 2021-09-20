@@ -62,7 +62,7 @@ export const MainDrawer = () => {
             </DrawerContent>
           </DrawerOverlay>
         </Drawer>
-        <Box mr="3">
+        <Box mr="3" as="a" href="/dashboard">
           <Image src={BrandLogo} margin="auto" objectFit="cover" />
         </Box>
       </HStack>
