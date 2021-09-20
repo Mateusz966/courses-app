@@ -1,10 +1,20 @@
 import { action, makeObservable, observable, runInAction } from 'mobx';
-import { CategoryDto, CreateCourse } from '../app-types/category';
-import { ICourse } from '../app-types/course';
-import { CustomSelectOption } from '../app-types/global';
+import {
+  CategoryDto,
+  CreateCourse,
+  ICourse,
+  CustomSelectOption,
+} from '../app-types';
+
 import { handlingError } from '../helpers/handleErrors';
 import api from '../service/api';
-import { CourseContentReq } from '../../../app-types';
+import { SectionContentRes } from '../../../app-types';
+
+type CourseContent = {
+  lesson: { id: string; title: string; description: string; videoFn: string }[];
+  sectionName: string;
+  sectionDescription: string;
+};
 
 class Course {
   courseCategoryDetails: CreateCourse = {
@@ -19,7 +29,7 @@ class Course {
 
   inProgress = false;
 
-  courseSectionLesson: CourseContentReq = {
+  courseSectionLesson: CourseContent = {
     sectionName: '',
     sectionDescription: '',
     lesson: [],
@@ -33,6 +43,7 @@ class Course {
       courseSectionLesson: observable,
       inProgress: observable,
       getCourseDetails: action,
+      clearSectionLessons: action,
       setCategory: action,
       setSubcategory: action,
       setTopic: action,
@@ -61,17 +72,32 @@ class Course {
     this.courseCategoryDetails.topics = topic;
   }
 
+  clearSectionLessons() {
+    this.courseSectionLesson = {
+      sectionName: '',
+      sectionDescription: '',
+      lesson: [],
+    };
+  }
+
   async getSectionLessons(sectionId: string) {
     this.inProgress = true;
     try {
-      const details = await api.get<CourseContentReq>(
+      const details = await api.get<SectionContentRes>(
         `/course/sections/${sectionId}/lessons`,
       );
-      console.log(details);
       if (details) {
         runInAction(() => {
           this.inProgress = false;
-          this.courseSectionLesson = details;
+          const {
+            section: { title, description },
+            ...rest
+          } = details;
+          this.courseSectionLesson = {
+            sectionName: title,
+            sectionDescription: description,
+            ...rest,
+          };
         });
       }
     } catch (error) {

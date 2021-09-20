@@ -24,7 +24,6 @@ import { UpdateCourseDto } from './dto/update-course.dto';
 import { CourseDetailsRes, CourseSectionsRes } from '../../app-types';
 import { CourseContentDto } from './dto/course-content';
 import { FilterParams } from '../pagination/filter-params.dto';
-import { Lesson } from './entities/lesson.entity';
 
 const path = require('path');
 

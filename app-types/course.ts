@@ -28,12 +28,12 @@ export interface SectionContentRes {
     title: string;
     description: string;
   },
-  lessons: {
+  lesson: {
     id: string;
     title: string;
     description: string;
     videoFn: string;
-  }
+  }[]
 }
 
 export interface ICourseTopics {
