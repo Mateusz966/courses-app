@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Res,
   UploadedFile,
@@ -40,5 +41,11 @@ export class UserController {
   @Get('avatar')
   async getMyPhoto(@UserObj() user, @Res() res) {
     return this.userService.getMyPhoto(user.id, res);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('avatar/:id')
+  async getUserPhoto(@Param() id: string, @Res() res) {
+    return this.userService.getUserPhoto(id, res);
   }
 }
