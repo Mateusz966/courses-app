@@ -90,28 +90,22 @@ export class UserService {
   async getMyPhoto(userId: string, res: Response) {
     const user = await User.findOne({ id: userId });
     const { photoFn } = user;
-    try {
-      if (!photoFn) {
-        res.status(HttpStatus.OK).json(null);
-      } else {
-        res.sendFile(path.join(storDir(), 'user_photo/', photoFn));
-      }
-    } catch (error) {
-      throw error;
+
+    if (!photoFn) {
+      res.status(HttpStatus.OK).json(null);
+    } else {
+      res.sendFile(path.join(storDir(), 'user_photo/', photoFn));
     }
   }
 
   async getUserPhoto(userId: string, res: Response) {
     const user = await User.findOne({ id: userId });
     const { photoFn } = user;
-    try {
-      if (!photoFn) {
-        res.status(HttpStatus.OK).json(null);
-      } else {
-        res.sendFile(path.join(storDir(), 'user_photo/', photoFn));
-      }
-    } catch (error) {
-      throw error;
+
+    if (!photoFn) {
+      res.status(HttpStatus.OK).json(null);
+    } else {
+      res.sendFile(path.join(storDir(), 'user_photo/', photoFn));
     }
   }
 }

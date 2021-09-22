@@ -23,7 +23,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Post('profile/details')
+  @Post('/profile/details')
   @UseInterceptors(
     FileInterceptor('photoFn', {
       dest: path.join(`${storDir()}/user_photo`),
@@ -38,14 +38,14 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('avatar')
+  @Get('/avatar')
   async getMyPhoto(@UserObj() user, @Res() res) {
     return this.userService.getMyPhoto(user.id, res);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('avatar/:id')
-  async getUserPhoto(@Param() id: string, @Res() res) {
+  @Get('/avatar/:id')
+  async getUserPhoto(@Param('id') id: string, @Res() res) {
     return this.userService.getUserPhoto(id, res);
   }
 }
