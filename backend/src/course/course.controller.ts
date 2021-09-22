@@ -51,7 +51,7 @@ export class CourseController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/published')
-  async allPublished(
+  async published(
     @UserObj() user,
     @Query('search') search: string,
     @Query() { offset, limit }: PaginationParams,
@@ -61,7 +61,12 @@ export class CourseController {
       if (search) {
         // logic with search
       } else {
-        return await this.courseService.allPublished(user.id, offset, limit);
+        return await this.courseService.published(
+          user.id,
+          offset,
+          { category },
+          limit,
+        );
       }
     } catch (error) {
       throw error;

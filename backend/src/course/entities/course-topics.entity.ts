@@ -1,7 +1,7 @@
 import { Entity, BaseEntity, ManyToOne } from 'typeorm';
 import { Topic } from '../../category/entities/topic.entity';
 import { Course } from './course.entity';
-import { ICourseTopics } from '../../../app-types/course';
+import { ICourseTopics } from '../../../app-types';
 
 @Entity()
 export class CourseTopics extends BaseEntity implements ICourseTopics {

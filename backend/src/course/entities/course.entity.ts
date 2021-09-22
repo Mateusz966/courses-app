@@ -59,25 +59,28 @@ export class Course extends MyBaseEntity implements ICourse {
       .leftJoinAndSelect('course.category', 'category')
       .leftJoinAndSelect('course.subcategory', 'subcategory')
       .leftJoinAndSelect('course.user', 'user')
-      .select([
-        'course',
-        'category.name',
-        'subcategory.name',
-        'user.firstName',
-        'user.lastName',
-        'user.photoFn',
-        'user.id',
-      ])
+      .leftJoinAndSelect('course.courseTopics', 'topics')
+      .leftJoinAndSelect('course.section', 'section')
+      .leftJoinAndSelect('section.lesson', 'lesson')
       .getOne();
     return res;
   }
 
-  static allPublished(userId: string, offset: number, limit?: number) {
+  static published(
+    userId: string,
+    offset: number,
+    filterBy: { category?: string },
+    limit?: number,
+  ) {
     return this.createQueryBuilder('course')
       .select(['course.title', 'course.courseStatus', 'course.id'])
+      .leftJoinAndSelect('course.category', 'category')
       .where('course.user != :id', { id: userId })
       .where('course.courseStatus = :status', {
         status: CourseStatus.Published,
+      })
+      .andWhere('category.name = :category', {
+        category: filterBy?.category,
       })
       .skip(offset)
       .take(limit)
