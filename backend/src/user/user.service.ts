@@ -40,36 +40,36 @@ export class UserService {
   }
 
   async saveUser(newUser: UserDto): Promise<User> {
-    try {
-      const user = new User();
+    const user = new User();
 
-      user.email = newUser.email;
-      user.lastName = newUser.lastName;
-      user.firstName = newUser.firstName;
-      user.password = newUser.password;
+    user.email = newUser.email;
+    user.lastName = newUser.lastName;
+    user.firstName = newUser.firstName;
+    user.password = newUser.password;
 
-      const savedUser = await User.save(user);
+    const savedUser = await User.save(user);
+    await this.saveUserCategories(newUser, savedUser);
 
-      const userCategories: UserCategories[] = [];
-      const categoriesToSave: UserCategories[] = [];
+    return savedUser;
+  }
 
-      if (newUser?.userCategories) {
-        const { categories } = await this.categoryService.areCategoriesExist({
-          categories: newUser.userCategories,
-        });
-        categories.forEach((category, index) => {
-          userCategories[index] = new UserCategories();
-          userCategories[index].category = new Category();
-          userCategories[index].user = savedUser;
-          userCategories[index].category = category;
-          categoriesToSave.push(userCategories[index]);
-        });
-      }
-      await UserCategories.insert(categoriesToSave);
-      return savedUser;
-    } catch (error) {
-      throw error;
+  async saveUserCategories(newUser: UserDto, savedUser: User): Promise<void> {
+    const userCategories: UserCategories[] = [];
+    const categoriesToSave: UserCategories[] = [];
+
+    if (newUser?.userCategories) {
+      const { categories } = await this.categoryService.areCategoriesExist({
+        categories: newUser.userCategories,
+      });
+      categories.forEach((category, index) => {
+        userCategories[index] = new UserCategories();
+        userCategories[index].category = new Category();
+        userCategories[index].user = savedUser;
+        userCategories[index].category = category;
+        categoriesToSave.push(userCategories[index]);
+      });
     }
+    await UserCategories.insert(categoriesToSave);
   }
 
   async setUserData(

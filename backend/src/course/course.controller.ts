@@ -76,11 +76,7 @@ export class CourseController {
   @UseGuards(JwtAuthGuard)
   @Post('/add')
   async add(@UserObj() user, @Body() categoriesDetails: CreateCourseDto) {
-    try {
-      return await this.courseService.add(user, categoriesDetails);
-    } catch (error) {
-      throw error;
-    }
+    return this.courseService.add(user, categoriesDetails);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -88,11 +84,7 @@ export class CourseController {
   async getCourseDetails(
     @Param('courseId') courseId: string,
   ): Promise<CourseDetailsRes> {
-    try {
-      return await this.courseService.getCourseDetails(courseId);
-    } catch (error) {
-      throw error;
-    }
+    return this.courseService.getCourseDetails(courseId);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -157,16 +149,12 @@ export class CourseController {
     @Body() payload: CourseContentDto,
     @UserObj() user,
   ) {
-    try {
-      return await this.courseService.uploadLessonVideo(
-        user,
-        videos,
-        courseId,
-        payload,
-      );
-    } catch (error) {
-      throw error;
-    }
+    return this.courseService.uploadLessonVideo(
+      user,
+      videos,
+      courseId,
+      payload,
+    );
   }
 
   @UseGuards(JwtAuthGuard)

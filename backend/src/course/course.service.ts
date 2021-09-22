@@ -31,18 +31,14 @@ export class CourseService {
   ) {}
 
   async myCreated(userId: string, offset: number, limit?: number) {
-    try {
-      const [items, countTotal] = await Course.createQueryBuilder('course')
-        .select(['course.title', 'course.courseStatus', 'course.id'])
-        .where('course.user = :id', { id: userId })
-        .skip(offset)
-        .take(limit)
-        .getManyAndCount();
+    const [items, countTotal] = await Course.createQueryBuilder('course')
+      .select(['course.title', 'course.courseStatus', 'course.id'])
+      .where('course.user = :id', { id: userId })
+      .skip(offset)
+      .take(limit)
+      .getManyAndCount();
 
-      return { items, countTotal };
-    } catch (error) {
-      throw error;
-    }
+    return { items, countTotal };
   }
 
   async published(
@@ -53,18 +49,14 @@ export class CourseService {
     },
     limit?: number,
   ) {
-    try {
-      const [items, countTotal] = await Course.published(
-        userId,
-        offset,
-        filterBy,
-        limit,
-      );
+    const [items, countTotal] = await Course.published(
+      userId,
+      offset,
+      filterBy,
+      limit,
+    );
 
-      return { items, countTotal };
-    } catch (error) {
-      throw error;
-    }
+    return { items, countTotal };
   }
 
   async handleCourseTopics(addedCourse: Course, topics: Topic[]) {
@@ -84,40 +76,32 @@ export class CourseService {
   }
 
   async add(user: User, categoriesDetails: CreateCourse) {
-    try {
-      const {
-        category,
-        subcategory,
-        topics,
-      } = await this.categoryService.areCategoriesExist(categoriesDetails);
-      const course = new Course();
+    const {
+      category,
+      subcategory,
+      topics,
+    } = await this.categoryService.areCategoriesExist(categoriesDetails);
+    const course = new Course();
 
-      course.user = user;
-      course.category = category;
-      course.subcategory = subcategory;
+    course.user = user;
+    course.category = category;
+    course.subcategory = subcategory;
 
-      const addedCourse = await course.save();
+    const addedCourse = await course.save();
 
-      await this.handleCourseTopics(addedCourse, topics);
+    await this.handleCourseTopics(addedCourse, topics);
 
-      return addedCourse.id;
-    } catch (error) {
-      throw error;
-    }
+    return addedCourse.id;
   }
 
   async getCourseDetails(id: string): Promise<CourseDetailsRes> {
-    try {
-      const course = await Course.getCourseDetailsById(id);
-      const topics = await CourseTopics.getCourseTopics(id);
+    const course = await Course.getCourseDetailsById(id);
+    const topics = await CourseTopics.getCourseTopics(id);
 
-      return {
-        ...course,
-        topics,
-      };
-    } catch (error) {
-      throw error;
-    }
+    return {
+      ...course,
+      topics,
+    };
   }
 
   async update(
@@ -125,42 +109,32 @@ export class CourseService {
     courseId: string,
     courseFn: Express.Multer.File,
   ) {
-    try {
-      const course = await Course.findOrThrow({ where: { id: courseId } });
+    const course = await Course.findOrThrow({ where: { id: courseId } });
 
-      course.description = newCourse.description;
-      course.title = newCourse.title;
-      course.content = newCourse.content;
+    course.description = newCourse.description;
+    course.title = newCourse.title;
+    course.content = newCourse.content;
 
-      await course.save();
+    await course.save();
 
-      if (courseFn) {
-        await setFileIfExists(
-          course,
-          'courseFn',
-          'course_photo',
-          courseFn,
-          true,
-          512,
-        );
-      }
-
-      return course;
-    } catch (error) {
-      throw error;
+    if (courseFn) {
+      await setFileIfExists(
+        course,
+        'courseFn',
+        'course_photo',
+        courseFn,
+        true,
+        512,
+      );
     }
   }
 
   async updateCategory(courseId: string, categoriesDetails: CreateCourse) {
-    try {
-      const course = await Course.findOrThrow({ where: { id: courseId } });
-      const { topics } = await this.categoryService.areCategoriesExist(
-        categoriesDetails,
-      );
-      await this.handleCourseTopics(course, topics);
-    } catch (error) {
-      throw error;
-    }
+    const course = await Course.findOrThrow({ where: { id: courseId } });
+    const { topics } = await this.categoryService.areCategoriesExist(
+      categoriesDetails,
+    );
+    await this.handleCourseTopics(course, topics);
   }
 
   async publish(courseId: string) {
@@ -220,21 +194,16 @@ export class CourseService {
     courseId: string,
     data: CourseContentDto,
   ) {
-    try {
-      const course = await Course.findOne({ where: { id: courseId } });
-      const section = new Section();
+    const course = await Course.findOne({ where: { id: courseId } });
+    const section = new Section();
 
-      section.description = data.sectionDescription;
-      section.title = data.sectionName;
-      section.course = course;
+    section.description = data.sectionDescription;
+    section.title = data.sectionName;
+    section.course = course;
 
-      const savedSection = await section.save();
+    const savedSection = await section.save();
 
-      return await this.uploadVideoForLesson(data.lesson, savedSection, files);
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
+    return this.uploadVideoForLesson(data.lesson, savedSection, files);
   }
 
   async getCoursePhoto(courseId: string, res: Response) {

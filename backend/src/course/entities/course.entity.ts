@@ -5,12 +5,7 @@ import { Category } from '../../category/entities/category.entity';
 import { User } from '../../user/entity/user.entity';
 import { CourseTopics } from './course-topics.entity';
 import { Section } from './section.entity';
-import {
-  CourseDetails,
-  CourseDetailsRes,
-  CourseStatus,
-  ICourse,
-} from '../../../app-types';
+import { CourseDetails, CourseStatus, ICourse } from '../../../app-types';
 
 @Entity()
 export class Course extends MyBaseEntity implements ICourse {
@@ -72,18 +67,22 @@ export class Course extends MyBaseEntity implements ICourse {
     filterBy: { category?: string },
     limit?: number,
   ) {
-    return this.createQueryBuilder('course')
+    const query = this.createQueryBuilder('course')
       .select(['course.title', 'course.courseStatus', 'course.id'])
       .leftJoinAndSelect('course.category', 'category')
       .where('course.user != :id', { id: userId })
       .where('course.courseStatus = :status', {
         status: CourseStatus.Published,
       })
-      .andWhere('category.name = :category', {
-        category: filterBy?.category,
-      })
       .skip(offset)
-      .take(limit)
-      .getManyAndCount();
+      .take(limit);
+
+    if (filterBy?.category) {
+      query.andWhere('category.name = :category', {
+        category: filterBy.category,
+      });
+    }
+
+    return query.getManyAndCount();
   }
 }
