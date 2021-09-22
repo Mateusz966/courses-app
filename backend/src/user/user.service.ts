@@ -77,25 +77,14 @@ export class UserService {
     userData: ChangeBasicDataDto,
     photoFn: Express.Multer.File,
   ): Promise<User> {
-    try {
-      await User.update(userId, userData);
-      const user = await User.findOne({ id: userId });
+    await User.update(userId, userData);
+    const user = await User.findOne({ id: userId });
 
-      if (photoFn) {
-        await setFileIfExists(
-          user,
-          'photoFn',
-          'user_photo',
-          photoFn,
-          true,
-          512,
-        );
-      }
-
-      return user;
-    } catch (error) {
-      throw error;
+    if (photoFn) {
+      await setFileIfExists(user, 'photoFn', 'user_photo', photoFn, true, 512);
     }
+
+    return user;
   }
 
   async getMyPhoto(userId: string, res: Response) {
