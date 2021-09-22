@@ -62,7 +62,7 @@ export class Course extends MyBaseEntity implements ICourse {
       .leftJoinAndSelect('course.courseTopics', 'topics')
       .leftJoinAndSelect('course.section', 'section')
       .leftJoinAndSelect('section.lesson', 'lesson')
-      .getOne();
+      .getOneOrFail();
     return res;
   }
 

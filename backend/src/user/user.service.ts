@@ -76,7 +76,7 @@ export class UserService {
     userId,
     userData: ChangeBasicDataDto,
     photoFn: Express.Multer.File,
-  ): Promise<any> {
+  ): Promise<User> {
     try {
       await User.update(userId, userData);
       const user = await User.findOne({ id: userId });
@@ -101,7 +101,20 @@ export class UserService {
   async getMyPhoto(userId: string, res: Response) {
     const user = await User.findOne({ id: userId });
     const { photoFn } = user;
-    console.log(user);
+    try {
+      if (!photoFn) {
+        res.status(HttpStatus.OK).json(null);
+      } else {
+        res.sendFile(path.join(storDir(), 'user_photo/', photoFn));
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getUserPhoto(userId: string, res: Response) {
+    const user = await User.findOne({ id: userId });
+    const { photoFn } = user;
     try {
       if (!photoFn) {
         res.status(HttpStatus.OK).json(null);
