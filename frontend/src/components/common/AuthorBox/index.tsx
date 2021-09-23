@@ -11,6 +11,7 @@ import {
 import { MdVerifiedUser } from 'react-icons/md';
 import React from 'react';
 import { CourseAuthor } from '../../../app-types';
+import { apiUrl } from '../../../config/apiUrl';
 
 type Props = CourseAuthor;
 
@@ -20,7 +21,7 @@ export const AuthorBox: React.FC<Props> = ({ user }) => (
       borderRadius="full"
       boxSize="70px"
       // src={AvatarPlaceholder}
-      // src={photoFn}
+      src={`${apiUrl}/user/avatar/${user.id}`}
       alt="avatar placeholder"
     />
 

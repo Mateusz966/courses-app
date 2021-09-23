@@ -49,7 +49,10 @@ export const ViewCourseWrapper: FC = () => {
       >
         <GridItem gridArea="mainArea">
           <ViewCourseHeader courseDetails={courseDetails} />
-          <ViewCourseBody content={courseDetails?.content} />
+          <ViewCourseBody
+            content={courseDetails?.content}
+            sections={courseDetails?.section}
+          />
         </GridItem>
         <GridItem gridArea="sidebar" display={{ md: 'block', base: 'none' }}>
           <ViewCourseSidebar photoId={courseDetails?.id} />

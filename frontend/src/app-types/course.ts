@@ -22,6 +22,20 @@ export interface ILesson {
   section: ISection;
 }
 
+export interface SectionContentRes {
+  section: {
+    id: string;
+    title: string;
+    description: string;
+  };
+  lesson: {
+    id: string;
+    title: string;
+    description: string;
+    videoFn: string;
+  }[];
+}
+
 export interface ICourseTopics {
   topic: ITopic;
   course: ICourse;
@@ -78,6 +92,20 @@ interface CourseDetailsCommon {
     lastName: string;
     photoFn: string;
   };
+  section: Section[];
+}
+
+export interface Section {
+  id: string;
+  title: string;
+  description: string;
+  lesson: [
+    {
+      id: string;
+      title: string;
+      description: string;
+    },
+  ];
 }
 
 export type CourseAuthor = Pick<CourseDetailsCommon, 'user'>;
