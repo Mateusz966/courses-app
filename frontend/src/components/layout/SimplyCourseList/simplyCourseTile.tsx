@@ -2,6 +2,7 @@ import { Box, Center, Grid, GridItem } from '@chakra-ui/react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CourseTableResContent } from '../../../app-types';
+import { Button } from '../../common/Button';
 
 interface Props {
   course: CourseTableResContent;
@@ -30,11 +31,9 @@ const SimplyCourseTile: React.FC<Props> = ({ course }) => (
             Author
           </GridItem>
           <GridItem rowSpan={1} colSpan={1} p="10px">
-            Rating
-          </GridItem>
-          <GridItem rowSpan={1} colSpan={1} p="10px">
             Price
           </GridItem>
+          <Button>Add to cart</Button>
         </Grid>
       </Box>
     </Link>

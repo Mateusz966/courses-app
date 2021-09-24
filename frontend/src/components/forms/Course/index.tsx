@@ -11,7 +11,7 @@ import { Input } from '../../common/FormField/Input';
 import { Button } from '../../common/Button';
 import { courseStore } from '../../../stores/course';
 import { courseSchema } from '../../../formSchemas/course';
-import { useCourse } from '../../../hooks/useCourse';
+import { useCourse } from '../../../hooks/course/useCourse';
 import ImagePicker from '../../common/FormField/File';
 import { UpdateCourseForm } from '../../../interal-types';
 

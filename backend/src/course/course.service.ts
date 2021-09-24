@@ -163,29 +163,24 @@ export class CourseService {
     savedSection: Section,
     videos: Express.Multer.File[],
   ) {
-    console.log(videos);
-    try {
-      return await Promise.all(
-        lesson.map(async (payload) => {
-          const lesson = new Lesson();
-          const video = videos.find(
-            (file) => file.fieldname === `video_${payload.id}`,
-          );
-          lesson.id = payload.id;
-          lesson.description = payload.description;
-          lesson.section = savedSection;
-          lesson.title = payload.title;
-          lesson.videoFn = await this.vimeoService.upload(
-            video,
-            video.filename,
-            'opis',
-          );
-          return lesson.save();
-        }),
-      );
-    } catch (error) {
-      throw error;
-    }
+    return Promise.all(
+      lesson.map(async (payload) => {
+        const lesson = new Lesson();
+        const video = videos.find(
+          (file) => file.fieldname === `video_${payload.id}`,
+        );
+        lesson.id = payload.id;
+        lesson.description = payload.description;
+        lesson.section = savedSection;
+        lesson.title = payload.title;
+        lesson.videoFn = await this.vimeoService.upload(
+          video,
+          video.filename,
+          'opis',
+        );
+        return lesson.save();
+      }),
+    );
   }
 
   async uploadLessonVideo(

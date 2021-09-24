@@ -9,7 +9,7 @@ import { CategoryDto } from '../../../../app-types/category';
 import { CustomSelectOption } from '../../../../app-types/global';
 import { courseSubcategorySchema } from '../../../../formSchemas/courseCategoryForm';
 import { useCategories } from '../../../../hooks/useCategories';
-import { useCourse } from '../../../../hooks/useCourse';
+import { useCourse } from '../../../../hooks/course/useCourse';
 import { courseStore } from '../../../../stores/course';
 import { Button } from '../../../common/Button';
 import { FormField } from '../../../common/FormField';
