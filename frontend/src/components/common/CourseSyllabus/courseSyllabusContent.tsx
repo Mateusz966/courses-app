@@ -18,13 +18,11 @@ interface Props {
 const courseSyllabusContent: FC<Props> = ({
   sections: { id, title, description, lesson },
 }) => {
-  const itemList = lesson.map((singleLesson) => (
-    <SyllabusLesson
-      id={singleLesson.id}
-      title={singleLesson.title}
-      description={singleLesson.description}
-    />
-  ));
+  const itemList = lesson.map(
+    (singleLesson: { id: string; title: string; description: string }) => (
+      <SyllabusLesson id={id} title={title} description={description} />
+    ),
+  );
 
   return (
     <AccordionItem key={id}>
@@ -46,11 +44,6 @@ const courseSyllabusContent: FC<Props> = ({
           <AccordionIcon />
         </AccordionButton>
       </Heading>
-      {/* Możemy zrobić tak, że gościu robi sobie pierwszą lekcję open dla wszystkich?
-         Albo wyższy level ale dużo zabawy z tym, że robi PODGLĄD / TRAILER
-         czyli niby pierwsza lekcja ale to jest specjalne video które ma inną treść...
-         choć równie dobrez to może być pod
-        opisem kursu takie SPRAWDZ TRAILER. Do przemyślenia */}
       <AccordionPanel
         pb={5}
         borderLeft="1px solid #EEE"

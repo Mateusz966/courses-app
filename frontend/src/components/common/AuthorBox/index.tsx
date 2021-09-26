@@ -20,7 +20,6 @@ export const AuthorBox: React.FC<Props> = ({ user }) => (
     <Image
       borderRadius="full"
       boxSize="70px"
-      // src={AvatarPlaceholder}
       src={`${apiUrl}/user/avatar/${user.id}`}
       alt="avatar placeholder"
     />
@@ -31,12 +30,10 @@ export const AuthorBox: React.FC<Props> = ({ user }) => (
         gridTemplateColumns="fit-content(6px) 1fr"
         gridColumnGap="3"
       >
-        {/* Badge, że user jest przez nas zweryfikowany */}
         <GridItem>
           <Icon color="blue.600" mt="5px" w="6" h="6" as={MdVerifiedUser} />
         </GridItem>
         <GridItem>
-          {/* Po kliknięciu prziekierowanie na podstronę autora i tam jego kursy, jakieś jego bio, może żeby mógł se podać linki do swoich sociali? */}
           <Link to="#" color="blue.600" fontSize="21px" fontWeight="600">
             {user.firstName} {user.lastName}
           </Link>

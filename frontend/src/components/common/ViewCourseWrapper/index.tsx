@@ -15,7 +15,6 @@ export const ViewCourseWrapper: FC = () => {
   const getCourseDetail = async () => {
     const res = await get<CourseDetailsRes>(`/course/details/${courseId}`);
     if (res) {
-      console.log(res);
       setCourseDetails(res);
     }
   };
