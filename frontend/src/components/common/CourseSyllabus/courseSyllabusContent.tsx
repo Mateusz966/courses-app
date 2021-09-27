@@ -15,12 +15,12 @@ import SyllabusLesson from './syllabusLesson';
 interface Props {
   sections: Section;
 }
-const courseSyllabusContent: FC<Props> = ({
+const CourseSyllabusContent: FC<Props> = ({
   sections: { id, title, description, lesson },
 }) => {
   const itemList = lesson.map(
-    (singleLesson: { id: string; title: string; description: string }) => (
-      <SyllabusLesson id={id} title={title} description={description} />
+    ({ id: lId, title: lTitle, description: lDescription }) => (
+      <SyllabusLesson id={lId} title={lTitle} description={lDescription} />
     ),
   );
 
@@ -54,4 +54,4 @@ const courseSyllabusContent: FC<Props> = ({
     </AccordionItem>
   );
 };
-export default courseSyllabusContent;
+export default CourseSyllabusContent;
