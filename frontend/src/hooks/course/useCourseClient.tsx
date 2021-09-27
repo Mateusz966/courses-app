@@ -7,10 +7,12 @@ interface UseCourseClient {
   initFetch: boolean;
   inProgress: boolean;
   totalNumberOfCourses: number;
+  filters: any;
 }
 
 export const useCourseClient = (): UseCourseClient => {
   const [courses, setCourses] = useState<CourseTableResContent[]>([]);
+  const [filters, setFilters] = useState<any>();
   const [offset, setOffset] = useState(0);
   const [totalNumberOfCourses, setTotalNumberOfCourses] = useState(0);
   const [initFetch, setInitFetch] = useState(true);
@@ -28,6 +30,14 @@ export const useCourseClient = (): UseCourseClient => {
     }
   };
 
+  const getFilters = async () => {
+    const res = await get<any>('/category/filters');
+
+    if (res) {
+      setFilters(res);
+    }
+  };
+
   const handleScroll = () => {
     if (
       window.innerHeight + document.documentElement.scrollTop ===
@@ -41,6 +51,7 @@ export const useCourseClient = (): UseCourseClient => {
 
   useEffect(() => {
     getCourses();
+    getFilters();
   }, [offset]);
 
   useEffect(() => {
@@ -55,5 +66,6 @@ export const useCourseClient = (): UseCourseClient => {
     initFetch,
     inProgress,
     totalNumberOfCourses,
+    filters,
   };
 };

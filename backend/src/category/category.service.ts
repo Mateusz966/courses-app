@@ -112,18 +112,27 @@ export class CategoryService {
     }
   }
 
-  async getCategoriesForFilters() {
-    const courses = await Course.createQueryBuilder('course')
+  async getFilters() {
+    const categories = await Course.createQueryBuilder('course')
       .where('course.courseStatus = :courseStatus', {
         courseStatus: CourseStatus.Published,
       })
-      // .andWhere('')
       .innerJoinAndSelect('course.category', 'category')
-      .innerJoinAndSelect('course.subcategory', 'subcategory')
       .select('COUNT(category.id)', 'total')
-      .addSelect('category.name', 'categoryName')
+      .addSelect('category.name', 'name')
       .groupBy('category.id')
       .getRawMany();
-    return courses;
+
+    const subcategories = await Course.createQueryBuilder('course')
+      .where('course.courseStatus = :courseStatus', {
+        courseStatus: CourseStatus.Published,
+      })
+      .innerJoinAndSelect('course.subcategory', 'subcategory')
+      .select('COUNT(subcategory.id)', 'total')
+      .addSelect('subcategory.name', 'name')
+      .groupBy('subcategory.id')
+      .getRawMany();
+
+    return { categories, subcategories };
   }
 }
