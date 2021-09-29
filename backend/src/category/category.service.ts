@@ -120,6 +120,7 @@ export class CategoryService {
       .innerJoinAndSelect('course.category', 'category')
       .select('COUNT(category.id)', 'total')
       .addSelect('category.name', 'name')
+      .addSelect('category.id', 'id')
       .groupBy('category.id')
       .getRawMany();
 
@@ -130,6 +131,7 @@ export class CategoryService {
       .innerJoinAndSelect('course.subcategory', 'subcategory')
       .select('COUNT(subcategory.id)', 'total')
       .addSelect('subcategory.name', 'name')
+      .addSelect('subcategory.id', 'id')
       .groupBy('subcategory.id')
       .getRawMany();
 

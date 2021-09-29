@@ -1,12 +1,15 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable, runInAction } from 'mobx';
+import api from '../service/api';
+import { CourseTableRes, CourseTableResContent } from '../app-types';
+import { handlingError } from '../helpers/handleErrors';
 
-type FilterType = 'category' | 'subcategory' | 'topics';
+type FilterType = 'categories' | 'subcategories' | 'topics';
 
 type CourseFilters = {
   [index in FilterType]: string[];
 } & {
-  category: string[];
-  subcategory: string[];
+  categories: string[];
+  subcategories: string[];
   topics: string[];
 };
 
@@ -17,10 +20,24 @@ type ManipulateFilter = {
 
 export class CourseClientsStore {
   filters: CourseFilters = {
-    category: [],
-    subcategory: [],
+    categories: [],
+    subcategories: [],
     topics: [],
   };
+
+  filterList = undefined;
+
+  offset = 0;
+
+  limit = 10;
+
+  totalNumberOfCourses = 0;
+
+  inProgress = false;
+
+  initFetch = true;
+
+  courses: CourseTableResContent[] = [];
 
   constructor() {
     makeObservable(this, {
@@ -38,4 +55,48 @@ export class CourseClientsStore {
     const filtered = this.filters[type].filter((filter) => filter !== id);
     this.filters[type] = filtered;
   }
+
+  setOffset() {
+    this.offset += 10;
+  }
+
+  setNumberOfCourses(total: number) {
+    this.totalNumberOfCourses = total;
+  }
+
+  setInitFetch() {
+    this.initFetch = false;
+  }
+
+  async getCourses() {
+    console.log('XDD');
+    this.inProgress = true;
+    try {
+      const res = await api.get<CourseTableRes>(
+        `course/created/all?limit=10&offset=${this.offset}&${
+          this.filters ?? ''
+        }`,
+      );
+      if (res) {
+        runInAction(() => {
+          this.courses = [...this.courses, ...res.items];
+          this.setInitFetch();
+          this.setNumberOfCourses(res.countTotal);
+        });
+      }
+    } catch (error) {
+      handlingError(error.response);
+      this.inProgress = false;
+    }
+  }
+
+  async getFiltersList() {
+    const res = await api.get<any>('/category/filters');
+
+    if (res) {
+      this.filterList = res;
+    }
+  }
 }
+
+export const courseClientsStore = new CourseClientsStore();

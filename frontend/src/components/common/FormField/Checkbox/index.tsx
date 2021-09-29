@@ -9,15 +9,25 @@ interface Props extends BaseInputProps {
   multiple?: boolean;
 }
 
-export const Checkbox: FC<Props> = ({ content, multiple }) => {
+export const Checkbox: FC<Props> = ({
+  content,
+  multiple,
+  onClick,
+  onChange,
+}) => {
   const { register } = useFormContext();
   const { isDisabled, id, name } = useFormFieldContext();
+  const { onChange: fieldOnChange, ...rest } = register(name as string);
   return (
     <ChakraChekbox
       multiple={multiple}
       isDisabled={isDisabled}
       id={`${id || name}`}
-      {...register(name as string)}
+      onChange={async (e) => {
+        await fieldOnChange(e);
+        onChange?.(e);
+      }}
+      {...rest}
     >
       {content}
     </ChakraChekbox>
