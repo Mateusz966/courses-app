@@ -1,6 +1,6 @@
-import { ICourse, ICourseTopics } from "./course";
-import { CustomSelectOption } from "./global";
-import { IUser } from "./user";
+import { ICourse, ICourseTopics } from './course';
+import { CustomSelectOption } from './global';
+import { IUser } from './user';
 
 export interface ISubcategory {
   id: string;
@@ -49,6 +49,7 @@ export interface CreateCourseReq {
   topics: CustomSelectOption<CategoryDto>[];
 }
 
+// eslint-disable-next-line no-shadow
 export enum CourseStatus {
   Draft,
   Published,
