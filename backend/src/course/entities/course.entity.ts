@@ -64,12 +64,16 @@ export class Course extends MyBaseEntity implements ICourse {
   static published(
     userId: string,
     offset: number,
-    filterBy: { category?: string },
+    filterBy: {
+      categories?: string;
+      subcategories?: string;
+    },
     limit?: number,
   ) {
     const query = this.createQueryBuilder('course')
       .select(['course.title', 'course.courseStatus', 'course.id'])
       .leftJoinAndSelect('course.category', 'category')
+      .leftJoinAndSelect('course.subcategory', 'subcategory')
       .where('course.user != :id', { id: userId })
       .where('course.courseStatus = :status', {
         status: CourseStatus.Published,
@@ -77,9 +81,17 @@ export class Course extends MyBaseEntity implements ICourse {
       .skip(offset)
       .take(limit);
 
-    if (filterBy?.category) {
-      query.andWhere('category.name = :category', {
-        category: filterBy.category,
+    if (filterBy?.categories) {
+      const categories = filterBy.categories.split(',');
+      query.andWhere('category.id = ANY (:categories)', {
+        categories,
+      });
+    }
+
+    if (filterBy?.subcategories) {
+      const subcategories = filterBy.subcategories.split(',');
+      query.orWhere('subcategory.id = ANY (:subcategories)', {
+        subcategories,
       });
     }
 

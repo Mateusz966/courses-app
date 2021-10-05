@@ -3,5 +3,9 @@ import { IsOptional, IsString } from 'class-validator';
 export class FilterParams {
   @IsString()
   @IsOptional()
-  category?: string;
+  categories?: string;
+
+  @IsString()
+  @IsOptional()
+  subcategories?: string;
 }

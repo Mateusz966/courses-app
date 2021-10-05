@@ -25,7 +25,7 @@ export class CourseClientsStore {
     topics: [],
   };
 
-  filterList = undefined;
+  filterList: any = undefined;
 
   offset = 0;
 
@@ -41,19 +41,37 @@ export class CourseClientsStore {
 
   constructor() {
     makeObservable(this, {
+      courses: observable,
+      initFetch: observable,
+      inProgress: observable,
       filters: observable,
-      setFilter: action,
-      removeFilter: action,
+      offset: observable,
+      totalNumberOfCourses: observable,
+      toggleFilter: action.bound,
+      clearCourses: action,
+      setOffset: action,
+      getCourses: action.bound,
     });
   }
 
-  setFilter({ id, type }: ManipulateFilter): void {
-    this.filters[type].push(id);
+  toggleFilter({ id, type }: ManipulateFilter): void {
+    const searchedFilterId = this.filters[type].find(
+      (filterId) => filterId === id,
+    );
+    if (searchedFilterId) {
+      const filteredFilters = this.filters[type].filter(
+        (filterId) => filterId !== id,
+      );
+      this.filters[type] = filteredFilters;
+    } else {
+      this.filters[type].push(id);
+    }
+    this.clearCourses();
+    this.getCourses();
   }
 
-  removeFilter({ id, type }: ManipulateFilter): void {
-    const filtered = this.filters[type].filter((filter) => filter !== id);
-    this.filters[type] = filtered;
+  clearCourses() {
+    this.courses = [];
   }
 
   setOffset() {
@@ -68,13 +86,12 @@ export class CourseClientsStore {
     this.initFetch = false;
   }
 
-  async getCourses() {
-    console.log('XDD');
+  async getCourses(limit?: string) {
     this.inProgress = true;
     try {
       const res = await api.get<CourseTableRes>(
-        `course/created/all?limit=10&offset=${this.offset}&${
-          this.filters ?? ''
+        `course/published?limit=${limit ?? '10'}&offset=${this.offset}&${
+          new URLSearchParams(this.filters as any).toString() ?? ''
         }`,
       );
       if (res) {
@@ -86,6 +103,7 @@ export class CourseClientsStore {
       }
     } catch (error) {
       handlingError(error.response);
+    } finally {
       this.inProgress = false;
     }
   }

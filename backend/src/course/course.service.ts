@@ -45,7 +45,8 @@ export class CourseService {
     userId: string,
     offset: number,
     filterBy: {
-      category?: string;
+      categories?: string;
+      subcategories?: string;
     },
     limit?: number,
   ) {

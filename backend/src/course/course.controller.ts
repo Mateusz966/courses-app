@@ -55,7 +55,7 @@ export class CourseController {
     @UserObj() user,
     @Query('search') search: string,
     @Query() { offset, limit }: PaginationParams,
-    @Query() { category }: FilterParams,
+    @Query() { categories, subcategories }: FilterParams,
   ) {
     try {
       if (search) {
@@ -64,7 +64,7 @@ export class CourseController {
         return await this.courseService.published(
           user.id,
           offset,
-          { category },
+          { categories, subcategories },
           limit,
         );
       }

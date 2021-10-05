@@ -1,28 +1,52 @@
 import { Center, Grid, GridItem } from '@chakra-ui/react';
-import { FC } from 'react';
-import { useCourseClient } from '../../../../hooks/course/useCourseClient';
+import { FC, useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
 import SimplyCourseTile from '../../../../components/layout/SimplyCourseList/simplyCourseTile';
 import { Container } from '../../../../components/layout/Container';
 import CoursesFilters from '../../../../components/common/CoursesFilters';
+import { courseClientsStore } from '../../../../stores/courseClients';
 
-const CoursesToBuy: FC = () => {
-  const { initFetch, inProgress, courses } = useCourseClient();
+const CoursesToBuy: FC = observer(() => {
+  useEffect(() => {
+    courseClientsStore.getCourses();
+  }, [courseClientsStore.offset]);
 
-  const coursesList = courses.map((course) => (
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop ===
+      document.documentElement.offsetHeight
+    ) {
+      if (
+        courseClientsStore.courses.length <
+        courseClientsStore.totalNumberOfCourses
+      ) {
+        courseClientsStore.setOffset();
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [courseClientsStore.courses, courseClientsStore.totalNumberOfCourses]);
+
+  const coursesList = courseClientsStore.courses.map((course) => (
     <SimplyCourseTile key={course.id} course={course} />
   ));
 
-  if (inProgress && initFetch) {
+  if (courseClientsStore.inProgress && courseClientsStore.initFetch) {
     return <p>Loading ...</p>;
   }
 
   return (
     <Container>
-      {coursesList.length > 0 ? (
-        <Grid templateColumns="200px 1fr">
-          <GridItem>
-            <CoursesFilters />
-          </GridItem>
+      <Grid templateColumns="200px 1fr">
+        <GridItem>
+          <CoursesFilters />
+        </GridItem>
+        {coursesList.length > 0 ? (
           <GridItem>
             <Grid
               gap={6}
@@ -31,13 +55,18 @@ const CoursesToBuy: FC = () => {
               {coursesList}
             </Grid>
           </GridItem>
-        </Grid>
-      ) : (
-        <p>Nie ma kursów do wyświetlenia</p>
-      )}
-      <Center>{inProgress && !initFetch && <p>Loading ...</p>}</Center>
+        ) : (
+          <p>Nie ma kursów do wyświetlenia</p>
+        )}
+      </Grid>
+
+      <Center>
+        {courseClientsStore.inProgress && !courseClientsStore.initFetch && (
+          <p>Loading ES...</p>
+        )}
+      </Center>
     </Container>
   );
-};
+});
 
 export default CoursesToBuy;
