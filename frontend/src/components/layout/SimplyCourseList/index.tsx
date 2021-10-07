@@ -1,31 +1,28 @@
-import { Center, Container } from '@chakra-ui/react';
+import { Container } from '@chakra-ui/react';
 import { FC } from 'react';
 import SimplyCourseTile from './simplyCourseTile';
-import { useCourseClient } from '../../../hooks/course/useCourseClient';
+import { useCourseByCategory } from '../../../hooks/useCoursesByCategory';
 
-const SimplyCourseList: FC = () => {
-  const { initFetch, inProgress, courses, totalNumberOfCourses } =
-    useCourseClient();
+interface Props {
+  categories?: string;
+  subcategory?: string;
+}
+
+const SimplyCourseList: FC<Props> = ({ categories, subcategory }) => {
+  const { courses, inProgress } = useCourseByCategory({
+    subcategory,
+    categories,
+  });
+
+  if (inProgress) {
+    return <p>Loading ...</p>;
+  }
 
   const coursesList = courses.map((course) => (
     <SimplyCourseTile key={course.id} course={course} />
   ));
 
-  if (inProgress && initFetch) {
-    return <p>Loading ...</p>;
-  }
-
-  return (
-    <Container>
-      <Center>Liczba wszystkich kursów:{totalNumberOfCourses}</Center>
-      {coursesList.length > 0 ? (
-        coursesList
-      ) : (
-        <p>Nie ma kursów do wyświetlenia</p>
-      )}
-      <Center>{inProgress && !initFetch && <p>Loading ...</p>}</Center>
-    </Container>
-  );
+  return <Container>{coursesList.length > 0 ? coursesList : null}</Container>;
 };
 
 export default SimplyCourseList;

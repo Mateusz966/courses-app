@@ -9,7 +9,7 @@ const Start: FC = () => (
     <Grid templateRows="repeat(1, 1fr)" templateColumns="repeat(3, 1fr)">
       <GridItem rowSpan={1} colSpan={1} />
       <GridItem rowSpan={1} colSpan={1}>
-        <SimplyCourseList />
+        <SimplyCourseList categories="d23b288f-7684-43e8-bcd5-99a6cb389ab9" />
       </GridItem>
       <GridItem rowSpan={1} colSpan={1} />
     </Grid>

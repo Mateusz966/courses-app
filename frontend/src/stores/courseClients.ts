@@ -86,11 +86,11 @@ export class CourseClientsStore {
     this.initFetch = false;
   }
 
-  async getCourses(limit?: string) {
+  async getCourses() {
     this.inProgress = true;
     try {
       const res = await api.get<CourseTableRes>(
-        `course/published?limit=${limit ?? '10'}&offset=${this.offset}&${
+        `course/published?limit=10&offset=${this.offset}&${
           new URLSearchParams(this.filters as any).toString() ?? ''
         }`,
       );
