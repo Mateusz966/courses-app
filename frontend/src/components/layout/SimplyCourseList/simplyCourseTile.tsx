@@ -1,8 +1,9 @@
-import { Box, Center, Grid, GridItem } from '@chakra-ui/react';
+import { Box, Center, Grid, GridItem, Image } from '@chakra-ui/react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CourseTableResContent } from '../../../app-types';
 import { Button } from '../../common/Button';
+import { apiUrl } from '../../../config/apiUrl';
 
 interface Props {
   course: CourseTableResContent;
@@ -10,7 +11,7 @@ interface Props {
 
 const SimplyCourseTile: React.FC<Props> = ({ course }) => (
   <Box key={course.id}>
-    <Link to={`dashboard/course/view/${course.id}`}>
+    <Link to={`/dashboard/course/view/${course.id}`}>
       <Box
         minH="320px"
         mt="20px"
@@ -21,10 +22,7 @@ const SimplyCourseTile: React.FC<Props> = ({ course }) => (
         }}
       >
         <Box height="150px" width="250px">
-          <img
-            src="https://via.placeholder.com/250x250"
-            alt="Course im placeholder"
-          />
+          <Image src={`${apiUrl}/course/main-photo/${course.id}`} />
         </Box>
         <Center p="15px">
           <h2>{course.title}</h2>

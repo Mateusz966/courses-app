@@ -38,6 +38,7 @@ export interface UpdateCourseReq {
   title: string;
   description: string;
   content: string;
+  price: number;
 }
 
 export interface PublishCourseReq {

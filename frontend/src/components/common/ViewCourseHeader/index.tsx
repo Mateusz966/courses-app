@@ -5,23 +5,27 @@ import {
   BreadcrumbLink,
   Heading,
   Text,
-  Stack,
   Icon,
   HStack,
   Image,
-  VStack,
-  Grid,
-  GridItem,
-  Link,
   Button,
+  Tooltip,
 } from '@chakra-ui/react';
 import { BsCalendar } from 'react-icons/bs';
 import { MdChevronRight, MdShoppingCart } from 'react-icons/md';
-import { FC } from 'react';
+import React from 'react';
 import { CourseRating } from '../CourseRating';
 import { AuthorBox } from '../AuthorBox';
+import { CourseDetailsRes } from '../../../app-types';
+import { apiUrl } from '../../../config/apiUrl';
 
-export const ViewCourseHeader: FC = () => (
+interface Props {
+  courseDetails: CourseDetailsRes;
+}
+
+export const ViewCourseHeader: React.FC<Props> = ({
+  courseDetails: { category, subcategory, title, user, description, id },
+}) => (
   <Box pb="3">
     <Breadcrumb
       pt={{ md: '3', base: '1' }}
@@ -29,22 +33,33 @@ export const ViewCourseHeader: FC = () => (
       separator={<MdChevronRight color="gray.500" />}
     >
       <BreadcrumbItem>
-        <BreadcrumbLink href="#">Kategoria</BreadcrumbLink>
+        <Tooltip label="All courses">
+          <BreadcrumbLink href="/dashboard">All</BreadcrumbLink>
+        </Tooltip>
       </BreadcrumbItem>
 
       <BreadcrumbItem>
-        <BreadcrumbLink href="#">Podkategoria</BreadcrumbLink>
+        <Tooltip label="Category">
+          <BreadcrumbLink href="#">{category.name}</BreadcrumbLink>
+        </Tooltip>
       </BreadcrumbItem>
 
       <BreadcrumbItem isCurrentPage>
-        <BreadcrumbLink href="#">Kurs</BreadcrumbLink>
+        <Tooltip label="Subcategory">
+          <BreadcrumbLink href="#">{subcategory.name}</BreadcrumbLink>
+        </Tooltip>
+      </BreadcrumbItem>
+
+      <BreadcrumbItem isCurrentPage>
+        <Tooltip label="Course">
+          <BreadcrumbLink>{title}</BreadcrumbLink>
+        </Tooltip>
       </BreadcrumbItem>
     </Breadcrumb>
     <Image
       display={{ md: 'none', base: 'block' }}
       mt={{ md: '0', base: '10px' }}
-      src="gibbresh.png"
-      fallbackSrc="https://via.placeholder.com/750x350"
+      src={`${apiUrl}/course/main-photo/${id}`}
     />
     <Heading
       as="h1"
@@ -52,13 +67,9 @@ export const ViewCourseHeader: FC = () => (
       fontSize={{ md: '4xl', base: 'xl' }}
       mt={{ md: '30px', base: '15px' }}
     >
-      Pieniądze to nie wszystko czyli monetyzacja dla każdego
+      {title}
     </Heading>
-    <Text mt="3">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc non dui eu
-      ipsum varius facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing
-      elit. Vestibulum et tellus odio.
-    </Text>
+    <Text mt="3">{description}</Text>
     <CourseRating />
     <Box d={{ md: 'none', base: 'block' }}>
       <HStack>
@@ -80,7 +91,7 @@ export const ViewCourseHeader: FC = () => (
         Dodaj do koszyka
       </Button>
     </Box>
-    <AuthorBox />
+    <AuthorBox user={user} />
     <Text mt="1">
       <Icon w="3" h="3" as={BsCalendar} /> 06.02.2021 - data wydania
     </Text>

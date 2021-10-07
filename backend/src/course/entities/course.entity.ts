@@ -24,6 +24,9 @@ export class Course extends MyBaseEntity implements ICourse {
   @Column({ nullable: true })
   courseFn: string;
 
+  @Column({ type: 'float' })
+  price: number;
+
   @OneToMany(() => CourseTopics, (courseTopic) => courseTopic.course)
   courseTopics: CourseTopics[];
 

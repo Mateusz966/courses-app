@@ -1,6 +1,6 @@
 import { Container } from '@chakra-ui/react';
 import { FC } from 'react';
-import SimplyCourseTile from './simplyCourseTile';
+import SimplyCourseTile from './SimplyCourseTile';
 import { useCourseByCategory } from '../../../hooks/useCoursesByCategory';
 
 interface Props {

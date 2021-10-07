@@ -6,6 +6,7 @@ import EditCourse from './Edit';
 import EditCategories from './EditCategories';
 import ManageCourses from './Manage';
 import CoursesToBuy from './CoursesToBuy';
+import ViewCourse from './View';
 
 const Courses: FC = () => (
   <>
@@ -22,6 +23,7 @@ const Courses: FC = () => (
       <Route exact path="/dashboard/course/manage" component={ManageCourses} />
       <Route exact path="/dashboard/course/list" component={CoursesToBuy} />
       <Route path="/dashboard/course/add" component={AddCourse} />
+      <Route path="/dashboard/course/view/:courseId" component={ViewCourse} />
     </Switch>
   </>
 );

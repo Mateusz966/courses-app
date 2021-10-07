@@ -1,10 +1,10 @@
-
 export type BaseSelectOption = {
     value: string;
     label: string;
-}
-
-export enum ApiErrorCode {
+  };
+  
+  // eslint-disable-next-line no-shadow
+  export enum ApiErrorCode {
     ErrorDuringLogin,
     OtherError,
     InvalidCredentials,
@@ -12,10 +12,10 @@ export enum ApiErrorCode {
     InvalidParams,
     NotFoundById,
     WrongCourseId,
-}
-
-export type CustomSelectOption<T> = {
-    value: T,
-    label: string
-}
-
+  }
+  
+  export type CustomSelectOption<T> = {
+    value: T;
+    label: string;
+  };
+  

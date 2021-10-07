@@ -115,6 +115,7 @@ export class CourseService {
     course.description = newCourse.description;
     course.title = newCourse.title;
     course.content = newCourse.content;
+    course.price = newCourse.price;
 
     await course.save();
 

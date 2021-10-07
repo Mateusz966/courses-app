@@ -1,7 +1,6 @@
-import { CustomSelectOption } from './global'
+import { CustomSelectOption } from './global';
 import { CategoryDto, IUserCategories } from './category';
 import { ICourse } from './course';
-
 
 export interface UserDefault {
   email: string;
@@ -14,12 +13,10 @@ export interface UserDefault {
 export interface UserCategoriesReq {
   userCategories?: CustomSelectOption<CategoryDto>[];
 }
-export interface UserReq extends UserDefault, UserCategoriesReq {
-
-}
+export interface UserReq extends UserDefault, UserCategoriesReq {}
 
 export interface UserRes {
-  id: string
+  id: string;
   email: string;
   firstName: string;
   lastName: string;

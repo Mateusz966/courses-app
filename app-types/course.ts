@@ -27,13 +27,13 @@ export interface SectionContentRes {
     id: string;
     title: string;
     description: string;
-  },
+  };
   lesson: {
     id: string;
     title: string;
     description: string;
     videoFn: string;
-  }[]
+  }[];
 }
 
 export interface ICourseTopics {
@@ -60,18 +60,16 @@ export interface PublishCourseReq {
   content: string;
 }
 
-
 export interface CourseContentReq {
   sectionName: string;
   sectionDescription: string;
-  lesson: Omit<ILesson, 'videoFn'>[]
+  lesson: Omit<ILesson, 'videoFn'>[];
 }
 
 export interface CourseTableRes {
   items: CourseTableResContent[];
   countTotal: number;
 }
-
 
 export interface CourseTableResContent {
   title: string;
@@ -86,28 +84,44 @@ interface CourseDetailsCommon {
   content: string;
   courseStatus: CourseStatus;
   courseFn: string;
-  category: { name: string }
-  subcategory: { name: string }
+  category: { name: string };
+  subcategory: { name: string };
   user: {
     id: string;
     firstName: string;
     lastName: string;
     photoFn: string;
-  }
+  };
+  section: Section[];
 }
 
-export interface CourseDetailsRes extends CourseDetailsCommon{
- topics: {
-   topic: {
-     name: string;
-   }
- }[]
+export interface Section {
+  id: string;
+  title: string;
+  description: string;
+  lesson: [
+    {
+      id: string;
+      title: string;
+      description: string;
+    },
+  ];
 }
 
-export interface CourseDetails extends CourseDetailsCommon{}
+export type CourseAuthor = Pick<CourseDetailsCommon, 'user'>;
+
+export interface CourseDetailsRes extends CourseDetailsCommon {
+  topics: {
+    topic: {
+      name: string;
+    };
+  }[];
+}
+
+export type CourseDetails = CourseDetailsCommon;
 
 export interface CourseSectionsRes {
-  id: string
-  title: string
-  description: string
+  id: string;
+  title: string;
+  description: string;
 }

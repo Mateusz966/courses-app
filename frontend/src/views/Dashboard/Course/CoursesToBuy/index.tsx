@@ -1,7 +1,7 @@
 import { Center, Grid, GridItem } from '@chakra-ui/react';
 import { FC, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import SimplyCourseTile from '../../../../components/layout/SimplyCourseList/simplyCourseTile';
+import SimplyCourseTile from '../../../../components/layout/SimplyCourseList/SimplyCourseTile';
 import { Container } from '../../../../components/layout/Container';
 import CoursesFilters from '../../../../components/common/CoursesFilters';
 import { courseClientsStore } from '../../../../stores/courseClients';
