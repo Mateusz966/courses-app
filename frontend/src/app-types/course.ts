@@ -125,3 +125,12 @@ export interface CourseSectionsRes {
   title: string;
   description: string;
 }
+
+export interface ShopingCart {
+  course: Course[];
+}
+
+interface Course {
+  id: string;
+  title: string;
+}
