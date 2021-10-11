@@ -29,7 +29,11 @@ export const SearchLoop = () => {
     shopingCart: { cartPayload },
   } = useRootStore();
   const cartCounter = (
-    <GridItem position="absolute" mt="6">
+    <GridItem
+      position="absolute"
+      mt="6"
+      display={{ md: 'none', base: 'block' }}
+    >
       <Circle size="5" color="#ffffff" bgColor="#4FD1C5">
         <Text fontSize="0.8rem" shadow="xl">
           {cartPayload.course.length}
