@@ -1,14 +1,6 @@
 import { action, makeObservable, observable } from 'mobx';
 import { RootStore } from '.';
-
-interface ShopingCart {
-  course: Course[];
-}
-
-interface Course {
-  id: string;
-  title: string;
-}
+import { Course, ShopingCart } from '../app-types';
 
 export class ShopingCartStore {
   root: RootStore;

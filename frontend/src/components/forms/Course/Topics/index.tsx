@@ -49,8 +49,6 @@ export const CourseTopicForm: FC<Props> = observer(({ courseId }) => {
     }
   }, [getTopics]);
 
-  console.log(inProgress);
-
   return (
     <FormProvider {...methods}>
       <Box
