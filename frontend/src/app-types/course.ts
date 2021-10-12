@@ -128,3 +128,12 @@ export interface CourseSectionsRes {
   title: string;
   description: string;
 }
+
+export interface ShoppingCart {
+  course: Course[];
+}
+
+export interface Course {
+  id: string;
+  title: string;
+}
