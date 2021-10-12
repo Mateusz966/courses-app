@@ -7,6 +7,8 @@ import {
   CourseDetailsRes,
   CourseSectionsRes,
   ILesson,
+  PublishedCourseRes,
+  ApiTableRes,
 } from '../../app-types';
 import { setFileIfExists } from '../../utils/setFileIfExist';
 import { VimeoService } from '../vimeo/vimeo.service';
@@ -58,7 +60,7 @@ export class CourseService {
       subcategories?: string;
     },
     limit?: number,
-  ) {
+  ): Promise<ApiTableRes<PublishedCourseRes[]>> {
     const [items, countTotal] = await Course.published(
       userId,
       offset,

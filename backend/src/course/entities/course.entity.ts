@@ -10,6 +10,7 @@ import {
   CourseStatus,
   Currency,
   ICourse,
+  PublishedCourseRes,
 } from '../../../app-types';
 
 @Entity()
@@ -72,7 +73,7 @@ export class Course extends MyBaseEntity implements ICourse {
     return res;
   }
 
-  static published(
+  static async published(
     userId: string,
     offset: number,
     filterBy: {
@@ -80,11 +81,19 @@ export class Course extends MyBaseEntity implements ICourse {
       subcategories?: string;
     },
     limit?: number,
-  ) {
+  ): Promise<[PublishedCourseRes[], number]> {
     const query = this.createQueryBuilder('course')
-      .select(['course.title', 'course.courseStatus', 'course.id'])
-      .leftJoinAndSelect('course.category', 'category')
-      .leftJoinAndSelect('course.subcategory', 'subcategory')
+      .select([
+        'course.title',
+        'course.price',
+        'course.courseStatus',
+        'course.id',
+        'user.firstName',
+        'user.lastName',
+      ])
+      .leftJoin('course.user', 'user')
+      .leftJoin('course.category', 'category')
+      .leftJoin('course.subcategory', 'subcategory')
       .where('course.user != :id', { id: userId })
       .where('course.courseStatus = :status', {
         status: CourseStatus.Published,
@@ -106,6 +115,8 @@ export class Course extends MyBaseEntity implements ICourse {
       });
     }
 
-    return query.getManyAndCount();
+    const courses = await query.getManyAndCount();
+
+    return (courses as unknown) as [PublishedCourseRes[], number];
   }
 }

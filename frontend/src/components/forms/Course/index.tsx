@@ -56,6 +56,7 @@ export const CourseForm: FC = observer(() => {
         title: courseStore.course.title,
         description: courseStore.course.description,
         content: courseStore.courseContent,
+        price: courseStore.course.price,
       });
     }
   }, [reset, courseStore.course]);

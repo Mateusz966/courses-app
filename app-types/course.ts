@@ -139,3 +139,13 @@ export interface Course {
   title: string;
 }
 
+export interface PublishedCourseRes  {
+  courseStatus: CourseStatus;
+  id: string;
+  price: number;
+  title: string;
+  user: {firstName: string, lastName: string}
+  firstName: string;
+  lastName: string;
+}
+

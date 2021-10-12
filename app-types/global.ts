@@ -18,7 +18,12 @@ export type BaseSelectOption = {
     value: T;
     label: string;
   };
-
+// eslint-disable-next-line no-shadow
   export enum Currency {
     PLN,
+}
+
+export interface ApiTableRes<T> {
+    items: T;
+    countTotal: number;
 }

@@ -55,6 +55,7 @@ export interface UpdateCourseReq {
   title: string;
   description: string;
   content: string;
+  price: number;
 }
 
 export interface PublishCourseReq {
@@ -136,4 +137,14 @@ export interface ShoppingCart {
 export interface Course {
   id: string;
   title: string;
+}
+
+export interface PublishedCourseRes {
+  courseStatus: CourseStatus;
+  id: string;
+  price: number;
+  title: string;
+  user: { firstName: string; lastName: string };
+  firstName: string;
+  lastName: string;
 }

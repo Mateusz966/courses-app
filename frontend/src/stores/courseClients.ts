@@ -1,6 +1,6 @@
 import { action, makeObservable, observable, runInAction } from 'mobx';
 import api from '../service/api';
-import { CourseTableRes, CourseTableResContent } from '../app-types';
+import { ApiTableRes, PublishedCourseRes } from '../app-types';
 import { handlingError } from '../helpers/handleErrors';
 
 type FilterType = 'categories' | 'subcategories' | 'topics';
@@ -37,7 +37,7 @@ export class CourseClientsStore {
 
   initFetch = true;
 
-  courses: CourseTableResContent[] = [];
+  courses: PublishedCourseRes[] = [];
 
   constructor() {
     makeObservable(this, {
@@ -89,7 +89,7 @@ export class CourseClientsStore {
   async getCourses() {
     this.inProgress = true;
     try {
-      const res = await api.get<CourseTableRes>(
+      const res = await api.get<ApiTableRes<PublishedCourseRes[]>>(
         `course/published?limit=10&offset=${this.offset}&${
           new URLSearchParams(this.filters as any).toString() ?? ''
         }`,

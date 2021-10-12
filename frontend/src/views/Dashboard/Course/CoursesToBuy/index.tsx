@@ -32,6 +32,13 @@ const CoursesToBuy: FC = observer(() => {
     };
   }, [courseClientsStore.courses, courseClientsStore.totalNumberOfCourses]);
 
+  useEffect(
+    () => () => {
+      courseClientsStore.clearCourses();
+    },
+    [],
+  );
+
   const coursesList = courseClientsStore.courses.map((course) => (
     <SimplyCourseTile key={course.id} course={course} />
   ));

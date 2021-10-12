@@ -21,7 +21,12 @@ import { PaginationParams } from 'src/pagination/pagination-params.dto';
 import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
-import { CourseDetailsRes, CourseSectionsRes } from '../../app-types';
+import {
+  ApiTableRes,
+  CourseDetailsRes,
+  CourseSectionsRes,
+  PublishedCourseRes,
+} from '../../app-types';
 import { CourseContentDto } from './dto/course-content';
 import { FilterParams } from '../pagination/filter-params.dto';
 
@@ -56,7 +61,7 @@ export class CourseController {
     @Query('search') search: string,
     @Query() { offset, limit }: PaginationParams,
     @Query() { categories, subcategories }: FilterParams,
-  ) {
+  ): Promise<ApiTableRes<PublishedCourseRes[]>> {
     try {
       if (search) {
         // logic with search
