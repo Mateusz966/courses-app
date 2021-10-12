@@ -5,7 +5,12 @@ import { Category } from '../../category/entities/category.entity';
 import { User } from '../../user/entity/user.entity';
 import { CourseTopics } from './course-topics.entity';
 import { Section } from './section.entity';
-import { CourseDetails, CourseStatus, ICourse } from '../../../app-types';
+import {
+  CourseDetails,
+  CourseStatus,
+  Currency,
+  ICourse,
+} from '../../../app-types';
 
 @Entity()
 export class Course extends MyBaseEntity implements ICourse {
@@ -24,8 +29,11 @@ export class Course extends MyBaseEntity implements ICourse {
   @Column({ nullable: true })
   courseFn: string;
 
-  @Column({ type: 'float' })
-  price: number;
+  @Column({ type: 'float', default: null, nullable: true })
+  price: number | null;
+
+  @Column({ enum: Currency, default: Currency.PLN })
+  currency: Currency;
 
   @OneToMany(() => CourseTopics, (courseTopic) => courseTopic.course)
   courseTopics: CourseTopics[];
@@ -52,7 +60,7 @@ export class Course extends MyBaseEntity implements ICourse {
   }
 
   static async getCourseDetailsById(courseId: string): Promise<CourseDetails> {
-    const res: CourseDetails = await this.createQueryBuilder('course')
+    const res = ((await this.createQueryBuilder('course')
       .where('course.id = :id', { id: courseId })
       .leftJoinAndSelect('course.category', 'category')
       .leftJoinAndSelect('course.subcategory', 'subcategory')
@@ -60,7 +68,7 @@ export class Course extends MyBaseEntity implements ICourse {
       .leftJoinAndSelect('course.courseTopics', 'topics')
       .leftJoinAndSelect('course.section', 'section')
       .leftJoinAndSelect('section.lesson', 'lesson')
-      .getOneOrFail();
+      .getOneOrFail()) as unknown) as CourseDetails;
     return res;
   }
 

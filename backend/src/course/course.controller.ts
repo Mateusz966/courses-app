@@ -74,6 +74,12 @@ export class CourseController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('/bought')
+  async myBought(@UserObj() user, @Query() { offset }: PaginationParams) {
+    return this.courseService.myBought(user.id, offset);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Post('/add')
   async add(@UserObj() user, @Body() categoriesDetails: CreateCourseDto) {
     return this.courseService.add(user, categoriesDetails);

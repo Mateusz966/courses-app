@@ -18,4 +18,7 @@ export type BaseSelectOption = {
     value: T;
     label: string;
   };
-  
+
+  export enum Currency {
+    PLN,
+}

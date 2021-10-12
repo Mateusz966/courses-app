@@ -1,5 +1,6 @@
 import { ITopic, CourseStatus, ICategory, ISubcategory } from './category';
 import { IUser } from './user';
+import { Currency } from './global';
 
 export interface ICourse {
   id: string;
@@ -12,6 +13,8 @@ export interface ICourse {
   user: IUser;
   category: ICategory;
   subcategory: ISubcategory;
+  price: number;
+  currency: Currency;
 }
 
 export interface ILesson {
@@ -52,6 +55,7 @@ export interface UpdateCourseReq {
   title: string;
   description: string;
   content: string;
+  price: number;
 }
 
 export interface PublishCourseReq {

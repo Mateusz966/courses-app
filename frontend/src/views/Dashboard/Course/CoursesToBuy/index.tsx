@@ -62,7 +62,7 @@ const CoursesToBuy: FC = observer(() => {
 
       <Center>
         {courseClientsStore.inProgress && !courseClientsStore.initFetch && (
-          <p>Loading ES...</p>
+          <p>Loading ...</p>
         )}
       </Center>
     </Container>

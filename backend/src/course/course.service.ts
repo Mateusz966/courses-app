@@ -20,6 +20,7 @@ import { Lesson } from './entities/lesson.entity';
 import { Section } from './entities/section.entity';
 import { storDir } from '../../utils/storDir';
 import { CourseContentDto } from './dto/course-content';
+import { BoughtCourses } from './entities/bought-courses.entity';
 
 const path = require('path');
 
@@ -38,6 +39,14 @@ export class CourseService {
       .take(limit)
       .getManyAndCount();
 
+    return { items, countTotal };
+  }
+
+  async myBought(userId: string, offset: number) {
+    const [items, countTotal] = await BoughtCourses.getMyBoughtCourses(
+      userId,
+      offset,
+    );
     return { items, countTotal };
   }
 

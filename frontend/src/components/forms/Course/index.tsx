@@ -88,6 +88,13 @@ export const CourseForm: FC = observer(() => {
             placeholder="Course about...."
           />
         </FormField>
+        <FormField labelText="Price" name="price">
+          <Input
+            onChange={() => debounceLoadData()}
+            type="text"
+            placeholder="410"
+          />
+        </FormField>
         <Controller
           name="content"
           render={(field) => (
