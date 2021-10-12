@@ -11,7 +11,6 @@ const Profile: FC = observer(() => {
   } = useRootStore();
 
   useEffect(() => {
-    console.log('test');
     if (!user?.details) {
       getUserDetails();
     }
