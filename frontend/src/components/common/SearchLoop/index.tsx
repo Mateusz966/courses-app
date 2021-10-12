@@ -26,7 +26,7 @@ export const SearchLoop = () => {
   const searchField =
     React.useRef() as React.MutableRefObject<HTMLInputElement>;
   const {
-    shopingCart: { cartPayload },
+    shoppingCart: { cartPayload },
   } = useRootStore();
   const cartCounter = (
     <GridItem

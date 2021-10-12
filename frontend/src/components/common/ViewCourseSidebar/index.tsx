@@ -12,7 +12,7 @@ interface Props {
 
 export const ViewCourseSidebar: React.FC<Props> = observer(({ id, title }) => {
   const {
-    shopingCart: { addToCart },
+    shoppingCart: { addToCart },
   } = useRootStore();
   return (
     <Box boxShadow="lg" border="1px solid #DDD" position="sticky" top="15px">

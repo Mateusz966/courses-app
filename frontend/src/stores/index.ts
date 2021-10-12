@@ -1,7 +1,7 @@
 import { FileStore } from './fileStore';
 import { HeaderStore } from './header';
 import { UserStore } from './user';
-import { ShopingCartStore } from './shopingCart';
+import { ShoppingCartStore } from './shoppingCart';
 
 export class RootStore {
   userStore: UserStore;
@@ -10,12 +10,12 @@ export class RootStore {
 
   fileStore: FileStore;
 
-  shopingCart: ShopingCartStore;
+  shoppingCart: ShoppingCartStore;
 
   constructor() {
     this.userStore = new UserStore(this);
     this.headerStore = new HeaderStore(this);
     this.fileStore = new FileStore(this);
-    this.shopingCart = new ShopingCartStore(this);
+    this.shoppingCart = new ShoppingCartStore(this);
   }
 }

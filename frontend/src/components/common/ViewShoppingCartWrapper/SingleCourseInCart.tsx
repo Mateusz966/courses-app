@@ -14,7 +14,7 @@ interface Props {
 
 const SingleCourseInCart: FC<Props> = observer(({ id, title }) => {
   const {
-    shopingCart: { deleteCourseFromCart },
+    shoppingCart: { deleteCourseFromCart },
   } = useRootStore();
 
   return (

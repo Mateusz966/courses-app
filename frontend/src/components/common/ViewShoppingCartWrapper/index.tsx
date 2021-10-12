@@ -4,9 +4,9 @@ import { FC } from 'react';
 import { useRootStore } from '../../../stores/storeContext';
 import CartContent from './CartContent';
 
-export const ViewShopingCartWrapper: FC = observer(() => {
+export const ViewShoppingCartWrapper: FC = observer(() => {
   const {
-    shopingCart: { cartPayload },
+    shoppingCart: { cartPayload },
   } = useRootStore();
 
   const cartInfo = (

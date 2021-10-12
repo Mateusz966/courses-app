@@ -2,12 +2,12 @@ import { Button } from '@chakra-ui/button';
 import { Box, Center, Flex, Text } from '@chakra-ui/layout';
 import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
-import { ShopingCart } from '../../../app-types';
+import { ShoppingCart } from '../../../app-types';
 import { useApi } from '../../../hooks/useApi';
 import SingleCourseInCart from './SingleCourseInCart';
 
 interface Props {
-  cartPayload: ShopingCart;
+  cartPayload: ShoppingCart;
 }
 
 const CartContent: FC<Props> = observer(({ cartPayload }) => {
@@ -17,8 +17,8 @@ const CartContent: FC<Props> = observer(({ cartPayload }) => {
     <SingleCourseInCart key={course.id} id={course.id} title={course.title} />
   ));
 
-  const buyButtonHandler = async (payload: ShopingCart) => {
-    await post<string, ShopingCart>('/course/buy', payload);
+  const buyButtonHandler = async (payload: ShoppingCart) => {
+    await post<string, ShoppingCart>('/course/buy', payload);
   };
   return (
     <>

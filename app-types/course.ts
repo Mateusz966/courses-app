@@ -126,7 +126,7 @@ export interface CourseSectionsRes {
   description: string;
 }
 
-export interface ShopingCart {
+export interface ShoppingCart {
   course: Course[];
 }
 

@@ -24,7 +24,7 @@ interface Props {
 
 export const LoggedActions: FC<Props> = observer(({ justifyContentType }) => {
   const {
-    shopingCart: { cartPayload },
+    shoppingCart: { cartPayload },
   } = useRootStore();
   const cartCounter = (
     <GridItem position="absolute" mt="6">

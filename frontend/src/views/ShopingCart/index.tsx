@@ -1,10 +1,10 @@
 import { Box } from '@chakra-ui/layout';
 import { FC } from 'react';
-import { ViewShopingCartWrapper } from '../../components/common/ViewShopingCartWrapper';
+import { ViewShoppingCartWrapper } from '../../components/common/ViewShoppingCartWrapper';
 
-const ShopingCart: FC = () => (
+const ShoppingCart: FC = () => (
   <Box>
-    <ViewShopingCartWrapper />
+    <ViewShoppingCartWrapper />
   </Box>
 );
-export default ShopingCart;
+export default ShoppingCart;

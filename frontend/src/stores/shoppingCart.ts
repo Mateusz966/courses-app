@@ -1,11 +1,11 @@
 import { action, makeObservable, observable } from 'mobx';
 import { RootStore } from '.';
-import { Course, ShopingCart } from '../app-types';
+import { Course, ShoppingCart } from '../app-types';
 
-export class ShopingCartStore {
+export class ShoppingCartStore {
   root: RootStore;
 
-  cartPayload: ShopingCart = {
+  cartPayload: ShoppingCart = {
     course: [],
   };
 
@@ -19,14 +19,13 @@ export class ShopingCartStore {
   }
 
   addToCart(course: Course) {
-    if (
-      this.cartPayload.course.find(
-        (courseInCart) => courseInCart.id === course.id,
-      )
-    ) {
-      return;
+    const foundCourse = this.cartPayload.course.find(
+      (courseInCart) => courseInCart.id === course.id,
+    );
+
+    if (!foundCourse) {
+      this.cartPayload.course.push(course);
     }
-    this.cartPayload.course.push(course);
   }
 
   deleteCourseFromCart(courseId: string) {
