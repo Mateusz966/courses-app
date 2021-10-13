@@ -17,6 +17,7 @@ const SimplyCourseTile: React.FC<Props> = observer(
       id,
       title,
       price,
+      currency,
       user: { firstName, lastName },
     },
   }) => {
@@ -25,16 +26,16 @@ const SimplyCourseTile: React.FC<Props> = observer(
     } = useRootStore();
     return (
       <Box key={id}>
-        <Link to={`/dashboard/course/view/${id}`}>
-          <Box
-            minH="320px"
-            mt="20px"
-            mb="20px"
-            boxShadow="md"
-            _hover={{
-              boxShadow: 'xl',
-            }}
-          >
+        <Box
+          minH="320px"
+          mt="20px"
+          mb="20px"
+          boxShadow="md"
+          _hover={{
+            boxShadow: 'xl',
+          }}
+        >
+          <Link to={`/dashboard/course/view/${id}`}>
             <Box height="150px" width="250px">
               <Image src={`${apiUrl}/course/main-photo/${id}`} />
             </Box>
@@ -49,14 +50,14 @@ const SimplyCourseTile: React.FC<Props> = observer(
                 {firstName} {lastName}
               </GridItem>
               <GridItem rowSpan={1} colSpan={1} p="10px">
-                {price}
+                {price} {currency}
               </GridItem>
-              <Button onClick={() => addToCart({ id, title })}>
-                Add to cart
-              </Button>
             </Grid>
-          </Box>
-        </Link>
+          </Link>
+          <Button onClick={() => addToCart({ id, title, price, currency })}>
+            Add to cart
+          </Button>
+        </Box>
       </Box>
     );
   },

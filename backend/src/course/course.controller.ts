@@ -29,6 +29,7 @@ import {
 } from '../../app-types';
 import { CourseContentDto } from './dto/course-content';
 import { FilterParams } from '../pagination/filter-params.dto';
+import { BuyCoursesDto } from './dto/buy-courses.dto';
 
 const path = require('path');
 
@@ -129,6 +130,12 @@ export class CourseController {
     } catch (error) {
       throw error;
     }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/buy')
+  async buyCourses(@UserObj() user, @Body() cart: BuyCoursesDto) {
+    return this.courseService.buy(user, cart);
   }
 
   @UseGuards(JwtAuthGuard)

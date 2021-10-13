@@ -23,6 +23,7 @@ import { Section } from './entities/section.entity';
 import { storDir } from '../../utils/storDir';
 import { CourseContentDto } from './dto/course-content';
 import { BoughtCourses } from './entities/bought-courses.entity';
+import { BuyCoursesDto } from './dto/buy-courses.dto';
 
 const path = require('path');
 
@@ -32,6 +33,10 @@ export class CourseService {
     private readonly vimeoService: VimeoService,
     private readonly categoryService: CategoryService,
   ) {}
+
+  async buy(user: User, cart: BuyCoursesDto) {
+    return BoughtCourses.buyCourse(user, cart);
+  }
 
   async myCreated(userId: string, offset: number, limit?: number) {
     const [items, countTotal] = await Course.createQueryBuilder('course')

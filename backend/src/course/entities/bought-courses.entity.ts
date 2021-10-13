@@ -1,7 +1,9 @@
 import { MyBaseEntity } from 'src/base/MyBaseEntity';
-import { Column, Entity } from 'typeorm';
+import { Column, CreateDateColumn, Entity } from 'typeorm';
 import { User } from '../../user/entity/user.entity';
 import { Course } from './course.entity';
+import { BuyCoursesDto } from '../dto/buy-courses.dto';
+import { Currency } from '../../../app-types';
 
 @Entity()
 export class BoughtCourses extends MyBaseEntity {
@@ -14,13 +16,24 @@ export class BoughtCourses extends MyBaseEntity {
   @Column()
   paymentStatus: string;
 
-  static async buyCourse(user: User, cart: any) {
+  @Column()
+  totalPrice: number;
+
+  @Column({ type: 'varchar', enum: Currency, default: Currency.PLN })
+  currency: Currency;
+
+  @CreateDateColumn()
+  boughtAt: string;
+
+  static async buyCourse(user: User, cart: BuyCoursesDto) {
     const boughtCourse = new BoughtCourses();
 
-    boughtCourse.cartSnapshot = cart;
+    boughtCourse.cartSnapshot = cart.courses;
     boughtCourse.userSnapshot = user;
     boughtCourse.paymentStatus = 'OK';
-    await boughtCourse.save();
+    boughtCourse.totalPrice = cart.totalPrice;
+    boughtCourse.currency = cart.currency;
+    return boughtCourse.save();
   }
 
   static async getMyBoughtCourses(userId: string, offset: number) {

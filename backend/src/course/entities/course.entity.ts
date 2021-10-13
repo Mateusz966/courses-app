@@ -33,7 +33,7 @@ export class Course extends MyBaseEntity implements ICourse {
   @Column({ type: 'float', default: null, nullable: true })
   price: number | null;
 
-  @Column({ enum: Currency, default: Currency.PLN })
+  @Column({ type: 'varchar', enum: Currency, default: Currency.PLN })
   currency: Currency;
 
   @OneToMany(() => CourseTopics, (courseTopic) => courseTopic.course)
@@ -86,6 +86,7 @@ export class Course extends MyBaseEntity implements ICourse {
       .select([
         'course.title',
         'course.price',
+        'course.currency',
         'course.courseStatus',
         'course.id',
         'user.firstName',

@@ -20,7 +20,7 @@ export type CustomSelectOption<T> = {
 };
 // eslint-disable-next-line no-shadow
 export enum Currency {
-  PLN,
+  PLN = 'PLN',
 }
 
 export interface ApiTableRes<T> {
