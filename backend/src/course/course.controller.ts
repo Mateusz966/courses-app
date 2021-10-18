@@ -21,9 +21,15 @@ import { PaginationParams } from 'src/pagination/pagination-params.dto';
 import { CourseService } from './course.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
-import { CourseDetailsRes, CourseSectionsRes } from '../../app-types';
+import {
+  ApiTableRes,
+  CourseDetailsRes,
+  CourseSectionsRes,
+  PublishedCourseRes,
+} from '../../app-types';
 import { CourseContentDto } from './dto/course-content';
 import { FilterParams } from '../pagination/filter-params.dto';
+import { BuyCoursesDto } from './dto/buy-courses.dto';
 
 const path = require('path');
 
@@ -55,8 +61,8 @@ export class CourseController {
     @UserObj() user,
     @Query('search') search: string,
     @Query() { offset, limit }: PaginationParams,
-    @Query() { category }: FilterParams,
-  ) {
+    @Query() { categories, subcategories }: FilterParams,
+  ): Promise<ApiTableRes<PublishedCourseRes[]>> {
     try {
       if (search) {
         // logic with search
@@ -64,13 +70,19 @@ export class CourseController {
         return await this.courseService.published(
           user.id,
           offset,
-          { category },
+          { categories, subcategories },
           limit,
         );
       }
     } catch (error) {
       throw error;
     }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/bought')
+  async myBought(@UserObj() user, @Query() { offset }: PaginationParams) {
+    return this.courseService.myBought(user.id, offset);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -118,6 +130,12 @@ export class CourseController {
     } catch (error) {
       throw error;
     }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/buy')
+  async buyCourses(@UserObj() user, @Body() cart: BuyCoursesDto) {
+    return this.courseService.buy(user, cart);
   }
 
   @UseGuards(JwtAuthGuard)

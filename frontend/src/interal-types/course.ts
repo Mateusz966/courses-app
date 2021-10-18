@@ -1,3 +1,3 @@
-import { UpdateCourseReq } from '../../../backend/app-types/course';
+import { UpdateCourseReq } from '../../../app-types';
 
 export type UpdateCourseForm = Omit<UpdateCourseReq, 'content'>;

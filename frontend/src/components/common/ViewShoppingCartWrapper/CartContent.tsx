@@ -2,9 +2,11 @@ import { Button } from '@chakra-ui/button';
 import { Box, Center, Flex, Text } from '@chakra-ui/layout';
 import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
-import { ShoppingCart } from '../../../app-types';
+import { Currency, ShoppingCart } from '../../../app-types';
 import { useApi } from '../../../hooks/useApi';
 import SingleCourseInCart from './SingleCourseInCart';
+import { useRootStore } from '../../../stores/storeContext';
+import { BuyCoursesReq } from '../../../../../backend/app-types';
 
 interface Props {
   cartPayload: ShoppingCart;
@@ -12,13 +14,26 @@ interface Props {
 
 const CartContent: FC<Props> = observer(({ cartPayload }) => {
   const { post } = useApi();
+  const {
+    shoppingCart: { totalPrice },
+  } = useRootStore();
 
   const courseList = cartPayload.course.map((course) => (
-    <SingleCourseInCart key={course.id} id={course.id} title={course.title} />
+    <SingleCourseInCart
+      key={course.id}
+      id={course.id}
+      title={course.title}
+      price={course.price}
+      currency={course.currency}
+    />
   ));
 
-  const buyButtonHandler = async (payload: ShoppingCart) => {
-    await post<string, ShoppingCart>('/course/buy', payload);
+  const buyButtonHandler = async ({ course }: ShoppingCart) => {
+    await post<string, BuyCoursesReq>('/course/buy', {
+      courses: course,
+      totalPrice: Number(totalPrice),
+      currency: Currency.PLN,
+    });
   };
   return (
     <>
@@ -28,7 +43,9 @@ const CartContent: FC<Props> = observer(({ cartPayload }) => {
       <Box h="1px" bgColor="#e2e2e2" />
       <Flex flexDirection="row-reverse" m={6} p={3}>
         <Box>
-          <Text>Łączna kwota: XXX</Text>
+          <Text>
+            Łączna kwota: {totalPrice} {Currency.PLN}
+          </Text>
           <Center>
             <Button onClick={() => buyButtonHandler(cartPayload)}>
               Zapłać

@@ -1,12 +1,12 @@
 import { useCallback } from 'react';
-import { history } from '../config/history';
-import { courseStore } from '../stores/course';
-import { CategoryDto, CreateCourse } from '../app-types/category';
-import { CustomSelectOption } from '../../../app-types/global';
-import { useRootStore } from '../stores/storeContext';
-import { useApi } from './useApi';
-import { SetError } from '../types/global';
-import { UpdateCourseForm } from '../interal-types';
+import { history } from '../../config/history';
+import { courseStore } from '../../stores/course';
+import { CategoryDto, CreateCourse } from '../../app-types';
+import { CustomSelectOption } from '../../../../app-types';
+import { useRootStore } from '../../stores/storeContext';
+import { useApi } from '../useApi';
+import { SetError } from '../../types/global';
+import { UpdateCourseForm } from '../../interal-types';
 
 interface Props {
   setError: SetError;
@@ -102,6 +102,7 @@ export const useCourse = (props?: Props): UseCourse => {
 
   const updateCourse = useCallback(
     async (payload: UpdateCourseForm, courseId: string) => {
+      payload.price = Number(payload.price);
       const fd = new FormData();
       fd.append('body', JSON.stringify(payload));
 

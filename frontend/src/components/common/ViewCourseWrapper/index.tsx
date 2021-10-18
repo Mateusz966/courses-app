@@ -57,6 +57,8 @@ export const ViewCourseWrapper: FC = () => {
           <ViewCourseSidebar
             id={courseDetails?.id}
             title={courseDetails?.title}
+            price={courseDetails?.price}
+            currency={courseDetails?.currency}
           />
         </GridItem>
       </Grid>

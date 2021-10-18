@@ -11,7 +11,7 @@ import { Input } from '../../common/FormField/Input';
 import { Button } from '../../common/Button';
 import { courseStore } from '../../../stores/course';
 import { courseSchema } from '../../../formSchemas/course';
-import { useCourse } from '../../../hooks/useCourse';
+import { useCourse } from '../../../hooks/course/useCourse';
 import ImagePicker from '../../common/FormField/File';
 import { UpdateCourseForm } from '../../../interal-types';
 
@@ -56,6 +56,7 @@ export const CourseForm: FC = observer(() => {
         title: courseStore.course.title,
         description: courseStore.course.description,
         content: courseStore.courseContent,
+        price: courseStore.course.price,
       });
     }
   }, [reset, courseStore.course]);
@@ -86,6 +87,13 @@ export const CourseForm: FC = observer(() => {
             onChange={() => debounceLoadData()}
             type="text"
             placeholder="Course about...."
+          />
+        </FormField>
+        <FormField labelText="Price" name="price">
+          <Input
+            onChange={() => debounceLoadData()}
+            type="text"
+            placeholder="410"
           />
         </FormField>
         <Controller

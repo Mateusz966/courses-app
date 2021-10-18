@@ -8,8 +8,6 @@ const Start = lazy(() => import('./Start'));
 const Profile = lazy(() => import('./Profile'));
 
 const Dashboard: FC = () => (
-  // TODO USE HEADER TO MOBX HEADER
-  // useHeader('', undefined, undefined, undefined);
   <>
     <TopNavBar />
     <Switch>

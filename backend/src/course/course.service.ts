@@ -7,6 +7,8 @@ import {
   CourseDetailsRes,
   CourseSectionsRes,
   ILesson,
+  PublishedCourseRes,
+  ApiTableRes,
 } from '../../app-types';
 import { setFileIfExists } from '../../utils/setFileIfExist';
 import { VimeoService } from '../vimeo/vimeo.service';
@@ -20,6 +22,8 @@ import { Lesson } from './entities/lesson.entity';
 import { Section } from './entities/section.entity';
 import { storDir } from '../../utils/storDir';
 import { CourseContentDto } from './dto/course-content';
+import { BoughtCourses } from './entities/bought-courses.entity';
+import { BuyCoursesDto } from './dto/buy-courses.dto';
 
 const path = require('path');
 
@@ -29,6 +33,10 @@ export class CourseService {
     private readonly vimeoService: VimeoService,
     private readonly categoryService: CategoryService,
   ) {}
+
+  async buy(user: User, cart: BuyCoursesDto) {
+    return BoughtCourses.buyCourse(user, cart);
+  }
 
   async myCreated(userId: string, offset: number, limit?: number) {
     const [items, countTotal] = await Course.createQueryBuilder('course')
@@ -41,14 +49,23 @@ export class CourseService {
     return { items, countTotal };
   }
 
+  async myBought(userId: string, offset: number) {
+    const [items, countTotal] = await BoughtCourses.getMyBoughtCourses(
+      userId,
+      offset,
+    );
+    return { items, countTotal };
+  }
+
   async published(
     userId: string,
     offset: number,
     filterBy: {
-      category?: string;
+      categories?: string;
+      subcategories?: string;
     },
     limit?: number,
-  ) {
+  ): Promise<ApiTableRes<PublishedCourseRes[]>> {
     const [items, countTotal] = await Course.published(
       userId,
       offset,
@@ -114,6 +131,7 @@ export class CourseService {
     course.description = newCourse.description;
     course.title = newCourse.title;
     course.content = newCourse.content;
+    course.price = newCourse.price;
 
     await course.save();
 
@@ -163,29 +181,24 @@ export class CourseService {
     savedSection: Section,
     videos: Express.Multer.File[],
   ) {
-    console.log(videos);
-    try {
-      return await Promise.all(
-        lesson.map(async (payload) => {
-          const lesson = new Lesson();
-          const video = videos.find(
-            (file) => file.fieldname === `video_${payload.id}`,
-          );
-          lesson.id = payload.id;
-          lesson.description = payload.description;
-          lesson.section = savedSection;
-          lesson.title = payload.title;
-          lesson.videoFn = await this.vimeoService.upload(
-            video,
-            video.filename,
-            'opis',
-          );
-          return lesson.save();
-        }),
-      );
-    } catch (error) {
-      throw error;
-    }
+    return Promise.all(
+      lesson.map(async (payload) => {
+        const lesson = new Lesson();
+        const video = videos.find(
+          (file) => file.fieldname === `video_${payload.id}`,
+        );
+        lesson.id = payload.id;
+        lesson.description = payload.description;
+        lesson.section = savedSection;
+        lesson.title = payload.title;
+        lesson.videoFn = await this.vimeoService.upload(
+          video,
+          video.filename,
+          'opis',
+        );
+        return lesson.save();
+      }),
+    );
   }
 
   async uploadLessonVideo(

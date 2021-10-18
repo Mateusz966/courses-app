@@ -1,6 +1,6 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 import { RootStore } from '.';
-import { Course, ShoppingCart } from '../app-types';
+import { SetCourseInCart, ShoppingCart } from '../app-types';
 
 export class ShoppingCartStore {
   root: RootStore;
@@ -9,16 +9,24 @@ export class ShoppingCartStore {
     course: [],
   };
 
+  price = 0;
+
   constructor(root: RootStore) {
     this.root = root;
     makeObservable(this, {
       cartPayload: observable,
       addToCart: action.bound,
       deleteCourseFromCart: action.bound,
+      totalPrice: computed,
     });
   }
 
-  addToCart(course: Course) {
+  get totalPrice() {
+    this.cartPayload.course.map((course) => this.price + course.price);
+    return this.price;
+  }
+
+  addToCart(course: SetCourseInCart) {
     const foundCourse = this.cartPayload.course.find(
       (courseInCart) => courseInCart.id === course.id,
     );

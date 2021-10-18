@@ -1,5 +1,6 @@
 import { ITopic, CourseStatus, ICategory, ISubcategory } from './category';
 import { IUser } from './user';
+import { Currency } from './global';
 
 export interface ICourse {
   id: string;
@@ -12,6 +13,8 @@ export interface ICourse {
   user: IUser;
   category: ICategory;
   subcategory: ISubcategory;
+  price: number;
+  currency: Currency;
 }
 
 export interface ILesson {
@@ -52,6 +55,7 @@ export interface UpdateCourseReq {
   title: string;
   description: string;
   content: string;
+  price: number;
 }
 
 export interface PublishCourseReq {
@@ -93,6 +97,8 @@ interface CourseDetailsCommon {
     photoFn: string;
   };
   section: Section[];
+  price: number;
+  currency: Currency;
 }
 
 export interface Section {
@@ -127,11 +133,29 @@ export interface CourseSectionsRes {
 }
 
 export interface ShoppingCart {
-  course: Course[];
+  course: SetCourseInCart[];
 }
 
-export interface Course {
+export interface SetCourseInCart {
   id: string;
   title: string;
+  price: number;
+  currency: Currency;
 }
 
+export interface PublishedCourseRes {
+  courseStatus: CourseStatus;
+  id: string;
+  price: number;
+  currency: Currency;
+  title: string;
+  user: { firstName: string; lastName: string };
+  firstName: string;
+  lastName: string;
+}
+
+export interface BuyCoursesReq {
+  courses: SetCourseInCart[];
+  totalPrice: number;
+  currency: Currency;
+}
