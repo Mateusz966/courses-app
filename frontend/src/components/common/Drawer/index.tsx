@@ -13,9 +13,11 @@ import {
   ListItem,
   Box,
   Image,
+  Link,
 } from '@chakra-ui/react';
 import { useRef } from 'react';
 import { MdMenu } from 'react-icons/md';
+import { Link as RLink } from 'react-router-dom';
 import { NavUserActions } from '../NavUserActions';
 import BrandLogo from '../../../assets/brand-logo.png';
 
@@ -62,8 +64,10 @@ export const MainDrawer = () => {
             </DrawerContent>
           </DrawerOverlay>
         </Drawer>
-        <Box mr="3" as="a" href="/dashboard">
-          <Image src={BrandLogo} margin="auto" objectFit="cover" />
+        <Box mr="3">
+          <Link as={RLink} to="/dashboard">
+            <Image src={BrandLogo} margin="auto" objectFit="cover" />
+          </Link>
         </Box>
       </HStack>
     </>

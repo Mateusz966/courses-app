@@ -72,7 +72,9 @@ const ManageCourses = () => {
         accessor: ({ id }: any) => (
           <HStack>
             <IconButton
-              onClick={() => history.push(`/dashboard/course/edit/${id}`)}
+              onClick={() =>
+                history.push(`/dashboard/creator-zone/course/edit/${id}`)
+              }
               aria-label="Edit course"
               icon={<MdEdit />}
             />
