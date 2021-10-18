@@ -105,3 +105,4 @@ dist
 frontend/package.json
 .devcontainer/devcontainer.json
 .devcontainer/docker-compose.yml
+backend/env (1)

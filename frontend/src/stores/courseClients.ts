@@ -1,7 +1,6 @@
 import { action, makeObservable, observable, runInAction } from 'mobx';
 import api from '../service/api';
 import { ApiTableRes, PublishedCourseRes } from '../app-types';
-import { handlingError } from '../helpers/handleErrors';
 
 type FilterType = 'categories' | 'subcategories' | 'topics';
 
@@ -88,24 +87,20 @@ export class CourseClientsStore {
 
   async getCourses() {
     this.inProgress = true;
-    try {
-      const res = await api.get<ApiTableRes<PublishedCourseRes[]>>(
-        `course/published?limit=10&offset=${this.offset}&${
-          new URLSearchParams(this.filters as any).toString() ?? ''
-        }`,
-      );
-      if (res) {
-        runInAction(() => {
-          this.courses = [...this.courses, ...res.items];
-          this.setInitFetch();
-          this.setNumberOfCourses(res.countTotal);
-        });
-      }
-    } catch (error) {
-      handlingError(error.response);
-    } finally {
-      this.inProgress = false;
+
+    const res = await api.get<ApiTableRes<PublishedCourseRes[]>>(
+      `course/published?limit=10&offset=${this.offset}&${
+        new URLSearchParams(this.filters as any).toString() ?? ''
+      }`,
+    );
+    if (res) {
+      runInAction(() => {
+        this.courses = [...this.courses, ...res.items];
+        this.setInitFetch();
+        this.setNumberOfCourses(res.countTotal);
+      });
     }
+    this.inProgress = false;
   }
 
   async getFiltersList() {
