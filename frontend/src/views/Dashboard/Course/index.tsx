@@ -5,6 +5,7 @@ import CourseContent from './CourseContent';
 import EditCourse from './Edit';
 import EditCategories from './EditCategories';
 import ManageCourses from './Manage';
+import CoursesToBuy from './CoursesToBuy';
 import ViewCourse from './View';
 
 const Courses: FC = () => (
@@ -28,10 +29,8 @@ const Courses: FC = () => (
         component={ManageCourses}
       />
       <Route path="/dashboard/creator-zone/course/add" component={AddCourse} />
-      <Route
-        path="/dashboard/creator-zone/course/view/:courseId"
-        component={ViewCourse}
-      />
+      <Route path="/dashboard/course/view/:courseId" component={ViewCourse} />
+      <Route exact path="/dashboard/course/list" component={CoursesToBuy} />
     </Switch>
   </>
 );

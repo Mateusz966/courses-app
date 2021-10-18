@@ -31,8 +31,8 @@ export class CategoryController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('/available-categories')
+  @Get('/filters')
   async getCategoriesForFilters() {
-    return this.categoryService.getCategoriesForFilters();
+    return this.categoryService.getFilters();
   }
 }

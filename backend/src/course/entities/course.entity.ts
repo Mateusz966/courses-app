@@ -5,7 +5,13 @@ import { Category } from '../../category/entities/category.entity';
 import { User } from '../../user/entity/user.entity';
 import { CourseTopics } from './course-topics.entity';
 import { Section } from './section.entity';
-import { CourseDetails, CourseStatus, ICourse } from '../../../app-types';
+import {
+  CourseDetails,
+  CourseStatus,
+  Currency,
+  ICourse,
+  PublishedCourseRes,
+} from '../../../app-types';
 
 @Entity()
 export class Course extends MyBaseEntity implements ICourse {
@@ -23,6 +29,12 @@ export class Course extends MyBaseEntity implements ICourse {
 
   @Column({ nullable: true })
   courseFn: string;
+
+  @Column({ type: 'float', default: null, nullable: true })
+  price: number | null;
+
+  @Column({ type: 'varchar', enum: Currency, default: Currency.PLN })
+  currency: Currency;
 
   @OneToMany(() => CourseTopics, (courseTopic) => courseTopic.course)
   courseTopics: CourseTopics[];
@@ -49,7 +61,7 @@ export class Course extends MyBaseEntity implements ICourse {
   }
 
   static async getCourseDetailsById(courseId: string): Promise<CourseDetails> {
-    const res: CourseDetails = await this.createQueryBuilder('course')
+    const res = ((await this.createQueryBuilder('course')
       .where('course.id = :id', { id: courseId })
       .leftJoinAndSelect('course.category', 'category')
       .leftJoinAndSelect('course.subcategory', 'subcategory')
@@ -57,19 +69,32 @@ export class Course extends MyBaseEntity implements ICourse {
       .leftJoinAndSelect('course.courseTopics', 'topics')
       .leftJoinAndSelect('course.section', 'section')
       .leftJoinAndSelect('section.lesson', 'lesson')
-      .getOneOrFail();
+      .getOneOrFail()) as unknown) as CourseDetails;
     return res;
   }
 
-  static published(
+  static async published(
     userId: string,
     offset: number,
-    filterBy: { category?: string },
+    filterBy: {
+      categories?: string;
+      subcategories?: string;
+    },
     limit?: number,
-  ) {
+  ): Promise<[PublishedCourseRes[], number]> {
     const query = this.createQueryBuilder('course')
-      .select(['course.title', 'course.courseStatus', 'course.id'])
-      .leftJoinAndSelect('course.category', 'category')
+      .select([
+        'course.title',
+        'course.price',
+        'course.currency',
+        'course.courseStatus',
+        'course.id',
+        'user.firstName',
+        'user.lastName',
+      ])
+      .leftJoin('course.user', 'user')
+      .leftJoin('course.category', 'category')
+      .leftJoin('course.subcategory', 'subcategory')
       .where('course.user != :id', { id: userId })
       .where('course.courseStatus = :status', {
         status: CourseStatus.Published,
@@ -77,12 +102,22 @@ export class Course extends MyBaseEntity implements ICourse {
       .skip(offset)
       .take(limit);
 
-    if (filterBy?.category) {
-      query.andWhere('category.name = :category', {
-        category: filterBy.category,
+    if (filterBy?.categories) {
+      const categories = filterBy.categories.split(',');
+      query.andWhere('category.id = ANY (:categories)', {
+        categories,
       });
     }
 
-    return query.getManyAndCount();
+    if (filterBy?.subcategories) {
+      const subcategories = filterBy.subcategories.split(',');
+      query.orWhere('subcategory.id = ANY (:subcategories)', {
+        subcategories,
+      });
+    }
+
+    const courses = await query.getManyAndCount();
+
+    return (courses as unknown) as [PublishedCourseRes[], number];
   }
 }

@@ -82,28 +82,24 @@ class Course {
 
   async getSectionLessons(sectionId: string) {
     this.inProgress = true;
-    try {
-      const details = await api.get<SectionContentRes>(
-        `/course/sections/${sectionId}/lessons`,
-      );
-      if (details) {
-        runInAction(() => {
-          this.inProgress = false;
-          const {
-            section: { title, description },
-            ...rest
-          } = details;
-          this.courseSectionLesson = {
-            sectionName: title,
-            sectionDescription: description,
-            ...rest,
-          };
-        });
-      }
-    } catch (error) {
-      handlingError(error.response);
-      this.inProgress = false;
+    const details = await api.get<SectionContentRes>(
+      `/course/sections/${sectionId}/lessons`,
+    );
+    if (details) {
+      runInAction(() => {
+        this.inProgress = false;
+        const {
+          section: { title, description },
+          ...rest
+        } = details;
+        this.courseSectionLesson = {
+          sectionName: title,
+          sectionDescription: description,
+          ...rest,
+        };
+      });
     }
+    this.inProgress = false;
   }
 
   async getCourseDetails(id: string) {
@@ -118,8 +114,8 @@ class Course {
           this.inProgress = false;
         });
       }
-    } catch (error) {
-      handlingError(error.response);
+    } catch (error: any) {
+      handlingError(error?.response);
       this.inProgress = false;
     }
   }

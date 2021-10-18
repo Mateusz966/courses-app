@@ -1,5 +1,6 @@
 import { ITopic, CourseStatus, ICategory, ISubcategory } from './category';
 import { IUser } from './user';
+import { Currency } from './global';
 
 export interface ICourse {
   id: string;
@@ -12,6 +13,8 @@ export interface ICourse {
   user: IUser;
   category: ICategory;
   subcategory: ISubcategory;
+  price: number;
+  currency: Currency;
 }
 
 export interface ILesson {
@@ -20,6 +23,20 @@ export interface ILesson {
   description: string;
   videoFn: string;
   section: ISection;
+}
+
+export interface SectionContentRes {
+  section: {
+    id: string;
+    title: string;
+    description: string;
+  };
+  lesson: {
+    id: string;
+    title: string;
+    description: string;
+    videoFn: string;
+  }[];
 }
 
 export interface ICourseTopics {
@@ -38,6 +55,7 @@ export interface UpdateCourseReq {
   title: string;
   description: string;
   content: string;
+  price: number;
 }
 
 export interface PublishCourseReq {
@@ -78,7 +96,25 @@ interface CourseDetailsCommon {
     lastName: string;
     photoFn: string;
   };
+  section: Section[];
+  price: number;
+  currency: Currency;
 }
+
+export interface Section {
+  id: string;
+  title: string;
+  description: string;
+  lesson: [
+    {
+      id: string;
+      title: string;
+      description: string;
+    },
+  ];
+}
+
+export type CourseAuthor = Pick<CourseDetailsCommon, 'user'>;
 
 export interface CourseDetailsRes extends CourseDetailsCommon {
   topics: {
@@ -97,10 +133,29 @@ export interface CourseSectionsRes {
 }
 
 export interface ShoppingCart {
-  course: Course[];
+  course: SetCourseInCart[];
 }
 
-export interface Course {
+export interface SetCourseInCart {
   id: string;
   title: string;
+  price: number;
+  currency: Currency;
+}
+
+export interface PublishedCourseRes {
+  courseStatus: CourseStatus;
+  id: string;
+  price: number;
+  currency: Currency;
+  title: string;
+  user: { firstName: string; lastName: string };
+  firstName: string;
+  lastName: string;
+}
+
+export interface BuyCoursesReq {
+  courses: SetCourseInCart[];
+  totalPrice: number;
+  currency: Currency;
 }

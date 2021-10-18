@@ -8,12 +8,11 @@ import {
 } from '@chakra-ui/react';
 
 import { FormFieldProvider } from '../../../hooks/useFormFieldContext';
-import { FormFieldContextType } from '../../../interal-types/form';
+import { FormFieldContextType } from '../../../interal-types';
 
 interface Props extends FormFieldContextType {
   name: string;
   children: ReactNode;
-  placeholder?: string;
   labelText?: string;
   helperText?: string;
 }
