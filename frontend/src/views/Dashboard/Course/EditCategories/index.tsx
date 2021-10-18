@@ -6,13 +6,13 @@ import { CourseTopicForm } from '../../../../components/forms/Course/Topics';
 
 const EditCategories: FC = () => (
   <Switch>
-    <Route path="/dashboard/creator-zone/course/edit/details/:courseId/category">
+    <Route path="/dashboard/course/edit/details/:courseId/category">
       <CourseCategoryForm />
     </Route>
-    <Route path="/dashboard/creator-zone/course/edit/details/:courseId/subcategory">
+    <Route path="/dashboard/course/edit/details/:courseId/subcategory">
       <CourseSubcategoryForm />
     </Route>
-    <Route path="/dashboard/creator-zone/course/edit/details/:courseId/topics">
+    <Route path="/dashboard/course/edit/details/:courseId/topics">
       <CourseTopicForm />
     </Route>
   </Switch>

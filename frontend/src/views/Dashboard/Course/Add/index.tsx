@@ -8,24 +8,22 @@ const AddCourse: FC = () => (
   <Switch>
     <Route
       exact
-      path="/dashboard/creator-zone/course/add"
-      render={() => (
-        <Redirect to="/dashboard/creator-zone/course/add/category" />
-      )}
+      path="/dashboard/course/add"
+      render={() => <Redirect to="/dashboard/course/add/category" />}
     />
     <Route
       exact
-      path="/dashboard/creator-zone/course/add/category"
+      path="/dashboard/course/add/category"
       component={CourseCategoryForm}
     />
     <Route
       exact
-      path="/dashboard/creator-zone/course/add/subcategory"
+      path="/dashboard/course/add/subcategory"
       component={CourseSubcategoryForm}
     />
     <Route
       exact
-      path="/dashboard/creator-zone/course/add/topics"
+      path="/dashboard/course/add/topics"
       component={CourseTopicForm}
     />
   </Switch>

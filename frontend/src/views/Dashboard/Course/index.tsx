@@ -7,30 +7,29 @@ import EditCategories from './EditCategories';
 import ManageCourses from './Manage';
 import CoursesToBuy from './CoursesToBuy';
 import ViewCourse from './View';
+import CreatorZone from '../../CreatorZone';
 
 const Courses: FC = () => (
   <>
     <Switch>
       <Route
-        path="/dashboard/creator-zone/course/edit/content/:courseId"
+        path="/dashboard/course/edit/content/:courseId"
         component={CourseContent}
       />
       <Route
-        path="/dashboard/creator-zone/course/edit/details/:courseId"
+        path="/dashboard/course/edit/details/:courseId"
         component={EditCategories}
       />
-      <Route
-        path="/dashboard/creator-zone/course/edit/:courseId"
-        component={EditCourse}
-      />
-      <Route
-        exact
-        path="/dashboard/creator-zone/course/manage"
-        component={ManageCourses}
-      />
-      <Route path="/dashboard/creator-zone/course/add" component={AddCourse} />
+      <Route path="/dashboard/course/edit/:courseId" component={EditCourse} />
+      <Route exact path="/dashboard/course/manage" component={ManageCourses} />
+      <Route path="/dashboard/course/add" component={AddCourse} />
       <Route path="/dashboard/course/view/:courseId" component={ViewCourse} />
       <Route exact path="/dashboard/course/list" component={CoursesToBuy} />
+      <Route
+        exact
+        path="/dashboard/course/creator-zone"
+        component={CreatorZone}
+      />
     </Switch>
   </>
 );

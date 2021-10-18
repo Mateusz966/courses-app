@@ -6,7 +6,7 @@ const ViewCreatorZoneWrapper: FC = () => {
   const tilesDetails = [
     {
       tileName: 'Stwórz kurs',
-      pathLink: '/dashboard/creator-zone/course/add/category',
+      pathLink: '/dashboard/course/add/category',
       cStart: [2],
       rStart: [2, 2, 2],
       m: [3, 6],
@@ -14,7 +14,7 @@ const ViewCreatorZoneWrapper: FC = () => {
     },
     {
       tileName: 'Zarządzaj kursami',
-      pathLink: '/dashboard/creator-zone/course/manage',
+      pathLink: '/dashboard/course/manage',
       cStart: [2, 3, 3],
       rStart: [3, 2, 2],
       m: [3, 6],
