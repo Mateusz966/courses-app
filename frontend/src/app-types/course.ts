@@ -15,6 +15,7 @@ export interface ICourse {
   subcategory: ISubcategory;
   price: number;
   currency: Currency;
+  courseFn: string | null;
 }
 
 export interface ILesson {

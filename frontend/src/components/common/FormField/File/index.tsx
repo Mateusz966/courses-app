@@ -12,7 +12,7 @@ import { useFormFieldContext } from '../../../../hooks/useFormFieldContext';
 
 interface Props {
   desktopRatio: number;
-  previewUrl?: string;
+  previewUrl?: string | null;
 }
 
 export const ImagePicker: React.FC<Props> = ({
@@ -93,10 +93,32 @@ export const ImagePicker: React.FC<Props> = ({
   return (
     <Box position="relative">
       {loading && <Spinner overlay />}
-      <Box as="label" htmlFor={name} position="relative" cursor="pointer">
+      <Box
+        display="block"
+        as="label"
+        htmlFor={name}
+        position="relative"
+        cursor="pointer"
+        css={
+          previewUrl
+            ? {
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                opacity: '0',
+              }
+            : undefined
+        }
+      >
         {!image && (
-          <>
-            Upload photo
+          <Box
+            p="40px"
+            border="3px dashed #000"
+            display="fiex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Text>Click to upload</Text>
             <input
               {...register(name)}
               name={name}
@@ -115,7 +137,7 @@ export const ImagePicker: React.FC<Props> = ({
                 bottom: '0',
               }}
             />
-          </>
+          </Box>
         )}
       </Box>
       {!cropData && (
@@ -138,7 +160,7 @@ export const ImagePicker: React.FC<Props> = ({
           />
         </Box>
       )}
-      {previewUrl && (
+      {cropData && (
         <IconButton
           aria-label="Remove photo"
           color="#fff"
@@ -161,19 +183,16 @@ export const ImagePicker: React.FC<Props> = ({
         )}
       </>
       <HStack mt="5" spacing="48px">
-        <Button
-          disabled={!previewUrl}
-          type="button"
-          mt0
-          variant="outline"
-          onClick={cancelEdit}
-        >
-          Edit
-        </Button>
-
-        <Button disabled={!image} type="button" onClick={getCropData}>
-          Save
-        </Button>
+        {cropData && (
+          <Button type="button" mt0 variant="outline" onClick={cancelEdit}>
+            Edit
+          </Button>
+        )}
+        {!cropData && image && (
+          <Button mt0 type="button" onClick={getCropData}>
+            Save
+          </Button>
+        )}
       </HStack>
     </Box>
   );

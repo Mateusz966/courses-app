@@ -72,7 +72,11 @@ export const CourseForm: FC = observer(() => {
         <FormField labelText="Course photo" name="courseFn">
           <ImagePicker
             desktopRatio={22 / 9}
-            previewUrl={courseId && `course/main-photo/${courseId}`}
+            previewUrl={
+              courseStore?.course?.courseFn &&
+              courseId &&
+              `course/main-photo/${courseId}`
+            }
           />
         </FormField>
         <FormField labelText="Title" name="title">
