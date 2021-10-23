@@ -43,11 +43,10 @@ export const FormSelect: FC<Props> = ({
     <Controller
       name={name}
       control={control}
-      defaultValue={defaultValue}
       rules={{ required: isRequired }}
+      defaultValue={defaultValue}
       render={({ field, fieldState }) => (
         <Select
-          defaultValue={defaultValue}
           styles={customStyles}
           isMulti={isMulti}
           options={options}

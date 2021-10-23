@@ -115,6 +115,14 @@ class Course {
           const { content, ...rest } = details;
           this.course = rest;
           this.courseContent = content;
+          this.setCategory({
+            value: rest.category,
+            label: rest.category.name,
+          });
+          this.setSubcategory({
+            value: rest.subcategory,
+            label: rest.subcategory.name,
+          });
           this.inProgress = false;
         });
       }

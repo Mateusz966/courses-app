@@ -111,13 +111,37 @@ export class CourseService {
     return addedCourse.id;
   }
 
+  async edit(user: User, categoriesDetails: CreateCourse, courseId: string) {
+    const {
+      category,
+      subcategory,
+      topics,
+    } = await this.categoryService.areCategoriesExist(categoriesDetails);
+    const course = await Course.findOne({ id: courseId });
+
+    course.user = user;
+    course.category = category;
+    course.subcategory = subcategory;
+
+    await course.save();
+
+    await this.handleCourseTopics(course, topics);
+
+    return course.id;
+  }
+
   async getCourseDetails(id: string): Promise<CourseDetailsRes> {
     const course = await Course.getCourseDetailsById(id);
     const topics = await CourseTopics.getCourseTopics(id);
 
+    const mappedTopics = topics.map((topic) => ({
+      id: topic.topic_id,
+      name: topic.topic_name,
+    })) as any;
+
     return {
       ...course,
-      topics,
+      topics: mappedTopics,
     };
   }
 

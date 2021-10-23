@@ -26,6 +26,7 @@ export const ImagePicker: React.FC<Props> = ({
   const { register } = useFormContext();
   const { name } = useFormFieldContext();
   const { fileStore } = useRootStore();
+  const [isEditing, setIsEditing] = useState(false);
 
   if (!name) {
     return <Text>Picker does not have name attr</Text>;
@@ -40,6 +41,7 @@ export const ImagePicker: React.FC<Props> = ({
   };
 
   const onChange = (e: any) => {
+    setIsEditing(true);
     setImage(undefined);
     e.preventDefault();
     let files;
@@ -56,6 +58,7 @@ export const ImagePicker: React.FC<Props> = ({
   };
 
   const imageBlobHandler = (blob: Blob, url: string, fieldName: string) => {
+    setIsEditing(true);
     const blobImage: any = blob;
     blobImage.name = `${fieldName}.png`;
     blobImage.lastModified = new Date().getTime();
@@ -100,23 +103,44 @@ export const ImagePicker: React.FC<Props> = ({
         position="relative"
         cursor="pointer"
         css={
-          previewUrl
+          previewUrl && !cropData
             ? {
                 position: 'absolute',
                 width: '100%',
                 height: '100%',
-                opacity: '0',
+                opacity: 0,
+                transition: 'all ease-in 125ms',
+              }
+            : undefined
+        }
+        _hover={
+          previewUrl && !cropData
+            ? {
+                opacity: '0.8',
+                background: 'gray',
               }
             : undefined
         }
       >
         {!image && (
           <Box
+            className="content-wrapper"
             p="40px"
             border="3px dashed #000"
             display="fiex"
             alignItems="center"
             justifyContent="center"
+            transition="border-color ease 250ms"
+            width="100%"
+            height="100%"
+            _hover={
+              previewUrl && !cropData
+                ? {
+                    borderColor: 'transparent',
+                    color: 'white',
+                  }
+                : undefined
+            }
           >
             <Text>Click to upload</Text>
             <input
@@ -174,7 +198,7 @@ export const ImagePicker: React.FC<Props> = ({
       )}
       <>
         {cropData && <Image src={cropData} />}
-        {previewUrl && !cropData && (
+        {previewUrl && !isEditing && (
           <Image
             src={`${apiUrl}/${previewUrl}`}
             onError={previewUnavailable}

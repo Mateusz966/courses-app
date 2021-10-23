@@ -6,6 +6,7 @@ import {
   HttpCode,
   Param,
   Post,
+  Put,
   Query,
   Res,
   UploadedFile,
@@ -89,6 +90,16 @@ export class CourseController {
   @Post('/add')
   async add(@UserObj() user, @Body() categoriesDetails: CreateCourseDto) {
     return this.courseService.add(user, categoriesDetails);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put('/edit/:courseId')
+  async edit(
+  @UserObj() user,
+    @Body() categoriesDetails: CreateCourseDto,
+    @Param('courseId') courseId: string,
+  ) {
+    return this.courseService.edit(user, categoriesDetails, courseId);
   }
 
   @UseGuards(JwtAuthGuard)

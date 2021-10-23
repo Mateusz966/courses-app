@@ -10,6 +10,7 @@ import { UpdateCourseForm } from '../../interal-types';
 
 interface Props {
   setError: SetError;
+  getValues?: any;
 }
 
 interface UseCourse {
@@ -32,13 +33,14 @@ interface UseCourse {
     courseId?: string,
   ) => void;
   updateCourse: (payload: UpdateCourseForm, courseId: string) => Promise<void>;
+  handleUpdateCourse: (id: string) => Promise<void>;
   publish: (courseId: string) => Promise<void>;
   inProgress: boolean;
 }
 
 export const useCourse = (props?: Props): UseCourse => {
   const { fileStore } = useRootStore();
-  const { inProgress, post } = useApi({ setError: props?.setError });
+  const { inProgress, post, put } = useApi({ setError: props?.setError });
 
   const publish = async (courseId: string) => {
     await post(`/course/publish/${courseId}`);
@@ -50,6 +52,7 @@ export const useCourse = (props?: Props): UseCourse => {
     },
     courseId?: string,
   ) => {
+    console.log(payload);
     const url = courseId
       ? `/dashboard/course/edit/details/${courseId}/subcategory`
       : '/dashboard/course/add/subcategory';
@@ -70,9 +73,9 @@ export const useCourse = (props?: Props): UseCourse => {
     history.push(url);
   };
 
-  const courseDetailsEdit = async () =>
-    post<string, CreateCourse>(
-      '/course/edit',
+  const courseDetailsEdit = async (courseId: string) =>
+    put<string, CreateCourse>(
+      `/course/edit/${courseId}`,
       courseStore.courseCategoryDetails,
     );
 
@@ -91,7 +94,7 @@ export const useCourse = (props?: Props): UseCourse => {
     let savedCourseId;
     courseStore.setTopic(payload.topics);
     if (courseId) {
-      savedCourseId = await courseDetailsEdit();
+      savedCourseId = await courseDetailsEdit(courseId);
     } else {
       savedCourseId = await courseDetailsCreate();
     }
@@ -118,11 +121,27 @@ export const useCourse = (props?: Props): UseCourse => {
     [],
   );
 
+  const handleUpdateCourse = async (id: string) => {
+    const { title, description, price, content } = props?.getValues();
+    if (title && description && price && content) {
+      await updateCourse(
+        {
+          title,
+          description,
+          price,
+          content,
+        },
+        id,
+      );
+    }
+  };
+
   return {
     handleCourseDetailsSubmit,
     submitCategory,
     submitSubcategory,
     updateCourse,
+    handleUpdateCourse,
     inProgress,
     publish,
   };

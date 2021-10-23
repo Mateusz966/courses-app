@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { FC, useCallback, useEffect } from 'react';
 
 import { FormProvider, useForm } from 'react-hook-form';
-import { Link as RLink } from 'react-router-dom';
+import { Link as RLink, useParams } from 'react-router-dom';
 import { CategoryDto } from '../../../../app-types/category';
 import { CustomSelectOption } from '../../../../app-types/global';
 import { courseTopicsSchema } from '../../../../formSchemas/courseCategoryForm';
@@ -15,11 +15,8 @@ import { Button } from '../../../common/Button';
 import { FormField } from '../../../common/FormField';
 import { FormSelect } from '../../../common/FormField/Select';
 
-interface Props {
-  courseId?: string;
-}
-
-export const CourseTopicForm: FC<Props> = observer(({ courseId }) => {
+export const CourseTopicForm: FC = observer(() => {
+  const { courseId } = useParams<{ courseId?: string }>();
   const methods = useForm({
     mode: 'onChange',
     resolver: yupResolver(courseTopicsSchema),

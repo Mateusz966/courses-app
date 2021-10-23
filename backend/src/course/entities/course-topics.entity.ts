@@ -13,9 +13,9 @@ export class CourseTopics extends BaseEntity implements ICourseTopics {
 
   static getCourseTopics(courseId: string) {
     return this.createQueryBuilder('topics')
-      .leftJoinAndSelect('topics.topic', 'topic')
+      .leftJoin('topics.topic', 'topic')
       .where('topics.course = :id', { id: courseId })
-      .select(['topic.name'])
-      .getMany();
+      .select(['topic.name', 'topic.id'])
+      .getRawMany();
   }
 }
