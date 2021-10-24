@@ -42,9 +42,13 @@ export class BoughtCourses extends MyBaseEntity {
   ): Promise<any> {
     const coursesIds = (
       await this.query(
-        'SELECT id from public.bought_courses WHERE "userSnapshot"::jsonb->\'id\' = \'"42fc70d3-2180-409d-8331-96013c351fdb"\'',
+        `SELECT "cartSnapshot" from public.bought_courses WHERE "userSnapshot"::jsonb->'id' = '"${userId}"'`,
       )
-    ).map((course) => course.id);
+    )
+      .map((course) => course.cartSnapshot)
+      .flat()
+      .map((cart) => cart.id);
+
     return Course.createQueryBuilder('course')
       .select(['course.title', 'course.courseStatus', 'course.id'])
       .leftJoinAndSelect('course.category', 'category')
