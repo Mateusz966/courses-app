@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import ViewBoughtCourses from '../../../../components/common/ViewBoughtCourses/ViewBoughtCourses';
+import ViewBoughtCourses from '../../../../components/common/ViewBoughtCourses';
 
 const BoughtCoursesWraper: FC = () => <ViewBoughtCourses />;
 
