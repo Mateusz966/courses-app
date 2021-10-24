@@ -125,6 +125,8 @@ export class CourseService {
 
     await course.save();
 
+    await CourseTopics.removeCourseTopics(courseId);
+
     await this.handleCourseTopics(course, topics);
 
     return course.id;

@@ -18,4 +18,13 @@ export class CourseTopics extends BaseEntity implements ICourseTopics {
       .select(['topic.name', 'topic.id'])
       .getRawMany();
   }
+
+  static removeCourseTopics(courseId: string) {
+    return this.createQueryBuiler('topics')
+    .leftJoin('topics.topic', 'topic')
+    .where('topics.course = :id', { id: courseId })
+    .delete()
+    .execute();
+  }
+
 }
