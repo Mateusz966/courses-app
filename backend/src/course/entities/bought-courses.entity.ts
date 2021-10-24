@@ -36,13 +36,15 @@ export class BoughtCourses extends MyBaseEntity {
     return boughtCourse.save();
   }
 
-  static async getMyBoughtCourses(userId: string, offset: number) {
-    const coursesIds = await this.createQueryBuilder('boughtCourses')
-      .select('boughtCourses.id')
-      .where(`boughtCourses.user ::jsonb @> '{"id": "${userId}"'`, {
-        id: userId,
-      });
-
+  static async getMyBoughtCourses(
+    userId: string,
+    offset: number,
+  ): Promise<any> {
+    const coursesIds = (
+      await this.query(
+        'SELECT id from public.bought_courses WHERE "userSnapshot"::jsonb->\'id\' = \'"42fc70d3-2180-409d-8331-96013c351fdb"\'',
+      )
+    ).map((course) => course.id);
     return Course.createQueryBuilder('course')
       .select(['course.title', 'course.courseStatus', 'course.id'])
       .leftJoinAndSelect('course.category', 'category')
