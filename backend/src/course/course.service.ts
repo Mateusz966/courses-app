@@ -139,7 +139,7 @@ export class CourseService {
     const mappedTopics = topics.map((topic) => ({
       id: topic.topic_id,
       name: topic.topic_name,
-    })) as any;
+    }));
 
     return {
       ...course,

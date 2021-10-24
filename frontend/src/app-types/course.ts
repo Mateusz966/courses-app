@@ -15,7 +15,7 @@ export interface ICourse {
   subcategory: ISubcategory;
   price: number;
   currency: Currency;
-  courseFn: string | null;
+  courseFn: string;
 }
 
 export interface ILesson {
@@ -119,9 +119,8 @@ export type CourseAuthor = Pick<CourseDetailsCommon, 'user'>;
 
 export interface CourseDetailsRes extends CourseDetailsCommon {
   topics: {
-    topic: {
-      name: string;
-    };
+    name: string;
+    id: string;
   }[];
 }
 
