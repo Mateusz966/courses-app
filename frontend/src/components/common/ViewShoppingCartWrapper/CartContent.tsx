@@ -2,11 +2,16 @@ import { Button } from '@chakra-ui/button';
 import { Box, Center, Flex, Text } from '@chakra-ui/layout';
 import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
-import { Currency, ShoppingCart } from '../../../app-types';
+import {
+  BoughtCoursesReq,
+  BuyCoursesReq,
+  Currency,
+  ShoppingCart,
+} from '../../../app-types';
 import { useApi } from '../../../hooks/useApi';
 import SingleCourseInCart from './SingleCourseInCart';
 import { useRootStore } from '../../../stores/storeContext';
-import { BuyCoursesReq } from '../../../../../backend/app-types';
+import { history } from '../../../config/history';
 
 interface Props {
   cartPayload: ShoppingCart;
@@ -15,7 +20,7 @@ interface Props {
 const CartContent: FC<Props> = observer(({ cartPayload }) => {
   const { post } = useApi();
   const {
-    shoppingCart: { totalPrice },
+    shoppingCart: { totalPrice, deleteAllCourseFromCart },
   } = useRootStore();
 
   const courseList = cartPayload.course.map((course) => (
@@ -29,11 +34,15 @@ const CartContent: FC<Props> = observer(({ cartPayload }) => {
   ));
 
   const buyButtonHandler = async ({ course }: ShoppingCart) => {
-    await post<string, BuyCoursesReq>('/course/buy', {
+    const res = await post<BoughtCoursesReq, BuyCoursesReq>('/course/buy', {
       courses: course,
       totalPrice: Number(totalPrice),
       currency: Currency.PLN,
     });
+    if (res && res.paymentStatus === 'OK') {
+      deleteAllCourseFromCart();
+      history.push('/dashboard/course/bought');
+    }
   };
   return (
     <>

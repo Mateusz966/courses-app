@@ -159,3 +159,9 @@ export interface BuyCoursesReq {
   totalPrice: number;
   currency: Currency;
 }
+export interface BoughtCoursesReq {
+  courses: SetCourseInCart[];
+  totalPrice: number;
+  currency: Currency;
+  paymentStatus: string;
+}

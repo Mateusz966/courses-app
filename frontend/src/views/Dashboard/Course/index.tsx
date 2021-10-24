@@ -8,6 +8,7 @@ import ManageCourses from './Manage';
 import CoursesToBuy from './CoursesToBuy';
 import ViewCourse from './View';
 import CreatorZone from '../../CreatorZone';
+import BoughtCoursesWraper from './Bought';
 
 const Courses: FC = () => (
   <>
@@ -29,6 +30,11 @@ const Courses: FC = () => (
         exact
         path="/dashboard/course/creator-zone"
         component={CreatorZone}
+      />
+      <Route
+        exact
+        path="/dashboard/course/bought"
+        component={BoughtCoursesWraper}
       />
     </Switch>
   </>
