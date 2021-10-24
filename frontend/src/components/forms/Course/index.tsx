@@ -12,6 +12,7 @@ import { courseStore } from '../../../stores/course';
 import { courseSchema } from '../../../formSchemas/course';
 import { useCourse } from '../../../hooks/course/useCourse';
 import ImagePicker from '../../common/FormField/File';
+import { useRootStore } from '../../../stores/storeContext';
 
 export const CourseForm: FC = observer(() => {
   const { courseId } = useParams<{ courseId: string }>();
@@ -19,6 +20,10 @@ export const CourseForm: FC = observer(() => {
     mode: 'onChange',
     resolver: yupResolver(courseSchema),
   });
+
+  const {
+    fileStore: { files },
+  } = useRootStore();
 
   const {
     reset,
@@ -63,7 +68,7 @@ export const CourseForm: FC = observer(() => {
 
   useEffect(() => {
     handleFormChange();
-  }, [watchedContent]);
+  }, [watchedContent, files]);
 
   return (
     <FormProvider {...methods}>

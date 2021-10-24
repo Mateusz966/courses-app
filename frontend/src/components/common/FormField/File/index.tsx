@@ -27,6 +27,7 @@ export const ImagePicker: React.FC<Props> = ({
   const { name } = useFormFieldContext();
   const { fileStore } = useRootStore();
   const [isEditing, setIsEditing] = useState(false);
+  const [showUploader, setShowUploader] = useState(false);
 
   if (!name) {
     return <Text>Picker does not have name attr</Text>;
@@ -59,6 +60,7 @@ export const ImagePicker: React.FC<Props> = ({
 
   const imageBlobHandler = (blob: Blob, url: string, fieldName: string) => {
     setIsEditing(true);
+    setShowUploader(false);
     const blobImage: any = blob;
     blobImage.name = `${fieldName}.png`;
     blobImage.lastModified = new Date().getTime();
@@ -87,6 +89,7 @@ export const ImagePicker: React.FC<Props> = ({
   const deletePhoto = () => {
     setImage(undefined);
     setCropData(undefined);
+    setShowUploader(true);
     if (typeof cropper !== 'undefined') {
       cropper.destroy();
     }
@@ -103,7 +106,7 @@ export const ImagePicker: React.FC<Props> = ({
         position="relative"
         cursor="pointer"
         css={
-          previewUrl && !cropData
+          previewUrl && !cropData && !showUploader
             ? {
                 position: 'absolute',
                 width: '100%',
@@ -114,7 +117,7 @@ export const ImagePicker: React.FC<Props> = ({
             : undefined
         }
         _hover={
-          previewUrl && !cropData
+          previewUrl && !cropData && !showUploader
             ? {
                 opacity: '0.8',
                 background: 'gray',
@@ -134,7 +137,7 @@ export const ImagePicker: React.FC<Props> = ({
             width="100%"
             height="100%"
             _hover={
-              previewUrl && !cropData
+              previewUrl && !cropData && !showUploader
                 ? {
                     borderColor: 'transparent',
                     color: 'white',
