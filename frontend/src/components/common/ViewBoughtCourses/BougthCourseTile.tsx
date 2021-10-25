@@ -16,6 +16,9 @@ const BougthCourseTile: FC<Props> = ({ course: { title, id } }) => (
       rounded="lg"
       boxShadow="xl"
       _hover={{
+        pos: 'relative',
+        top: '5%',
+        right: '5%',
         h: '110%',
         w: '110%',
         boxShadow: '2xl',
