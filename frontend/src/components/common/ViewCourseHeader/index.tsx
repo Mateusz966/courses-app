@@ -14,6 +14,7 @@ import {
 import { BsCalendar } from 'react-icons/bs';
 import { MdChevronRight, MdShoppingCart } from 'react-icons/md';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { CourseRating } from '../CourseRating';
 import { AuthorBox } from '../AuthorBox';
 import { CourseDetailsRes } from '../../../app-types';
@@ -34,7 +35,9 @@ export const ViewCourseHeader: React.FC<Props> = ({
     >
       <BreadcrumbItem>
         <Tooltip label="All courses">
-          <BreadcrumbLink href="/dashboard">All</BreadcrumbLink>
+          <BreadcrumbLink to="/dashboard" as={Link}>
+            All
+          </BreadcrumbLink>
         </Tooltip>
       </BreadcrumbItem>
 
