@@ -95,38 +95,6 @@ export const CourseForm: FC = observer(() => {
         <FormField labelText="Price" name="price">
           <Input type="text" placeholder="410" />
         </FormField>
-<<<<<<< HEAD
-        <Box mt="10">
-          <Controller
-            name="content"
-            render={(field) => (
-              <Editor
-                {...field}
-                apiKey="f77pjcz1vwa1mi1almj8uhwj2crs196lq21stcyj2dq0w8pf"
-                initialValue={courseStore?.courseContent}
-                init={{
-                  height: 400,
-                  directionality: 'ltr',
-                  plugins: [
-                    'advlist autolink lists link preview anchor',
-                    'searchreplace',
-                    'paste code help',
-                  ],
-                  toolbar:
-                    // eslint-disable-next-line no-multi-str
-                    'undo redo | formatselect | bold italic backcolor | \
-               alignleft aligncenter alignright alignjustify | \
-               bullist numlist outdent indent | removeformat | help',
-                }}
-                onEditorChange={(e) => {
-                  field.field.onChange(e);
-                  debounceLoadData();
-                }}
-              />
-            )}
-          />
-        </Box>
-=======
         <Controller
           control={control}
           name="content"
@@ -152,7 +120,6 @@ export const CourseForm: FC = observer(() => {
             />
           )}
         />
->>>>>>> dev
 
         <Link to={`/dashboard/course/edit/content/${courseId}`}>
           Edytuj zawartość kursu
