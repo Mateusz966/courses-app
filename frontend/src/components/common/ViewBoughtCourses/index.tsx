@@ -59,7 +59,7 @@ const ViewBoughtCourses: FC = () => {
   );
 
   if (inProgress) {
-    return <p>Loading ...</p>;
+    return <Text>Loading ...</Text>;
   }
 
   return (
@@ -76,7 +76,7 @@ const ViewBoughtCourses: FC = () => {
         {course.length > 0 ? (
           <GridItem colStart={[1, 1, 2]} colSpan={3}>
             <Grid templateColumns={['repeat(1, 1fr)', null, 'repeat(3, 1fr)']}>
-              {inProgress ? <Text>Loading ...</Text> : boughtTiles}
+              {boughtTiles}
             </Grid>
           </GridItem>
         ) : (
