@@ -1,6 +1,15 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Container, HStack, IconButton } from '@chakra-ui/react';
-import { MdEdit, IoMdTrash } from 'react-icons/all';
+import {
+  Container,
+  HStack,
+  IconButton,
+  Link,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  Heading,
+} from '@chakra-ui/react';
+import { MdEdit, MdChevronRight, IoMdTrash } from 'react-icons/all';
 import { Table } from '../../../../components/common/Table';
 import { useApi } from '../../../../hooks/useApi';
 import { getCourseStatus } from '../../../../helpers/getStatus';
@@ -61,7 +70,11 @@ const ManageCourses = () => {
     () => [
       {
         Header: 'Title',
-        accessor: 'title',
+        accessor: ({ id, title }: any) => (
+          <Link onClick={() => history.push(`/dashboard/course/view/${id}`)}>
+            {title}
+          </Link>
+        ),
       },
       {
         Header: 'Status',
@@ -88,7 +101,29 @@ const ManageCourses = () => {
     [],
   );
   return (
-    <Container>
+    <Container mt="5" width="100%" maxW="1500px">
+      <Breadcrumb
+        pt={{ md: '3', base: '1' }}
+        spacing="8px"
+        separator={<MdChevronRight color="gray.500" />}
+      >
+        <BreadcrumbItem>
+          <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+        </BreadcrumbItem>
+
+        <BreadcrumbItem isCurrentPage>
+          <BreadcrumbLink>Moje kursy</BreadcrumbLink>
+        </BreadcrumbItem>
+      </Breadcrumb>
+      <Heading
+        as="h1"
+        size="xl"
+        fontSize={{ md: '4xl', base: 'xl' }}
+        mt={{ md: '30px', base: '15px' }}
+        mb="30px"
+      >
+        Moje kursy
+      </Heading>
       <Table inProgress={inProgress} columns={columns} data={courses} />
       <Alert
         onAction={() => deleteCourse()}

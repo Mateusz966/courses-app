@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box } from '@chakra-ui/react';
+import { Box, Heading } from '@chakra-ui/react';
 import { useApi } from '../../../hooks/useApi';
 import { CourseSectionsRes } from '../../../app-types';
 import { courseStore } from '../../../stores/course';
@@ -24,14 +24,18 @@ export const SectionList = () => {
 
   return (
     <>
-      Course sections
-      <Box as="ul">
+      <Heading as="h2" size="md" mb="2">
+        Sekcje kursu
+      </Heading>
+      <Box as="ul" listStyleType="none">
         {!!sections?.length &&
           sections.map(({ title, id, description }) => (
             <Box
               onClick={() => courseStore.getSectionLessons(id)}
               key={id}
               as="li"
+              pt="0.5"
+              pb="0.5"
             >
               {title}
             </Box>
