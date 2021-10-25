@@ -1,7 +1,6 @@
-import { Box } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, useParams } from 'react-router-dom';
-import { FC, useCallback, useEffect, useRef } from 'react';
+import { FC, useCallback, useEffect } from 'react';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
 import { observer } from 'mobx-react-lite';
 import { Editor } from '@tinymce/tinymce-react';
@@ -13,36 +12,33 @@ import { courseStore } from '../../../stores/course';
 import { courseSchema } from '../../../formSchemas/course';
 import { useCourse } from '../../../hooks/course/useCourse';
 import ImagePicker from '../../common/FormField/File';
-import { UpdateCourseForm } from '../../../interal-types';
+import { useRootStore } from '../../../stores/storeContext';
 
 export const CourseForm: FC = observer(() => {
   const { courseId } = useParams<{ courseId: string }>();
-  const debouncedFunctionRef = useRef<any>();
   const methods = useForm({
     mode: 'onChange',
     resolver: yupResolver(courseSchema),
   });
 
   const {
+    fileStore: { files },
+  } = useRootStore();
+
+  const {
     reset,
     setError,
+    getValues,
     formState: { isValid },
-    watch,
+    control,
   } = methods;
-  const { inProgress, publish, updateCourse } = useCourse({
+  const { inProgress, publish, handleUpdateCourse } = useCourse({
     setError,
+    getValues,
   });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const watchedFields = watch(['content', 'description', 'title']);
-
-  debouncedFunctionRef.current = () =>
-    updateCourse(methods.getValues() as UpdateCourseForm, courseId);
-
-  const debounceLoadData = useCallback(
-    debounce((...args) => debouncedFunctionRef.current(...args), 2500),
-    [],
-  );
+  const watchedContent = methods.watch('content');
 
   useEffect(() => {
     if (courseId) {
@@ -61,48 +57,52 @@ export const CourseForm: FC = observer(() => {
     }
   }, [reset, courseStore.course]);
 
+  const debouncedSave = useCallback(
+    debounce(() => handleUpdateCourse(courseId), 1000),
+    [], // will be created only once initially
+  );
+
+  const handleFormChange = () => {
+    debouncedSave();
+  };
+
+  useEffect(() => {
+    handleFormChange();
+  }, [watchedContent, files]);
+
   return (
     <FormProvider {...methods}>
-      <Box
-        maxW="100%"
-        margin="auto"
-        as="form"
+      <form
+        onChange={handleFormChange}
         onSubmit={methods.handleSubmit(() => publish(courseId))}
       >
         <FormField labelText="Course photo" name="courseFn">
           <ImagePicker
             desktopRatio={22 / 9}
-            previewUrl={courseId && `course/main-photo/${courseId}`}
+            previewUrl={
+              courseStore?.course?.courseFn &&
+              courseId &&
+              `course/main-photo/${courseId}`
+            }
           />
         </FormField>
         <FormField labelText="Title" name="title">
-          <Input
-            type="text"
-            placeholder="NodeJS Course"
-            onChange={() => debounceLoadData()}
-          />
+          <Input type="text" placeholder="NodeJS Course" />
         </FormField>
         <FormField labelText="Description" name="description">
-          <Input
-            onChange={() => debounceLoadData()}
-            type="text"
-            placeholder="Course about...."
-          />
+          <Input type="text" placeholder="Course about...." />
         </FormField>
         <FormField labelText="Price" name="price">
-          <Input
-            onChange={() => debounceLoadData()}
-            type="text"
-            placeholder="410"
-          />
+          <Input type="text" placeholder="410" />
         </FormField>
         <Controller
+          control={control}
           name="content"
-          render={(field) => (
+          render={({ field: { onChange } }) => (
             <Editor
-              {...field}
               apiKey="f77pjcz1vwa1mi1almj8uhwj2crs196lq21stcyj2dq0w8pf"
               initialValue={courseStore?.courseContent}
+              onEditorChange={onChange}
               init={{
                 height: 400,
                 directionality: 'ltr',
@@ -117,10 +117,6 @@ export const CourseForm: FC = observer(() => {
                alignleft aligncenter alignright alignjustify | \
                bullist numlist outdent indent | removeformat | help',
               }}
-              onEditorChange={(e) => {
-                field.field.onChange(e);
-                debounceLoadData();
-              }}
             />
           )}
         />
@@ -134,7 +130,7 @@ export const CourseForm: FC = observer(() => {
         <Button type="submit" disabled={!isValid} inProgress={inProgress}>
           Opublikuj kurs
         </Button>
-      </Box>
+      </form>
     </FormProvider>
   );
 });

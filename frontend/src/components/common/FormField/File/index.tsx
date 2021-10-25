@@ -12,7 +12,7 @@ import { useFormFieldContext } from '../../../../hooks/useFormFieldContext';
 
 interface Props {
   desktopRatio: number;
-  previewUrl?: string;
+  previewUrl?: string | null;
 }
 
 export const ImagePicker: React.FC<Props> = ({
@@ -26,6 +26,8 @@ export const ImagePicker: React.FC<Props> = ({
   const { register } = useFormContext();
   const { name } = useFormFieldContext();
   const { fileStore } = useRootStore();
+  const [isEditing, setIsEditing] = useState(false);
+  const [showUploader, setShowUploader] = useState(false);
 
   if (!name) {
     return <Text>Picker does not have name attr</Text>;
@@ -40,6 +42,7 @@ export const ImagePicker: React.FC<Props> = ({
   };
 
   const onChange = (e: any) => {
+    setIsEditing(true);
     setImage(undefined);
     e.preventDefault();
     let files;
@@ -56,6 +59,8 @@ export const ImagePicker: React.FC<Props> = ({
   };
 
   const imageBlobHandler = (blob: Blob, url: string, fieldName: string) => {
+    setIsEditing(true);
+    setShowUploader(false);
     const blobImage: any = blob;
     blobImage.name = `${fieldName}.png`;
     blobImage.lastModified = new Date().getTime();
@@ -84,6 +89,7 @@ export const ImagePicker: React.FC<Props> = ({
   const deletePhoto = () => {
     setImage(undefined);
     setCropData(undefined);
+    setShowUploader(true);
     if (typeof cropper !== 'undefined') {
       cropper.destroy();
     }
@@ -93,10 +99,53 @@ export const ImagePicker: React.FC<Props> = ({
   return (
     <Box position="relative">
       {loading && <Spinner overlay />}
-      <Box as="label" htmlFor={name} position="relative" cursor="pointer">
+      <Box
+        display="block"
+        as="label"
+        htmlFor={name}
+        position="relative"
+        cursor="pointer"
+        css={
+          previewUrl && !cropData && !showUploader
+            ? {
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                opacity: 0,
+                transition: 'all ease-in 125ms',
+              }
+            : undefined
+        }
+        _hover={
+          previewUrl && !cropData && !showUploader
+            ? {
+                opacity: '0.8',
+                background: 'gray',
+              }
+            : undefined
+        }
+      >
         {!image && (
-          <>
-            Upload photo
+          <Box
+            className="content-wrapper"
+            p="40px"
+            border="3px dashed #000"
+            display="fiex"
+            alignItems="center"
+            justifyContent="center"
+            transition="border-color ease 250ms"
+            width="100%"
+            height="100%"
+            _hover={
+              previewUrl && !cropData && !showUploader
+                ? {
+                    borderColor: 'transparent',
+                    color: 'white',
+                  }
+                : undefined
+            }
+          >
+            <Text>Click to upload</Text>
             <input
               {...register(name)}
               name={name}
@@ -115,7 +164,7 @@ export const ImagePicker: React.FC<Props> = ({
                 bottom: '0',
               }}
             />
-          </>
+          </Box>
         )}
       </Box>
       {!cropData && (
@@ -138,7 +187,7 @@ export const ImagePicker: React.FC<Props> = ({
           />
         </Box>
       )}
-      {previewUrl && (
+      {cropData && (
         <IconButton
           aria-label="Remove photo"
           color="#fff"
@@ -152,7 +201,7 @@ export const ImagePicker: React.FC<Props> = ({
       )}
       <>
         {cropData && <Image src={cropData} />}
-        {previewUrl && !cropData && (
+        {previewUrl && !isEditing && (
           <Image
             src={`${apiUrl}/${previewUrl}`}
             onError={previewUnavailable}
@@ -161,19 +210,16 @@ export const ImagePicker: React.FC<Props> = ({
         )}
       </>
       <HStack mt="5" spacing="48px">
-        <Button
-          disabled={!previewUrl}
-          type="button"
-          mt0
-          variant="outline"
-          onClick={cancelEdit}
-        >
-          Edit
-        </Button>
-
-        <Button disabled={!image} type="button" onClick={getCropData}>
-          Save
-        </Button>
+        {cropData && (
+          <Button type="button" mt0 variant="outline" onClick={cancelEdit}>
+            Edit
+          </Button>
+        )}
+        {!cropData && image && (
+          <Button mt0 type="button" onClick={getCropData}>
+            Save
+          </Button>
+        )}
       </HStack>
     </Box>
   );
