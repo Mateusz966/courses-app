@@ -62,16 +62,18 @@ export const LoggedActions: FC<Props> = observer(({ justifyContentType }) => {
           Moje konto
         </MenuButton>
         <MenuList fontSize="16px">
-          <MenuItem as={Link} to="/dashboard/course/add/category">
-            Stwórz kurs
+          <MenuItem as={Link} to="/dashboard/course/bought">
+            Moje kursy
           </MenuItem>
-          <MenuItem as={Link} to="/dashboard/course/manage">
-            Moje kurs
+          <MenuItem as={Link} to="/dashboard/course/list">
+            Lista kursów
+          </MenuItem>
+          <MenuItem as={Link} to="/dashboard/course/creator-zone">
+            Strefa twórcy
           </MenuItem>
           <MenuItem as={Link} to="/dashboard/cart">
             Koszyk
           </MenuItem>
-          <MenuItem>Ustawienia</MenuItem>
           <MenuItem as={Link} to="/dashboard/profile">
             Mój Profil
           </MenuItem>

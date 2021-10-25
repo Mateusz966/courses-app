@@ -17,6 +17,7 @@ export class ShoppingCartStore {
       cartPayload: observable,
       addToCart: action.bound,
       deleteCourseFromCart: action.bound,
+      deleteAllCourseFromCart: action.bound,
       totalPrice: computed,
     });
   }
@@ -40,5 +41,9 @@ export class ShoppingCartStore {
     this.cartPayload.course = this.cartPayload.course.filter(
       (course) => course.id !== courseId,
     );
+  }
+
+  deleteAllCourseFromCart() {
+    this.cartPayload.course = [];
   }
 }
