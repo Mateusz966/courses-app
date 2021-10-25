@@ -10,30 +10,18 @@ import {
   Text,
 } from '@chakra-ui/layout';
 import { Image } from '@chakra-ui/image';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { Link as RLink } from 'react-router-dom';
-import { CourseTableRes, CourseTableResContent } from '../../../app-types';
-import { useApi } from '../../../hooks/useApi';
-import BougthCourseTile from './BougthCourseTile';
 import SadLogo from '../../../assets/sad-logo.png';
+import BougthCourseTile from './BougthCourseTile';
+import { CourseTableResContent } from '../../../app-types';
+import { useViewBoughtCourses } from './useViewBoughtCourses';
 
 const ViewBoughtCourses: FC = () => {
-  const { get } = useApi();
-  const [course, setCourses] = useState<CourseTableResContent[]>([]);
+  const { course, inProgress } = useViewBoughtCourses();
 
-  const getCourses = async () => {
-    const res = await get<CourseTableRes>('/course/bought');
-    if (res) {
-      setCourses(res.items);
-    }
-  };
-
-  useEffect(() => {
-    getCourses();
-  }, []);
-
-  const boughtTiles = course.map((singleCourse) => (
-    <BougthCourseTile course={singleCourse} />
+  const boughtTiles = course.map((singleCourse: CourseTableResContent) => (
+    <BougthCourseTile key={singleCourse.id} course={singleCourse} />
   ));
 
   const myCourseInfo = () => (
@@ -70,6 +58,10 @@ const ViewBoughtCourses: FC = () => {
     </GridItem>
   );
 
+  if (inProgress) {
+    return <p>Loading ...</p>;
+  }
+
   return (
     <Container width="100%" maxW="1500px">
       <Grid templateColumns={['repeat(3, 1fr)', null, 'repeat(5, 1fr)']}>
@@ -84,7 +76,7 @@ const ViewBoughtCourses: FC = () => {
         {course.length > 0 ? (
           <GridItem colStart={[1, 1, 2]} colSpan={3}>
             <Grid templateColumns={['repeat(1, 1fr)', null, 'repeat(3, 1fr)']}>
-              {boughtTiles}
+              {inProgress ? <Text>Loading ...</Text> : boughtTiles}
             </Grid>
           </GridItem>
         ) : (
