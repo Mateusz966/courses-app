@@ -207,6 +207,7 @@ export class CourseService {
     savedSection: Section,
     videos: Express.Multer.File[],
   ) {
+    console.log(lesson);
     return Promise.all(
       lesson.map(async (payload) => {
         const lesson = new Lesson();
@@ -222,6 +223,7 @@ export class CourseService {
           video.filename,
           'opis',
         );
+        console.log('jeszcze działa');
         return lesson.save();
       }),
     );

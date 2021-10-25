@@ -1,5 +1,7 @@
 import React, { FC, useRef, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import { Box } from '@chakra-ui/layout';
+import styled from '@emotion/styled';
 import { useRootStore } from '../../../../stores/storeContext';
 
 interface Props {
@@ -7,6 +9,15 @@ interface Props {
   isRequired?: boolean;
   previewUrl?: string;
 }
+
+const StyledVideo = styled.div`
+  video {
+    height: auto;
+    width: 100%;
+    border-radius: 25px;
+    margin-bottom: 2rem;
+  }
+`;
 
 export const Video: FC<Props> = ({ name, isRequired, previewUrl }) => {
   const { control } = useFormContext();
@@ -35,33 +46,41 @@ export const Video: FC<Props> = ({ name, isRequired, previewUrl }) => {
     reader.readAsDataURL(file[0]);
   };
 
+  console.log(previewUrl);
+
   return (
     <>
-      {(image || previewUrl) && (
-        <video
-          width="300"
-          height="300"
-          ref={videoRef}
-          src={image || ''}
-          controls
-        >
-          <track kind="captions" />
-        </video>
+      {image && (
+        <StyledVideo>
+          <video width="100%" height="auto" ref={videoRef} src={image} controls>
+            <track kind="captions" />
+          </video>
+        </StyledVideo>
       )}
-      <Controller
-        name={name ?? 'video'}
-        control={control}
-        render={({ field }) => (
-          <input
-            type="file"
-            {...field}
-            onChange={(e) => {
-              field?.onChange(e);
-              onChange(e);
-            }}
-          />
-        )}
-      />
+      {previewUrl && (
+        <iframe
+          title="addedLesson"
+          src="https://player.vimeo.com/video/637555784"
+          width="320"
+          height="240"
+          allowFullScreen
+        />
+      )}
+      <Box>
+        <Controller
+          name={name ?? 'video'}
+          control={control}
+          render={({ field }) => (
+            <input
+              type="file"
+              {...field}
+              onChange={(e) => {
+                onChange(e);
+              }}
+            />
+          )}
+        />
+      </Box>
     </>
   );
 };

@@ -1,9 +1,9 @@
-import { Box, Grid } from '@chakra-ui/react';
+import { Box, Grid, Spinner } from '@chakra-ui/react';
 import { observer } from 'mobx-react-lite';
 import { FC, useEffect } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
+import { v4 } from 'uuid';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { defaultGap } from '../../../../config/globalStyles';
 import { Button } from '../../../common/Button';
@@ -43,6 +43,10 @@ export const CreateCourseContent: FC = observer(() => {
     }
   }, [courseStore.courseSectionLesson]);
 
+  if (inProgress) {
+    return <Spinner />;
+  }
+
   return (
     <FormProvider {...methods}>
       <Grid
@@ -65,7 +69,7 @@ export const CreateCourseContent: FC = observer(() => {
         {fields.map((field: any, index) => (
           <Box as="li" w="100%" key={field.id}>
             <FormField name={`lesson.${index}.id`}>
-              <Input type="hidden" />
+              <Input type="hidden" defaultValue={v4()} />
             </FormField>
             <FormField labelText="Nazwa lekcji" name={`lesson.${index}.title`}>
               <Input
@@ -99,13 +103,7 @@ export const CreateCourseContent: FC = observer(() => {
           ml="auto"
           type="button"
           disabled={!isValid}
-          onClick={() =>
-            append({
-              id: uuidv4(),
-              title: '',
-              video: '',
-            })
-          }
+          onClick={() => append({})}
         >
           Add lesson
         </Button>
