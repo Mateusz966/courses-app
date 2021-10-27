@@ -25,17 +25,21 @@ const CourseContent: FC = observer(() => {
   }, [courseId]);
 
   return (
-    <Container mt="5" width="100%" maxW="1500px">
+    <Container mt="5" width="100%" maxW="90vw">
       <Breadcrumb
         pt={{ md: '3', base: '1' }}
         spacing="8px"
         separator={<MdChevronRight color="gray.500" />}
       >
         <BreadcrumbItem d={{ md: 'inline-flex', base: 'none' }}>
-          <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+          <BreadcrumbLink onClick={() => history.push('/dashboard')}>
+            Dashboard
+          </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem d={{ md: 'inline-flex', base: 'none' }}>
-          <BreadcrumbLink href="/dashboard/course/manage">
+          <BreadcrumbLink
+            onClick={() => history.push('/dashboard/course/manage')}
+          >
             Moje kursy
           </BreadcrumbLink>
         </BreadcrumbItem>

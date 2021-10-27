@@ -1,4 +1,4 @@
-import { Container } from '@chakra-ui/react';
+import { SimpleGrid } from '@chakra-ui/react';
 import { FC } from 'react';
 import SimplyCourseTile from './SimplyCourseTile';
 import { useCourseByCategory } from '../../../hooks/useCoursesByCategory';
@@ -22,7 +22,11 @@ const SimplyCourseList: FC<Props> = ({ categories, subcategory }) => {
     <SimplyCourseTile key={course.id} course={course} />
   ));
 
-  return <Container>{coursesList.length > 0 ? coursesList : null}</Container>;
+  return (
+    <SimpleGrid columns={2} spacingX="40px" spacingY="20px">
+      {coursesList.length > 0 ? coursesList : null}
+    </SimpleGrid>
+  );
 };
 
 export default SimplyCourseList;

@@ -85,7 +85,11 @@ const ManageCourses = () => {
         accessor: ({ id }: any) => (
           <HStack>
             <IconButton
-              onClick={() => history.push(`/dashboard/course/edit/${id}`)}
+              onClick={() =>
+                history.push(`/dashboard/course/edit/${id}`, {
+                  from: 'courses list',
+                } as { from: string })
+              }
               aria-label="Edit course"
               icon={<MdEdit />}
             />
@@ -101,14 +105,16 @@ const ManageCourses = () => {
     [],
   );
   return (
-    <Container mt="5" width="100%" maxW="1500px">
+    <Container mt="5" width="100%" maxW="90vw">
       <Breadcrumb
         pt={{ md: '3', base: '1' }}
         spacing="8px"
         separator={<MdChevronRight color="gray.500" />}
       >
         <BreadcrumbItem>
-          <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+          <BreadcrumbLink onClick={() => history.push('/dashboard')}>
+            Dashboard
+          </BreadcrumbLink>
         </BreadcrumbItem>
 
         <BreadcrumbItem isCurrentPage>

@@ -15,6 +15,7 @@ interface Props extends FormFieldContextType {
   children: ReactNode;
   labelText?: string;
   helperText?: string;
+  mb4?: boolean;
 }
 
 export const FormField: FC<Props> = ({
@@ -22,6 +23,7 @@ export const FormField: FC<Props> = ({
   labelText,
   helperText,
   id,
+  mb4,
   name,
   isDisabled,
 }) => {
@@ -31,7 +33,7 @@ export const FormField: FC<Props> = ({
 
   return (
     <FormFieldProvider value={{ name, id, isDisabled }}>
-      <FormControl isInvalid={errors[name]}>
+      <FormControl mb={mb4 ? 4 : 0} isInvalid={errors[name]}>
         <FormLabel htmlFor="firstName">{labelText && labelText}</FormLabel>
         {children}
         <FormHelperText>{helperText && helperText}</FormHelperText>

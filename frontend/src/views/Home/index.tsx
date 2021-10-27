@@ -331,7 +331,7 @@ const Home: FC = () => (
                 mt0
                 size="lg"
                 type="button"
-                onClick={() => history.push('/sign-up')}
+                onClick={() => history.push('/sign-in')}
                 variant="outline"
               >
                 Zaloguj
