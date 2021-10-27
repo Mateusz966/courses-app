@@ -15,6 +15,7 @@ export class VimeoService {
   );
 
   async upload(file: Express.Multer.File, name: string, description: string) {
+    console.log('dziala', file, name, description);
     return new Promise<any>((resolve, reject) =>
       this.client.upload(
         path.join(storDir(), 'video_store/', file.filename),

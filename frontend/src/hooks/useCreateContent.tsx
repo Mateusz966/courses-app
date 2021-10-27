@@ -19,10 +19,12 @@ export const useCreateContent = (props: Props): UseCreateContent => {
   const submit = async (payload: CourseContentReq, courseId: string) => {
     const fd = new FormData();
 
+    console.log(payload);
+
     fd.append('body', JSON.stringify(payload));
     if (fileStore?.files?.[0].file) {
       fileStore.files.forEach((file, index) => {
-        fd.append(`video_${payload.lesson[index].id}`, file.file, file.name);
+        fd.append(file.name, file.file, file.name);
       });
     }
     await post<void, FormData>(

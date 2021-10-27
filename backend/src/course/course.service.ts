@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Response } from 'express';
+import { get } from 'lodash';
 import {
   CourseStatus,
   CreateCourse,
@@ -203,28 +204,50 @@ export class CourseService {
   }
 
   async uploadVideoForLesson(
-    lesson: Omit<ILesson, 'videoFn'>[],
+    lessons: Omit<ILesson, 'videoFn'>[],
     savedSection: Section,
     videos: Express.Multer.File[],
   ) {
-    console.log(lesson);
+    console.log(videos);
     return Promise.all(
-      lesson.map(async (payload) => {
-        const lesson = new Lesson();
-        const video = videos.find(
-          (file) => file.fieldname === `video_${payload.id}`,
-        );
-        lesson.id = payload.id;
+      lessons.map(async (payload, index) => {
+        let lesson = await Lesson.findOne(payload.id);
+        let isUpdate = true;
+        console.log('lesson', lesson);
+        console.log('payload', payload);
+        if (!lesson) {
+          isUpdate = false;
+          lesson = new Lesson();
+        }
+        if (videos?.[index]) {
+          const name = videos[index].fieldname
+            .replace('lesson.', '')
+            .replace('.video', '');
+          const videoForLesson = get(lessons, name);
+          console.log('łodeilo', videoForLesson);
+          // TODO FIND WAY TO CONNECT CURRENT LESSON WITH GOOD VIDEO
+          if (videoForLesson && name == index) {
+            lesson.videoFn = await this.vimeoService.upload(
+              videos[index],
+              videos[index].filename,
+              'opis',
+            );
+            console.log('upload', lesson);
+          }
+        }
+
+        if (!isUpdate) lesson.id = payload.id;
+
         lesson.description = payload.description;
         lesson.section = savedSection;
         lesson.title = payload.title;
-        lesson.videoFn = await this.vimeoService.upload(
-          video,
-          video.filename,
-          'opis',
-        );
-        console.log('jeszcze działa');
-        return lesson.save();
+        console.log('before save', lesson);
+        console.log(isUpdate);
+        if (isUpdate) {
+          return Lesson.update({ id: payload.id }, lesson);
+        } else {
+          return lesson.save();
+        }
       }),
     );
   }
