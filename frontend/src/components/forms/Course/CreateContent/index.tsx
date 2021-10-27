@@ -46,7 +46,6 @@ export const CreateCourseContent: FC = observer(() => {
   if (inProgress) {
     return <Spinner />;
   }
-
   return (
     <FormProvider {...methods}>
       <Grid
@@ -86,6 +85,9 @@ export const CreateCourseContent: FC = observer(() => {
                 defaultValue={field.description}
                 placeholder="opis lekcji"
               />
+            </FormField>
+            <FormField name={`lesson.${index}.videoFn`}>
+              <Input type="hidden" />
             </FormField>
             <FormField
               labelText="Miejsce na video"

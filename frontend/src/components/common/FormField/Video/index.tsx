@@ -2,16 +2,18 @@ import React, { FC, useRef, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { Box } from '@chakra-ui/layout';
 import styled from '@emotion/styled';
+import { observer } from 'mobx-react-lite';
 import { useRootStore } from '../../../../stores/storeContext';
 
 interface Props {
-  name?: string;
+  name: string;
   isRequired?: boolean;
   previewUrl?: string;
 }
 
 const StyledVideo = styled.div`
-  video {
+  video,
+  iframe {
     height: auto;
     width: 100%;
     border-radius: 25px;
@@ -19,7 +21,7 @@ const StyledVideo = styled.div`
   }
 `;
 
-export const Video: FC<Props> = ({ name, isRequired, previewUrl }) => {
+export const Video: FC<Props> = observer(({ name, isRequired, previewUrl }) => {
   const { control } = useFormContext();
   const { fileStore } = useRootStore();
   const [image, setImage] = useState<string | null>();
@@ -46,8 +48,6 @@ export const Video: FC<Props> = ({ name, isRequired, previewUrl }) => {
     reader.readAsDataURL(file[0]);
   };
 
-  console.log(previewUrl);
-
   return (
     <>
       {image && (
@@ -57,24 +57,27 @@ export const Video: FC<Props> = ({ name, isRequired, previewUrl }) => {
           </video>
         </StyledVideo>
       )}
-      {previewUrl && (
-        <iframe
-          title="addedLesson"
-          src="https://player.vimeo.com/video/637555784"
-          width="320"
-          height="240"
-          allowFullScreen
-        />
+      {previewUrl && !image && (
+        <StyledVideo>
+          <iframe
+            width="300px"
+            height="auto"
+            title="addedLesson"
+            src="https://player.vimeo.com/video/637555784"
+            allowFullScreen
+          />
+        </StyledVideo>
       )}
       <Box>
         <Controller
-          name={name ?? 'video'}
+          name={name}
           control={control}
           render={({ field }) => (
             <input
               type="file"
               {...field}
               onChange={(e) => {
+                field.onChange(e);
                 onChange(e);
               }}
             />
@@ -83,4 +86,4 @@ export const Video: FC<Props> = ({ name, isRequired, previewUrl }) => {
       </Box>
     </>
   );
-};
+});
