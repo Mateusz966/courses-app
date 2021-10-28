@@ -42,6 +42,9 @@ export class CourseService {
     const [items, countTotal] = await Course.createQueryBuilder('course')
       .select(['course.title', 'course.courseStatus', 'course.id'])
       .where('course.user = :id', { id: userId })
+      .andWhere('course.courseStatus != :courseStatus', {
+        courseStatus: CourseStatus.Removed,
+      })
       .skip(offset)
       .take(limit)
       .getManyAndCount();

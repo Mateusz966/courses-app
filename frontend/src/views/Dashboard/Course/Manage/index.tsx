@@ -132,6 +132,8 @@ const ManageCourses = () => {
       </Heading>
       <Table inProgress={inProgress} columns={columns} data={courses} />
       <Alert
+        title="Usuń kurs"
+        text="Czy na pewno chcesz usunąć kurs?"
         onAction={() => deleteCourse()}
         isOpen={isOpen}
         onClose={() => onClose()}
