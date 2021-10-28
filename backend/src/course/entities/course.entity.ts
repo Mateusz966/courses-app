@@ -95,7 +95,6 @@ export class Course extends MyBaseEntity implements ICourse {
       .leftJoin('course.user', 'user')
       .leftJoin('course.category', 'category')
       .leftJoin('course.subcategory', 'subcategory')
-      .where('course.user != :id', { id: userId })
       .andWhere('course.courseStatus = :status', {
         status: CourseStatus.Published,
       })
