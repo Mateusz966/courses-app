@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import { get } from 'lodash';
+import { log } from 'util';
 import {
   CourseStatus,
   CreateCourse,
@@ -208,31 +209,35 @@ export class CourseService {
     savedSection: Section,
     videos: Express.Multer.File[],
   ) {
-    console.log(videos);
+    console.log(lessons);
     return Promise.all(
       lessons.map(async (payload, index) => {
         let lesson = await Lesson.findOne(payload.id);
         let isUpdate = true;
-        console.log('lesson', lesson);
-        console.log('payload', payload);
+
+        console.log('OBROT PETLI');
+        console.log('szukana', lesson);
+        console.log('pp', payload);
+
         if (!lesson) {
           isUpdate = false;
           lesson = new Lesson();
         }
-        if (videos?.[index]) {
-          const name = videos[index].fieldname
-            .replace('lesson.', '')
-            .replace('.video', '');
-          const videoForLesson = get(lessons, name);
-          console.log('łodeilo', videoForLesson);
-          // TODO FIND WAY TO CONNECT CURRENT LESSON WITH GOOD VIDEO
-          if (videoForLesson && name == index) {
-            lesson.videoFn = await this.vimeoService.upload(
-              videos[index],
-              videos[index].filename,
-              'opis',
-            );
-            console.log('upload', lesson);
+
+        if (videos?.length > 0) {
+          const name = videos.map((video) =>
+            Number(
+              video.fieldname.replace('lesson.', '').replace('.video', ''),
+            ),
+          );
+          if (name.some((val) => val === index)) {
+            const video = get(videos, index);
+            console.log(video);
+            // lesson.videoFn = await this.vimeoService.upload(
+            //   video,
+            //   video.filename,
+            //   'opis',
+            // );
           }
         }
 
@@ -241,8 +246,10 @@ export class CourseService {
         lesson.description = payload.description;
         lesson.section = savedSection;
         lesson.title = payload.title;
-        console.log('before save', lesson);
+
         console.log(isUpdate);
+        console.log('before', lesson);
+
         if (isUpdate) {
           return Lesson.update({ id: payload.id }, lesson);
         } else {
