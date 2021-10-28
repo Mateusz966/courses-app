@@ -3,7 +3,6 @@ import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 import { Image } from '@chakra-ui/image';
 import { Box, HStack, Icon, IconButton, Spinner, Text } from '@chakra-ui/react';
-import { useFormContext } from 'react-hook-form';
 import { MdDeleteForever } from 'react-icons/md';
 import { apiUrl } from '../../../../config/apiUrl';
 import { Button } from '../../Button';
@@ -23,8 +22,8 @@ export const ImagePicker: React.FC<Props> = ({
   const [image, setImage] = useState();
   const [cropData, setCropData] = useState();
   const [cropper, setCropper] = useState<any>();
-  const { register } = useFormContext();
   const { name } = useFormFieldContext();
+
   const { fileStore } = useRootStore();
   const [isEditing, setIsEditing] = useState(false);
   const [showUploader, setShowUploader] = useState(false);
@@ -41,7 +40,7 @@ export const ImagePicker: React.FC<Props> = ({
     setLoading(false);
   };
 
-  const onChange = (e: any) => {
+  const onChangeFn = (e: any) => {
     setIsEditing(true);
     setImage(undefined);
     e.preventDefault();
@@ -147,11 +146,10 @@ export const ImagePicker: React.FC<Props> = ({
           >
             <Text>Click to upload</Text>
             <input
-              {...register(name)}
               name={name}
               type="file"
               id="file"
-              onChange={onChange}
+              onChange={onChangeFn}
               style={{
                 width: '100%',
                 height: '100%',
