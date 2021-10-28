@@ -1,4 +1,4 @@
-import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, Column, ManyToOne, OneToMany, Brackets } from 'typeorm';
 import { Subcategory } from 'src/category/entities/subcategory.entity';
 import { MyBaseEntity } from 'src/base/MyBaseEntity';
 import { Category } from '../../category/entities/category.entity';
@@ -96,7 +96,7 @@ export class Course extends MyBaseEntity implements ICourse {
       .leftJoin('course.category', 'category')
       .leftJoin('course.subcategory', 'subcategory')
       .where('course.user != :id', { id: userId })
-      .where('course.courseStatus = :status', {
+      .andWhere('course.courseStatus = :status', {
         status: CourseStatus.Published,
       })
       .skip(offset)
@@ -111,13 +111,14 @@ export class Course extends MyBaseEntity implements ICourse {
 
     if (filterBy?.subcategories) {
       const subcategories = filterBy.subcategories.split(',');
-      query.orWhere('subcategory.id = ANY (:subcategories)', {
+      query.andWhere('subcategory.id = ANY (:subcategories)', {
         subcategories,
       });
     }
 
     const courses = await query.getManyAndCount();
 
+    console.log('QUERY END');
     return (courses as unknown) as [PublishedCourseRes[], number];
   }
 }

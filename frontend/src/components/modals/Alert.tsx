@@ -10,16 +10,22 @@ import {
 import { Button } from '../common/Button';
 
 interface Props {
+  title: string;
+  text: string;
   isOpen: boolean;
   onClose: () => void;
   onAction: () => void;
 }
 
-export const Alert: FC<Props> = ({ isOpen, onClose, onAction }) => {
+export const Alert: FC<Props> = ({
+  isOpen,
+  onClose,
+  onAction,
+  title,
+  text,
+}) => {
   // const onClose = () => setIsOpen(false);
   const cancelRef = useRef(null);
-
-  console.log(isOpen);
 
   return (
     <>
@@ -31,10 +37,10 @@ export const Alert: FC<Props> = ({ isOpen, onClose, onAction }) => {
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Delete Customer
+              {title}
             </AlertDialogHeader>
 
-            <AlertDialogBody>asd</AlertDialogBody>
+            <AlertDialogBody>{text}</AlertDialogBody>
 
             <AlertDialogFooter>
               <Button onClick={onClose}>Cancel</Button>

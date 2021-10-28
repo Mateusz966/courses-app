@@ -61,9 +61,9 @@ const Home: FC = () => (
                 mt0
                 size="lg"
                 type="button"
-                onClick={() => history.push('/sign-up')}
+                onClick={() => history.push('/dashboard/course/list')}
               >
-                Polecane kursy
+                Nasze kursy
               </Button>
               <Button
                 mt0
