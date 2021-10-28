@@ -97,7 +97,7 @@ export const CourseForm: FC = observer(() => {
           <Input type="text" placeholder="410" />
         </FormField>
         <Text fontWeight="500" mb="8px">
-          Course description
+          Dlaczego warto kupić ten kurs
         </Text>
         <Controller
           control={control}

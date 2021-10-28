@@ -39,7 +39,7 @@ const EditCourse: FC = observer(() => {
 
   return (
     <Container mt="5" width="100%" maxW="90vw">
-      {!didUserCameFromCoursesList && (
+      {!didUserCameFromCoursesList ? (
         <Box>
           <Breadcrumb
             pt={{ md: '3', base: '1' }}
@@ -67,19 +67,29 @@ const EditCourse: FC = observer(() => {
             Krok 4 z 4
           </Text>
           <Progress colorScheme="teal" size="md" value={100} />
+          <Heading
+            as="h1"
+            size="xl"
+            fontSize={{ md: '4xl', base: 'xl' }}
+            mt={{ md: '60px', base: '15px' }}
+            mb="30px"
+            textAlign="center"
+          >
+            Dodaj informacje o kursie
+          </Heading>
         </Box>
+      ) : (
+        <Heading
+          as="h1"
+          size="xl"
+          fontSize={{ md: '4xl', base: 'xl' }}
+          mt={{ md: '60px', base: '15px' }}
+          mb="30px"
+          textAlign="center"
+        >
+          Edytuj informacje o kursie
+        </Heading>
       )}
-
-      <Heading
-        as="h1"
-        size="xl"
-        fontSize={{ md: '4xl', base: 'xl' }}
-        mt={{ md: '60px', base: '15px' }}
-        mb="30px"
-        textAlign="center"
-      >
-        Dodaj informacje o kursie
-      </Heading>
       <Box maxW="800px" margin="auto">
         <FormProvider {...methods}>
           <CourseForm />

@@ -43,8 +43,9 @@ const SimplyCourseTile: React.FC<Props> = observer(
               <h2>{title}</h2>
             </Center>
             <Grid
-              templateRows="repeat(3, 1fr)"
+              templateRows="repeat(2, 1fr)"
               templateColumns="repeat(1, 1fr)"
+              p="2"
             >
               <GridItem rowSpan={1} colSpan={1} p="10px">
                 {firstName} {lastName}
@@ -54,9 +55,15 @@ const SimplyCourseTile: React.FC<Props> = observer(
               </GridItem>
             </Grid>
           </Link>
-          <Button onClick={() => addToCart({ id, title, price, currency })}>
-            Add to cart
-          </Button>
+          <Box p="4" pb="2">
+            <Button
+              onClick={() => addToCart({ id, title, price, currency })}
+              mt0
+              mb="3"
+            >
+              Add to cart
+            </Button>
+          </Box>
         </Box>
       </Box>
     );
