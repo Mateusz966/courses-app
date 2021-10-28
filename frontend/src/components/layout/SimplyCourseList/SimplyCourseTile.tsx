@@ -54,9 +54,15 @@ const SimplyCourseTile: React.FC<Props> = observer(
               </GridItem>
             </Grid>
           </Link>
-          <Button onClick={() => addToCart({ id, title, price, currency })}>
-            Add to cart
-          </Button>
+          <Box p="4" pb="2">
+            <Button
+              onClick={() => addToCart({ id, title, price, currency })}
+              mt0
+              mb="3"
+            >
+              Add to cart
+            </Button>
+          </Box>
         </Box>
       </Box>
     );

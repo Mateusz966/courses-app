@@ -43,9 +43,8 @@ const SimplyCourseTile: React.FC<Props> = observer(
               <h2>{title}</h2>
             </Center>
             <Grid
-              templateRows="repeat(2, 1fr)"
+              templateRows="repeat(3, 1fr)"
               templateColumns="repeat(1, 1fr)"
-              p="2"
             >
               <GridItem rowSpan={1} colSpan={1} p="10px">
                 {firstName} {lastName}
