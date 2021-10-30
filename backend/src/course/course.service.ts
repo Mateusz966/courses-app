@@ -1,7 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Response } from 'express';
-import { get } from 'lodash';
-import { log } from 'util';
 import {
   CourseStatus,
   CreateCourse,
@@ -209,36 +207,24 @@ export class CourseService {
     savedSection: Section,
     videos: Express.Multer.File[],
   ) {
-    console.log(lessons);
     return Promise.all(
       lessons.map(async (payload, index) => {
         let lesson = await Lesson.findOne(payload.id);
         let isUpdate = true;
-
-        console.log('OBROT PETLI');
-        console.log('szukana', lesson);
-        console.log('pp', payload);
 
         if (!lesson) {
           isUpdate = false;
           lesson = new Lesson();
         }
 
-        if (videos?.length > 0) {
-          const name = videos.map((video) =>
-            Number(
-              video.fieldname.replace('lesson.', '').replace('.video', ''),
-            ),
+        const video = videos.find((video) => video.fieldname === payload.id);
+
+        if (video) {
+          lesson.videoFn = await this.vimeoService.upload(
+            video,
+            video.filename,
+            'opis',
           );
-          if (name.some((val) => val === index)) {
-            const video = get(videos, index);
-            console.log(video);
-            // lesson.videoFn = await this.vimeoService.upload(
-            //   video,
-            //   video.filename,
-            //   'opis',
-            // );
-          }
         }
 
         if (!isUpdate) lesson.id = payload.id;
@@ -246,9 +232,6 @@ export class CourseService {
         lesson.description = payload.description;
         lesson.section = savedSection;
         lesson.title = payload.title;
-
-        console.log(isUpdate);
-        console.log('before', lesson);
 
         if (isUpdate) {
           return Lesson.update({ id: payload.id }, lesson);

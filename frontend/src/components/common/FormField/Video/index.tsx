@@ -1,8 +1,8 @@
 import React, { FC, useRef, useState } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
 import { Box } from '@chakra-ui/layout';
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
+import { useFormContext } from 'react-hook-form';
 import { useRootStore } from '../../../../stores/storeContext';
 
 interface Props {
@@ -22,7 +22,7 @@ const StyledVideo = styled.div`
 `;
 
 export const Video: FC<Props> = observer(({ name, isRequired, previewUrl }) => {
-  const { control } = useFormContext();
+  const { register } = useFormContext();
   const { fileStore } = useRootStore();
   const [image, setImage] = useState<string | null>();
   const videoRef = useRef<any>();
@@ -69,19 +69,12 @@ export const Video: FC<Props> = observer(({ name, isRequired, previewUrl }) => {
         </StyledVideo>
       )}
       <Box>
-        <Controller
+        <input
+          {...register(name)}
+          id="file"
+          type="file"
           name={name}
-          control={control}
-          render={({ field }) => (
-            <input
-              type="file"
-              {...field}
-              onChange={(e) => {
-                field.onChange(e);
-                onChange(e);
-              }}
-            />
-          )}
+          onChange={onChange}
         />
       </Box>
     </>

@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { FC, useEffect } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
-import { v4 } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { defaultGap } from '../../../../config/globalStyles';
 import { Button } from '../../../common/Button';
@@ -12,7 +12,6 @@ import { Input } from '../../../common/FormField/Input';
 import { Textarea } from '../../../common/FormField/Textarea';
 import { useCreateContent } from '../../../../hooks/useCreateContent';
 import { Video } from '../../../common/FormField/Video';
-import { CourseContentReq } from '../../../../app-types';
 import { courseStore } from '../../../../stores/course';
 import { createCourseContent } from '../../../../formSchemas/createCourseContent';
 
@@ -39,20 +38,24 @@ export const CreateCourseContent: FC = observer(() => {
 
   useEffect(() => {
     if (courseStore.courseSectionLesson) {
-      methods.reset(courseStore.courseSectionLesson);
+      const { lesson, ...rest } = courseStore.courseSectionLesson;
+      const dataToReset = {
+        ...rest,
+        lesson: lesson.map(({ id, ...data }) => ({ fId: id, ...data })),
+      };
+      methods.reset(dataToReset);
     }
   }, [courseStore.courseSectionLesson]);
 
   if (inProgress) {
     return <Spinner />;
   }
+
   return (
     <FormProvider {...methods}>
       <Grid
         as="form"
-        onSubmit={handleSubmit((payload: CourseContentReq) =>
-          submit(payload, courseId),
-        )}
+        onSubmit={handleSubmit((payload: any) => submit(payload, courseId))}
         listStyleType="none"
         gap={defaultGap}
         templateColumns="1fr"
@@ -67,8 +70,8 @@ export const CreateCourseContent: FC = observer(() => {
         </Box>
         {fields.map((field: any, index) => (
           <Box as="li" w="100%" key={field.id}>
-            <FormField name={`lesson.${index}.id`}>
-              <Input type="hidden" defaultValue={v4()} />
+            <FormField name={`lesson.${index}.fId`}>
+              <Input type="text" defaultValue={field.fId} />
             </FormField>
             <FormField labelText="Nazwa lekcji" name={`lesson.${index}.title`}>
               <Input
@@ -91,11 +94,11 @@ export const CreateCourseContent: FC = observer(() => {
             </FormField>
             <FormField
               labelText="Miejsce na video"
-              name={`lesson.${index}.video`}
+              name={`lesson.${index}.video_${field.fId}`}
             >
               <Video
                 previewUrl={field.videoFn}
-                name={`lesson.${index}.video`}
+                name={`lesson.${index}.video_${field.fId}`}
               />
             </FormField>
           </Box>
@@ -105,7 +108,9 @@ export const CreateCourseContent: FC = observer(() => {
           ml="auto"
           type="button"
           disabled={!isValid}
-          onClick={() => append({})}
+          onClick={() => {
+            append({ fId: uuid() });
+          }}
         >
           Add lesson
         </Button>

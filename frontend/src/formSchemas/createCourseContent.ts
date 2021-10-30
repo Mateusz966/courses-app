@@ -7,13 +7,6 @@ export const createCourseContent = yup.object().shape({
     yup.object({
       description: yup.string().required(),
       title: yup.string().required(),
-      video: yup.mixed().when('videoFn', (videoFn: string) => {
-        console.log(videoFn);
-        if (videoFn) {
-          return yup.mixed().optional();
-        }
-        return yup.mixed().required();
-      }),
     }),
   ),
 });
