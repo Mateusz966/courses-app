@@ -1,7 +1,8 @@
 import { FC, lazy } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import { TopNavBar } from '../../components/common/TopNavbar';
 import ShoppingCart from '../ShopingCart';
+import { RouteAuthorized } from '../../components/routes/RouteAuthorized';
 
 const Course = lazy(() => import('./Course'));
 const Start = lazy(() => import('./Start'));
@@ -11,10 +12,10 @@ const Dashboard: FC = () => (
   <>
     <TopNavBar />
     <Switch>
-      <Route exact path="/dashboard" component={Start} />
-      <Route path="/dashboard/profile" component={Profile} />
-      <Route path="/dashboard/course" component={Course} />
-      <Route path="/dashboard/cart" component={ShoppingCart} />
+      <RouteAuthorized exact path="/dashboard" component={Start} />
+      <RouteAuthorized path="/dashboard/profile" component={Profile} />
+      <RouteAuthorized path="/dashboard/course" component={Course} />
+      <RouteAuthorized path="/dashboard/cart" component={ShoppingCart} />
     </Switch>
   </>
 );

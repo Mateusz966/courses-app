@@ -1,30 +1,32 @@
 import { observer } from 'mobx-react-lite';
-import { FC } from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import { FC, ReactElement, useEffect } from 'react';
+import { Route } from 'react-router-dom';
 import { useRootStore } from '../../stores/storeContext';
 
 interface Props {
   component?: any;
   exact?: boolean;
   path?: string;
-  render?: () => JSX.Element;
+  render?: () => ReactElement;
 }
 
 export const RouteAuthorized: FC<Props> = observer(
   ({ exact, path, component, render }) => {
-    const { userStore } = useRootStore();
+    const {
+      userStore: {
+        getUserDetails,
+        user: { details },
+      },
+    } = useRootStore();
 
-    if (userStore?.user?.details) {
-      return (
-        <Route
-          exact={exact}
-          path={path}
-          component={component}
-          render={render}
-        />
-      );
-    } else {
-      return <Route render={() => <Redirect to="/" />} />;
-    }
+    useEffect(() => {
+      if (!details) {
+        getUserDetails();
+      }
+    }, []);
+
+    return (
+      <Route exact={exact} path={path} component={component} render={render} />
+    );
   },
 );

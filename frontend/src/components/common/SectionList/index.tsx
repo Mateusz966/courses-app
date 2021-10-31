@@ -18,6 +18,11 @@ export const SectionList = () => {
     }
   };
 
+  const handleClick = (id: string) => {
+    courseStore.getSectionLessons(id);
+    courseStore.setCurrentSection(id);
+  };
+
   useEffect(() => {
     getSectionList();
   }, []);
@@ -28,11 +33,7 @@ export const SectionList = () => {
       <Box as="ul">
         {!!sections?.length &&
           sections.map(({ title, id, description }) => (
-            <Box
-              onClick={() => courseStore.getSectionLessons(id)}
-              key={id}
-              as="li"
-            >
+            <Box onClick={() => handleClick(id)} key={id} as="li">
               {title}
             </Box>
           ))}

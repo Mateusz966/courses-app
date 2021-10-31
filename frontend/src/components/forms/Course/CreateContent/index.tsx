@@ -14,11 +14,11 @@ import { useCreateContent } from '../../../../hooks/useCreateContent';
 import { Video } from '../../../common/FormField/Video';
 import { courseStore } from '../../../../stores/course';
 import { createCourseContent } from '../../../../formSchemas/createCourseContent';
+import { CourseContentForm } from '../../../../interal-types';
 
 export const CreateCourseContent: FC = observer(() => {
   const { courseId } = useParams<{
     courseId: string;
-    sectionId?: string;
   }>();
   const methods = useForm({
     mode: 'onChange',
@@ -32,9 +32,10 @@ export const CreateCourseContent: FC = observer(() => {
     handleSubmit,
     setError,
     formState: { isValid },
+    reset,
   } = methods;
 
-  const { submit, inProgress } = useCreateContent({ setError });
+  const { submit, inProgress } = useCreateContent({ setError, reset });
 
   useEffect(() => {
     if (courseStore.courseSectionLesson) {
@@ -55,7 +56,9 @@ export const CreateCourseContent: FC = observer(() => {
     <FormProvider {...methods}>
       <Grid
         as="form"
-        onSubmit={handleSubmit((payload: any) => submit(payload, courseId))}
+        onSubmit={handleSubmit((payload: CourseContentForm) =>
+          submit(payload, courseId, courseStore.currentSectionId),
+        )}
         listStyleType="none"
         gap={defaultGap}
         templateColumns="1fr"
@@ -69,10 +72,12 @@ export const CreateCourseContent: FC = observer(() => {
           </FormField>
         </Box>
         {fields.map((field: any, index) => (
-          <Box as="li" w="100%" key={field.id}>
-            <FormField name={`lesson.${index}.fId`}>
-              <Input type="text" defaultValue={field.fId} />
-            </FormField>
+          <Box pos="relative" as="li" w="100%" key={field.id}>
+            <Box opacity="0" pos="absolute">
+              <FormField name={`lesson.${index}.fId`}>
+                <Input type="text" defaultValue={field.fId} />
+              </FormField>
+            </Box>
             <FormField labelText="Nazwa lekcji" name={`lesson.${index}.title`}>
               <Input
                 defaultValue={field.title}

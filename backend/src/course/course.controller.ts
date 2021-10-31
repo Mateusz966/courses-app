@@ -188,18 +188,27 @@ export class CourseController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch('upload-video-lesson/to-course/:courseId')
+  @Patch('upload-video-lesson/to-course/:courseId/section/:sectionId')
   @HttpCode(204)
   @UseInterceptors(
     AnyFilesInterceptor({ dest: path.join(storDir(), 'video_store') }),
   )
   async editVideoLesson(
     @Param('courseId') courseId: string,
+    @Param('sectionId') sectionId: string,
     @UploadedFiles() videos: Express.Multer.File[],
     @Body() payload: CourseContentDto,
     @UserObj() user,
   ) {
-    return this.courseService.editLessonVideo(user, videos, courseId, payload);
+    await this.courseService.uploadLessonVideo(
+      user,
+      videos,
+      courseId,
+      payload,
+      sectionId,
+    );
+
+    return { success: true };
   }
 
   @UseGuards(JwtAuthGuard)

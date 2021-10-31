@@ -23,6 +23,8 @@ class Course {
     topics: null,
   };
 
+  currentSectionId: string | undefined;
+
   course?: Omit<ICourse, 'content'>;
 
   courseContent = '';
@@ -38,10 +40,12 @@ class Course {
   constructor() {
     makeObservable(this, {
       course: observable,
+      currentSectionId: observable,
       courseContent: observable,
       courseCategoryDetails: observable,
       courseSectionLesson: observable,
       inProgress: observable,
+      setCurrentSection: action,
       getCourseDetails: action,
       clearSectionLessons: action,
       setCategory: action,
@@ -50,6 +54,10 @@ class Course {
       setContent: action,
       getSectionLessons: action,
     });
+  }
+
+  setCurrentSection(id?: string) {
+    this.currentSectionId = id;
   }
 
   setCourse(course: Omit<ICourse, 'content'>) {
@@ -78,6 +86,7 @@ class Course {
       sectionDescription: '',
       lesson: [],
     };
+    this.currentSectionId = undefined;
   }
 
   async getSectionLessons(sectionId: string) {

@@ -5,7 +5,7 @@ import { history } from './history';
 
 const REQ_TIMEOUT = 20000;
 
-export const redirectToLogin = () => history.push('/sign-up');
+export const redirectToLogin = () => history.push('/sign-in');
 
 export const axiosRequestConfiguration: AxiosRequestConfig = {
   baseURL: apiUrl,

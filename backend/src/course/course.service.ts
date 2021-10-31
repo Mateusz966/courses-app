@@ -247,34 +247,24 @@ export class CourseService {
     files: Express.Multer.File[],
     courseId: string,
     data: CourseContentDto,
+    sectionId?: string,
   ) {
     const course = await Course.findOne({ where: { id: courseId } });
-    const section = new Section();
+    let section;
+    if (sectionId) section = Section.findOne({ id: sectionId });
+    else section = new Section();
 
     section.description = data.sectionDescription;
     section.title = data.sectionName;
     section.course = course;
 
-    const savedSection = await section.save();
-
-    return this.uploadVideoForLesson(data.lesson, savedSection, files);
-  }
-
-  async editLessonVideo(
-    user: User,
-    files: Express.Multer.File[],
-    courseId: string,
-    data: CourseContentDto,
-  ) {
-    const course = await Course.findOne({ where: { id: courseId } });
-    const section = new Section();
-
-    section.description = data.sectionDescription;
-    section.title = data.sectionName;
-    section.course = course;
-
-    const savedSection = await section.save();
-
+    let savedSection;
+    if (sectionId) {
+      savedSection = await Section.update({ id: sectionId }, section);
+      savedSection = { ...savedSection, id: sectionId };
+    } else {
+      savedSection = await section.save();
+    }
     return this.uploadVideoForLesson(data.lesson, savedSection, files);
   }
 

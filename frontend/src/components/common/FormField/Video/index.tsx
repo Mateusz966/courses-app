@@ -48,6 +48,8 @@ export const Video: FC<Props> = observer(({ name, isRequired, previewUrl }) => {
     reader.readAsDataURL(file[0]);
   };
 
+  const getCorrectVideoId = (url: string) => url.split('/')[2];
+
   return (
     <>
       {image && (
@@ -63,7 +65,9 @@ export const Video: FC<Props> = observer(({ name, isRequired, previewUrl }) => {
             width="300px"
             height="auto"
             title="addedLesson"
-            src="https://player.vimeo.com/video/637555784"
+            src={`https://player.vimeo.com/video/${getCorrectVideoId(
+              previewUrl,
+            )}`}
             allowFullScreen
           />
         </StyledVideo>
