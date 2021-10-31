@@ -1,22 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box } from '@chakra-ui/react';
-import { useApi } from '../../../hooks/useApi';
-import { CourseSectionsRes } from '../../../app-types';
+import { observer } from 'mobx-react-lite';
 import { courseStore } from '../../../stores/course';
 import { Button } from '../Button';
 
-export const SectionList = () => {
+export const SectionList = observer(() => {
   const { courseId } = useParams<{ courseId: string }>();
-  const [sections, setSections] = useState<CourseSectionsRes[]>();
-  const { get } = useApi();
-
-  const getSectionList = async () => {
-    const res = await get<CourseSectionsRes[]>(`/course/sections/${courseId}`);
-    if (res) {
-      setSections(res);
-    }
-  };
 
   const handleClick = (id: string) => {
     courseStore.getSectionLessons(id);
@@ -24,15 +14,15 @@ export const SectionList = () => {
   };
 
   useEffect(() => {
-    getSectionList();
+    courseStore.getSectionList(courseId);
   }, []);
 
   return (
     <>
       Course sections
       <Box as="ul">
-        {!!sections?.length &&
-          sections.map(({ title, id, description }) => (
+        {!!courseStore.sections?.length &&
+          courseStore.sections.map(({ title, id, description }) => (
             <Box onClick={() => handleClick(id)} key={id} as="li">
               {title}
             </Box>
@@ -43,4 +33,4 @@ export const SectionList = () => {
       </Button>
     </>
   );
-};
+});

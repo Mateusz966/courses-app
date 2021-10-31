@@ -169,7 +169,7 @@ export class CourseController {
 
   @UseGuards(JwtAuthGuard)
   @Post('upload-video-lesson/to-course/:courseId')
-  @HttpCode(204)
+  @HttpCode(200)
   @UseInterceptors(
     AnyFilesInterceptor({ dest: path.join(storDir(), 'video_store') }),
   )
@@ -179,17 +179,18 @@ export class CourseController {
     @Body() payload: CourseContentDto,
     @UserObj() user,
   ) {
-    return this.courseService.uploadLessonVideo(
+    await this.courseService.uploadLessonVideo(
       user,
       videos,
       courseId,
       payload,
     );
+    return { success: true };
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch('upload-video-lesson/to-course/:courseId/section/:sectionId')
-  @HttpCode(204)
+  @HttpCode(200)
   @UseInterceptors(
     AnyFilesInterceptor({ dest: path.join(storDir(), 'video_store') }),
   )

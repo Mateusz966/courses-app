@@ -5,6 +5,7 @@ import { useApi } from './useApi';
 import { CourseContentReq } from '../app-types';
 import { CourseContentForm } from '../interal-types';
 import { successNotification } from '../components/common/Toast';
+import { courseStore } from '../stores/course';
 
 interface Props {
   setError: SetError;
@@ -73,9 +74,12 @@ export const useCreateContent = (props: Props): UseCreateContent => {
       res = await createSection(fd, courseId);
     }
 
+    console.log(res);
+
     if (res) {
       props.reset();
       successNotification('Sukces');
+      courseStore.getSectionList(courseId);
     }
   };
 

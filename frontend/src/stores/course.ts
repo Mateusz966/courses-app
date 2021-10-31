@@ -4,6 +4,7 @@ import {
   CreateCourse,
   ICourse,
   CustomSelectOption,
+  CourseSectionsRes,
 } from '../app-types';
 
 import { handlingError } from '../helpers/handleErrors';
@@ -23,6 +24,8 @@ class Course {
     topics: null,
   };
 
+  sections: CourseSectionsRes[] = [];
+
   currentSectionId: string | undefined;
 
   course?: Omit<ICourse, 'content'>;
@@ -40,6 +43,7 @@ class Course {
   constructor() {
     makeObservable(this, {
       course: observable,
+      sections: observable,
       currentSectionId: observable,
       courseContent: observable,
       courseCategoryDetails: observable,
@@ -53,6 +57,7 @@ class Course {
       setTopic: action,
       setContent: action,
       getSectionLessons: action,
+      getSectionList: action,
     });
   }
 
@@ -134,6 +139,18 @@ class Course {
     } catch (error: any) {
       handlingError(error?.response);
       this.inProgress = false;
+    }
+  }
+
+  async getSectionList(courseId: string) {
+    console.log('XD');
+    const res = await api.get<CourseSectionsRes[]>(
+      `/course/sections/${courseId}`,
+    );
+    if (res) {
+      runInAction(() => {
+        this.sections = res;
+      });
     }
   }
 }
