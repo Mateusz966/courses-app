@@ -19,12 +19,12 @@ export const Input: FC<Props> = ({
   const { onChange: fieldOnChange, ...rest } = register(name);
   return (
     <ChakraInput
+      {...rest}
       borderRadius="25px"
       placeholder={placeholder}
       type={type}
       id={id || name}
       defaultValue={defaultValue}
-      {...rest}
       isDisabled={isDisabled}
       onChange={async (e) => {
         await fieldOnChange(e);

@@ -12,7 +12,7 @@ export const handlingError = (response: AxiosResponse, setError?: SetError) => {
   const { message: resMessage } = data;
   switch (status) {
     case 401:
-      history.push('/sign-up');
+      history.push('/sign-in');
       return null;
     case 400:
       // eslint-disable-next-line no-unused-expressions

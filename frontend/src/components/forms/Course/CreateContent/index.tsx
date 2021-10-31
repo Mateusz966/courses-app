@@ -1,9 +1,9 @@
-import { Box, Grid } from '@chakra-ui/react';
+import { Box, Grid, Spinner } from '@chakra-ui/react';
 import { observer } from 'mobx-react-lite';
 import { FC, useEffect } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuid } from 'uuid';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { defaultGap } from '../../../../config/globalStyles';
 import { Button } from '../../../common/Button';
@@ -12,14 +12,13 @@ import { Input } from '../../../common/FormField/Input';
 import { Textarea } from '../../../common/FormField/Textarea';
 import { useCreateContent } from '../../../../hooks/useCreateContent';
 import { Video } from '../../../common/FormField/Video';
-import { CourseContentReq } from '../../../../app-types';
 import { courseStore } from '../../../../stores/course';
 import { createCourseContent } from '../../../../formSchemas/createCourseContent';
+import { CourseContentForm } from '../../../../interal-types';
 
 export const CreateCourseContent: FC = observer(() => {
   const { courseId } = useParams<{
     courseId: string;
-    sectionId?: string;
   }>();
   const methods = useForm({
     mode: 'onChange',
@@ -33,22 +32,32 @@ export const CreateCourseContent: FC = observer(() => {
     handleSubmit,
     setError,
     formState: { isValid },
+    reset,
   } = methods;
 
-  const { submit, inProgress } = useCreateContent({ setError });
+  const { submit, inProgress } = useCreateContent({ setError, reset });
 
   useEffect(() => {
     if (courseStore.courseSectionLesson) {
-      methods.reset(courseStore.courseSectionLesson);
+      const { lesson, ...rest } = courseStore.courseSectionLesson;
+      const dataToReset = {
+        ...rest,
+        lesson: lesson.map(({ id, ...data }) => ({ fId: id, ...data })),
+      };
+      methods.reset(dataToReset);
     }
   }, [courseStore.courseSectionLesson]);
+
+  if (inProgress) {
+    return <Spinner />;
+  }
 
   return (
     <FormProvider {...methods}>
       <Grid
         as="form"
-        onSubmit={handleSubmit((payload: CourseContentReq) =>
-          submit(payload, courseId),
+        onSubmit={handleSubmit((payload: CourseContentForm) =>
+          submit(payload, courseId, courseStore.currentSectionId),
         )}
         listStyleType="none"
         gap={defaultGap}
@@ -63,10 +72,12 @@ export const CreateCourseContent: FC = observer(() => {
           </FormField>
         </Box>
         {fields.map((field: any, index) => (
-          <Box as="li" w="100%" key={field.id}>
-            <FormField name={`lesson.${index}.id`}>
-              <Input type="hidden" />
-            </FormField>
+          <Box pos="relative" as="li" w="100%" key={field.id}>
+            <Box opacity="0" pos="absolute">
+              <FormField name={`lesson.${index}.fId`}>
+                <Input type="text" defaultValue={field.fId} />
+              </FormField>
+            </Box>
             <FormField labelText="Nazwa lekcji" name={`lesson.${index}.title`}>
               <Input
                 defaultValue={field.title}
@@ -83,13 +94,16 @@ export const CreateCourseContent: FC = observer(() => {
                 placeholder="opis lekcji"
               />
             </FormField>
+            <FormField name={`lesson.${index}.videoFn`}>
+              <Input type="hidden" />
+            </FormField>
             <FormField
               labelText="Miejsce na video"
-              name={`lesson.${index}.video`}
+              name={`lesson.${index}.video_${field.fId}`}
             >
               <Video
                 previewUrl={field.videoFn}
-                name={`lesson.${index}.video`}
+                name={`lesson.${index}.video_${field.fId}`}
               />
             </FormField>
           </Box>
@@ -99,13 +113,9 @@ export const CreateCourseContent: FC = observer(() => {
           ml="auto"
           type="button"
           disabled={!isValid}
-          onClick={() =>
-            append({
-              id: uuidv4(),
-              title: '',
-              video: '',
-            })
-          }
+          onClick={() => {
+            append({ fId: uuid() });
+          }}
         >
           Add lesson
         </Button>

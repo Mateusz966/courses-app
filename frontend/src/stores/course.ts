@@ -4,6 +4,7 @@ import {
   CreateCourse,
   ICourse,
   CustomSelectOption,
+  CourseSectionsRes,
 } from '../app-types';
 
 import { handlingError } from '../helpers/handleErrors';
@@ -23,6 +24,10 @@ class Course {
     topics: null,
   };
 
+  sections: CourseSectionsRes[] = [];
+
+  currentSectionId: string | undefined;
+
   course?: Omit<ICourse, 'content'>;
 
   courseContent = '';
@@ -38,10 +43,13 @@ class Course {
   constructor() {
     makeObservable(this, {
       course: observable,
+      sections: observable,
+      currentSectionId: observable,
       courseContent: observable,
       courseCategoryDetails: observable,
       courseSectionLesson: observable,
       inProgress: observable,
+      setCurrentSection: action,
       getCourseDetails: action,
       clearSectionLessons: action,
       setCategory: action,
@@ -49,7 +57,12 @@ class Course {
       setTopic: action,
       setContent: action,
       getSectionLessons: action,
+      getSectionList: action,
     });
+  }
+
+  setCurrentSection(id?: string) {
+    this.currentSectionId = id;
   }
 
   setCourse(course: Omit<ICourse, 'content'>) {
@@ -78,6 +91,7 @@ class Course {
       sectionDescription: '',
       lesson: [],
     };
+    this.currentSectionId = undefined;
   }
 
   async getSectionLessons(sectionId: string) {
@@ -125,6 +139,18 @@ class Course {
     } catch (error: any) {
       handlingError(error?.response);
       this.inProgress = false;
+    }
+  }
+
+  async getSectionList(courseId: string) {
+    console.log('XD');
+    const res = await api.get<CourseSectionsRes[]>(
+      `/course/sections/${courseId}`,
+    );
+    if (res) {
+      runInAction(() => {
+        this.sections = res;
+      });
     }
   }
 }

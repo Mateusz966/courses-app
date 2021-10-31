@@ -23,6 +23,7 @@ export class FileStore {
   }
 
   setFile(file: MultimediaFile) {
+    this.removeFile(file.name);
     if (this.files) {
       this.files.push(file);
     } else {

@@ -203,26 +203,41 @@ export class CourseService {
   }
 
   async uploadVideoForLesson(
-    lesson: Omit<ILesson, 'videoFn'>[],
+    lessons: Omit<ILesson, 'videoFn'>[],
     savedSection: Section,
     videos: Express.Multer.File[],
   ) {
     return Promise.all(
-      lesson.map(async (payload) => {
-        const lesson = new Lesson();
-        const video = videos.find(
-          (file) => file.fieldname === `video_${payload.id}`,
-        );
-        lesson.id = payload.id;
+      lessons.map(async (payload, index) => {
+        let lesson = await Lesson.findOne(payload.id);
+        let isUpdate = true;
+
+        if (!lesson) {
+          isUpdate = false;
+          lesson = new Lesson();
+        }
+
+        const video = videos.find((video) => video.fieldname === payload.id);
+
+        if (video) {
+          lesson.videoFn = await this.vimeoService.upload(
+            video,
+            video.filename,
+            'opis',
+          );
+        }
+
+        if (!isUpdate) lesson.id = payload.id;
+
         lesson.description = payload.description;
         lesson.section = savedSection;
         lesson.title = payload.title;
-        lesson.videoFn = await this.vimeoService.upload(
-          video,
-          video.filename,
-          'opis',
-        );
-        return lesson.save();
+
+        if (isUpdate) {
+          return Lesson.update({ id: payload.id }, lesson);
+        } else {
+          return lesson.save();
+        }
       }),
     );
   }
@@ -232,16 +247,24 @@ export class CourseService {
     files: Express.Multer.File[],
     courseId: string,
     data: CourseContentDto,
+    sectionId?: string,
   ) {
     const course = await Course.findOne({ where: { id: courseId } });
-    const section = new Section();
+    let section;
+    if (sectionId) section = Section.findOne({ id: sectionId });
+    else section = new Section();
 
     section.description = data.sectionDescription;
     section.title = data.sectionName;
     section.course = course;
 
-    const savedSection = await section.save();
-
+    let savedSection;
+    if (sectionId) {
+      savedSection = await Section.update({ id: sectionId }, section);
+      savedSection = { ...savedSection, id: sectionId };
+    } else {
+      savedSection = await section.save();
+    }
     return this.uploadVideoForLesson(data.lesson, savedSection, files);
   }
 

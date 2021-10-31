@@ -1,15 +1,28 @@
 import React, { FC, useRef, useState } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
+import { Box } from '@chakra-ui/layout';
+import styled from '@emotion/styled';
+import { observer } from 'mobx-react-lite';
+import { useFormContext } from 'react-hook-form';
 import { useRootStore } from '../../../../stores/storeContext';
 
 interface Props {
-  name?: string;
+  name: string;
   isRequired?: boolean;
   previewUrl?: string;
 }
 
-export const Video: FC<Props> = ({ name, isRequired, previewUrl }) => {
-  const { control } = useFormContext();
+const StyledVideo = styled.div`
+  video,
+  iframe {
+    height: auto;
+    width: 100%;
+    border-radius: 25px;
+    margin-bottom: 2rem;
+  }
+`;
+
+export const Video: FC<Props> = observer(({ name, isRequired, previewUrl }) => {
+  const { register } = useFormContext();
   const { fileStore } = useRootStore();
   const [image, setImage] = useState<string | null>();
   const videoRef = useRef<any>();
@@ -35,33 +48,39 @@ export const Video: FC<Props> = ({ name, isRequired, previewUrl }) => {
     reader.readAsDataURL(file[0]);
   };
 
+  const getCorrectVideoId = (url: string) => url.split('/')[2];
+
   return (
     <>
-      {(image || previewUrl) && (
-        <video
-          width="300"
-          height="300"
-          ref={videoRef}
-          src={image || ''}
-          controls
-        >
-          <track kind="captions" />
-        </video>
+      {image && (
+        <StyledVideo>
+          <video width="100%" height="auto" ref={videoRef} src={image} controls>
+            <track kind="captions" />
+          </video>
+        </StyledVideo>
       )}
-      <Controller
-        name={name ?? 'video'}
-        control={control}
-        render={({ field }) => (
-          <input
-            type="file"
-            {...field}
-            onChange={(e) => {
-              field?.onChange(e);
-              onChange(e);
-            }}
+      {previewUrl && !image && (
+        <StyledVideo>
+          <iframe
+            width="300px"
+            height="auto"
+            title="addedLesson"
+            src={`https://player.vimeo.com/video/${getCorrectVideoId(
+              previewUrl,
+            )}`}
+            allowFullScreen
           />
-        )}
-      />
+        </StyledVideo>
+      )}
+      <Box>
+        <input
+          {...register(name)}
+          id="file"
+          type="file"
+          name={name}
+          onChange={onChange}
+        />
+      </Box>
     </>
   );
-};
+});
