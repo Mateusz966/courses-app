@@ -8,12 +8,16 @@ import { UserCategories } from './entity/user-categories.entity';
 import { User } from './entity/user.entity';
 import { UserDto } from './dto/user.dto';
 import { ChangeBasicDataDto } from './dto/change-basic-data.dto';
+import { FileService } from '../file/file.service';
 
 const path = require('path');
 
 @Injectable()
 export class UserService {
-  constructor(private readonly categoryService: CategoryService) {}
+  constructor(
+    private readonly categoryService: CategoryService,
+    private readonly filesService: FileService,
+  ) {}
 
   async getByEmail(email: string): Promise<any> {
     try {

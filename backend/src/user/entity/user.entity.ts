@@ -6,9 +6,12 @@ import {
   PrimaryGeneratedColumn,
   BaseEntity,
   OneToMany,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
-import { IUser } from '../../../app-types/user';
+import { IUser } from '../../../app-types';
 import { UserCategories } from './user-categories.entity';
+import { PublicFile } from '../../file/public-file.entity';
 
 @Entity()
 export class User extends BaseEntity implements IUser {
@@ -30,6 +33,13 @@ export class User extends BaseEntity implements IUser {
 
   @Column({ nullable: true })
   photoFn: string;
+
+  @JoinColumn()
+  @OneToOne(() => PublicFile, {
+    eager: true,
+    nullable: true,
+  })
+  avatar?: PublicFile;
 
   @OneToMany(() => UserCategories, (userCategories) => userCategories.user)
   userCategories: UserCategories[];
