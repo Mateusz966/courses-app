@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Link, useParams } from 'react-router-dom';
 import { FC, useCallback, useEffect } from 'react';
+import { Text, Box } from '@chakra-ui/react';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
 import { observer } from 'mobx-react-lite';
 import { Editor } from '@tinymce/tinymce-react';
@@ -86,15 +87,18 @@ export const CourseForm: FC = observer(() => {
             }
           />
         </FormField>
-        <FormField labelText="Title" name="title">
+        <FormField mb4 labelText="Title" name="title">
           <Input type="text" placeholder="NodeJS Course" />
         </FormField>
-        <FormField labelText="Description" name="description">
+        <FormField mb4 labelText="Description" name="description">
           <Input type="text" placeholder="Course about...." />
         </FormField>
-        <FormField labelText="Price" name="price">
+        <FormField mb4 labelText="Price" name="price">
           <Input type="text" placeholder="410" />
         </FormField>
+        <Text fontWeight="500" mb="8px">
+          Dlaczego warto kupić ten kurs
+        </Text>
         <Controller
           control={control}
           name="content"
@@ -120,16 +124,24 @@ export const CourseForm: FC = observer(() => {
             />
           )}
         />
-
-        <Link to={`/dashboard/course/edit/content/${courseId}`}>
-          Edytuj zawartość kursu
-        </Link>
-        <Link to={`/dashboard/course/edit/details/${courseId}/category`}>
-          Kategorie
-        </Link>
-        <Button type="submit" disabled={!isValid} inProgress={inProgress}>
-          Opublikuj kurs
-        </Button>
+        <Box mt="3">
+          <Link to={`/dashboard/course/edit/content/${courseId}`}>
+            Edytuj zawartość kursu
+          </Link>
+          <Link to={`/dashboard/course/edit/details/${courseId}/category`}>
+            Kategorie
+          </Link>
+        </Box>
+        <Box mt="2" mb="140px" textAlign="center">
+          <Button
+            type="submit"
+            disabled={!isValid}
+            inProgress={inProgress}
+            maxW="400px"
+          >
+            Opublikuj kurs
+          </Button>
+        </Box>
       </form>
     </FormProvider>
   );

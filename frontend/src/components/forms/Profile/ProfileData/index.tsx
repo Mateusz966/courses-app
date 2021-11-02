@@ -23,6 +23,8 @@ export const ProfileForm: FC = observer(() => {
   const { submit, inProgress } = useProfile();
   const { isValid } = methods.formState;
 
+  console.log(methods.getValues());
+
   useEffect(() => {
     if (user.details) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -44,16 +46,10 @@ export const ProfileForm: FC = observer(() => {
         <FormField name="photoFn">
           <ImagePicker desktopRatio={22 / 9} previewUrl="user/avatar" />
         </FormField>
-        <FormField
-          labelText={`Obecne imie ${user.details?.firstName}`}
-          name="firstName"
-        >
+        <FormField labelText="Imie" name="firstName">
           <Input type="text" placeholder="Mati" />
         </FormField>
-        <FormField
-          labelText={`Obecne Nazwisko ${user.details?.lastName}`}
-          name="lastName"
-        >
+        <FormField labelText="Nazwisko" name="lastName">
           <Input type="text" placeholder="Itam" />
         </FormField>
         <Button disabled={!isValid} type="submit" inProgress={inProgress}>

@@ -123,13 +123,13 @@ export const useCourse = (props?: Props): UseCourse => {
 
   const handleUpdateCourse = async (id: string) => {
     const { title, description, price, content } = props?.getValues();
-    if (title && description && price && content) {
+    if (title && description && price) {
       await updateCourse(
         {
           title,
           description,
           price,
-          content,
+          content: content ?? '',
         },
         id,
       );
