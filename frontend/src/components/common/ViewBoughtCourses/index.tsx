@@ -28,10 +28,16 @@ const ViewBoughtCourses: FC = () => {
     <GridItem colStart={[1, 2, 2]} colSpan={[1, 1, 3]}>
       <Link as={RLink} to="/dashboard/course/list">
         <Flex
+          pos="relative"
           flexDirection="column"
           justifyContent="space-around"
           rounded="lg"
           boxShadow="xl"
+          h="100%"
+          w="100%"
+          top="0"
+          right="0"
+          transition="all 500ms ease"
           _hover={{
             pos: 'relative',
             top: '5%',
