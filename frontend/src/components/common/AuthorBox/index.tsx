@@ -18,6 +18,7 @@ type Props = CourseAuthor;
 export const AuthorBox: React.FC<Props> = ({ user }) => (
   <HStack mt={{ md: '6', base: '8' }} mb="6">
     <Image
+      objectFit="cover"
       borderRadius="full"
       boxSize="70px"
       src={`${apiUrl}/user/avatar/${user.id}`}
