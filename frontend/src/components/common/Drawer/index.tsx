@@ -65,7 +65,7 @@ export const MainDrawer = () => {
           </DrawerOverlay>
         </Drawer>
         <Box mr="3">
-          <Link as={RLink} to="/dashboard">
+          <Link as={RLink} to="/home">
             <Image src={BrandLogo} margin="auto" objectFit="cover" />
           </Link>
         </Box>

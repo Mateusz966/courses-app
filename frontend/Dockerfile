@@ -1,9 +1,13 @@
-FROM node:14.15.4-alpine
+FROM node:14.15.4-alpine AS builder
 WORKDIR /app
 RUN mkdir -p /app/frontend
-RUN mkdir -p /app/app-types
 COPY /app-types /app/app-types
-COPY /frontend/package.json /app/frontend
-RUN cd /app/frontend && npm install
 COPY /frontend /app/frontend
-CMD [ "npm", "--prefix", "/app/frontend", "start" ]
+RUN cd /app/frontend && npm install
+COPY /frontend/nginx.conf /app
+RUN cd /app/frontend && npm run build
+
+FROM nginx:stable-alpine
+COPY --from=builder /app/frontend/build/ /usr/share/nginx/html
+COPY --from=builder /app/nginx.conf /etc/nginx/nginx.conf
+RUN chown nginx.nginx /usr/share/nginx/html/ -R

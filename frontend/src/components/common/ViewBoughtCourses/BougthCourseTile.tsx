@@ -11,10 +11,16 @@ interface Props {
 const BougthCourseTile: FC<Props> = ({ course: { title, id } }) => (
   <GridItem m={6} p={6} key={id}>
     <Flex
+      pos="relative"
       flexDirection="column"
       justifyContent="space-around"
       rounded="lg"
       boxShadow="xl"
+      h="100%"
+      w="100%"
+      top="0"
+      right="0"
+      transition="all 500ms ease"
       _hover={{
         pos: 'relative',
         top: '5%',
