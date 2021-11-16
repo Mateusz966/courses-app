@@ -39,7 +39,13 @@ export interface SectionContentRes {
     videoFn: string;
   }[];
 }
-
+export interface LessonDetailsRes {
+  id: string;
+  title: string;
+  description: string;
+  videoFn: string;
+  section: ISection;
+}
 export interface ICourseTopics {
   topic: ITopic;
   course: ICourse;

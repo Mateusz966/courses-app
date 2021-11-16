@@ -9,6 +9,7 @@ import {
   ILesson,
   PublishedCourseRes,
   ApiTableRes,
+  LessonDetailsRes
 } from '../../app-types';
 import { setFileIfExists } from '../../utils/setFileIfExist';
 import { VimeoService } from '../vimeo/vimeo.service';
@@ -276,4 +277,11 @@ export class CourseService {
       lesson,
     };
   }
+  async getLessonDetails(lessonId: string): Promise<LessonDetailsRes> {
+    const lesson = await Lesson.getLessonDetailsById(lessonId);
+
+    return {
+      ...lesson
+    };
+  }  
 }

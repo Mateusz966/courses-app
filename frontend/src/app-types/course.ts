@@ -111,6 +111,7 @@ export interface Section {
       id: string;
       title: string;
       description: string;
+      videoFn: string;
     },
   ];
 }
@@ -122,6 +123,13 @@ export interface CourseDetailsRes extends CourseDetailsCommon {
     name: string;
     id: string;
   }[];
+}
+export interface LessonDetailsRes {
+  id: string;
+  title: string;
+  description: string;
+  videoFn: string;
+  section: ISection;
 }
 
 export type CourseDetails = CourseDetailsCommon;

@@ -27,6 +27,7 @@ import {
   CourseDetailsRes,
   CourseSectionsRes,
   PublishedCourseRes,
+  LessonDetailsRes
 } from '../../app-types';
 import { CourseContentDto } from './dto/course-content';
 import { FilterParams } from '../pagination/filter-params.dto';
@@ -122,6 +123,11 @@ export class CourseController {
   @Get('/sections/:sectionId/lessons')
   async getSectionLessons(@Param('sectionId') sectionId: string): Promise<any> {
     return this.courseService.getSectionLessons(sectionId);
+  }
+  @UseGuards(JwtAuthGuard)
+  @Get('/lesson/:lessonId')
+  async getLessonDetails(@Param('lessonId') lessonId: string): Promise<LessonDetailsRes> {
+    return this.courseService.getLessonDetails(lessonId);
   }
 
   @UseGuards(JwtAuthGuard)
