@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3"
 services:
   postgres:
     container_name: postgres
@@ -26,106 +26,100 @@ services:
     networks:
       - postgres
 
-  es01:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.2
-    container_name: es01
-    environment:
-      - node.name=es01
-      - cluster.name=es-docker-cluster
-      - discovery.seed_hosts=es02,es03
-      - cluster.initial_master_nodes=es01,es02,es03
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - data01:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
-    networks:
-      - elastic
-  es02:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.2
-    container_name: es02
-    environment:
-      - node.name=es02
-      - cluster.name=es-docker-cluster
-      - discovery.seed_hosts=es01,es03
-      - cluster.initial_master_nodes=es01,es02,es03
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - data02:/usr/share/elasticsearch/data
-    networks:
-      - elastic
-  es03:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.2
-    container_name: es03
-    environment:
-      - node.name=es03
-      - cluster.name=es-docker-cluster
-      - discovery.seed_hosts=es01,es02
-      - cluster.initial_master_nodes=es01,es02,es03
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - data03:/usr/share/elasticsearch/data
-    networks:
-      - elastic
-
-  # frontend:
-  #   container_name: frontend
-  #   build:
-  #     context: .
-  #     dockerfile: ./frontend/Dockerfile
+  # es01:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:7.13.2
+  #   container_name: es01
   #   environment:
-  #   - CHOKIDAR_USEPOLLING=true
+  #     - node.name=es01
+  #     - cluster.name=es-docker-cluster
+  #     - discovery.seed_hosts=es02,es03
+  #     - cluster.initial_master_nodes=es01,es02,es03
+  #     - bootstrap.memory_lock=true
+  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #   ulimits:
+  #     memlock:
+  #       soft: -1
+  #       hard: -1
   #   volumes:
-  #   - ./frontend/src:/app/frontend/src
-  #   - ./frontend/public:/app/frontend/public
-  #   - ./app-types:/app/app-types
+  #     - data01:/usr/share/elasticsearch/data
   #   ports:
-  #   - "3000:3000"
+  #     - 9200:9200
   #   networks:
-  #   - postgres
-
-  # backend:
-  #   container_name: backend
-  #   links:
-  #   - postgres:postgres
-  #   depends_on:
-  #   - postgres
-  #   build:
-  #     context: .
-  #     dockerfile: ./backend/Dockerfile
+  #     - elastic
+  # es02:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:7.13.2
+  #   container_name: es02
+  #   environment:
+  #     - node.name=es02
+  #     - cluster.name=es-docker-cluster
+  #     - discovery.seed_hosts=es01,es03
+  #     - cluster.initial_master_nodes=es01,es02,es03
+  #     - bootstrap.memory_lock=true
+  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #   ulimits:
+  #     memlock:
+  #       soft: -1
+  #       hard: -1
   #   volumes:
-  #    - ./backend:/app/backend
-  #    - ./app-types:/app/app-types
-  #   ports:
-  #   - "3001:3001"
+  #     - data02:/usr/share/elasticsearch/data
   #   networks:
-  #   - postgres
+  #     - elastic
+  # es03:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:7.13.2
+  #   container_name: es03
+  #   environment:
+  #     - node.name=es03
+  #     - cluster.name=es-docker-cluster
+  #     - discovery.seed_hosts=es01,es02
+  #     - cluster.initial_master_nodes=es01,es02,es03
+  #     - bootstrap.memory_lock=true
+  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #   ulimits:
+  #     memlock:
+  #       soft: -1
+  #       hard: -1
+  #   volumes:
+  #     - data03:/usr/share/elasticsearch/data
+  #   networks:
+  #     - elastic
 
-volumes:
-  data01:
-    driver: local
-  data02:
-    driver: local
-  data03:
-    driver: local
+  frontend:
+    container_name: frontend
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
+    stdin_open: true
+    environment:
+    - CHOKIDAR_USEPOLLING=true
+    ports:
+    - "80:80"
+    networks:
+    - postgres
+
+  backend:
+    container_name: backend
+    links:
+    - postgres:postgres
+    depends_on:
+    - postgres
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    ports:
+    - "3001:3001"
+    networks:
+    - postgres
+
+# volumes:
+#   data01:
+#     driver: local
+#   data02:
+#     driver: local
+#   data03:
+#     driver: local
 
 networks:
   postgres:
     driver: bridge
-  elastic:
-    driver: bridge
+  # elastic:
+  #   driver: bridge
