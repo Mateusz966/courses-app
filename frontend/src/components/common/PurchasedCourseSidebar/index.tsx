@@ -21,6 +21,7 @@ const PurchasedCourseSidebar: FC<Props> = ({
       sections={section}
       currentIndex={index}
       courseId={courseId}
+      lessonId={lessonId}
     />
   ));
   let currentSectionIndex = 0;

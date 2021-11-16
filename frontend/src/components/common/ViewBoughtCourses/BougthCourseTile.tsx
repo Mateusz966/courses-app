@@ -24,11 +24,7 @@ const BougthCourseTile: FC<Props> = ({ course: { title, id } }) => (
         w: '110%',
         boxShadow: '2xl',
       }}
-      onClick={() =>
-        history.push(
-          `/dashboard/course/bought/view/${id}/377868e8-706d-4e37-ac73-33024e3609ed`,
-        )
-      }
+      onClick={() => history.push(`/dashboard/course/bought/view/${id}`)}
     >
       <Box>
         <Center>

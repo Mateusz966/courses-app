@@ -7,19 +7,35 @@ interface Props {
   id: string;
   title: string;
   courseId: string;
+  lessonId: string;
 }
-const SyllabusLesson: FC<Props> = ({ id, title, courseId }) => (
-  <ListItem key={id}>
-    <HStack
-      w="100%"
-      onClick={() =>
-        history.push(`/dashboard/course/bought/view/${courseId}/${id}`)
-      }
-      cursor="pointer"
-    >
-      <ListIcon as={MdVideoLibrary} />
-      <Text mr="auto">{title}</Text>
-    </HStack>
-  </ListItem>
-);
+const SyllabusLesson: FC<Props> = ({ id, title, courseId, lessonId }) => {
+  let lessonTitle: any;
+  if (lessonId === id) {
+    lessonTitle = (
+      <Text color="teal.500" mr="auto">
+        {title}
+      </Text>
+    );
+  } else {
+    lessonTitle = <Text mr="auto">{title}</Text>;
+  }
+  return (
+    <ListItem key={id}>
+      <HStack
+        w="100%"
+        onClick={() =>
+          history.push(`/dashboard/course/bought/view/${courseId}/${id}`)
+        }
+        cursor="pointer"
+        _hover={{
+          color: 'teal.400',
+        }}
+      >
+        <ListIcon as={MdVideoLibrary} />
+        {lessonTitle}
+      </HStack>
+    </ListItem>
+  );
+};
 export default SyllabusLesson;

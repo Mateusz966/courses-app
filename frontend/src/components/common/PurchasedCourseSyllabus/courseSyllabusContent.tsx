@@ -16,14 +16,21 @@ interface Props {
   sections: Section;
   currentIndex: number;
   courseId: string;
+  lessonId: string;
 }
 const CourseSyllabusContent: FC<Props> = ({
   sections: { id, title, description, lesson },
   currentIndex,
   courseId,
+  lessonId,
 }) => {
   const itemList = lesson.map(({ id: lId, title: lTitle }) => (
-    <SyllabusLesson id={lId} title={lTitle} courseId={courseId} />
+    <SyllabusLesson
+      id={lId}
+      title={lTitle}
+      courseId={courseId}
+      lessonId={lessonId}
+    />
   ));
   const currentIndexPlusOne = currentIndex + 1;
 

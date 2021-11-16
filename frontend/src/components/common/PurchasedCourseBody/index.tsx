@@ -15,7 +15,7 @@ import { Section, LessonDetailsRes } from '../../../app-types';
 interface Props {
   sections: Section[];
   title: string;
-  lessonId: string;
+  lessonId?: string;
   courseId: string;
 }
 export const PurchasedCourse: React.FC<Props> = ({
@@ -26,6 +26,11 @@ export const PurchasedCourse: React.FC<Props> = ({
 }) => {
   const [lessonDetails, setLessonDetails] = useState<LessonDetailsRes>();
   const { get, inProgress } = useApi();
+  console.log(lessonId);
+  let lessonTitle = sections[0].lesson[0].title;
+  let lessonDescription = sections[0].lesson[0].description;
+  let lessonVideoFn = sections[0].lesson[0].videoFn;
+  let currentLessonId = sections[0].lesson[0].id;
   if (lessonId !== '' && lessonId !== undefined) {
     const getLessonDetails = async () => {
       const resLesson = await get<LessonDetailsRes>(
@@ -41,9 +46,22 @@ export const PurchasedCourse: React.FC<Props> = ({
     if (inProgress) {
       return <Spinner />;
     }
-  } else {
-    return <Spinner />;
+  } else if (sections[0] !== undefined) {
+    lessonTitle = sections[0].lesson[0].title;
+    lessonDescription = sections[0].lesson[0].description;
+    lessonVideoFn = sections[0].lesson[0].videoFn;
+    currentLessonId = sections[0].lesson[0].id;
+    if (currentLessonId === '' || currentLessonId === undefined) {
+      return <Spinner />;
+    }
   }
+  if (lessonDetails !== undefined) {
+    lessonTitle = lessonDetails?.title;
+    lessonDescription = lessonDetails?.description;
+    lessonVideoFn = lessonDetails?.videoFn;
+    currentLessonId = lessonId as string;
+  }
+
   return (
     <Box>
       <Grid
@@ -56,21 +74,21 @@ export const PurchasedCourse: React.FC<Props> = ({
           <AspectRatio maxW="100vw" maxH="90vh" ratio={16 / 9}>
             <iframe
               title="lessonVideo"
-              src={`https://player.vimeo.com/video/${lessonDetails?.videoFn}`}
+              src={`https://player.vimeo.com/video/${lessonVideoFn}`}
               allowFullScreen
             />
           </AspectRatio>
           <Heading fontSize="24px" mt="20px" mb="20px">
-            {lessonDetails?.title}
+            {lessonTitle}
           </Heading>
-          <Text>{lessonDetails?.description}</Text>
+          <Text>{lessonDescription}</Text>
         </GridItem>
         <GridItem pl="5">
           <PurchasedCourseSidebar
             sections={sections}
             title={title}
             courseId={courseId}
-            lessonId={lessonId}
+            lessonId={currentLessonId}
           />
         </GridItem>
       </Grid>

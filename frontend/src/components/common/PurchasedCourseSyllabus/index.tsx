@@ -6,13 +6,15 @@ import CourseSyllabusContent from './courseSyllabusContent';
 interface Props {
   sections: Section[];
   courseId: string;
+  lessonId: string;
 }
-export const CourseSyllabus: FC<Props> = ({ sections, courseId }) => {
+export const CourseSyllabus: FC<Props> = ({ sections, courseId, lessonId }) => {
   const syllabusContent = sections.map((section, index) => (
     <CourseSyllabusContent
       sections={section}
       currentIndex={index}
       courseId={courseId}
+      lessonId={lessonId}
     />
   ));
   return (
