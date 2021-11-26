@@ -12,7 +12,7 @@ import { ValidDtoFilter } from '../filters/dto-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    cors: { origin: 'http://localhost:3000', credentials: true },
+    cors: { origin: 'http://localhost', credentials: true },
   });
   app.use(
     rateLimit({
