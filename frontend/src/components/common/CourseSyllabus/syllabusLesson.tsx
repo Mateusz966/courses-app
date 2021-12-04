@@ -9,7 +9,7 @@ interface Props {
 }
 const SyllabusLesson: FC<Props> = ({ id, title, description }) => (
   <ListItem key={id}>
-    <HStack w="100%" justifyContent="flex-end">
+    <HStack w="100%">
       <ListIcon as={MdVideoLibrary} />
       <Text mr="auto">{title}</Text>
       <Text fontWeight="600" ml="auto">

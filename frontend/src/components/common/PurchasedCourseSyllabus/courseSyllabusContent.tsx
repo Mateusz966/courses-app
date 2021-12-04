@@ -14,17 +14,24 @@ import SyllabusLesson from './syllabusLesson';
 
 interface Props {
   sections: Section;
-  currentIndex: any;
+  currentIndex: number;
+  courseId: string;
+  lessonId: string;
 }
 const CourseSyllabusContent: FC<Props> = ({
   sections: { id, title, description, lesson },
   currentIndex,
+  courseId,
+  lessonId,
 }) => {
-  const itemList = lesson.map(
-    ({ id: lId, title: lTitle, description: lDescription }) => (
-      <SyllabusLesson id={lId} title={lTitle} description={lDescription} />
-    ),
-  );
+  const itemList = lesson.map(({ id: lId, title: lTitle }) => (
+    <SyllabusLesson
+      id={lId}
+      title={lTitle}
+      courseId={courseId}
+      lessonId={lessonId}
+    />
+  ));
   const currentIndexPlusOne = currentIndex + 1;
 
   return (
