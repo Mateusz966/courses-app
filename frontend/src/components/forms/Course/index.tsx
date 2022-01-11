@@ -79,7 +79,7 @@ export const CourseForm: FC = observer(() => {
       >
         <FormField labelText="Course photo" name="courseFn">
           <ImagePicker
-            desktopRatio={22 / 9}
+            desktopRatio={1 / 1}
             previewUrl={
               courseStore?.course?.courseFn &&
               courseId &&

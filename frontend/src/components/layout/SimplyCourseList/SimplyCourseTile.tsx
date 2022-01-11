@@ -36,7 +36,7 @@ const SimplyCourseTile: React.FC<Props> = observer(
           }}
         >
           <Link to={`/dashboard/course/view/${id}`}>
-            <Box height="150px" width="250px">
+            <Box boxSize="150px">
               <Image src={`${apiUrl}/course/main-photo/${id}`} />
             </Box>
             <Center p="15px">
