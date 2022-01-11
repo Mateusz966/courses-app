@@ -1,4 +1,4 @@
-import { GridItem, Image } from '@chakra-ui/react';
+import { Grid, GridItem, Image, Box } from '@chakra-ui/react';
 import { FC, useEffect } from 'react';
 import ContainerPhotoContent from '../../components/layout/ContainerPhotoContent';
 import { RegisterForm } from '../../components/forms/Register';
@@ -22,16 +22,32 @@ const Register: FC = () => {
   return (
     <ContainerPhotoContent
       image={
-        <Image boxSize="100%" h="100vh" src={LoginDesktop} objectFit="cover" />
+        <Box d={{ md: 'block', base: 'none' }}>
+          <Image
+            boxSize="100%"
+            h="100vh"
+            src={LoginDesktop}
+            objectFit="cover"
+          />
+        </Box>
       }
       content={
         <>
-          <GridItem>
-            <Image src={LoginImg} margin="auto" objectFit="cover" />
-          </GridItem>
-          <GridItem>
-            <RegisterForm />
-          </GridItem>
+          <Grid templateColumns="repeat(1, 1fr)">
+            <GridItem>
+              <Box d={{ md: 'block', base: 'none' }}>
+                <Image
+                  src={LoginImg}
+                  margin="auto"
+                  objectFit="cover"
+                  maxH={250}
+                />
+              </Box>
+            </GridItem>
+            <GridItem>
+              <RegisterForm />
+            </GridItem>
+          </Grid>
         </>
       }
     />

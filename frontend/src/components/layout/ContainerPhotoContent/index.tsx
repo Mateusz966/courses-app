@@ -8,10 +8,11 @@ interface Props {
 
 const ContainerPhotoContent: FC<Props> = ({ image, content }) => (
   <Container
-    gridTemplateColumns={{ lg: '1fr 1fr 1fr 1fr' }}
-    gridTemplateRows={{ lg: '1fr' }}
+    gridTemplateColumns={{ lg: '1fr 1fr 1fr 1fr', base: '1fr' }}
+    gridTemplateRows={{ lg: '1fr', base: '2' }}
     gridTemplateAreas={{
       lg: '"photo photo content content"',
+      base: '"content"',
     }}
     maxW="100%"
     height={{ lg: '100vh' }}
