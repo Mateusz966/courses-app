@@ -8,6 +8,7 @@ import {
   GridItem,
   Link,
   Text,
+  Heading,
 } from '@chakra-ui/layout';
 import { Image } from '@chakra-ui/image';
 import { FC } from 'react';
@@ -37,14 +38,11 @@ const ViewBoughtCourses: FC = () => {
           w="100%"
           top="0"
           right="0"
-          transition="all 500ms ease"
+          transition="all 250ms"
           _hover={{
             pos: 'relative',
             top: '5%',
             right: '5%',
-            h: '110%',
-            w: '110%',
-            boxShadow: '2xl',
           }}
         >
           <Box>
@@ -70,18 +68,25 @@ const ViewBoughtCourses: FC = () => {
 
   return (
     <Container width="100%" maxW="1500px">
-      <Grid templateColumns={['repeat(3, 1fr)', null, 'repeat(5, 1fr)']}>
+      <Grid>
         <GridItem colStart={[1, 1, 2]} colSpan={3} m={6} p={6}>
           <Center>
-            {course.length > 0
-              ? `Obecnie posiadasz ${course.length} kursów`
-              : 'Wygląda na to, że nie kupiłeś żadnych kursów'}
+            <Heading
+              as="h1"
+              fontSize="32px"
+              mt={{ lg: '20px', base: '5px' }}
+              mb="20px"
+            >
+              {course.length > 0
+                ? `Obecnie posiadasz ${course.length} kursów`
+                : 'Wygląda na to, że nie kupiłeś żadnych kursów'}
+            </Heading>
           </Center>
           <Divider m={6} />
         </GridItem>
         {course.length > 0 ? (
           <GridItem colStart={[1, 1, 2]} colSpan={3}>
-            <Grid templateColumns={['repeat(1, 1fr)', null, 'repeat(3, 1fr)']}>
+            <Grid templateColumns={['repeat(1, 1fr)', null, 'repeat(4, 1fr)']}>
               {boughtTiles}
             </Grid>
           </GridItem>

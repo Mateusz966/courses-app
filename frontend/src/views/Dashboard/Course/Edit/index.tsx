@@ -79,16 +79,40 @@ const EditCourse: FC = observer(() => {
           </Heading>
         </Box>
       ) : (
-        <Heading
-          as="h1"
-          size="xl"
-          fontSize={{ md: '4xl', base: 'xl' }}
-          mt={{ md: '60px', base: '15px' }}
-          mb="30px"
-          textAlign="center"
-        >
-          Edytuj informacje o kursie
-        </Heading>
+        <Box>
+          <Breadcrumb
+            pt={{ md: '3', base: '1' }}
+            spacing="8px"
+            separator={<MdChevronRight color="gray.500" />}
+          >
+            <BreadcrumbItem>
+              <BreadcrumbLink onClick={() => history.push('/dashboard')}>
+                Dashboard
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+
+            <BreadcrumbItem>
+              <BreadcrumbLink
+                onClick={() => history.push('/dashboard/course/creator-zone')}
+              >
+                Strefa twórcy
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem isCurrentPage>
+              <BreadcrumbLink>Edycja kursu</BreadcrumbLink>
+            </BreadcrumbItem>
+          </Breadcrumb>
+          <Heading
+            as="h1"
+            size="xl"
+            fontSize={{ md: '4xl', base: 'xl' }}
+            mt={{ md: '60px', base: '15px' }}
+            mb="30px"
+            textAlign="center"
+          >
+            Edytuj informacje o kursie
+          </Heading>
+        </Box>
       )}
       <Box maxW="800px" margin="auto">
         <FormProvider {...methods}>

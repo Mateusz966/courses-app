@@ -25,6 +25,7 @@ const SingleCourseInCart: FC<Props> = observer(
       <Flex
         justifyContent="space-around"
         m={6}
+        ml={0}
         p={3}
         rounded="lg"
         boxShadow="xl"
