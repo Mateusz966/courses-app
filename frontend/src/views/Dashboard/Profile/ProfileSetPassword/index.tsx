@@ -7,6 +7,8 @@ import {
   Image,
   Circle,
   Link,
+  Heading,
+  Text,
 } from '@chakra-ui/react';
 import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
@@ -37,8 +39,19 @@ const ProfileSetPassword: FC = observer(() => {
           </GridItem>
           <GridItem w="100%">
             <Center>
-              Profil użytkownika {userStore.user.details?.firstName}{' '}
-              {userStore.user.details?.lastName}
+              <Heading
+                as="h1"
+                fontSize="24px"
+                mt={{ lg: '20px', base: '5px' }}
+                mb="20px"
+                textAlign="center"
+              >
+                Profil użytkownika{' '}
+                <Text d="block" fontSize="32px" color="#2c7a7b">
+                  {userStore.user.details?.firstName}{' '}
+                  {userStore.user.details?.lastName}
+                </Text>
+              </Heading>
             </Center>
           </GridItem>
           <GridItem w="100%" colSpan={3}>
