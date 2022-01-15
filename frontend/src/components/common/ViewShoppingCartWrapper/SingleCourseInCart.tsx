@@ -25,19 +25,18 @@ const SingleCourseInCart: FC<Props> = observer(
       <Flex
         justifyContent="space-around"
         m={6}
+        ml={0}
         p={3}
         rounded="lg"
         boxShadow="xl"
       >
-        <Box w="250px">
-          <Image
-            boxSize="150px"
-            src={`${apiUrl}/course/main-photo/${id}`}
-            alt="avatar placeholder"
-          />
-        </Box>
+        <Image
+          boxSize="110px"
+          src={`${apiUrl}/course/main-photo/${id}`}
+          alt="avatar placeholder"
+        />
         <Spacer />
-        <Text w="full" m="auto" fontSize="24px">
+        <Text w="full" m="auto" fontSize="24px" ml="3">
           {title}
         </Text>
         <Spacer />

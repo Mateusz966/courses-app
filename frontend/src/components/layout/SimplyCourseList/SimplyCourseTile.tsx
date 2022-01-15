@@ -1,4 +1,4 @@
-import { Box, Center, Grid, GridItem, Image } from '@chakra-ui/react';
+import { Box, Heading, Text, Image } from '@chakra-ui/react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
@@ -30,36 +30,43 @@ const SimplyCourseTile: React.FC<Props> = observer(
           minH="320px"
           mt="20px"
           mb="20px"
-          boxShadow="md"
+          transition="all 250ms"
+          pl="10px"
           _hover={{
-            boxShadow: 'xl',
+            boxShadow: 'md',
+            cursor: 'pointer',
           }}
         >
           <Link to={`/dashboard/course/view/${id}`}>
-            <Box height="150px" width="250px">
-              <Image src={`${apiUrl}/course/main-photo/${id}`} />
+            <Box>
+              <Image
+                src={`${apiUrl}/course/main-photo/${id}`}
+                margin="auto"
+                p="30px"
+              />
             </Box>
-            <Center p="15px">
-              <h2>{title}</h2>
-            </Center>
-            <Grid
-              templateRows="repeat(2, 1fr)"
-              templateColumns="repeat(1, 1fr)"
-              p="2"
+            <Text color="#555" fontSize="16px" mt="0.5rem">
+              {firstName} {lastName}
+            </Text>
+            <Heading
+              as="h2"
+              color="teal.600"
+              fontSize="18px"
+              fontWeight="600"
+              mt="0.5rem"
             >
-              <GridItem rowSpan={1} colSpan={1} p="10px">
-                {firstName} {lastName}
-              </GridItem>
-              <GridItem rowSpan={1} colSpan={1} p="10px">
-                {price} {currency}
-              </GridItem>
-            </Grid>
+              {title}
+            </Heading>
+            <Text color="red.500" fontSize="21px" mt="0.5rem" fontWeight="500">
+              {price} {currency}
+            </Text>
           </Link>
-          <Box p="4" pb="2">
+          <Box p="4" pl="0" pb="2">
             <Button
               onClick={() => addToCart({ id, title, price, currency })}
               mt0
               mb="3"
+              d="inline-block"
             >
               Add to cart
             </Button>

@@ -1,7 +1,6 @@
-import { Center, Grid, GridItem } from '@chakra-ui/react';
+import { Center, Grid, GridItem, Container } from '@chakra-ui/react';
 import { FC, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Container } from '../../../../components/layout/Container';
 import CoursesFilters from '../../../../components/common/CoursesFilters';
 import { courseClientsStore } from '../../../../stores/courseClients';
 import SimplyCourseTile from '../../../../components/layout/SimplyCourseList/SimplyCourseTile';
@@ -48,8 +47,8 @@ const CoursesToBuy: FC = observer(() => {
   }
 
   return (
-    <Container>
-      <Grid templateColumns="200px 1fr">
+    <Container maxW="90vw" mt="70px" pb="130px">
+      <Grid templateColumns={['1fr', '1fr', '1fr', '1fr 5fr']}>
         <GridItem>
           <CoursesFilters />
         </GridItem>
@@ -66,7 +65,6 @@ const CoursesToBuy: FC = observer(() => {
           <p>Nie ma kursów do wyświetlenia</p>
         )}
       </Grid>
-
       <Center>
         {courseClientsStore.inProgress && !courseClientsStore.initFetch && (
           <p>Loading ...</p>

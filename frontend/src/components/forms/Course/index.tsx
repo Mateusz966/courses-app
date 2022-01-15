@@ -79,7 +79,7 @@ export const CourseForm: FC = observer(() => {
       >
         <FormField labelText="Course photo" name="courseFn">
           <ImagePicker
-            desktopRatio={22 / 9}
+            desktopRatio={1 / 1}
             previewUrl={
               courseStore?.course?.courseFn &&
               courseId &&
@@ -126,10 +126,35 @@ export const CourseForm: FC = observer(() => {
         />
         <Box mt="3">
           <Link to={`/dashboard/course/edit/content/${courseId}`}>
-            Edytuj zawartość kursu
+            <Box
+              bg="gray.200"
+              d="inline-block"
+              p="3px 15px"
+              borderRadius="15px"
+              transition="all 250ms"
+              _hover={{
+                color: 'teal.200',
+                cursor: 'pointer',
+              }}
+              mr="2"
+            >
+              Edytuj zawartość kursu
+            </Box>
           </Link>
           <Link to={`/dashboard/course/edit/details/${courseId}/category`}>
-            Kategorie
+            <Box
+              bg="gray.200"
+              d="inline-block"
+              p="3px 15px"
+              borderRadius="15px"
+              transition="all 250ms"
+              _hover={{
+                color: 'teal.200',
+                cursor: 'pointer',
+              }}
+            >
+              Kategorie
+            </Box>
           </Link>
         </Box>
         <Box mt="2" mb="140px" textAlign="center">

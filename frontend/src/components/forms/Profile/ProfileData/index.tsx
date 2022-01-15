@@ -44,7 +44,7 @@ export const ProfileForm: FC = observer(() => {
         )}
       >
         <FormField name="photoFn">
-          <ImagePicker desktopRatio={22 / 9} previewUrl="user/avatar" />
+          <ImagePicker desktopRatio={1 / 1} previewUrl="user/avatar" />
         </FormField>
         <FormField labelText="Imie" name="firstName">
           <Input type="text" placeholder="Mati" />

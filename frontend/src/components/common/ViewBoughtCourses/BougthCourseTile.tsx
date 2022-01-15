@@ -1,5 +1,6 @@
 import { Image } from '@chakra-ui/image';
 import { Box, Center, Flex, GridItem, Text } from '@chakra-ui/layout';
+import { Button } from '@chakra-ui/react';
 import { FC } from 'react';
 import { CourseTableResContent } from '../../../app-types';
 import { apiUrl } from '../../../config/apiUrl';
@@ -16,19 +17,15 @@ const BougthCourseTile: FC<Props> = ({ course: { title, id } }) => (
       flexDirection="column"
       justifyContent="space-around"
       rounded="lg"
-      boxShadow="xl"
+      boxShadow="lg"
       h="100%"
       w="100%"
       top="0"
       right="0"
-      transition="all 500ms ease"
+      transition="all 250ms"
       _hover={{
-        pos: 'relative',
-        top: '5%',
-        right: '5%',
-        h: '110%',
-        w: '110%',
-        boxShadow: '2xl',
+        boxShadow: 'xl',
+        cursor: 'pointer',
       }}
       onClick={() => history.push(`/dashboard/course/bought/view/${id}`)}
     >
@@ -42,10 +39,13 @@ const BougthCourseTile: FC<Props> = ({ course: { title, id } }) => (
         </Center>
       </Box>
       <Box>
+        <Text fontSize="1.2rem" m={3} p={6} mb="0" textAlign="center">
+          {title}
+        </Text>
         <Center>
-          <Text fontSize="1.5rem" m={3} p={6} textAlign="center">
-            {title}
-          </Text>
+          <Button colorScheme="teal" mb="25px">
+            Oglądaj
+          </Button>
         </Center>
       </Box>
     </Flex>

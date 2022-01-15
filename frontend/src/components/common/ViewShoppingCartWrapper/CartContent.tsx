@@ -1,5 +1,5 @@
 import { Button } from '@chakra-ui/button';
-import { Box, Center, Flex, Text } from '@chakra-ui/layout';
+import { Box, Flex, Text, Heading } from '@chakra-ui/layout';
 import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
 import {
@@ -46,20 +46,31 @@ const CartContent: FC<Props> = observer(({ cartPayload }) => {
   };
   return (
     <>
-      ilość kursów w koszyku: {cartPayload.course.length}
-      <Box h="1px" bgColor="#e2e2e2" />
+      <Heading
+        as="h1"
+        fontSize="32px"
+        mt={{ lg: '80px', base: '20px' }}
+        mb="20px"
+      >
+        Ilość kursów w koszyku:{' '}
+        <Text d="inline" color="#2c7a7b">
+          {cartPayload.course.length}
+        </Text>
+      </Heading>
       {courseList}
-      <Box h="1px" bgColor="#e2e2e2" />
       <Flex flexDirection="row-reverse" m={6} p={3}>
-        <Box>
-          <Text>
+        <Box textAlign="right">
+          <Text fontSize="21px">
             Łączna kwota: {totalPrice} {Currency.PLN}
           </Text>
-          <Center>
-            <Button onClick={() => buyButtonHandler(cartPayload)}>
-              Zapłać
-            </Button>
-          </Center>
+          <Button
+            colorScheme="teal"
+            size="lg"
+            onClick={() => buyButtonHandler(cartPayload)}
+            mt="3"
+          >
+            Zapłać
+          </Button>
         </Box>
       </Flex>
     </>

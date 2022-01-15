@@ -25,7 +25,16 @@ interface Props {
 }
 
 export const ViewCourseHeader: React.FC<Props> = ({
-  courseDetails: { category, subcategory, title, user, description, id },
+  courseDetails: {
+    category,
+    subcategory,
+    title,
+    user,
+    description,
+    id,
+    price,
+    currency,
+  },
 }) => (
   <Box pb="3">
     <Breadcrumb
@@ -77,11 +86,8 @@ export const ViewCourseHeader: React.FC<Props> = ({
     <Box d={{ md: 'none', base: 'block' }}>
       <HStack>
         <Text color="gray.400" fontSize="xl">
-          459 zł
+          {price} {currency}
         </Text>
-        {/* <Text  color="#e40707" fontSize="32px" fontWeight="600"  textDecoration="line-through"> */}
-        {/*  1500 zł */}
-        {/* </Text> */}
       </HStack>
       <Button
         mt="3"

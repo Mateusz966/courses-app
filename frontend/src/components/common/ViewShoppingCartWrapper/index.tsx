@@ -1,4 +1,4 @@
-import { Flex, Container, Grid, Box, Text, Center } from '@chakra-ui/layout';
+import { Flex, Container, Grid, Box, Heading, Center } from '@chakra-ui/layout';
 import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
 import { useRootStore } from '../../../stores/storeContext';
@@ -11,11 +11,18 @@ export const ViewShoppingCartWrapper: FC = observer(() => {
 
   const cartInfo = (
     <Flex>
-      <Grid templateColumns="repeat(3, 1fr)" gap={6} w="100%">
+      <Grid templateColumns="repeat(1, 1fr)" gap={6} w="100%">
         <Box h="10" />
         <Box h="10">
           <Center>
-            <Text>Wygląda na to, że twój koszyk jest pusty</Text>
+            <Heading
+              as="h1"
+              fontSize="32px"
+              mt={{ lg: '80px', base: '20px' }}
+              mb="20px"
+            >
+              Wygląda na to, że twój koszyk jest pusty
+            </Heading>
           </Center>
         </Box>
         <Box />
