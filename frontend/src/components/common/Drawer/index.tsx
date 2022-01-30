@@ -3,14 +3,11 @@ import {
   Drawer,
   DrawerOverlay,
   DrawerContent,
-  DrawerBody,
   DrawerHeader,
   DrawerCloseButton,
   IconButton,
   Icon,
   HStack,
-  UnorderedList,
-  ListItem,
   Box,
   Image,
   Link,
@@ -53,14 +50,6 @@ export const MainDrawer = () => {
               >
                 <NavUserActions justifyContentType="flex-start" />
               </DrawerHeader>
-              <DrawerBody>
-                <UnorderedList listStyleType="none" ml="0">
-                  <ListItem>Sample category</ListItem>
-                  <ListItem>Sample category</ListItem>
-                  <ListItem>Sample category</ListItem>
-                  <ListItem>Sample category</ListItem>
-                </UnorderedList>
-              </DrawerBody>
             </DrawerContent>
           </DrawerOverlay>
         </Drawer>

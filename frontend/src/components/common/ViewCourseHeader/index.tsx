@@ -85,7 +85,7 @@ export const ViewCourseHeader: React.FC<Props> = ({
     <CourseRating />
     <Box d={{ md: 'none', base: 'block' }}>
       <HStack>
-        <Text color="gray.400" fontSize="xl">
+        <Text color="red.500" fontSize="21px" mt="0.5rem" fontWeight="500">
           {price} {currency}
         </Text>
       </HStack>

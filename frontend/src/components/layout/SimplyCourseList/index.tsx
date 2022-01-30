@@ -23,7 +23,15 @@ const SimplyCourseList: FC<Props> = ({ categories, subcategory }) => {
   ));
 
   return (
-    <SimpleGrid columns={4} spacingX="35px" spacingY="35px">
+    <SimpleGrid
+      columns={{
+        lg: 4,
+        md: 3,
+        base: 1,
+      }}
+      spacingX="35px"
+      spacingY="35px"
+    >
       {coursesList.length > 0 ? coursesList : null}
     </SimpleGrid>
   );

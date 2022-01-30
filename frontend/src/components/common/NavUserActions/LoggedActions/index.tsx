@@ -11,6 +11,9 @@ import {
   Circle,
   Grid,
   GridItem,
+  UnorderedList,
+  ListItem,
+  Box,
 } from '@chakra-ui/react';
 import { observer } from 'mobx-react-lite';
 import { FC } from 'react';
@@ -52,33 +55,52 @@ export const LoggedActions: FC<Props> = observer(({ justifyContentType }) => {
           {cartPayload.course.length > 0 && cartCounter}
         </Grid>
       </Link>
-      <Menu>
-        <MenuButton
-          bgColor="#4FD1C5"
-          color="#fff"
-          as={Button}
-          rightIcon={<MdKeyboardArrowDown />}
-        >
-          Moje konto
-        </MenuButton>
-        <MenuList fontSize="16px">
-          <MenuItem as={Link} to="/dashboard/course/bought">
-            Moje kursy
-          </MenuItem>
-          <MenuItem as={Link} to="/dashboard/course/list">
-            Lista kursów
-          </MenuItem>
-          <MenuItem as={Link} to="/dashboard/course/creator-zone">
-            Strefa twórcy
-          </MenuItem>
-          <MenuItem as={Link} to="/dashboard/cart">
-            Koszyk
-          </MenuItem>
-          <MenuItem as={Link} to="/dashboard/profile">
-            Mój Profil
-          </MenuItem>
-        </MenuList>
-      </Menu>
+      <Box display={{ md: 'block', base: 'none' }}>
+        <Menu>
+          <MenuButton
+            bgColor="#4FD1C5"
+            color="#fff"
+            as={Button}
+            rightIcon={<MdKeyboardArrowDown />}
+          >
+            Moje konto
+          </MenuButton>
+          <MenuList fontSize="16px">
+            <MenuItem as={Link} to="/dashboard/course/bought">
+              Moje kursy
+            </MenuItem>
+            <MenuItem as={Link} to="/dashboard/course/list">
+              Lista kursów
+            </MenuItem>
+            <MenuItem as={Link} to="/dashboard/course/creator-zone">
+              Strefa twórcy
+            </MenuItem>
+            <MenuItem as={Link} to="/dashboard/cart">
+              Koszyk
+            </MenuItem>
+            <MenuItem as={Link} to="/dashboard/profile">
+              Mój Profil
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      </Box>
+      <UnorderedList display={{ md: 'none', base: 'block' }}>
+        <ListItem as={Link} to="/dashboard/course/bought" d="block">
+          Moje kursy
+        </ListItem>
+        <ListItem as={Link} to="/dashboard/course/list" d="block">
+          Lista kursów
+        </ListItem>
+        <ListItem as={Link} to="/dashboard/course/creator-zone" d="block">
+          Strefa twórcy
+        </ListItem>
+        <ListItem as={Link} to="/dashboard/cart" d="block">
+          Koszyk
+        </ListItem>
+        <ListItem as={Link} to="/dashboard/profile" d="block">
+          Mój Profil
+        </ListItem>
+      </UnorderedList>
     </HStack>
   );
 });

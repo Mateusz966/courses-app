@@ -23,14 +23,7 @@ export const ViewCourseSidebar: React.FC<Props> = observer(
         <Image src={`${apiUrl}/course/main-photo/${id}`} />
         <Box p="4">
           <HStack>
-            {/* <Text color="red.500" fontSize="32px" fontWeight="600"> */}
-            {/*  {price} */}
-            {/* </Text> */}
-            <Text
-              color="gray.400"
-              // textDecoration="line-through"
-              fontSize="24px"
-            >
+            <Text color="red.500" fontSize="21px" mt="0.5rem" fontWeight="500">
               {price} {currency}
             </Text>
           </HStack>

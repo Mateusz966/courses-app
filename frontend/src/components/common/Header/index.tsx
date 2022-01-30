@@ -8,7 +8,7 @@ export const Header: FC = observer(() => {
   const { headerStore } = useRootStore();
   if (headerStore.header.hide) return null;
   return (
-    <Container display={{ lg: 'none' }} mt={4} mb={10}>
+    <Container d="none" mt={4} mb={10}>
       <Flex align="center">
         {!headerStore.header.noLeft && (
           <Box mr={4}>
