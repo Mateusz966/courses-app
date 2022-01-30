@@ -39,7 +39,14 @@ const Home: FC = () => (
       >
         <GridItem>
           <Link to="#" color="blue.600" fontSize="21px" fontWeight="600" />
-          <Heading fontSize="42px" mt="160px" mb="30px">
+          <Heading
+            fontSize="42px"
+            mt={{
+              lg: '160px',
+              base: 5,
+            }}
+            mb="30px"
+          >
             Znajdź idealny kurs <Text color="#2c7a7b">dla siebie</Text>
           </Heading>
           <Text>
@@ -350,6 +357,7 @@ const Home: FC = () => (
               base: '1',
             }}
             gap={4}
+            overflow="hidden"
           >
             <Box
               position="absolute"
